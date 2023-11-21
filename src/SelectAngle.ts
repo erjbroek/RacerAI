@@ -24,7 +24,6 @@ export default class SelectAngle extends Scene {
 
   /**
    * Process user input.
-   *
    * @param keyListener KeyListener instance to check key presses
    * @param mouseListener MouseListener instance for mouse input
    */
@@ -38,9 +37,8 @@ export default class SelectAngle extends Scene {
 
   /**
    * Update the scene based on elapsed time.
-   *
    * @param elapsed Elapsed time since the last update
-   * @returns New scene or null if no scene change is needed
+   * @returns New scene, or null if not changing scenes
    */
   public update(elapsed: number): Scene {
     if (!this.angleReady) {
@@ -61,11 +59,11 @@ export default class SelectAngle extends Scene {
       this.rotationSpeed -= 0.01;
     }
     this.launchAngle += this.rotationSpeed;
-    this.player.setAngle(this.launchAngle);
+    this.player.angle = this.launchAngle;
   }
 
   /**
-   * Handle power selection based on elapsed time.
+   * Handle power selection
    */
   private handlePowerSelection(): void {
     if (this.launchPower >= 200) {
@@ -80,28 +78,17 @@ export default class SelectAngle extends Scene {
     this.launchPower += this.launchSpeed;
   }
 
-  // // eslint-disable-next-line @typescript-eslint/no-dupe-class-members
-  // public setAngle(objectX: number, objectY: number, mouseListener: MouseListener): number {
-  //   const mouseX = mouseListener.getMousePosition().x;
-  //   const mouseY = mouseListener.getMousePosition().y;
-  //   let angle = (-1 * (Math.atan2(objectY - mouseY, mouseX - objectX) * (180 / Math.PI))) - 10;
-  //   return angle;
-  // }
-
   /**
    *
    * @param canvas
    */
   public render(canvas: HTMLCanvasElement): void {
     this.player.render(canvas);
-    CanvasUtil.drawCircle(canvas, 0, canvas.height, canvas.height / 5, 'lightgreen');
-
+    CanvasUtil.drawCircle(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, window.innerHeight / 5, 'lightgreen');
     const lineLength = 200;
-    const lineEndX = this.player.getPosX() + lineLength
-    * Math.cos((this.launchAngle * Math.PI) / 180);
-    const lineEndY = this.player.getPosY() + lineLength
-    * Math.sin((this.launchAngle * Math.PI) / 180);
-    CanvasUtil.drawLine(canvas, this.player.getPosX() + this.player.getWidth() / 2 + 5, this.player.getPosY() + this.player.getHeight() / 2, lineEndX, lineEndY, 'lightgreen');
+    const lineEndX = this.player.posX + this.player.image.width / 2 + lineLength * Math.cos((this.launchAngle * Math.PI) / 180);
+    const lineEndY = this.player.posY + this.player.image.height / 2 + lineLength * Math.sin((this.launchAngle * Math.PI) / 180);
+    CanvasUtil.drawLine(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, lineEndX, lineEndY, 'lightgreen');
 
     if (this.angleReady) {
       CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, this.maxY / 10 - 280, 'red');

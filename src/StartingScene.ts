@@ -1,7 +1,6 @@
 import Scene from './Scene.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
-import Launch from './SelectAngle.js';
 import CanvasUtil from './CanvasUtil.js';
 import SelectAngle from './SelectAngle.js';
 
@@ -26,11 +25,9 @@ export default class StartingScene extends Scene {
    *
    * @param keyListener
    * @param mouseListener
-   * @param keyListener
-   * @param mouseListener
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-    if(CanvasUtil.mouseHover(window.innerWidth / 1.5, window.innerHeight / 2, this.startButton.width / 10, this.startButton.height / 10, mouseListener.getMousePosition().x, mouseListener.getMousePosition().y)) {
+    if (CanvasUtil.mouseHover(window.innerWidth / 1.5, window.innerHeight / 2, this.startButton.width / 10, this.startButton.height / 10, mouseListener.getMousePosition().x, mouseListener.getMousePosition().y)) {
       this.startButton = CanvasUtil.loadNewImage('./assets/startButtonHover.png');
       if (mouseListener.buttonPressed(0)) {
         this.readyGame = true;

@@ -269,13 +269,13 @@ export default class CanvasUtil {
     ctx.fill();
   }
 
- /**
- * Rotate an image on an HTML5 canvas.
- *
- * @param canvas the canvas to draw to
- * @param image the image to rotate
- * @param degrees the degrees to rotate the image
- */
+  /**
+   * Rotate an image on an HTML5 canvas.
+   *
+   * @param canvas the canvas to draw to
+   * @param image the image to rotate
+   * @param degrees the degrees to rotate the image
+   */
   public static rotateImage(
     canvas: HTMLCanvasElement,
     image: HTMLImageElement,
@@ -291,6 +291,14 @@ export default class CanvasUtil {
   /**
    * @returns boolean
    * @param object1 the first object to be used for collision checking
+   * @param object1X
+   * @param object1Y
+   * @param object1Width
+   * @param object1Height
+   * @param object2X
+   * @param object2Y
+   * @param object2Width
+   * @param object2Height
    * @param object2 the second object to be used for collision checking
    */
   public static collidesWith(object1X: number, object1Y: number, object1Width: number, object1Height: number, object2X: number, object2Y: number, object2Width: number, object2Height: number): boolean {
@@ -310,7 +318,10 @@ export default class CanvasUtil {
 
   /**
    * @returns boolean
-   * @param object the selected image
+   * @param objectX
+   * @param objectY
+   * @param objectWidth
+   * @param objectHeight
    * @param mouseX x position of the mouse
    * @param mouseY y position of the mouse
    */
