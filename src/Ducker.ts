@@ -1,0 +1,57 @@
+import { Game } from './GameLoop.js';
+import CanvasUtil from './CanvasUtil.js';
+import KeyListener from './KeyListener.js';
+import Scene from './Scene.js';
+import SceneStart from './StartingScene.js';
+import MouseListener from './MouseListener.js';
+import StartingScene from './StartingScene.js';
+
+export default class Ducker extends Game {
+  private canvas: HTMLCanvasElement;
+
+  private keyListener: KeyListener;
+
+  private mouseListener: MouseListener;
+
+  private currentScene: Scene;
+
+  public constructor(canvas: HTMLCanvasElement) {
+    super();
+    this.canvas = canvas;
+    this.canvas.height = window.innerHeight;
+    this.canvas.width = window.innerWidth;
+    this.keyListener = new KeyListener();
+    this.mouseListener = new MouseListener(canvas);
+
+    // Set the starting scene
+    this.currentScene = new StartingScene(this.canvas.height, this.canvas.width);
+  }
+
+  /**
+   * Process all input. Called from the GameLoop.
+   */
+  public processInput(): void {
+    this.currentScene.processInput(this.keyListener, this.mouseListener);
+  }
+
+  /**
+   * Update game state. Called from the GameLoop
+   *
+   * @param elapsed time elapsed from the GameLoop
+   * @returns true if the game should continue
+   */
+  public update(elapsed: number): boolean {
+    const nextScene = this.currentScene.update(elapsed);
+
+    if (nextScene !== null) this.currentScene = nextScene;
+    return true;
+  }
+
+  /**
+   * Render all the elements in the screen. Called from GameLoop
+   */
+  public render(): void {
+    CanvasUtil.clearCanvas(this.canvas);
+    this.currentScene.render(this.canvas);
+  }
+}
