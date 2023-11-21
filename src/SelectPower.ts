@@ -37,7 +37,7 @@ export default class SelectPower extends Scene {
    */
   public update(elapsed: number): Scene {
     this.totalTime += elapsed;
-    this.player.setAngle(this.angle)
+    this.player.setAngle(this.angle);
     console.log(this.angle);
 
     if (this.powerReady) {
