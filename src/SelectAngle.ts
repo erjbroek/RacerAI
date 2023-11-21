@@ -5,23 +5,14 @@ import StartingScene from './StartingScene.js';
 import CanvasUtil from './CanvasUtil.js';
 import Player from './Player.js';
 import Obstacle from './Obstacle.js';
+import SelectPower from './SelectPower.js';
 
-export default class Launch extends Scene {
+export default class SelectAngle extends Scene {
   private player: Player;
-
-  private obstacles: Obstacle[];
-
-  private distance: number;
 
   private angleReady: boolean;
 
   private launchAngle: number;
-
-  private powerReady: boolean;
-
-  private launchPower: number;
-
-  private mouselistener: MouseListener;
 
   private totalTime: number;
 
@@ -32,9 +23,7 @@ export default class Launch extends Scene {
     this.maxX = window.innerWidth;
     this.maxY = window.innerHeight;
     this.angleReady = false;
-    this.powerReady = false;
-    this.launchAngle = -90;
-    this.launchPower = 0;
+    this.launchAngle = -70;
     this.totalTime = 0;
     this.rotationSpeed = 0;
     this.player = new Player();
@@ -48,39 +37,38 @@ export default class Launch extends Scene {
    * @param mouseListener
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-    // this.player.setAngle(this.setAngle(this.player.getPosX(), this.player.getPosY(), mouseListener));
+    if (keyListener.keyPressed('Space')) {
+      this.angleReady = true;
+    }
   }
 
   /**
-   *
+   * @returns scene
    * @param elapsed
    */
   public update(elapsed: number): Scene {
     this.totalTime += elapsed;
+    if (!this.angleReady) {
+      if (this.totalTime < 1500) {
+        this.rotationSpeed += 0.01; // Rotate down
+      } else if (this.totalTime >= 1500 && this.totalTime < 4500) {
+        this.rotationSpeed -= 0.01; // Rotate up
+      } else if (this.totalTime >= 4500 && this.totalTime < 6000) {
+        this.rotationSpeed += 0.01;
+      } else {
+        this.rotationSpeed = 0;
+        this.totalTime = 0;
+        this.launchAngle = -70;
+      }
 
-    if (this.totalTime < 1500) {
-      this.rotationSpeed += 0.01; // Rotate down
-    } else if (this.totalTime >= 1500 && this.totalTime < 4500) {
-      this.rotationSpeed -= 0.01; // Rotate up
-    } else if (this.totalTime >= 4500 && this.totalTime < 6000) {
-      this.rotationSpeed += 0.01;
-    } else {
-      this.rotationSpeed = 0;
-      this.totalTime = 0;
-      this.launchAngle = -90;
+      this.launchAngle += this.rotationSpeed;
+      this.player.setAngle(this.launchAngle);
     }
-
-    this.launchAngle += this.rotationSpeed;
-    console.log(this.launchAngle);
-    this.player.setAngle(this.launchAngle);
 
     if (this.angleReady) {
-      return new StartingScene(window.innerWidth, window.innerHeight);
-    }
-
-    return null;
+      return new SelectPower(this.launchAngle, this.maxX, this.maxY);
+    } return null;
   }
-
 
   // // eslint-disable-next-line @typescript-eslint/no-dupe-class-members
   // public setAngle(objectX: number, objectY: number, mouseListener: MouseListener): number {
@@ -97,5 +85,16 @@ export default class Launch extends Scene {
   public render(canvas: HTMLCanvasElement): void {
     this.player.render(canvas);
     CanvasUtil.drawCircle(canvas, 0, canvas.height, canvas.height / 5, 'lightgreen');
+    const lineLength = 200;
+    const lineEndX = this.player.getPosX() + lineLength * Math.cos((this.launchAngle * Math.PI) / 180);
+    const lineEndY = this.player.getPosY() + lineLength * Math.sin((this.launchAngle * Math.PI) / 180);
+    CanvasUtil.drawLine(
+      canvas,
+      this.player.getPosX() + this.player.getWidth() / 2 + 5,
+      this.player.getPosY() + this.player.getHeight() / 2,
+      lineEndX,
+      lineEndY,
+      'lightgreen',
+    );
   }
 }

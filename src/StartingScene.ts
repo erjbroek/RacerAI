@@ -1,8 +1,9 @@
 import Scene from './Scene.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
-import Launch from './Launch.js';
+import Launch from './SelectAngle.js';
 import CanvasUtil from './CanvasUtil.js';
+import SelectAngle from './SelectAngle.js';
 
 export default class StartingScene extends Scene {
   private logo: HTMLImageElement;
@@ -46,7 +47,7 @@ export default class StartingScene extends Scene {
    */
   public update(elapsed: number): Scene {
     if (this.readyGame === true) {
-      return new Launch(window.innerWidth, window.innerHeight);
+      return new SelectAngle(window.innerWidth, window.innerHeight);
     } return null;
   }
 
