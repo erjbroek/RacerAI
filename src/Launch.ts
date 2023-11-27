@@ -15,8 +15,6 @@ export default class Launch extends Scene {
 
   private player: Player;
 
-  private backgroundMovement: boolean;
-
   private xSpeed: number;
 
   private ySpeed: number;
@@ -30,7 +28,6 @@ export default class Launch extends Scene {
     this.player = new Player();
     this.backgrounds = [];
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, './assets/background.png'));
-    this.backgroundMovement = false;
     this.space = CanvasUtil.loadNewImage('./assets/space.png');
     this.launchAngle = launchAngle;
     this.gravity = 0.05;
@@ -39,12 +36,19 @@ export default class Launch extends Scene {
     this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
   }
 
+  /**
+   * handles inputs
+   * @param keyListener
+   * @param mouseListener
+   */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-    // You can add input processing here if needed
+
   }
 
   /**
-   *
+   * updates scene
+   * @param elapsed is the elapsed time since each frame
+   * @returns Scene
    */
   public update(elapsed: number): Scene {
     this.applyGravity();
@@ -54,7 +58,7 @@ export default class Launch extends Scene {
   }
 
   /**
-   *
+   *  moves the background and checks if player hits the ground
    */
   public handleBackground() {
     if (this.player.posY >= window.innerHeight / 2 || this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
@@ -82,6 +86,9 @@ export default class Launch extends Scene {
     }
   }
 
+  /**
+   * handles player and gravity
+   */
   public applyGravity(): void {
     if (this.touchingGround) {
       this.player.posY = window.innerHeight - this.player.image.height;
@@ -95,6 +102,10 @@ export default class Launch extends Scene {
     }
   }
 
+  /**
+   * renders elements on the screen
+   * @param canvas the canvas items are rendered on
+   */
   public render(canvas: HTMLCanvasElement): void {
     CanvasUtil.fillCanvas(canvas, 'Black');
     this.backgrounds.forEach((item) => {
