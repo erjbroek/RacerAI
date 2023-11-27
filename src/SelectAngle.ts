@@ -3,9 +3,14 @@ import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
 import CanvasUtil from './CanvasUtil.js';
 import Player from './Player.js';
+import Launch from './Launch.js';
+import BackgroundItems from './BackgroundItems.js';
+import Background from './Background.js';
 
 export default class SelectAngle extends Scene {
   private player: Player;
+
+  private backgrounds: BackgroundItems[];
 
   private angleReady: boolean = false;
 
@@ -17,9 +22,15 @@ export default class SelectAngle extends Scene {
 
   private launchSpeed: number = 0;
 
+  private totalTime: number = 0;
+
+  private powerReady: boolean = false;
+
   public constructor(maxX: number, maxY: number) {
     super(window.innerWidth, window.innerHeight);
     this.player = new Player();
+    this.backgrounds = [];
+    this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, './assets/background.png'));
   }
 
   /**
@@ -28,6 +39,9 @@ export default class SelectAngle extends Scene {
    * @param mouseListener MouseListener instance for mouse input
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
+    if (this.angleReady && keyListener.keyPressed('Space')) {
+      this.powerReady = true;
+    }
     // Check if the Space key is pressed
     if (keyListener.keyPressed('Space')) {
       // Set angleReady to true when Space is pressed
@@ -45,6 +59,12 @@ export default class SelectAngle extends Scene {
       this.updateRotation();
     } else {
       this.handlePowerSelection();
+    }
+    if (this.powerReady) {
+      this.totalTime += elapsed;
+      if (this.totalTime >= 400) {
+        return new Launch(window.innerWidth, window.innerHeight, this.launchAngle, this.launchPower);
+      }
     }
     return null;
   }
@@ -66,16 +86,18 @@ export default class SelectAngle extends Scene {
    * Handle power selection
    */
   private handlePowerSelection(): void {
-    if (this.launchPower >= 200) {
-      this.launchSpeed *= -1;
-      this.launchSpeed -= 0.07;
-    } else if (this.launchPower >= 0) {
-      this.launchSpeed += 0.07;
-    } else {
-      this.launchSpeed = 0;
-      this.launchPower = 0.01;
+    if (!this.powerReady) {
+      if (this.launchPower >= 200) {
+        this.launchSpeed *= -1;
+        this.launchSpeed -= 0.07;
+      } else if (this.launchPower >= 0) {
+        this.launchSpeed += 0.07;
+      } else {
+        this.launchSpeed = 0;
+        this.launchPower = 0.01;
+      }
+      this.launchPower += this.launchSpeed;
     }
-    this.launchPower += this.launchSpeed;
   }
 
   /**
@@ -83,6 +105,9 @@ export default class SelectAngle extends Scene {
    * @param canvas
    */
   public render(canvas: HTMLCanvasElement): void {
+    this.backgrounds.forEach((background) => {
+      background.render(canvas);
+    });
     this.player.render(canvas);
     CanvasUtil.drawCircle(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, window.innerHeight / 5, 'lightgreen');
     const lineLength = 200;
@@ -92,7 +117,7 @@ export default class SelectAngle extends Scene {
 
     if (this.angleReady) {
       CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, this.maxY / 10 - 280, 'red');
-      CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, (window.innerHeight / 1.5) - this.launchPower, window.innerWidth / 50, this.launchPower, 'red');
+      CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower, window.innerWidth / 50, this.launchPower, 'red');
     }
   }
 }
