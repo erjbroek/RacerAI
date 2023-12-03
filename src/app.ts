@@ -1,6 +1,5 @@
-import Ducker from './Ducker.js';
-import { GameLoop } from './GameLoop.js';
-import StartingScene from './StartingScene.js';
+import Ducker from './utilities/Ducker.js';
+import { GameLoop } from './utilities/GameLoop.js';
 
 const game = new Ducker(document.getElementById('game') as HTMLCanvasElement);
 

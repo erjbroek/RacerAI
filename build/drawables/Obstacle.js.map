@@ -1,0 +1,1 @@
+{"version":3,"file":"Obstacle.js","sourceRoot":"","sources":["../../src/drawables/Obstacle.ts"],"names":[],"mappings":"AAAA,OAAO,QAAQ,MAAM,eAAe,CAAC;AAErC,MAAM,CAAC,OAAO,OAAO,QAAS,SAAQ,QAAQ;IACpC,iBAAiB,CAAS;IAE1B,iBAAiB,CAAS;IAE1B,cAAc,CAAS;IAE/B;QACE,KAAK,EAAE,CAAC;QACR,IAAI,CAAC,IAAI,GAAG,GAAG,CAAC;QAChB,IAAI,CAAC,IAAI,GAAG,GAAG,CAAC;IAClB,CAAC;CACF"}
