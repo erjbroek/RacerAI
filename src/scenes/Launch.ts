@@ -4,6 +4,7 @@ import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleBackground from '../ui/handleBackground.js';
+import Finished from './Finished.js';
 
 export default class Launch extends Scene {
   private launchAngle: number;
@@ -19,6 +20,10 @@ export default class Launch extends Scene {
   private distance: number = 0;
 
   private maxHeight: number = 0;
+
+  private finishFlight: boolean = false;
+
+  private endScreen: Finished = new Finished(window.innerWidth, window.innerHeight);
 
   private gravity: number = 0.05;
 
@@ -52,7 +57,10 @@ export default class Launch extends Scene {
     this.distance += (this.xSpeed / 100);
     this.handleBackground.moveBackground(this.player, this.xSpeed, this.ySpeed);
     this.player.angle = this.launchAngle;
-    return null;
+    if (this.xSpeed <= 0.01) {
+      this.finishFlight = true;
+    }
+    return this;
   }
 
   /**
@@ -79,5 +87,8 @@ export default class Launch extends Scene {
     this.handleBackground.render(canvas);
     this.player.render(canvas);
     CanvasUtil.writeTextToCanvas(canvas, `distance: ${Math.round(this.distance * 10) / 10}m`, 100, 100, 'center', 'arial', 20, 'black');
+    if (this.finishFlight) {
+      this.endScreen.render(canvas);
+    }
   }
 }
