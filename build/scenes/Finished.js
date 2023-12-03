@@ -1,7 +1,5 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Finished {
-    constructor(maxX, maxY) {
-    }
     processInput(keyListener, mouseListener) {
     }
     update(elapsed) {

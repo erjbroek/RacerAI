@@ -4,10 +4,6 @@ import KeyListener from '../utilities/KeyListener.js';
 import Scene from './Scene.js';
 
 export default class Finished {
-  public constructor(maxX: number, maxY: number) {
-
-  }
-
   /**
    * @param keyListener is used to check for keyboard inputs
    * @param mouseListener is used to check for mouse movements and inputs
