@@ -1,9 +1,9 @@
 import Drawable from './Drawable.js';
 
 export default class Obstacle extends Drawable {
-  private movementModifierX: number;
+  private speedModifierX: number;
 
-  private movementModifierY: number;
+  private speedModifierY: number;
 
   private scoreMultipler: number;
 

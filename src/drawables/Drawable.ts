@@ -10,9 +10,9 @@ export default abstract class Drawable {
   public angle: number;
 
   public constructor() {
-    this.image = CanvasUtil.loadNewImage('./assets/hoe_wood.png');
     this.posX = 0;
     this.posY = 0;
+    this.angle = 0;
   }
 
   /**
@@ -21,7 +21,14 @@ export default abstract class Drawable {
    * @param canvas the selected canvas drawn to
    */
   public render(canvas: HTMLCanvasElement): void {
-    // eslint-disable-next-line max-len
-    CanvasUtil.drawImage(canvas, this.image, this.posX, this.posY, this.image.width, this.image.height, this.angle);
+    CanvasUtil.drawImage(
+      canvas,
+      this.image,
+      this.posX,
+      this.posY,
+      this.image.width,
+      this.image.height,
+      this.angle,
+    );
   }
 }
