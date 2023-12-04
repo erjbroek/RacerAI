@@ -39,6 +39,12 @@ export default class HandleBackground {
             this.touchingGround = false;
         }
     }
+    getPosY() {
+        return this.backgrounds[0].getPosY();
+    }
+    getHeight() {
+        return this.backgrounds[0].getHeight();
+    }
     touchGround() {
         if (this.touchingGround) {
             this.backgrounds.forEach((background) => {
@@ -56,4 +62,4 @@ export default class HandleBackground {
         CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     }
 }
-//# sourceMappingURL=handleBackground.js.map
+//# sourceMappingURL=HandleBackground.js.map

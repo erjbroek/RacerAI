@@ -25,6 +25,8 @@ export default class Launch extends Scene {
     update(elapsed) {
         this.applyGravity();
         this.handleBackground.moveBackground(this.player, this.xSpeed, this.ySpeed);
+        this.handleScore.calculateDistances(this.xSpeed, this.ySpeed, (window.innerHeight - this.player.posY - this.player.image.height)
+            - (window.innerHeight - (this.handleBackground.getPosY() + this.handleBackground.getHeight())));
         this.player.angle = this.launchAngle;
         if (this.xSpeed <= 0.01) {
             this.finishFlight = true;
@@ -45,6 +47,7 @@ export default class Launch extends Scene {
     render(canvas) {
         CanvasUtil.fillCanvas(canvas, 'Black');
         this.handleBackground.render(canvas);
+        this.handleScore.render(canvas);
         this.player.render(canvas);
         if (this.finishFlight) {
             this.endScreen.render(canvas);

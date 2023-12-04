@@ -46,11 +46,21 @@ export default class HandleBackground {
       this.backgrounds.splice(0, 1);
     }
 
+    // console.log((window.innerHeight - player.posY - player.image.height));
+
     if (player.posY + player.image.height > window.innerHeight) {
       this.touchingGround = true;
     } else {
       this.touchingGround = false;
     }
+  }
+
+  public getPosY() {
+    return this.backgrounds[0].getPosY();
+  }
+
+  public getHeight() {
+    return this.backgrounds[0].getHeight();
   }
 
   /**
