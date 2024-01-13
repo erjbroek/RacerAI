@@ -1,9 +1,14 @@
 import MouseListener from '../ui/MouseListener.js';
+import HandleScore from '../ui/handleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import Scene from './Scene.js';
 
 export default class Finished {
+  private scoreHandler: HandleScore;
+
+  private scoreHolder: HTMLImageElement = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');
+
   /**
    * @param keyListener is used to check for keyboard inputs
    * @param mouseListener is used to check for mouse movements and inputs
@@ -25,8 +30,13 @@ export default class Finished {
    * Render the scene.
    *
    * @param canvas the selected canvas the items are rendered to
+   * @param scoreHandler handles everything that has to do with the stats/ score
    */
-  public render(canvas: HTMLCanvasElement): void {
-    CanvasUtil.fillRectangle(canvas, window.innerWidth / 3, window.innerHeight / 3, window.innerWidth / 3, window.innerHeight / 3, 'black');
+  public render(canvas: HTMLCanvasElement, scoreHandler: HandleScore): void {
+    scoreHandler.calculateScore();
+    CanvasUtil.drawImage(canvas, this.scoreHolder, window.innerWidth / 3, window.innerHeight / 3);
+    CanvasUtil.writeTextToCanvas(canvas, (Math.round(scoreHandler.distance * 10) / 10).toString(), window.innerWidth / 2.6, window.innerHeight / 2.8, 'left', 'arial', 20, 'black');
+    CanvasUtil.writeTextToCanvas(canvas, (Math.round(scoreHandler.maxHeight * 10) / 10).toString(), window.innerWidth / 2.6, window.innerHeight / 2.6, 'left', 'arial', 20, 'black');
+    CanvasUtil.writeTextToCanvas(canvas, (Math.round(scoreHandler.score * 10) / 10).toString(), window.innerWidth / 2.6, window.innerHeight / 2.4, 'left', 'arial', 20, 'black');
   }
 }

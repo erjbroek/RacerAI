@@ -1,6 +1,8 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Drawable from './Drawable.js';
 export default class Player extends Drawable {
+    rotationSpeed = 0;
+    touchedGround = false;
     constructor() {
         super();
         this.image = CanvasUtil.loadNewImage('./assets/player.png');
@@ -11,6 +13,15 @@ export default class Player extends Drawable {
     }
     move(ySpeed) {
         this.posY += ySpeed;
+    }
+    rotate() {
+        this.angle += this.rotationSpeed;
+    }
+    setAngle(xSpeed, ySpeed) {
+        let angle = Math.atan2(xSpeed, ySpeed) * (180 / Math.PI);
+        angle *= -1;
+        angle += 90;
+        this.angle = angle;
     }
 }
 //# sourceMappingURL=Player.js.map

@@ -10,6 +10,8 @@ export default class HandleBackground {
 
   private touchingGround: boolean;
 
+  public touchedGround: boolean = false;
+
   public constructor() {
     this.backgrounds = [];
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
@@ -35,6 +37,7 @@ export default class HandleBackground {
       });
     }
 
+
     if (this.backgrounds.length < 2) {
       if (this.backgrounds[0].getPosX() + this.backgrounds[0].getWidth() <= window.innerWidth) {
         this.backgrounds.push(new Background(this.backgrounds[0].getPosX()
@@ -45,8 +48,6 @@ export default class HandleBackground {
     if (this.backgrounds[0].getPosX() + this.backgrounds[0].getWidth() <= 0) {
       this.backgrounds.splice(0, 1);
     }
-
-    // console.log((window.innerHeight - player.posY - player.image.height));
 
     if (player.posY + player.image.height > window.innerHeight) {
       this.touchingGround = true;
@@ -59,33 +60,25 @@ export default class HandleBackground {
     return this.backgrounds[0].getPosY();
   }
 
+  public setPosY(height: number) {
+    return this.backgrounds[0].setPosY(height);
+  }
+
   public getHeight() {
     return this.backgrounds[0].getHeight();
   }
 
   /**
-   * makes sure the player doesn't fall through the ground, and the background doesnt fly up.
-   */
-  public touchGround(): void {
-    if (this.touchingGround) {
-      this.backgrounds.forEach((background) => {
-        background.setPosY(window.innerHeight - this.backgrounds[0].getHeight());
-      });
-    }
-  }
-
-  /**
    * returns true if the player is touching the ground
-   *
+   * 
    * @returns boolean
    */
-  public getTouchingGround(): boolean {
+  public isTouchingGround(): boolean {
     return this.touchingGround;
   }
 
   /**
    * renders the objects to the canvas
-   *
    * @param canvas the selected canvas objects are rendered to
    */
   public render(canvas: HTMLCanvasElement) {

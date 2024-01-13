@@ -4,6 +4,7 @@ export default class HandleBackground {
     space;
     backgrounds;
     touchingGround;
+    touchedGround = false;
     constructor() {
         this.backgrounds = [];
         this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
@@ -42,17 +43,13 @@ export default class HandleBackground {
     getPosY() {
         return this.backgrounds[0].getPosY();
     }
+    setPosY(height) {
+        return this.backgrounds[0].setPosY(height);
+    }
     getHeight() {
         return this.backgrounds[0].getHeight();
     }
-    touchGround() {
-        if (this.touchingGround) {
-            this.backgrounds.forEach((background) => {
-                background.setPosY(window.innerHeight - this.backgrounds[0].getHeight());
-            });
-        }
-    }
-    getTouchingGround() {
+    isTouchingGround() {
         return this.touchingGround;
     }
     render(canvas) {

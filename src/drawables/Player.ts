@@ -2,6 +2,10 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import Drawable from './Drawable.js';
 
 export default class Player extends Drawable {
+  public rotationSpeed: number = 0;
+
+  public touchedGround: boolean = false;
+
   public constructor() {
     super();
     this.image = CanvasUtil.loadNewImage('./assets/player.png');
@@ -9,7 +13,6 @@ export default class Player extends Drawable {
     // setting properties of the image, such as position and width.
 
     // using window.innerWidth / x, so that the image and it's position are
-    // scalable with different resolutions/
     this.image.width = window.innerWidth / 15;
     this.image.height = window.innerWidth / 15;
     this.posX = window.innerWidth / 10 - this.image.width / 2;
@@ -23,5 +26,27 @@ export default class Player extends Drawable {
    */
   public move(ySpeed: number) {
     this.posY += ySpeed;
+  }
+
+
+
+  /**
+   * rotates the player
+   */
+  public rotate() {
+    this.angle += this.rotationSpeed;
+  }
+
+  /**
+   * rotates the player based on the xSpeed and ySpeed;
+   * @param xSpeed is the horizontal speed of the player
+   * @param ySpeed is the vertical speed of the player
+   */
+  public setAngle(xSpeed: number, ySpeed: number) {
+    let angle = Math.atan2(xSpeed, ySpeed) * (180 / Math.PI);
+    angle *= -1;
+    angle += 90;
+
+    this.angle = angle;
   }
 }

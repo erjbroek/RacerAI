@@ -10,7 +10,7 @@ import HandleScore from '../ui/handleScore.js';
 export default class Launch extends Scene {
   private launchAngle: number;
 
-  private handleBackground: HandleBackground = new HandleBackground()
+  private handleBackground: HandleBackground = new HandleBackground();
 
   private handleScore: HandleScore = new HandleScore();
 
@@ -24,11 +24,12 @@ export default class Launch extends Scene {
 
   private endScreen: Finished = new Finished();
 
-  private gravity: number = 0.05;
+  private gravity: number = 0.1;
 
   public constructor(maxX: number, maxY: number, launchAngle: number, launchPower: number) {
     super(maxX, maxY);
     this.launchAngle = launchAngle;
+    this.player.angle = this.launchAngle;
     this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
   }
@@ -56,10 +57,9 @@ export default class Launch extends Scene {
       this.xSpeed,
       this.ySpeed,
       (window.innerHeight - this.player.posY - this.player.image.height)
-      - (window.innerHeight - (this.handleBackground.getPosY() + this.handleBackground.getHeight()))
+      - (window.innerHeight
+      - (this.handleBackground.getPosY() + this.handleBackground.getHeight())),
     );
-
-    this.player.angle = this.launchAngle;
     if (this.xSpeed <= 0.01) {
       this.finishFlight = true;
     }
@@ -70,13 +70,20 @@ export default class Launch extends Scene {
    * handles player and gravity
    */
   public applyGravity(): void {
-    if (this.handleBackground.getTouchingGround()) {
+    if (this.handleBackground.isTouchingGround()) {
       this.player.posY = window.innerHeight - this.player.image.height;
+      this.handleBackground.setPosY(window.innerHeight - this.handleBackground.getHeight());
       this.ySpeed *= -0.5;
       this.xSpeed *= 0.6;
-      this.handleBackground.touchGround();
+      this.player.rotationSpeed = this.xSpeed;
+      this.player.touchedGround = true;
     } else {
       this.ySpeed += this.gravity;
+      if (this.xSpeed <= 8 && this.player.touchedGround) {
+        this.player.rotate();
+      } else {
+        this.player.setAngle(this.xSpeed, this.ySpeed);
+      }
     }
   }
 
@@ -91,7 +98,7 @@ export default class Launch extends Scene {
     this.handleScore.render(canvas);
     this.player.render(canvas);
     if (this.finishFlight) {
-      this.endScreen.render(canvas);
+      this.endScreen.render(canvas, this.handleScore);
     }
   }
 }
