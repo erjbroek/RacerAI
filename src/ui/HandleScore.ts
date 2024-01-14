@@ -22,8 +22,8 @@ export default class HandleScore {
    * @param height is the current height the player is at in pixels / 10
    */
   public calculateDistances(xSpeed: number, ySpeed: number, height: number) {
-    this.distance += xSpeed / 100;
-    this.height = height / 100;
+    this.distance += xSpeed / 150;
+    this.height = height / 150;
     if (this.height >= this.maxHeight) {
       this.maxHeight = this.height;
     }

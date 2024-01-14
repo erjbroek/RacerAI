@@ -8,8 +8,8 @@ export default class HandleScore {
     enemiesHit = 0;
     score = 0;
     calculateDistances(xSpeed, ySpeed, height) {
-        this.distance += xSpeed / 100;
-        this.height = height / 100;
+        this.distance += xSpeed / 150;
+        this.height = height / 150;
         if (this.height >= this.maxHeight) {
             this.maxHeight = this.height;
         }

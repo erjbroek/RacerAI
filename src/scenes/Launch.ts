@@ -44,10 +44,10 @@ export default class Launch extends Scene {
     if (!this.player.touchedGround) {
       if (keyListener.isKeyDown('KeyA')) {
         this.ySpeed -= 0.25 * (this.xSpeed / 10);
-        this.xSpeed += this.ySpeed > 0 ? 0.1 : -0.14;
+        this.xSpeed += this.ySpeed > 0 ? 0.1 : -0.33;
       } else if (keyListener.isKeyDown('KeyD')) {
         this.ySpeed += 0.05 * (this.xSpeed / 10);
-        this.xSpeed -= this.ySpeed > 0 ? 0.14 : -0.1;
+        this.xSpeed -= this.ySpeed > 0 ? 0.25 : -0.1;
       }
       this.xSpeed = this.xSpeed < 0 ? 0 : this.xSpeed;
     }
