@@ -16,6 +16,7 @@ export default class HandleBackground {
             || this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
             this.backgrounds.forEach((background) => {
                 background.move(xSpeed, 0);
+                background.setPosY(window.innerHeight - background.getHeight());
             });
             player.move(ySpeed);
         }
@@ -44,7 +45,7 @@ export default class HandleBackground {
         return this.backgrounds[0].getPosY();
     }
     setPosY(height) {
-        return this.backgrounds[0].setPosY(height);
+        this.backgrounds[0].setPosY(height);
     }
     getHeight() {
         return this.backgrounds[0].getHeight();

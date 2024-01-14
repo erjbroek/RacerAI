@@ -29,6 +29,7 @@ export default class HandleBackground {
     || this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
       this.backgrounds.forEach((background) => {
         background.move(xSpeed, 0);
+        background.setPosY(window.innerHeight - background.getHeight());
       });
       player.move(ySpeed);
     } else {
@@ -36,7 +37,6 @@ export default class HandleBackground {
         background.move(xSpeed, ySpeed);
       });
     }
-
 
     if (this.backgrounds.length < 2) {
       if (this.backgrounds[0].getPosX() + this.backgrounds[0].getWidth() <= window.innerWidth) {
@@ -61,7 +61,7 @@ export default class HandleBackground {
   }
 
   public setPosY(height: number) {
-    return this.backgrounds[0].setPosY(height);
+    this.backgrounds[0].setPosY(height);
   }
 
   public getHeight() {
@@ -70,7 +70,7 @@ export default class HandleBackground {
 
   /**
    * returns true if the player is touching the ground
-   * 
+   *
    * @returns boolean
    */
   public isTouchingGround(): boolean {

@@ -1,6 +1,5 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Finished {
-    enemiesHit = 0;
     scoreHandler;
     scoreHolder = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');
     processInput(keyListener, mouseListener) {

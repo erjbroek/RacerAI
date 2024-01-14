@@ -72,7 +72,6 @@ export default class Launch extends Scene {
   public applyGravity(): void {
     if (this.handleBackground.isTouchingGround()) {
       this.player.posY = window.innerHeight - this.player.image.height;
-      this.handleBackground.setPosY(window.innerHeight - this.handleBackground.getHeight());
       this.ySpeed *= -0.5;
       this.xSpeed *= 0.6;
       this.player.rotationSpeed = this.xSpeed;

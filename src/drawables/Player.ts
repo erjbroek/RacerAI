@@ -28,8 +28,6 @@ export default class Player extends Drawable {
     this.posY += ySpeed;
   }
 
-
-
   /**
    * rotates the player
    */
