@@ -13,7 +13,7 @@ export default class Launch extends Scene {
     ySpeed;
     finishFlight = false;
     endScreen = new Finished();
-    gravity = 0.1;
+    gravity = 0.15;
     constructor(maxX, maxY, launchAngle, launchPower) {
         super(maxX, maxY);
         this.launchAngle = launchAngle;
@@ -22,6 +22,17 @@ export default class Launch extends Scene {
         this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
     }
     processInput(keyListener, mouseListener) {
+        if (!this.player.touchedGround) {
+            if (keyListener.isKeyDown('KeyA')) {
+                this.ySpeed -= 0.25 * (this.xSpeed / 10);
+                this.xSpeed += this.ySpeed > 0 ? 0.1 : -0.14;
+            }
+            else if (keyListener.isKeyDown('KeyD')) {
+                this.ySpeed += 0.05 * (this.xSpeed / 10);
+                this.xSpeed -= this.ySpeed > 0 ? 0.14 : -0.1;
+            }
+            this.xSpeed = this.xSpeed < 0 ? 0 : this.xSpeed;
+        }
     }
     update(elapsed) {
         this.applyGravity();
