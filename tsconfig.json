@@ -13,7 +13,7 @@
     },
     "include": [
         "src/**/*"
-, "Kudzukrusher/Drawable.ts"    ],
+, "Ducker/utilities/Drawable.ts"    ],
     "exclude": [
         "node_modules",
         "**/*.spec.ts"
