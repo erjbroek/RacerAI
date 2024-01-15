@@ -24,7 +24,7 @@ export default class Launch extends Scene {
 
   private endScreen: Finished = new Finished();
 
-  private gravity: number = 0.15;
+  private gravity: number = 0.19;
 
   public constructor(maxX: number, maxY: number, launchAngle: number, launchPower: number) {
     super(maxX, maxY);
@@ -43,14 +43,15 @@ export default class Launch extends Scene {
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
     if (!this.player.touchedGround) {
       if (keyListener.isKeyDown('KeyA')) {
-        this.ySpeed -= 0.25 * (this.xSpeed / 10);
-        this.xSpeed += this.ySpeed > 0 ? 0.1 : -0.33;
+        this.ySpeed -= 0.24 * (this.xSpeed / 9);
+        this.xSpeed += this.ySpeed > 0 ? 0.13 : -0.21;
       } else if (keyListener.isKeyDown('KeyD')) {
-        this.ySpeed += 0.05 * (this.xSpeed / 10);
-        this.xSpeed -= this.ySpeed > 0 ? 0.25 : -0.1;
+        this.ySpeed += 0.05 * (this.xSpeed / 9);
+        this.xSpeed -= this.ySpeed > 0 ? 0.13 : -0.07;
       }
       this.xSpeed = this.xSpeed < 0 ? 0 : this.xSpeed;
     }
+    console.log(Math.abs(this.ySpeed));
   }
 
   /**
