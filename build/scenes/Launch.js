@@ -22,7 +22,7 @@ export default class Launch extends Scene {
         this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
     }
     processInput(keyListener, mouseListener) {
-        if (!this.player.touchedGround) {
+        if (this.xSpeed >= 8 && !this.handleBackground.isTouchingGround()) {
             if (this.player.energy > 0) {
                 if (keyListener.isKeyDown('KeyA')) {
                     this.ySpeed -= 0.24 * (this.xSpeed / 9);
@@ -43,7 +43,7 @@ export default class Launch extends Scene {
         this.handleScore.calculateDistances(this.xSpeed, this.ySpeed, (window.innerHeight - this.player.posY - this.player.image.height)
             - (window.innerHeight
                 - (this.handleBackground.getPosY() + this.handleBackground.getHeight())));
-        if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
+        if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
             this.finishFlight = true;
         }
         return this;
@@ -63,6 +63,7 @@ export default class Launch extends Scene {
             }
             else {
                 this.player.setAngle(this.xSpeed, this.ySpeed);
+                this.player.touchedGround = false;
             }
         }
     }

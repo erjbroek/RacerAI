@@ -41,7 +41,7 @@ export default class Launch extends Scene {
    * @param mouseListener the mouselistener used
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-    if (!this.player.touchedGround) {
+    if (this.xSpeed >= 8 && !this.handleBackground.isTouchingGround()) {
       if (this.player.energy > 0) {
         if (keyListener.isKeyDown('KeyA')) {
           this.ySpeed -= 0.24 * (this.xSpeed / 9);
@@ -72,7 +72,7 @@ export default class Launch extends Scene {
       - (window.innerHeight
       - (this.handleBackground.getPosY() + this.handleBackground.getHeight())),
     );
-    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
       this.finishFlight = true;
     }
     return this;
@@ -94,6 +94,7 @@ export default class Launch extends Scene {
         this.player.rotate();
       } else {
         this.player.setAngle(this.xSpeed, this.ySpeed);
+        this.player.touchedGround = false;
       }
     }
   }
