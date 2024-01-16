@@ -3,7 +3,7 @@ import MouseListener from '../ui/MouseListener.js';
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import Handlebackground from '../ui/Handlebackground.js';
+import Handlebackground from '../ui/handleBackground.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
 
