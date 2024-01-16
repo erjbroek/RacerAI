@@ -34,10 +34,8 @@ export default class Launch extends Scene {
                     this.xSpeed -= this.ySpeed > 0 ? 0.13 : -0.07;
                     this.player.energy -= 1;
                 }
-                this.xSpeed = this.xSpeed < 0 ? 0 : this.xSpeed;
             }
         }
-        console.log(this.player.energy);
     }
     update(elapsed) {
         this.applyGravity();
@@ -45,7 +43,7 @@ export default class Launch extends Scene {
         this.handleScore.calculateDistances(this.xSpeed, this.ySpeed, (window.innerHeight - this.player.posY - this.player.image.height)
             - (window.innerHeight
                 - (this.handleBackground.getPosY() + this.handleBackground.getHeight())));
-        if (this.xSpeed <= 0.01) {
+        if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
             this.finishFlight = true;
         }
         return this;
@@ -56,12 +54,12 @@ export default class Launch extends Scene {
             this.ySpeed *= -0.5;
             this.xSpeed *= 0.6;
             this.player.rotationSpeed = this.xSpeed;
+            this.player.touchedGround = true;
         }
         else {
             this.ySpeed += this.gravity;
-            if (this.xSpeed <= 8 && this.handleBackground.isTouchingGround) {
+            if (this.xSpeed <= 8 && this.player.touchedGround) {
                 this.player.rotate();
-                this.player.touchedGround = true;
             }
             else {
                 this.player.setAngle(this.xSpeed, this.ySpeed);
