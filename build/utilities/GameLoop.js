@@ -68,6 +68,7 @@ export class GameLoop {
         const stepTime = timestamp - now;
         const frameTime = now - this.frameEnd;
         this.fps = Math.round(1000 / frameTime);
+        console.log(this.fps);
         this.load = stepTime / frameTime;
         this.frameEnd = now;
         this.gameTime = now - this.gameStart;
