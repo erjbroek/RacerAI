@@ -6,9 +6,15 @@ export default class Player extends Drawable {
 
   public touchedGround: boolean = false;
 
+  public totalEnergy: number;
+
+  public energy: number;
+
   public constructor() {
     super();
     this.image = CanvasUtil.loadNewImage('./assets/player.png');
+    this.totalEnergy = 150;
+    this.energy = 150;
 
     // setting properties of the image, such as position and width.
 
@@ -46,5 +52,15 @@ export default class Player extends Drawable {
     angle += 90;
 
     this.angle = angle;
+  }
+
+  /**
+   * @param canvas the selected canvas to render to
+   */
+  public renderPower(canvas: HTMLCanvasElement) {
+    if (this.energy > 0) {
+      CanvasUtil.drawRectangle(canvas, this.posX, this.posY - canvas.width / 50, this.image.width + 2 * (this.posX - canvas.width / 15), canvas.height / 100, 'red');
+      CanvasUtil.fillRectangle(canvas, this.posX, this.posY - canvas.width / 50, (this.image.width + 2 * (this.posX - canvas.width / 15)) * (this.energy / this.totalEnergy), canvas.height / 100, 'red');
+    }
   }
 }

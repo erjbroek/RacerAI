@@ -30,6 +30,7 @@ export default class Launch extends Scene {
     super(maxX, maxY);
     this.launchAngle = launchAngle;
     this.player.angle = this.launchAngle;
+    launchPower *= 2;
     this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
   }
@@ -42,16 +43,20 @@ export default class Launch extends Scene {
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
     if (!this.player.touchedGround) {
-      if (keyListener.isKeyDown('KeyA')) {
-        this.ySpeed -= 0.24 * (this.xSpeed / 9);
-        this.xSpeed += this.ySpeed > 0 ? 0.13 : -0.21;
-      } else if (keyListener.isKeyDown('KeyD')) {
-        this.ySpeed += 0.05 * (this.xSpeed / 9);
-        this.xSpeed -= this.ySpeed > 0 ? 0.13 : -0.07;
+      if (this.player.energy > 0) {
+        if (keyListener.isKeyDown('KeyA')) {
+          this.ySpeed -= 0.24 * (this.xSpeed / 9);
+          this.xSpeed += this.ySpeed > 0 ? 0.13 : -0.21;
+          this.player.energy -= 1;
+        } else if (keyListener.isKeyDown('KeyD')) {
+          this.ySpeed += 0.05 * (this.xSpeed / 9);
+          this.xSpeed -= this.ySpeed > 0 ? 0.13 : -0.07;
+          this.player.energy -= 1;
+        }
+        this.xSpeed = this.xSpeed < 0 ? 0 : this.xSpeed;
       }
-      this.xSpeed = this.xSpeed < 0 ? 0 : this.xSpeed;
     }
-    console.log(Math.abs(this.ySpeed));
+    console.log(this.player.energy);
   }
 
   /**
@@ -85,11 +90,11 @@ export default class Launch extends Scene {
       this.ySpeed *= -0.5;
       this.xSpeed *= 0.6;
       this.player.rotationSpeed = this.xSpeed;
-      this.player.touchedGround = true;
     } else {
       this.ySpeed += this.gravity;
-      if (this.xSpeed <= 8 && this.player.touchedGround) {
+      if (this.xSpeed <= 8 && this.handleBackground.isTouchingGround) {
         this.player.rotate();
+        this.player.touchedGround = true;
       } else {
         this.player.setAngle(this.xSpeed, this.ySpeed);
       }
@@ -106,6 +111,7 @@ export default class Launch extends Scene {
     this.handleBackground.render(canvas);
     this.handleScore.render(canvas);
     this.player.render(canvas);
+    this.player.renderPower(canvas);
     if (this.finishFlight) {
       this.endScreen.render(canvas, this.handleScore);
     }
