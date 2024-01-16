@@ -60,4 +60,4 @@ export default class Handlebackground {
         CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     }
 }
-//# sourceMappingURL=Handlebackground.js.map
+//# sourceMappingURL=handleBackground.js.map
