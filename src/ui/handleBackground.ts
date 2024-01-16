@@ -3,7 +3,7 @@ import BackgroundItems from '../background items/BackgroundItems.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Player from '../drawables/Player.js';
 
-export default class HandleBackground {
+export default class Handlebackground {
   private space: HTMLImageElement;
 
   private backgrounds: BackgroundItems[];

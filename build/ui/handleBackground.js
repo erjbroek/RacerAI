@@ -1,6 +1,6 @@
 import Background from '../background items/Background.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-export default class HandleBackground {
+export default class Handlebackground {
     space;
     backgrounds;
     touchingGround;
@@ -60,4 +60,4 @@ export default class HandleBackground {
         CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     }
 }
-//# sourceMappingURL=HandleBackground.js.map
+//# sourceMappingURL=Handlebackground.js.map

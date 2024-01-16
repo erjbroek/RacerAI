@@ -1,12 +1,12 @@
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import HandleBackground from '../ui/HandleBackground.js';
+import Handlebackground from '../ui/Handlebackground.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
 export default class Launch extends Scene {
     launchAngle;
-    handleBackground = new HandleBackground();
+    handleBackground = new Handlebackground();
     handleScore = new HandleScore();
     player = new Player();
     xSpeed;
