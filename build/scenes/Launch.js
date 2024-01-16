@@ -18,11 +18,14 @@ export default class Launch extends Scene {
         super(maxX, maxY);
         this.launchAngle = launchAngle;
         this.player.angle = this.launchAngle;
+        launchPower *= 2;
         this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
     }
     processInput(keyListener, mouseListener) {
-        if (this.xSpeed >= 8 && !this.handleBackground.isTouchingGround()) {
+        if ((Math.abs(this.xSpeed) >= 8
+            || this.player.posY < window.innerHeight / 1.2)
+            && !this.handleBackground.isTouchingGround()) {
             if (this.player.energy > 0) {
                 if (keyListener.isKeyDown('KeyA')) {
                     this.ySpeed -= 0.24 * (this.xSpeed / 9);
