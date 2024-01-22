@@ -17,6 +17,8 @@ export class GameLoop {
     frameCount;
     fps;
     load;
+    targetFrameRate = 60;
+    frameTimeLimit = 1000 / this.targetFrameRate;
     constructor(game, mode = GameLoop.NORMAL_MODE) {
         this.state = GameLoop.STATE_IDLE;
         this.mode = mode;
@@ -53,13 +55,17 @@ export class GameLoop {
             }
         }
         else {
-            const elapsed = timestamp - this.previousElapsed;
+            const now = performance.now();
+            const elapsed = now - this.previousElapsed;
             shouldStop = !this.game.update(elapsed);
-            this.previousElapsed = timestamp;
+            this.previousElapsed = now;
         }
         this.game.render();
         if (!shouldStop || this.isInState(GameLoop.STATE_STOPPING)) {
-            requestAnimationFrame(this.step);
+            const nextTimestamp = timestamp + this.frameTimeLimit;
+            setTimeout(() => {
+                requestAnimationFrame(this.step);
+            }, Math.max(0, nextTimestamp - performance.now()));
         }
         else {
             this.state = GameLoop.STATE_IDLE;
@@ -68,7 +74,6 @@ export class GameLoop {
         const stepTime = timestamp - now;
         const frameTime = now - this.frameEnd;
         this.fps = Math.round(1000 / frameTime);
-        console.log(this.fps);
         this.load = stepTime / frameTime;
         this.frameEnd = now;
         this.gameTime = now - this.gameStart;

@@ -33,63 +33,30 @@ export class GameLoop {
 
   public static readonly PLAY_CATCH_UP = 1;
 
-  /**
-   * The current mode of the gameloop
-   */
   private mode: number;
 
-  /**
-   * The current state of this gameloop
-   */
   private state: number;
 
-  /**
-   * The game to animate
-   */
   private game: Game;
 
   private previousElapsed: number;
 
-  /**
-   * Holds the start time of the game
-   */
   private gameStart: number;
 
-  /**
-   * Holds the time where the last animation step method ended.
-   */
   private frameEnd: number;
 
-  /**
-   * The total time in milliseconds that is elapsed since the start of the
-   * game
-   */
   public gameTime: number;
 
-  /**
-   * The amount of frames that are processed since the start of the game
-   */
   public frameCount: number;
 
-  /**
-   * An indication of the current crames per second of this gameloop
-   */
   public fps: number;
 
-  /**
-   * An indication of the load of this gameloop. The load is the ratio between
-   * the time needed to update the game and the time the computer waits to
-   * render the next frame.
-   */
   public load: number;
 
-  /**
-   * Construct a new instance of this class.
-   *
-   * @param game the game to animate
-   * @param mode OPTIONAL, the mode of the gameloop. It defaults to
-   *   GameLoop.NORMAL_MODE, which is fine for simple games
-   */
+  private readonly targetFrameRate: number = 60;
+
+  private readonly frameTimeLimit: number = 1000 / this.targetFrameRate;
+
   public constructor(game: Game, mode: number = GameLoop.NORMAL_MODE) {
     this.state = GameLoop.STATE_IDLE;
     this.mode = mode;
@@ -140,7 +107,6 @@ export class GameLoop {
    *   starts to execute callback functions
    */
   private step = (timestamp: number) => {
-    // Handle first animation frame
     if (this.isInState(GameLoop.STATE_STARTING)) {
       this.state = GameLoop.STATE_RUNNING;
     }
@@ -156,9 +122,10 @@ export class GameLoop {
         this.previousElapsed += step;
       }
     } else {
-      const elapsed = timestamp - this.previousElapsed;
+      const now = performance.now();
+      const elapsed = now - this.previousElapsed;
       shouldStop = !this.game.update(elapsed);
-      this.previousElapsed = timestamp;
+      this.previousElapsed = now;
     }
 
     // Let the game render itself
@@ -166,7 +133,10 @@ export class GameLoop {
 
     // Check if a next animation frame needs to be requested
     if (!shouldStop || this.isInState(GameLoop.STATE_STOPPING)) {
-      requestAnimationFrame(this.step);
+      const nextTimestamp = timestamp + this.frameTimeLimit;
+      setTimeout(() => {
+        requestAnimationFrame(this.step);
+      }, Math.max(0, nextTimestamp - performance.now()));
     } else {
       this.state = GameLoop.STATE_IDLE;
     }
@@ -176,7 +146,6 @@ export class GameLoop {
     const stepTime = timestamp - now;
     const frameTime = now - this.frameEnd;
     this.fps = Math.round(1000 / frameTime);
-    console.log(this.fps);
     this.load = stepTime / frameTime;
     this.frameEnd = now;
     this.gameTime = now - this.gameStart;
