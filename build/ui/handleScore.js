@@ -1,13 +1,15 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
 export default class HandleScore {
     height = 0;
     distance = 0;
     maxHeight = 0;
     maxSpeed = 0;
-    coins = 0;
+    bronzeCoins = 0;
+    silverCoins = 0;
+    goldCoins = 0;
+    totalCoins = 0;
     enemiesHit = 0;
     score = 0;
-    calculateDistances(xSpeed, ySpeed, height) {
+    calculateDistances(xSpeed, height) {
         this.distance += xSpeed / 150;
         this.height = height / 150;
         if (this.height >= this.maxHeight) {
@@ -17,10 +19,16 @@ export default class HandleScore {
     calculateScore() {
         this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
     }
-    render(canvas) {
-        CanvasUtil.writeTextToCanvas(canvas, `distance: ${(Math.round(this.distance * 10) / 10).toString()}m`, 100, 100, 'left', 'arial', 20, 'black');
-        CanvasUtil.writeTextToCanvas(canvas, `height: ${(Math.round(this.height * 10) / 10).toString()}m`, 100, 150, 'left', 'arial', 20, 'black');
-        CanvasUtil.writeTextToCanvas(canvas, `maxheight: ${(Math.round(this.maxHeight * 10) / 10).toString()}m`, 100, 200, 'left', 'arial', 20, 'black');
+    addCoin(coinType) {
+        if (coinType === 1) {
+            this.bronzeCoins += 1;
+        }
+        else if (coinType === 2) {
+            this.silverCoins += 1;
+        }
+        else {
+            this.goldCoins += 1;
+        }
     }
 }
 //# sourceMappingURL=handleScore.js.map

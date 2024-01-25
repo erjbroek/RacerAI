@@ -70,12 +70,11 @@ export default class HandleItems {
       }
     }
 
-    if (this.items.filter((obj) => obj instanceof Coin).length < 6) {
+    while (this.items.filter((obj) => obj instanceof Coin).length < 10) {
       this.items.push(new Coin(
         window.innerWidth + (
           window.innerWidth + Math.random() * (window.innerWidth * 3)),
-        (this.backgrounds[0].posY + this.backgrounds[0].image.height)
-        - Math.random() * (window.innerHeight * (4 / 3)) - window.innerHeight / 10,
+        (this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight()),
       ));
     }
   }
@@ -99,12 +98,13 @@ export default class HandleItems {
   /**
    *
    */
-  public collision(player: Player) {
+  public collision(player: Player, elapsed: number) {
     this.items.forEach((item) => {
       if (CanvasUtil.collidesWith(player, item)) {
         this.items.splice(this.items.indexOf(item), 1);
         if (item instanceof Coin) {
-          this.scoreHandler.coins += item.value;
+          this.scoreHandler.totalCoins += item.value;
+          this.scoreHandler.addCoin(item.coinType);
         }
       }
     });
@@ -118,9 +118,9 @@ export default class HandleItems {
     this.backgrounds.forEach((item) => {
       item.render(canvas);
     });
+    CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     this.items.forEach((item) => {
       item.render(canvas);
     });
-    CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
   }
 }

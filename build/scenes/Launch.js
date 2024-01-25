@@ -1,7 +1,7 @@
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import HandleItems from '../ui/handleBackground.js';
+import HandleItems from '../ui/HandleItems.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
 export default class Launch extends Scene {
@@ -41,9 +41,9 @@ export default class Launch extends Scene {
         this.applyGravity();
         this.handleBackground.addItems();
         this.handleBackground.removeUnusedItems();
-        this.handleBackground.collision(this.player);
+        this.handleBackground.collision(this.player, elapsed);
         this.handleBackground.moveItems(this.player, this.xSpeed, this.ySpeed);
-        this.handleScore.calculateDistances(this.xSpeed, this.ySpeed, (window.innerHeight - this.player.posY - this.player.image.height)
+        this.handleScore.calculateDistances(this.xSpeed, (window.innerHeight - this.player.posY - this.player.image.height)
             - (window.innerHeight
                 - (this.handleBackground.backgrounds[0].posY
                     + this.handleBackground.backgrounds[0].image.height)));
@@ -76,6 +76,7 @@ export default class Launch extends Scene {
         this.handleBackground.render(canvas);
         this.player.render(canvas);
         this.player.renderPower(canvas);
+        CanvasUtil.writeTextToCanvas(canvas, `coins: ${this.handleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
         if (this.finishFlight) {
             this.endScreen.render(canvas, this.handleScore);
         }

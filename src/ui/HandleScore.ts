@@ -10,7 +10,13 @@ export default class HandleScore {
 
   public maxSpeed: number = 0;
 
-  public coins: number = 0;
+  public bronzeCoins: number = 0;
+
+  public silverCoins: number = 0;
+
+  public goldCoins: number = 0;
+
+  public totalCoins: number = 0;
 
   public enemiesHit: number = 0;
 
@@ -21,7 +27,7 @@ export default class HandleScore {
    * @param ySpeed is the vertical distance the player flies each frame
    * @param height is the current height the player is at in pixels / 10
    */
-  public calculateDistances(xSpeed: number, ySpeed: number, height: number) {
+  public calculateDistances(xSpeed: number, height: number,) {
     this.distance += xSpeed / 150;
     this.height = height / 150;
     if (this.height >= this.maxHeight) {
@@ -43,9 +49,13 @@ export default class HandleScore {
   /**
    * @param canvas the selected canvas the score is rendered to
    */
-  public render(canvas: HTMLCanvasElement) {
-    CanvasUtil.writeTextToCanvas(canvas, `distance: ${(Math.round(this.distance * 10) / 10).toString()}m`, 100, 100, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeTextToCanvas(canvas, `height: ${(Math.round(this.height * 10) / 10).toString()}m`, 100, 150, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeTextToCanvas(canvas, `maxheight: ${(Math.round(this.maxHeight * 10) / 10).toString()}m`, 100, 200, 'left', 'arial', 20, 'black');
+  public addCoin(coinType: number) {
+    if (coinType === 1) {
+      this.bronzeCoins += 1;
+    } else if (coinType === 2) {
+      this.silverCoins += 1;
+    } else {
+      this.goldCoins += 1;
+    }
   }
 }

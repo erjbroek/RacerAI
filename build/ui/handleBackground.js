@@ -70,7 +70,7 @@ export default class HandleItems {
             if (CanvasUtil.collidesWith(player, item)) {
                 this.items.splice(this.items.indexOf(item), 1);
                 if (item instanceof Coin) {
-                    this.scoreHandler.coins += item.value;
+                    this.scoreHandler.totalCoins += item.value;
                 }
             }
         });
