@@ -6,6 +6,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import Handlebackground from '../ui/handleBackground.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
+import HandleItems from '../ui/HandleItems.js';
 
 export default class Launch extends Scene {
   private launchAngle: number;
@@ -13,6 +14,8 @@ export default class Launch extends Scene {
   private handleBackground: Handlebackground = new Handlebackground();
 
   private handleScore: HandleScore = new HandleScore();
+
+  private handleItems: HandleItems = new HandleItems(this.handleScore);
 
   private player: Player = new Player();
 
@@ -67,6 +70,9 @@ export default class Launch extends Scene {
   public update(elapsed: number): Scene {
     this.applyGravity();
     this.handleBackground.moveBackground(this.player, this.xSpeed, this.ySpeed);
+    this.handleItems.move(this.player, this.xSpeed, this.ySpeed);
+    this.handleItems.collision(this.player);
+    this.handleItems.update();
     this.handleScore.calculateDistances(
       this.xSpeed,
       this.ySpeed,
@@ -109,6 +115,7 @@ export default class Launch extends Scene {
   public render(canvas: HTMLCanvasElement): void {
     CanvasUtil.fillCanvas(canvas, 'Black');
     this.handleBackground.render(canvas);
+    this.handleItems.render(canvas);
     this.handleScore.render(canvas);
     this.player.render(canvas);
     this.player.renderPower(canvas);

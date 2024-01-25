@@ -17,7 +17,7 @@ export class GameLoop {
     frameCount;
     fps;
     load;
-    targetFrameRate = 60;
+    targetFrameRate = 80;
     frameTimeLimit = 1000 / this.targetFrameRate;
     constructor(game, mode = GameLoop.NORMAL_MODE) {
         this.state = GameLoop.STATE_IDLE;

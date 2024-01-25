@@ -1,11 +1,11 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 
 export default abstract class BackgroundItems {
-  protected image: HTMLImageElement;
+  public image: HTMLImageElement;
 
   protected posX: number;
 
-  protected posY: number;
+  public posY: number;
 
   protected angle: number;
 

@@ -1,4 +1,5 @@
 import Drawable from '../drawables/Drawable.js';
+import Player from '../drawables/Player.js';
 import MouseListener from '../ui/MouseListener.js';
 
 /**
@@ -300,12 +301,12 @@ export default class CanvasUtil {
    * @param object2Width width of the second object
    * @param object2Height height of the second object
    */
-  public static collidesWith(object1X: number, object1Y: number, object1Width: number, object1Height: number, object2X: number, object2Y: number, object2Width: number, object2Height: number): boolean {
+  public static collidesWith(player: Player, item: Drawable): boolean {
     if (
-      object1X < object2X + object2Width
-      && object1X + object1Width > object2X
-      && object1Y < object2Y + object2Height
-      && object1Y + object1Height > object2Y
+      player.posX < item.posX + item.image.width
+      && player.posX + player.image.width > item.posX
+      && player.posY < item.posY + item.image.height
+      && player.posY + player.image.height > item.posY
     ) {
       return true;
     }

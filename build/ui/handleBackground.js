@@ -14,15 +14,19 @@ export default class Handlebackground {
     moveBackground(player, xSpeed, ySpeed) {
         if (player.posY >= window.innerHeight / 2
             || this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
+            if (this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
+                this.backgrounds.forEach((background) => {
+                    background.setPosY(window.innerHeight - background.getHeight());
+                });
+            }
             this.backgrounds.forEach((background) => {
-                background.move(xSpeed, 0);
-                background.setPosY(window.innerHeight - background.getHeight());
+                background.move(xSpeed * 0.9, 0);
             });
             player.move(ySpeed);
         }
         else {
             this.backgrounds.forEach((background) => {
-                background.move(xSpeed, ySpeed);
+                background.move(xSpeed * 0.9, ySpeed * 0.8);
             });
         }
         if (this.backgrounds.length < 2) {

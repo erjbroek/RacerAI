@@ -53,7 +53,7 @@ export class GameLoop {
 
   public load: number;
 
-  private readonly targetFrameRate: number = 60;
+  private readonly targetFrameRate: number = 80;
 
   private readonly frameTimeLimit: number = 1000 / this.targetFrameRate;
 
