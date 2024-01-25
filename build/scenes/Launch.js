@@ -17,7 +17,6 @@ export default class Launch extends Scene {
     constructor(maxX, maxY, launchAngle, launchPower) {
         super(maxX, maxY);
         this.launchAngle = launchAngle;
-        launchPower *= 2;
         this.player.angle = this.launchAngle;
         this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);

@@ -20,20 +20,20 @@ export default class HandleItems {
         if (player.posY >= window.innerHeight / 2
             || this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
             this.backgrounds.forEach((background) => {
-                background.move(xSpeed * 0.9, 0);
+                background.move(xSpeed, 0);
                 background.setPosY(window.innerHeight - background.getHeight());
             });
             this.items.forEach((item) => {
-                item.move(xSpeed, 0);
+                item.move(xSpeed * 1.1, 0);
             });
             player.move(ySpeed);
         }
         else {
             this.backgrounds.forEach((background) => {
-                background.move(xSpeed * 0.9, ySpeed * 0.8);
+                background.move(xSpeed, ySpeed);
             });
             this.items.forEach((item) => {
-                item.move(xSpeed, ySpeed);
+                item.move(xSpeed * 1.1, ySpeed * 1.1);
             });
         }
         if (player.posY + player.image.height > window.innerHeight) {
