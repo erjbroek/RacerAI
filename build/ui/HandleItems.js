@@ -12,7 +12,6 @@ export default class HandleItems {
             this.coins.forEach((coin) => {
                 coin.move(xSpeed, 0);
             });
-            player.move(ySpeed);
         }
         else {
             this.coins.forEach((coin) => {

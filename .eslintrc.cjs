@@ -19,6 +19,7 @@ module.exports = {
     'camelcase': 'off',
     'no-console': 'off',
     'linebreak-style': 'off',
+    'max-len': ['error', { 'code': 150 }], // Set the maximum line length to 150 characters
     'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }],
     'jsdoc/require-jsdoc': [
       'error',

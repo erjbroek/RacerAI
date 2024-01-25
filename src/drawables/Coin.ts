@@ -13,8 +13,8 @@ export default class Coin extends Drawable {
       this.image = CanvasUtil.loadNewImage('./assets/bronzeCoin.png');
       this.value = 1;
     }
-    this.image.width = window.innerWidth / 30;
-    this.image.height = window.innerWidth / 30;
+    this.image.width = window.innerWidth / 40;
+    this.image.height = window.innerWidth / 40;
   }
 
   /**

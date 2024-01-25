@@ -1,15 +1,13 @@
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import Handlebackground from '../ui/handleBackground.js';
+import HandleItems from '../ui/handleBackground.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
-import HandleItems from '../ui/HandleItems.js';
 export default class Launch extends Scene {
     launchAngle;
-    handleBackground = new Handlebackground();
     handleScore = new HandleScore();
-    handleItems = new HandleItems(this.handleScore);
+    handleBackground = new HandleItems(this.handleScore);
     player = new Player();
     xSpeed;
     ySpeed;
@@ -19,14 +17,13 @@ export default class Launch extends Scene {
     constructor(maxX, maxY, launchAngle, launchPower) {
         super(maxX, maxY);
         this.launchAngle = launchAngle;
+        launchPower *= 2;
         this.player.angle = this.launchAngle;
         this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
     }
     processInput(keyListener, mouseListener) {
-        if ((Math.abs(this.xSpeed) >= 8
-            || this.player.posY < window.innerHeight / 1.2)
-            && !this.handleBackground.isTouchingGround()) {
+        if (!this.handleBackground.touchingGround && !(Math.abs(this.xSpeed) <= 8 && this.player.touchedGround)) {
             if (this.player.energy > 0) {
                 if (keyListener.isKeyDown('KeyA')) {
                     this.ySpeed -= 0.24 * (this.xSpeed / 9);
@@ -43,20 +40,21 @@ export default class Launch extends Scene {
     }
     update(elapsed) {
         this.applyGravity();
-        this.handleBackground.moveBackground(this.player, this.xSpeed, this.ySpeed);
-        this.handleItems.move(this.player, this.xSpeed, this.ySpeed);
-        this.handleItems.collision(this.player);
-        this.handleItems.update();
+        this.handleBackground.addItems();
+        this.handleBackground.removeUnusedItems();
+        this.handleBackground.collision(this.player);
+        this.handleBackground.moveItems(this.player, this.xSpeed, this.ySpeed);
         this.handleScore.calculateDistances(this.xSpeed, this.ySpeed, (window.innerHeight - this.player.posY - this.player.image.height)
             - (window.innerHeight
-                - (this.handleBackground.getPosY() + this.handleBackground.getHeight())));
+                - (this.handleBackground.backgrounds[0].posY
+                    + this.handleBackground.backgrounds[0].image.height)));
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
             this.finishFlight = true;
         }
         return this;
     }
     applyGravity() {
-        if (this.handleBackground.isTouchingGround()) {
+        if (this.handleBackground.touchingGround) {
             this.player.posY = window.innerHeight - this.player.image.height;
             this.ySpeed *= -0.5;
             this.xSpeed *= 0.6;
@@ -65,7 +63,7 @@ export default class Launch extends Scene {
         }
         else {
             this.ySpeed += this.gravity;
-            if (this.xSpeed <= 8 && this.player.touchedGround) {
+            if (Math.abs(this.xSpeed) <= 8 && this.player.touchedGround) {
                 this.player.rotate();
             }
             else {
@@ -77,8 +75,6 @@ export default class Launch extends Scene {
     render(canvas) {
         CanvasUtil.fillCanvas(canvas, 'Black');
         this.handleBackground.render(canvas);
-        this.handleItems.render(canvas);
-        this.handleScore.render(canvas);
         this.player.render(canvas);
         this.player.renderPower(canvas);
         if (this.finishFlight) {
