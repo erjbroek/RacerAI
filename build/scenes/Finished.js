@@ -1,6 +1,5 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Finished {
-    scoreHandler;
     scoreHolder = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');
     processInput(keyListener, mouseListener) {
     }
@@ -13,6 +12,7 @@ export default class Finished {
         CanvasUtil.writeTextToCanvas(canvas, `Distance: ${(Math.round(scoreHandler.distance * 10) / 10).toString()} meters`, window.innerWidth / 2.6, window.innerHeight / 2.3, 'left', 'arial', 20, 'black');
         CanvasUtil.writeTextToCanvas(canvas, `Maximum height: ${(Math.round(scoreHandler.maxHeight * 10) / 10).toString()} meters`, window.innerWidth / 2.6, window.innerHeight / 2.1, 'left', 'arial', 20, 'black');
         CanvasUtil.writeTextToCanvas(canvas, `Final score: ${(Math.round(scoreHandler.score * 10) / 10).toString()}`, window.innerWidth / 2.6, window.innerHeight / 1.6, 'left', 'arial', 20, 'black');
+        CanvasUtil.writeTextToCanvas(canvas, `Coins: ${(scoreHandler.coins).toString()}`, window.innerWidth / 1.7, window.innerHeight / 2.3, 'left', 'arial', 20, 'black');
     }
 }
 //# sourceMappingURL=Finished.js.map
