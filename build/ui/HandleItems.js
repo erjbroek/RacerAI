@@ -32,7 +32,7 @@ export default class HandleItems {
                 background.move(xSpeed, ySpeed);
             });
             this.items.forEach((item) => {
-                item.move(xSpeed * 1.1, ySpeed * 1.1);
+                item.move(xSpeed * 1.15, ySpeed * 1.15);
             });
         }
         if (player.posY + player.image.height > window.innerHeight) {
@@ -66,11 +66,11 @@ export default class HandleItems {
     collision(player, elapsed) {
         this.items.forEach((item) => {
             if (CanvasUtil.collidesWith(player, item)) {
-                this.items.splice(this.items.indexOf(item), 1);
                 if (item instanceof Coin) {
                     HandleScore.totalCoins += item.value;
                     HandleScore.addCoin(item.coinType);
                 }
+                this.items.splice(this.items.indexOf(item), 1);
             }
         });
     }

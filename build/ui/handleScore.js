@@ -17,6 +17,18 @@ export default class HandleScore {
             this.maxHeight = this.height;
         }
     }
+    static resetRound() {
+        this.height = 0;
+        this.distance = 0;
+        this.maxHeight = 0;
+        this.maxSpeed = 0;
+        this.bronzeCoins = 0;
+        this.silverCoins = 0;
+        this.goldCoins = 0;
+        this.totalCoins = 0;
+        this.enemiesHit = 0;
+        this.score = 0;
+    }
     static calculateScore() {
         this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
     }

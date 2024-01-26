@@ -37,6 +37,19 @@ export default class HandleScore {
     }
   }
 
+  public static resetRound() {
+    this.height = 0;
+    this.distance = 0;
+    this.maxHeight = 0;
+    this.maxSpeed = 0;
+    this.bronzeCoins = 0;
+    this.silverCoins = 0;
+    this.goldCoins = 0;
+    this.totalCoins = 0;
+    this.enemiesHit = 0;
+    this.score = 0;
+  }
+
   /**
    * gets stats from the launch, and calculates a score from those.
    *

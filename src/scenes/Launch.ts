@@ -33,6 +33,7 @@ export default class Launch extends Scene {
     this.player.angle = this.launchAngle;
     this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
+    HandleScore.resetRound();
   }
 
   /**
@@ -82,7 +83,9 @@ export default class Launch extends Scene {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
       this.finishFlight = true;
     }
+    console.log(HandleScore.totalCoins);
     if (this.endGame) {
+      HandleScore.duckDollars += HandleScore.totalCoins;
       return new Choose();
     }
     return this;
