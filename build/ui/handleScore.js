@@ -1,25 +1,25 @@
 export default class HandleScore {
-    height = 0;
-    distance = 0;
-    maxHeight = 0;
-    maxSpeed = 0;
-    bronzeCoins = 0;
-    silverCoins = 0;
-    goldCoins = 0;
-    totalCoins = 0;
-    enemiesHit = 0;
-    score = 0;
-    calculateDistances(xSpeed, height) {
+    static height = 0;
+    static distance = 0;
+    static maxHeight = 0;
+    static maxSpeed = 0;
+    static bronzeCoins = 0;
+    static silverCoins = 0;
+    static goldCoins = 0;
+    static totalCoins = 0;
+    static enemiesHit = 0;
+    static score = 0;
+    static calculateDistances(xSpeed, height) {
         this.distance += xSpeed / 150;
         this.height = height / 150;
         if (this.height >= this.maxHeight) {
             this.maxHeight = this.height;
         }
     }
-    calculateScore() {
+    static calculateScore() {
         this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
     }
-    addCoin(coinType) {
+    static addCoin(coinType) {
         if (coinType === 1) {
             this.bronzeCoins += 1;
         }

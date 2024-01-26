@@ -14,14 +14,11 @@ export default class HandleItems {
 
   public touchingGround: boolean;
 
-  private scoreHandler: HandleScore;
-
   public touchedGround: boolean = false;
 
-  public constructor(scoreHandler: HandleScore) {
+  public constructor() {
     this.backgrounds = [];
     this.items = [];
-    this.scoreHandler = scoreHandler;
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
     this.space = CanvasUtil.loadNewImage('./assets/space.png');
     this.touchingGround = false;
@@ -103,8 +100,8 @@ export default class HandleItems {
       if (CanvasUtil.collidesWith(player, item)) {
         this.items.splice(this.items.indexOf(item), 1);
         if (item instanceof Coin) {
-          this.scoreHandler.totalCoins += item.value;
-          this.scoreHandler.addCoin(item.coinType);
+          HandleScore.totalCoins += item.value;
+          HandleScore.addCoin(item.coinType);
         }
       }
     });

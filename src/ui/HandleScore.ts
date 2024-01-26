@@ -2,32 +2,32 @@ import Player from "../drawables/Player.js";
 import CanvasUtil from "../utilities/CanvasUtil.js";
 
 export default class HandleScore {
-  public height: number = 0;
+  public static height: number = 0;
 
-  public distance: number = 0;
+  public static distance: number = 0;
 
-  public maxHeight: number = 0;
+  public static maxHeight: number = 0;
 
-  public maxSpeed: number = 0;
+  public static maxSpeed: number = 0;
 
-  public bronzeCoins: number = 0;
+  public static bronzeCoins: number = 0;
 
-  public silverCoins: number = 0;
+  public static silverCoins: number = 0;
 
-  public goldCoins: number = 0;
+  public static goldCoins: number = 0;
 
-  public totalCoins: number = 0;
+  public static totalCoins: number = 0;
 
-  public enemiesHit: number = 0;
+  public static enemiesHit: number = 0;
 
-  public score: number = 0;
+  public static score: number = 0;
 
   /**
    * @param xSpeed is the xSpeed the horizontal distance the player flies each frame
    * @param ySpeed is the vertical distance the player flies each frame
    * @param height is the current height the player is at in pixels / 10
    */
-  public calculateDistances(xSpeed: number, height: number,) {
+  public static calculateDistances(xSpeed: number, height: number,) {
     this.distance += xSpeed / 150;
     this.height = height / 150;
     if (this.height >= this.maxHeight) {
@@ -41,7 +41,7 @@ export default class HandleScore {
    * @param distance the distance the player travelled
    * @param maxHeight the maximum height the player reached
    */
-  public calculateScore() {
+  public static calculateScore() {
     // the formula for calculating the score, basede on distance and height
     this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
   }
@@ -49,7 +49,7 @@ export default class HandleScore {
   /**
    * @param canvas the selected canvas the score is rendered to
    */
-  public addCoin(coinType: number) {
+  public static addCoin(coinType: number) {
     if (coinType === 1) {
       this.bronzeCoins += 1;
     } else if (coinType === 2) {
