@@ -18,6 +18,8 @@ export default class HandleScore {
 
   public static totalCoins: number = 0;
 
+  public static duckDollars: number = 0;
+
   public static enemiesHit: number = 0;
 
   public static score: number = 0;

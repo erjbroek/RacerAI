@@ -6,8 +6,8 @@ export default class StartingScene extends Scene {
     logo;
     startButton;
     title;
-    constructor(maxX, maxY) {
-        super(maxX, maxY);
+    constructor() {
+        super();
         this.logo = CanvasUtil.loadNewImage('./assets/introSceneBackground.png');
         this.title = CanvasUtil.loadNewImage('./assets/mainTitle.png');
         this.startButton = new StartButton();
@@ -17,7 +17,7 @@ export default class StartingScene extends Scene {
     }
     update(elapsed) {
         if (this.startButton.getReadyGame()) {
-            return new SelectAngle(window.innerWidth, window.innerHeight);
+            return new SelectAngle();
         }
         return null;
     }

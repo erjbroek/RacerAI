@@ -26,8 +26,8 @@ export default class SelectAngle extends Scene {
 
   private powerReady: boolean = false;
 
-  public constructor(maxX: number, maxY: number) {
-    super(maxX, maxY);
+  public constructor() {
+    super();
     this.player = new Player();
     this.backgrounds = [];
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
@@ -64,8 +64,6 @@ export default class SelectAngle extends Scene {
       this.totalTime += elapsed;
       if (this.totalTime >= 400) {
         return new Launch(
-          window.innerWidth,
-          window.innerHeight,
           this.launchAngle,
           this.launchPower,
         );
@@ -126,7 +124,7 @@ export default class SelectAngle extends Scene {
     CanvasUtil.drawLine(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, lineEndX, lineEndY, 'lightgreen');
 
     if (this.angleReady) {
-      CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, this.maxY / 10 - 280, 'red');
+      CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, window.innerHeight / 10 - 280, 'red');
       CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower, window.innerWidth / 50, this.launchPower, 'red');
     }
   }

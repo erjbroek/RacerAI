@@ -3,11 +3,12 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Finished {
     scoreHolder = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');
     processInput(keyListener, mouseListener) {
+        if (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || mouseListener.buttonPressed(0)) {
+            return true;
+        }
+        return false;
     }
-    update() {
-        return this;
-    }
-    render(canvas) {
+    endRound(canvas) {
         HandleScore.calculateScore();
         CanvasUtil.drawImage(canvas, this.scoreHolder, window.innerWidth / 3, window.innerHeight / 3);
         CanvasUtil.writeTextToCanvas(canvas, `Distance: ${(Math.round(HandleScore.distance * 10) / 10).toString()} meter`, window.innerWidth / 2.6, window.innerHeight / 2.3, 'left', 'arial', 20, 'black');

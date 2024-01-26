@@ -5,33 +5,25 @@ import KeyListener from '../utilities/KeyListener.js';
 import Scene from './Scene.js';
 
 export default class Finished {
-
   private scoreHolder: HTMLImageElement = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');
 
   /**
    * @param keyListener is used to check for keyboard inputs
    * @param mouseListener is used to check for mouse movements and inputs
+   * @returns if scene should end
    */
-  public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-
-  }
-
-  /**
-   * Update the scene based on the elapsed time.
-   *
-   * @returns The updated scene.
-   */
-  public update() {
-    return this;
+  public processInput(keyListener: KeyListener, mouseListener: MouseListener): boolean {
+    if (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || mouseListener.buttonPressed(0)) {
+      return true;
+    } return false;
   }
 
   /**
    * Render the scene.
    *
    * @param canvas the selected canvas the items are rendered to
-   * @param HandleScore handles everything that has to do with the stats/ score
    */
-  public render(canvas: HTMLCanvasElement): void {
+  public endRound(canvas: HTMLCanvasElement): void {
     HandleScore.calculateScore();
     CanvasUtil.drawImage(canvas, this.scoreHolder, window.innerWidth / 3, window.innerHeight / 3);
     CanvasUtil.writeTextToCanvas(canvas, `Distance: ${(Math.round(HandleScore.distance * 10) / 10).toString()} meter`, window.innerWidth / 2.6, window.innerHeight / 2.3, 'left', 'arial', 20, 'black');

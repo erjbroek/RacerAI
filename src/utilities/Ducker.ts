@@ -23,7 +23,7 @@ export default class Ducker extends Game {
     this.mouseListener = new MouseListener(canvas);
 
     // Set the starting scene
-    this.currentScene = new StartingScene(this.canvas.height, this.canvas.width);
+    this.currentScene = new StartingScene();
   }
 
   /**

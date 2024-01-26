@@ -6,6 +6,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleItems from '../ui/HandleItems.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
+import Choose from './Choose.js';
 
 export default class Launch extends Scene {
   private launchAngle: number;
@@ -22,10 +23,12 @@ export default class Launch extends Scene {
 
   private endScreen: Finished = new Finished();
 
+  private endGame: boolean = false;
+
   private gravity: number = 0.19;
 
-  public constructor(maxX: number, maxY: number, launchAngle: number, launchPower: number) {
-    super(maxX, maxY);
+  public constructor(launchAngle: number, launchPower: number) {
+    super();
     this.launchAngle = launchAngle;
     this.player.angle = this.launchAngle;
     this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
@@ -52,6 +55,9 @@ export default class Launch extends Scene {
         }
       }
     }
+    if (this.finishFlight) {
+      this.endGame = this.endScreen.processInput(keyListener, mouseListener);
+    }
   }
 
   /**
@@ -75,6 +81,9 @@ export default class Launch extends Scene {
     );
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
       this.finishFlight = true;
+    }
+    if (this.endGame) {
+      return new Choose();
     }
     return this;
   }
@@ -112,7 +121,7 @@ export default class Launch extends Scene {
     this.player.renderPower(canvas);
     CanvasUtil.writeTextToCanvas(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black')
     if (this.finishFlight) {
-      this.endScreen.render(canvas);
+      this.endScreen.endRound(canvas);
     }
   }
 }

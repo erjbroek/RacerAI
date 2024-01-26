@@ -15,7 +15,7 @@ export default class Ducker extends Game {
         this.canvas.width = window.innerWidth;
         this.keyListener = new KeyListener();
         this.mouseListener = new MouseListener(canvas);
-        this.currentScene = new StartingScene(this.canvas.height, this.canvas.width);
+        this.currentScene = new StartingScene();
     }
     processInput() {
         this.currentScene.processInput(this.keyListener, this.mouseListener);

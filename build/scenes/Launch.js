@@ -4,6 +4,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleItems from '../ui/HandleItems.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
+import Choose from './Choose.js';
 export default class Launch extends Scene {
     launchAngle;
     handleBackground = new HandleItems();
@@ -12,9 +13,10 @@ export default class Launch extends Scene {
     ySpeed;
     finishFlight = false;
     endScreen = new Finished();
+    endGame = false;
     gravity = 0.19;
-    constructor(maxX, maxY, launchAngle, launchPower) {
-        super(maxX, maxY);
+    constructor(launchAngle, launchPower) {
+        super();
         this.launchAngle = launchAngle;
         this.player.angle = this.launchAngle;
         this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
@@ -35,6 +37,9 @@ export default class Launch extends Scene {
                 }
             }
         }
+        if (this.finishFlight) {
+            this.endGame = this.endScreen.processInput(keyListener, mouseListener);
+        }
     }
     update(elapsed) {
         this.applyGravity();
@@ -48,6 +53,9 @@ export default class Launch extends Scene {
                     + this.handleBackground.backgrounds[0].image.height)));
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
             this.finishFlight = true;
+        }
+        if (this.endGame) {
+            return new Choose();
         }
         return this;
     }
@@ -77,7 +85,7 @@ export default class Launch extends Scene {
         this.player.renderPower(canvas);
         CanvasUtil.writeTextToCanvas(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
         if (this.finishFlight) {
-            this.endScreen.render(canvas);
+            this.endScreen.endRound(canvas);
         }
     }
 }
