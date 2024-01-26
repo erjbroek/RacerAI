@@ -1,8 +1,15 @@
 import MouseListener from '../ui/MouseListener.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import Scene from './Scene.js';
 
 export default class Choose extends Scene {
+  private background: HTMLImageElement;
+
+  private upgrade: HTMLImageElement;
+
+  private continue: HTMLImageElement;
+
   public constructor() {
     super();
   }
@@ -27,6 +34,6 @@ export default class Choose extends Scene {
    *@param canvas is the selected canvas the items should be rendered to
    */
   public render(canvas: HTMLCanvasElement): void {
-
+    CanvasUtil.fillCanvas(canvas, '#7cc7b9');
   }
 }

@@ -1,5 +1,9 @@
+import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
 export default class Choose extends Scene {
+    background;
+    upgrade;
+    continue;
     constructor() {
         super();
     }
@@ -9,6 +13,7 @@ export default class Choose extends Scene {
         return this;
     }
     render(canvas) {
+        CanvasUtil.fillCanvas(canvas, '#7cc7b9');
     }
 }
 //# sourceMappingURL=Choose.js.map
