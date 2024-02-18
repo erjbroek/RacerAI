@@ -1,17 +1,19 @@
 import Background from '../background items/Background.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Coin from '../drawables/Coin.js';
-export default class HandleItems {
+import HandleScore from './handleScore.js';
+import Tree from '../background items/Tree.js';
+export default class HandleBackground {
     space;
     backgrounds;
+    trees;
     items;
     touchingGround;
-    scoreHandler;
     touchedGround = false;
-    constructor(scoreHandler) {
+    constructor() {
         this.backgrounds = [];
         this.items = [];
-        this.scoreHandler = scoreHandler;
+        this.trees = [];
         this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
         this.space = CanvasUtil.loadNewImage('./assets/space.png');
         this.touchingGround = false;
@@ -33,7 +35,7 @@ export default class HandleItems {
                 background.move(xSpeed, ySpeed);
             });
             this.items.forEach((item) => {
-                item.move(xSpeed * 1.1, ySpeed * 1.1);
+                item.move(xSpeed * 1.2, ySpeed * 1.2);
             });
         }
         if (player.posY + player.image.height > window.innerHeight) {
@@ -50,9 +52,11 @@ export default class HandleItems {
                     + this.backgrounds[0].getWidth(), this.backgrounds[0].getPosY(), Math.random()));
             }
         }
-        if (this.items.filter((obj) => obj instanceof Coin).length < 6) {
-            this.items.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), (this.backgrounds[0].posY + this.backgrounds[0].image.height)
-                - Math.random() * (window.innerHeight * (4 / 3)) - window.innerHeight / 10));
+        while (this.items.filter((obj) => obj instanceof Coin).length < 15) {
+            this.items.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), (this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight())));
+        }
+        while (this.trees.filter((obj) => obj instanceof Tree).length < 5) {
+            this.trees.push(new Tree(window.innerWidth + window.innerWidth * Math.random(), (this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight())));
         }
     }
     removeUnusedItems() {
@@ -65,13 +69,14 @@ export default class HandleItems {
             this.backgrounds.splice(0, 1);
         }
     }
-    collision(player) {
+    collision(player, elapsed) {
         this.items.forEach((item) => {
             if (CanvasUtil.collidesWith(player, item)) {
-                this.items.splice(this.items.indexOf(item), 1);
                 if (item instanceof Coin) {
-                    this.scoreHandler.totalCoins += item.value;
+                    HandleScore.totalCoins += item.value;
+                    HandleScore.addCoin(item.coinType);
                 }
+                this.items.splice(this.items.indexOf(item), 1);
             }
         });
     }
@@ -79,10 +84,10 @@ export default class HandleItems {
         this.backgrounds.forEach((item) => {
             item.render(canvas);
         });
+        CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
         this.items.forEach((item) => {
             item.render(canvas);
         });
-        CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     }
 }
-//# sourceMappingURL=handleBackground.js.map
+//# sourceMappingURL=HandleBackground.js.map

@@ -3,15 +3,18 @@ import MouseListener from '../ui/MouseListener.js';
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import HandleItems from '../ui/HandleItems.js';
+import HandleBackground from '../ui/HandleBackground.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
 import Choose from './Choose.js';
+// import HandleItems from '../ui/HandleItems.js';
 
 export default class Launch extends Scene {
   private launchAngle: number;
 
-  private handleBackground: HandleItems = new HandleItems();
+  private handleBackground: HandleBackground = new HandleBackground();
+
+  // private handleItems: HandleItems = new HandleItems();
 
   private player: Player = new Player();
 
@@ -83,7 +86,6 @@ export default class Launch extends Scene {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
       this.finishFlight = true;
     }
-    console.log(HandleScore.totalCoins);
     if (this.endGame) {
       HandleScore.duckDollars += HandleScore.totalCoins;
       return new Choose();

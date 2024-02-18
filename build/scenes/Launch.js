@@ -1,13 +1,13 @@
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import HandleItems from '../ui/HandleItems.js';
+import HandleBackground from '../ui/HandleBackground.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
 import Choose from './Choose.js';
 export default class Launch extends Scene {
     launchAngle;
-    handleBackground = new HandleItems();
+    handleBackground = new HandleBackground();
     player = new Player();
     xSpeed;
     ySpeed;
@@ -55,7 +55,6 @@ export default class Launch extends Scene {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
             this.finishFlight = true;
         }
-        console.log(HandleScore.totalCoins);
         if (this.endGame) {
             HandleScore.duckDollars += HandleScore.totalCoins;
             return new Choose();
