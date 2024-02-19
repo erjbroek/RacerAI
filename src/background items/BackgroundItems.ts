@@ -9,7 +9,7 @@ export default abstract class BackgroundItems {
 
   protected angle: number;
 
-  public constructor(posX: number, posY: number) {
+  public constructor() {
     this.angle = 0;
   }
 

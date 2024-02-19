@@ -1,93 +1,66 @@
 import Background from '../background items/Background.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import Coin from '../drawables/Coin.js';
-import HandleScore from './handleScore.js';
 import Tree from '../background items/Tree.js';
+import HandleItems from './HandleItems.js';
 export default class HandleBackground {
-    space;
-    backgrounds;
-    trees;
-    items;
-    touchingGround;
-    touchedGround = false;
-    constructor() {
-        this.backgrounds = [];
-        this.items = [];
-        this.trees = [];
-        this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
-        this.space = CanvasUtil.loadNewImage('./assets/space.png');
-        this.touchingGround = false;
-    }
-    moveItems(player, xSpeed, ySpeed) {
+    static space = CanvasUtil.loadNewImage('./assets/space.png');
+    ;
+    static backgrounds = [];
+    static trees = [];
+    static touchingGround = false;
+    static touchedGround = false;
+    static moveScenery(player, xSpeed, ySpeed) {
         if (player.posY >= window.innerHeight / 2
-            || this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight() < window.innerHeight) {
-            this.backgrounds.forEach((background) => {
+            || HandleBackground.backgrounds[0].getPosY() + HandleBackground.backgrounds[0].getHeight() < window.innerHeight) {
+            HandleBackground.backgrounds.forEach((background) => {
                 background.move(xSpeed, 0);
                 background.setPosY(window.innerHeight - background.getHeight());
-            });
-            this.items.forEach((item) => {
-                item.move(xSpeed * 1.1, 0);
             });
             player.move(ySpeed);
         }
         else {
-            this.backgrounds.forEach((background) => {
+            HandleBackground.backgrounds.forEach((background) => {
                 background.move(xSpeed, ySpeed);
-            });
-            this.items.forEach((item) => {
-                item.move(xSpeed * 1.2, ySpeed * 1.2);
             });
         }
         if (player.posY + player.image.height > window.innerHeight) {
-            this.touchingGround = true;
+            HandleBackground.touchingGround = true;
         }
         else {
-            this.touchingGround = false;
+            HandleBackground.touchingGround = false;
         }
     }
-    addItems() {
-        if (this.backgrounds.length < 2) {
-            if (this.backgrounds[0].getPosX() + this.backgrounds[0].getWidth() <= window.innerWidth) {
-                this.backgrounds.push(new Background(this.backgrounds[0].getPosX()
-                    + this.backgrounds[0].getWidth(), this.backgrounds[0].getPosY(), Math.random()));
+    static addScenery() {
+        if (HandleBackground.backgrounds.length < 2) {
+            if (HandleBackground.backgrounds[0].getPosX() + HandleBackground.backgrounds[0].getWidth() <= window.innerWidth) {
+                HandleBackground.backgrounds.push(new Background(HandleBackground.backgrounds[0].getPosX()
+                    + HandleBackground.backgrounds[0].getWidth(), HandleBackground.backgrounds[0].getPosY(), Math.random()));
             }
         }
-        while (this.items.filter((obj) => obj instanceof Coin).length < 15) {
-            this.items.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), (this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight())));
-        }
-        while (this.trees.filter((obj) => obj instanceof Tree).length < 5) {
-            this.trees.push(new Tree(window.innerWidth + window.innerWidth * Math.random(), (this.backgrounds[0].getPosY() + this.backgrounds[0].getHeight())));
+        while (HandleBackground.trees.filter((obj) => obj instanceof Tree).length < 5) {
+            HandleBackground.trees.push(new Tree(window.innerWidth + window.innerWidth * Math.random(), (HandleBackground.backgrounds[0].getPosY() + HandleBackground.backgrounds[0].getHeight())));
         }
     }
-    removeUnusedItems() {
-        this.items.forEach((item) => {
-            if (item.posX <= -1000) {
-                this.items.splice(this.items.indexOf(item), 1);
-            }
-        });
-        if (this.backgrounds[0].getPosX() + this.backgrounds[0].getWidth() <= 0) {
-            this.backgrounds.splice(0, 1);
+    static removeUnusedScenery() {
+        if (HandleBackground.backgrounds[0].getPosX() + HandleBackground.backgrounds[0].getWidth() <= 0) {
+            HandleBackground.backgrounds.splice(0, 1);
         }
-    }
-    collision(player, elapsed) {
-        this.items.forEach((item) => {
-            if (CanvasUtil.collidesWith(player, item)) {
-                if (item instanceof Coin) {
-                    HandleScore.totalCoins += item.value;
-                    HandleScore.addCoin(item.coinType);
-                }
-                this.items.splice(this.items.indexOf(item), 1);
+        HandleBackground.trees.forEach((tree) => {
+            if (tree.posX <= -1000) {
+                HandleBackground.trees.splice(HandleBackground.trees.indexOf(tree), 1);
             }
         });
     }
-    render(canvas) {
-        this.backgrounds.forEach((item) => {
-            item.render(canvas);
+    static render(canvas, player) {
+        HandleBackground.backgrounds.forEach((background) => {
+            background.render(canvas);
         });
-        CanvasUtil.drawImage(canvas, this.space, 0, this.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
-        this.items.forEach((item) => {
-            item.render(canvas);
+        player.render(canvas);
+        HandleItems.render(canvas);
+        HandleBackground.trees.forEach((tree) => {
+            tree.render(canvas);
         });
+        CanvasUtil.drawImage(canvas, HandleBackground.space, 0, HandleBackground.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     }
 }
 //# sourceMappingURL=HandleBackground.js.map

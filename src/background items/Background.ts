@@ -3,7 +3,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 
 export default class Background extends BackgroundItems {
   public constructor(posX: number, posY: number, random: number) {
-    super(posX, posY);
+    super();
     if (random <= 0.15) {
       this.image = CanvasUtil.loadNewImage('./assets/backMountains.png');
     } else if (random <= 0.4) {

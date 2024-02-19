@@ -2,7 +2,7 @@ import BackgroundItems from './BackgroundItems.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Background extends BackgroundItems {
     constructor(posX, posY, random) {
-        super(posX, posY);
+        super();
         if (random <= 0.15) {
             this.image = CanvasUtil.loadNewImage('./assets/backMountains.png');
         }

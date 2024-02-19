@@ -1,13 +1,16 @@
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import HandleBackground from '../ui/HandleBackground.js';
+import HandleScenery from '../ui/HandleScenery.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/handleScore.js';
 import Choose from './Choose.js';
+import HandleItems from '../ui/HandleItems.js';
+import Background from '../background items/Background.js';
 export default class Launch extends Scene {
     launchAngle;
-    handleBackground = new HandleBackground();
+    handleScenery = new HandleScenery();
+    handleItems = new HandleItems();
     player = new Player();
     xSpeed;
     ySpeed;
@@ -21,10 +24,11 @@ export default class Launch extends Scene {
         this.player.angle = this.launchAngle;
         this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
+        HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
         HandleScore.resetRound();
     }
     processInput(keyListener, mouseListener) {
-        if (!this.handleBackground.touchingGround && !(Math.abs(this.xSpeed) <= 8 && this.player.touchedGround)) {
+        if (!HandleScenery.touchingGround && !(Math.abs(this.xSpeed) <= 8 && this.player.touchedGround)) {
             if (this.player.energy > 0) {
                 if (keyListener.isKeyDown('KeyA')) {
                     this.ySpeed -= 0.24 * (this.xSpeed / 9);
@@ -44,14 +48,17 @@ export default class Launch extends Scene {
     }
     update(elapsed) {
         this.applyGravity();
-        this.handleBackground.addItems();
-        this.handleBackground.removeUnusedItems();
-        this.handleBackground.collision(this.player, elapsed);
-        this.handleBackground.moveItems(this.player, this.xSpeed, this.ySpeed);
+        HandleScenery.addScenery();
+        HandleScenery.removeUnusedScenery();
+        HandleScenery.moveScenery(this.player, this.xSpeed, this.ySpeed);
+        HandleItems.addItems();
+        HandleItems.removeUnusedItems();
+        HandleItems.collision(this.player);
+        HandleItems.moveItems(this.player, this.xSpeed, this.ySpeed);
         HandleScore.calculateDistances(this.xSpeed, (window.innerHeight - this.player.posY - this.player.image.height)
             - (window.innerHeight
-                - (this.handleBackground.backgrounds[0].posY
-                    + this.handleBackground.backgrounds[0].image.height)));
+                - (HandleScenery.backgrounds[0].posY
+                    + HandleScenery.backgrounds[0].image.height)));
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.1) {
             this.finishFlight = true;
         }
@@ -62,7 +69,7 @@ export default class Launch extends Scene {
         return this;
     }
     applyGravity() {
-        if (this.handleBackground.touchingGround) {
+        if (HandleScenery.touchingGround) {
             this.player.posY = window.innerHeight - this.player.image.height;
             this.ySpeed *= -0.5;
             this.xSpeed *= 0.6;
@@ -82,8 +89,7 @@ export default class Launch extends Scene {
     }
     render(canvas) {
         CanvasUtil.fillCanvas(canvas, 'Black');
-        this.handleBackground.render(canvas);
-        this.player.render(canvas);
+        HandleScenery.render(canvas, this.player);
         this.player.renderPower(canvas);
         CanvasUtil.writeTextToCanvas(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
         if (this.finishFlight) {

@@ -4,7 +4,7 @@ export default class BackgroundItems {
     posX;
     posY;
     angle;
-    constructor(posX, posY) {
+    constructor() {
         this.angle = 0;
     }
     move(xSpeed, ySpeed) {
