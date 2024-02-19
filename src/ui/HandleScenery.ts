@@ -89,11 +89,18 @@ export default class HandleScenery {
     HandleScenery.backgrounds.forEach((background) => {
       background.render(canvas);
     });
+    CanvasUtil.drawImage(canvas, HandleScenery.space, 0, HandleScenery.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
     player.render(canvas);
     HandleItems.render(canvas);
     HandleScenery.trees.forEach((tree) => {
       tree.render(canvas);
     });
-    CanvasUtil.drawImage(canvas, HandleScenery.space, 0, HandleScenery.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
+  }
+
+  public static reset() {
+    HandleScenery.trees = [];
+    HandleScenery.backgrounds = [];
+    HandleScenery.touchedGround = false;
+    HandleScenery.touchingGround = false;
   }
 }

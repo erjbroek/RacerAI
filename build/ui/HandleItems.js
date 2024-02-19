@@ -50,5 +50,8 @@ export default class HandleItems {
             coin.render(canvas);
         });
     }
+    static reset() {
+        HandleItems.coins = [];
+    }
 }
 //# sourceMappingURL=HandleItems.js.map

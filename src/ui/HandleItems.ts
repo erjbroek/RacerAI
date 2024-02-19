@@ -81,4 +81,8 @@ export default class HandleItems {
       coin.render(canvas);
     });
   }
+
+  public static reset() {
+    HandleItems.coins = [];
+  }
 }
