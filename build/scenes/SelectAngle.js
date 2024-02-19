@@ -37,7 +37,7 @@ export default class SelectAngle extends Scene {
         if (this.powerReady) {
             this.totalTime += elapsed;
             if (this.totalTime >= 400) {
-                return new Launch(this.launchAngle, this.launchPower);
+                return new Launch(this.launchAngle, this.launchPower * 1.3);
             }
         }
         return null;

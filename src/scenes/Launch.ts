@@ -110,6 +110,9 @@ export default class Launch extends Scene {
       this.player.touchedGround = true;
     } else {
       this.ySpeed += this.gravity;
+      if (this.xSpeed >= 0.03) {
+        this.xSpeed -= 0.03;
+      }
       if (Math.abs(this.xSpeed) <= 8 && this.player.touchedGround) {
         this.player.rotate();
       } else {

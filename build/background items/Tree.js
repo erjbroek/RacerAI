@@ -16,7 +16,7 @@ export default class Tree extends BackgroundItems {
         }
         else {
             this.image = CanvasUtil.loadNewImage('./assets/tree3.png');
-            this.image.width *= 1.4;
+            this.image.width *= 1.1;
             this.image.height *= 1.4;
         }
         this.posX = posX;
