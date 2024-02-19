@@ -34,7 +34,7 @@ export default class HandleScenery {
         background.setPosY(window.innerHeight - background.getHeight());
       });
       HandleScenery.trees.forEach((tree) => {
-        tree.move(xSpeed * 1.5, 0);
+        tree.move(xSpeed * 1.3, 0);
       });
     } else {
       // just the background moves
@@ -42,7 +42,7 @@ export default class HandleScenery {
         background.move(xSpeed, ySpeed);
       });
       HandleScenery.trees.forEach((tree) => {
-        tree.move(xSpeed * 1.5, ySpeed);
+        tree.move(xSpeed * 1.3, ySpeed);
       });
     }
   }
