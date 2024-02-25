@@ -8,13 +8,13 @@ export default class HandleItems {
         if (player.posY >= window.innerHeight / 2
             || HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight() < window.innerHeight) {
             HandleItems.coins.forEach((coin) => {
-                coin.move(xSpeed * 1.1, 0);
+                coin.move(xSpeed * 1.25, 0);
             });
             player.move(ySpeed);
         }
         else {
             HandleItems.coins.forEach((coin) => {
-                coin.move(xSpeed * 1.2, ySpeed * 1.2);
+                coin.move(xSpeed * 1.25, ySpeed * 1.25);
             });
         }
         if (player.posY + player.image.height > window.innerHeight) {
@@ -26,7 +26,7 @@ export default class HandleItems {
     }
     static addItems() {
         while (HandleItems.coins.filter((obj) => obj instanceof Coin).length < 15) {
-            HandleItems.coins.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight())));
+            HandleItems.coins.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 70));
         }
     }
     static removeUnusedItems() {

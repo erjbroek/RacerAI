@@ -2,7 +2,6 @@ import MouseListener from '../ui/MouseListener.js';
 import HandleScore from '../ui/handleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
-import Scene from './Scene.js';
 
 export default class Finished {
   private scoreHolder: HTMLImageElement = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');

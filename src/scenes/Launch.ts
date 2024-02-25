@@ -13,10 +13,6 @@ import Background from '../background items/Background.js';
 export default class Launch extends Scene {
   private launchAngle: number;
 
-  private handleScenery: HandleScenery = new HandleScenery();
-
-  private handleItems: HandleItems = new HandleItems();
-
   private player: Player = new Player();
 
   private xSpeed: number;
@@ -35,9 +31,6 @@ export default class Launch extends Scene {
     super();
     this.launchAngle = launchAngle;
     this.player.angle = this.launchAngle;
-    HandleScore.resetRound();
-    HandleItems.reset();
-    HandleScenery.reset();
     this.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
     HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));

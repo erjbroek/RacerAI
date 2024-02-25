@@ -6,6 +6,9 @@ import Player from '../drawables/Player.js';
 import Launch from './Launch.js';
 import BackgroundItems from '../background items/BackgroundItems.js';
 import Background from '../background items/Background.js';
+import HandleScenery from '../ui/HandleScenery.js';
+import GrassDark from '../background items/GrassDark.js';
+import GrassLight from '../background items/GrassLight.js';
 
 export default class SelectAngle extends Scene {
   private player: Player;
@@ -31,6 +34,8 @@ export default class SelectAngle extends Scene {
     this.player = new Player();
     this.backgrounds = [];
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
+    HandleScenery.grassDark.push(new GrassDark(0, window.innerHeight - 80));
+    HandleScenery.grassLight.push(new GrassLight(0, window.innerHeight - 100));
   }
 
   /**
@@ -111,8 +116,14 @@ export default class SelectAngle extends Scene {
     this.backgrounds.forEach((background) => {
       background.render(canvas);
     });
-
+    HandleScenery.grassLight.forEach((grass) => {
+      grass.render(canvas);
+    });
     this.player.render(canvas);
+    HandleScenery.grassDark.forEach((grass) => {
+      grass.render(canvas);
+    });
+
 
     CanvasUtil.drawCircle(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, window.innerHeight / 5, 'lightgreen');
 

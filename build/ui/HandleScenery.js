@@ -2,11 +2,15 @@ import Background from '../background items/Background.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Tree from '../background items/Tree.js';
 import HandleItems from './HandleItems.js';
+import GrassDark from '../background items/GrassDark.js';
+import GrassLight from '../background items/GrassLight.js';
 export default class HandleScenery {
     static space = CanvasUtil.loadNewImage('./assets/space.png');
     ;
     static backgrounds = [];
     static trees = [];
+    static grassDark = [];
+    static grassLight = [];
     static touchingGround = false;
     static touchedGround = false;
     static moveScenery(player, xSpeed, ySpeed) {
@@ -17,7 +21,13 @@ export default class HandleScenery {
                 background.setPosY(window.innerHeight - background.getHeight());
             });
             HandleScenery.trees.forEach((tree) => {
-                tree.move(xSpeed * 1.3, 0);
+                tree.move(xSpeed * 1.32, 0);
+            });
+            HandleScenery.grassDark.forEach((grass) => {
+                grass.move(xSpeed * 1.28, 0);
+            });
+            HandleScenery.grassLight.forEach((grass) => {
+                grass.move(xSpeed * 1.22, 0);
             });
         }
         else {
@@ -25,19 +35,30 @@ export default class HandleScenery {
                 background.move(xSpeed, ySpeed);
             });
             HandleScenery.trees.forEach((tree) => {
-                tree.move(xSpeed * 1.3, ySpeed);
+                tree.move(xSpeed * 1.32, ySpeed);
+            });
+            HandleScenery.grassDark.forEach((grass) => {
+                grass.move(xSpeed * 1.28, ySpeed);
+            });
+            HandleScenery.grassLight.forEach((grass) => {
+                grass.move(xSpeed * 1.22, ySpeed);
             });
         }
     }
     static addScenery() {
         if (HandleScenery.backgrounds.length < 2) {
             if (HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth() <= window.innerWidth) {
-                HandleScenery.backgrounds.push(new Background(HandleScenery.backgrounds[0].getPosX()
-                    + HandleScenery.backgrounds[0].getWidth(), HandleScenery.backgrounds[0].getPosY(), Math.random()));
+                HandleScenery.backgrounds.push(new Background(HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth(), HandleScenery.backgrounds[0].getPosY(), Math.random()));
             }
         }
-        while (HandleScenery.trees.filter((obj) => obj instanceof Tree).length < 2) {
+        while (HandleScenery.trees.length < 2) {
             HandleScenery.trees.push(new Tree(window.innerWidth + window.innerWidth * Math.random(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight())));
+        }
+        while (HandleScenery.grassDark.length < 3) {
+            HandleScenery.grassDark.push(new GrassDark(HandleScenery.grassDark[0].getPosX() + HandleScenery.grassDark[0].getWidth(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 80));
+        }
+        while (HandleScenery.grassLight.length < 3) {
+            HandleScenery.grassLight.push(new GrassLight(HandleScenery.grassLight[0].getPosX() + HandleScenery.grassLight[0].getWidth(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 100));
         }
     }
     static removeUnusedScenery() {
@@ -49,14 +70,30 @@ export default class HandleScenery {
                 HandleScenery.trees.splice(HandleScenery.trees.indexOf(tree), 1);
             }
         });
+        HandleScenery.grassDark.forEach((grass) => {
+            if (grass.getPosX() + grass.getWidth() <= 0) {
+                HandleScenery.grassDark.splice(HandleScenery.grassDark.indexOf(grass), 1);
+            }
+        });
+        HandleScenery.grassLight.forEach((grass) => {
+            if (grass.getPosX() + grass.getWidth() <= 0) {
+                HandleScenery.grassLight.splice(HandleScenery.grassLight.indexOf(grass), 1);
+            }
+        });
     }
     static render(canvas, player) {
         HandleScenery.backgrounds.forEach((background) => {
             background.render(canvas);
         });
         CanvasUtil.drawImage(canvas, HandleScenery.space, 0, HandleScenery.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
+        HandleScenery.grassLight.forEach((grass) => {
+            grass.render(canvas);
+        });
         player.render(canvas);
         HandleItems.render(canvas);
+        HandleScenery.grassDark.forEach((grass) => {
+            grass.render(canvas);
+        });
         HandleScenery.trees.forEach((tree) => {
             tree.render(canvas);
         });
@@ -64,6 +101,8 @@ export default class HandleScenery {
     static reset() {
         HandleScenery.trees = [];
         HandleScenery.backgrounds = [];
+        HandleScenery.grassDark = [];
+        HandleScenery.grassLight = [];
         HandleScenery.touchedGround = false;
         HandleScenery.touchingGround = false;
     }

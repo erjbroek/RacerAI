@@ -1,3 +1,5 @@
+import HandleItems from '../ui/HandleItems.js';
+import HandleScenery from '../ui/HandleScenery.js';
 import HandleScore from '../ui/handleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
@@ -11,6 +13,9 @@ export default class Choose extends Scene {
     constructor() {
         super();
         this.logo = CanvasUtil.loadNewImage('./assets/mainTitle.png');
+        HandleScore.resetRound();
+        HandleItems.reset();
+        HandleScenery.reset();
     }
     processInput(keyListener, mouseListener) {
         if (keyListener.isKeyDown('Escape')) {
