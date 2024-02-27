@@ -21,13 +21,15 @@ export default class HandleScenery {
                 background.setPosY(window.innerHeight - background.getHeight());
             });
             HandleScenery.trees.forEach((tree) => {
-                tree.move(xSpeed * 1.32, 0);
+                tree.move(xSpeed * 1.38, 0);
             });
             HandleScenery.grassDark.forEach((grass) => {
-                grass.move(xSpeed * 1.28, 0);
+                grass.move(xSpeed * 1.32, 0);
+                grass.posY = window.innerHeight - grass.getHeight();
             });
             HandleScenery.grassLight.forEach((grass) => {
                 grass.move(xSpeed * 1.22, 0);
+                grass.posY = window.innerHeight - grass.getHeight() - 20;
             });
         }
         else {
@@ -35,10 +37,10 @@ export default class HandleScenery {
                 background.move(xSpeed, ySpeed);
             });
             HandleScenery.trees.forEach((tree) => {
-                tree.move(xSpeed * 1.32, ySpeed);
+                tree.move(xSpeed * 1.38, ySpeed);
             });
             HandleScenery.grassDark.forEach((grass) => {
-                grass.move(xSpeed * 1.28, ySpeed);
+                grass.move(xSpeed * 1.32, ySpeed);
             });
             HandleScenery.grassLight.forEach((grass) => {
                 grass.move(xSpeed * 1.22, ySpeed);
@@ -54,15 +56,15 @@ export default class HandleScenery {
         while (HandleScenery.trees.length < 2) {
             HandleScenery.trees.push(new Tree(window.innerWidth + window.innerWidth * Math.random(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight())));
         }
-        while (HandleScenery.grassDark.length < 3) {
-            HandleScenery.grassDark.push(new GrassDark(HandleScenery.grassDark[0].getPosX() + HandleScenery.grassDark[0].getWidth(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 80));
+        while (HandleScenery.grassDark.length < 5) {
+            HandleScenery.grassDark.push(new GrassDark(HandleScenery.grassDark[HandleScenery.grassDark.length - 1].getPosX() + HandleScenery.grassDark[0].getWidth(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 80));
         }
-        while (HandleScenery.grassLight.length < 3) {
-            HandleScenery.grassLight.push(new GrassLight(HandleScenery.grassLight[0].getPosX() + HandleScenery.grassLight[0].getWidth(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 100));
+        while (HandleScenery.grassLight.length < 5) {
+            HandleScenery.grassLight.push(new GrassLight(HandleScenery.grassLight[HandleScenery.grassLight.length - 1].getPosX() + HandleScenery.grassLight[0].getWidth(), (HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight()) - 100));
         }
     }
     static removeUnusedScenery() {
-        if (HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth() <= 0) {
+        if (HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth() <= -1000) {
             HandleScenery.backgrounds.splice(0, 1);
         }
         HandleScenery.trees.forEach((tree) => {

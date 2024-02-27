@@ -36,6 +36,8 @@ export default class SelectAngle extends Scene {
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
     HandleScenery.grassDark.push(new GrassDark(0, window.innerHeight - 80));
     HandleScenery.grassLight.push(new GrassLight(0, window.innerHeight - 100));
+    HandleScenery.grassDark.push(new GrassDark(HandleScenery.grassLight[0].getWidth(), window.innerHeight - 80));
+    HandleScenery.grassLight.push(new GrassLight(HandleScenery.grassDark[0].getWidth(), window.innerHeight - 100));
   }
 
   /**
