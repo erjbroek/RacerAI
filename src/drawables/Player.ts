@@ -10,19 +10,27 @@ export default class Player extends Drawable {
 
   public energy: number;
 
+  public boost: number;
+
+  public totalBoost: number;
+
+  public boostPower: number;
+
+  public boostEfficiency: number;
+
   public constructor() {
     super();
     this.image = CanvasUtil.loadNewImage('./assets/player.png');
-    this.totalEnergy = 150;
-    this.energy = 150;
+    this.totalEnergy = 200;
+    this.energy = 200;
+    this.totalBoost = 150;
+    this.boost = this.totalBoost;
+    this.boostPower = 0.1;
 
-    // setting properties of the image, such as position and width.
-
-    // using window.innerWidth / x, so that the image and it's position are
     this.image.width = window.innerWidth / 15;
     this.image.height = window.innerWidth / 15;
     this.posX = window.innerWidth / 10 - this.image.width / 2;
-    this.posY = window.innerHeight / 1.1 - this.image.height / 2.05;
+    this.posY = window.innerHeight / 1.1 - this.image.height / 3;
   }
 
   /**
@@ -39,6 +47,20 @@ export default class Player extends Drawable {
    */
   public rotate() {
     this.angle += this.rotationSpeed;
+  }
+
+  /**
+   * @param xSpeed is the horizontal speed of the player
+   * @param ySpeed is the vertical speed of the player
+   * @returns array with xSpeed and ySpeed
+   */
+  public activateBoost(xSpeed: number, ySpeed: number) {
+    if (this.boost > 0) {
+      const addedX = this.boostPower;
+      const addedY = this.boostPower;
+      this.boost -= 1 / (this.totalBoost / 100);
+      return [xSpeed + addedX, ySpeed + addedY];
+    } return [xSpeed, ySpeed];
   }
 
   /**
@@ -59,8 +81,12 @@ export default class Player extends Drawable {
    */
   public renderPower(canvas: HTMLCanvasElement) {
     if (this.energy > 0) {
-      CanvasUtil.drawRectangle(canvas, this.posX, this.posY - canvas.width / 50, this.image.width + 2 * (this.posX - canvas.width / 15), canvas.height / 100, 'red');
-      CanvasUtil.fillRectangle(canvas, this.posX, this.posY - canvas.width / 50, (this.image.width + 2 * (this.posX - canvas.width / 15)) * (this.energy / this.totalEnergy), canvas.height / 100, 'red');
+      CanvasUtil.drawRectangle(canvas, this.posX, this.posY - canvas.width / 50, this.image.width + 2 * (this.posX - canvas.width / 15), canvas.height / 100, 'green');
+      CanvasUtil.fillRectangle(canvas, this.posX, this.posY - canvas.width / 50, (this.image.width + 2 * (this.posX - canvas.width / 15)) * (this.energy / this.totalEnergy), canvas.height / 100, 'green');
+    }
+    if (this.boost > 0) {
+      CanvasUtil.drawRectangle(canvas, this.posX, this.posY - canvas.width / 30, this.image.width + 2 * (this.posX - canvas.width / 15), canvas.height / 100, 'red');
+      CanvasUtil.fillRectangle(canvas, this.posX, this.posY - canvas.width / 30, (this.image.width + 2 * (this.posX - canvas.width / 15)) * (this.boost / this.totalBoost), canvas.height / 100, 'red');
     }
   }
 }

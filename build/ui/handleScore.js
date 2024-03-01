@@ -11,8 +11,8 @@ export default class HandleScore {
     static enemiesHit = 0;
     static score = 0;
     static calculateDistances(xSpeed, height) {
-        this.distance += xSpeed / 150;
-        this.height = height / 150;
+        this.distance += xSpeed / 200;
+        this.height = height / 200;
         if (this.height >= this.maxHeight) {
             this.maxHeight = this.height;
         }

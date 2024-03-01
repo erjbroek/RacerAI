@@ -47,13 +47,19 @@ export default class Launch extends Scene {
       if (this.player.energy > 0) {
         if (keyListener.isKeyDown('KeyA')) {
           this.ySpeed -= 0.24 * (this.xSpeed / 9);
-          this.xSpeed += this.ySpeed > 0 ? 0.13 : -0.21;
-          this.player.energy -= 1;
+          this.xSpeed += this.ySpeed > 0 ? 0.13 : -0.13;
+          this.player.energy -= 0.5;
         } else if (keyListener.isKeyDown('KeyD')) {
           this.ySpeed += 0.05 * (this.xSpeed / 9);
-          this.xSpeed -= this.ySpeed > 0 ? 0.13 : -0.07;
-          this.player.energy -= 1;
+          this.xSpeed -= this.ySpeed > 0 ? 0.13 : -0.13;
+          this.player.energy -= 0.5;
         }
+      }
+    }
+    if (!HandleScenery.touchingGround) {
+      if (keyListener.isKeyDown('Space')) {
+        this.xSpeed = this.player.activateBoost(this.xSpeed, this.ySpeed)[0];
+        this.ySpeed = this.player.activateBoost(this.xSpeed, this.ySpeed)[1];
       }
     }
     if (this.finishFlight) {
@@ -106,7 +112,8 @@ export default class Launch extends Scene {
     } else {
       this.ySpeed += this.gravity;
       if (this.xSpeed >= 0.03) {
-        this.xSpeed -= 0.03;
+        this.xSpeed -= 0.03 * (this.xSpeed / 15);
+        this.ySpeed -= 0.03 * (this.ySpeed / 15);
       }
       if (Math.abs(this.xSpeed) <= 8 && this.player.touchedGround) {
         this.player.rotate();
@@ -127,6 +134,7 @@ export default class Launch extends Scene {
     HandleScenery.render(canvas, this.player);
     this.player.renderPower(canvas);
     CanvasUtil.writeTextToCanvas(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black')
+    CanvasUtil.writeTextToCanvas(canvas, `speed: ${Math.round(this.xSpeed)}`, window.innerWidth / 50, window.innerHeight / 20, 'left', 'arial', 20, 'black')
     if (this.finishFlight) {
       this.endScreen.endRound(canvas);
     }
