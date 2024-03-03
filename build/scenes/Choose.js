@@ -4,28 +4,34 @@ import HandleScore from '../ui/handleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
 import SelectAngle from './SelectAngle.js';
+import Shop from './shop.js';
 export default class Choose extends Scene {
     logo;
     upgrade;
     continue;
-    goUpgrade = false;
+    goShop = false;
     startRound = false;
     constructor() {
         super();
         this.logo = CanvasUtil.loadNewImage('./assets/mainTitle.png');
-        HandleScore.resetRound();
+        HandleScore.reset();
         HandleItems.reset();
         HandleScenery.reset();
     }
     processInput(keyListener, mouseListener) {
-        if (keyListener.isKeyDown('Escape')) {
-            HandleScore.resetRound();
+        if (keyListener.isKeyDown('KeyL')) {
             this.startRound = true;
+        }
+        else if (keyListener.isKeyDown('KeyS')) {
+            this.goShop = true;
         }
     }
     update(elapsed) {
         if (this.startRound) {
             return new SelectAngle();
+        }
+        if (this.goShop) {
+            return new Shop();
         }
         return this;
     }

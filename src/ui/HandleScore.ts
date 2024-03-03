@@ -37,7 +37,7 @@ export default class HandleScore {
     }
   }
 
-  public static resetRound() {
+  public static reset() {
     this.height = 0;
     this.distance = 0;
     this.maxHeight = 0;
@@ -57,7 +57,7 @@ export default class HandleScore {
    * @param maxHeight the maximum height the player reached
    */
   public static calculateScore() {
-    // the formula for calculating the score, basede on distance and height
+    // the formula for calculating the score, based on distance and height
     this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
   }
 

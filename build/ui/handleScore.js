@@ -17,7 +17,7 @@ export default class HandleScore {
             this.maxHeight = this.height;
         }
     }
-    static resetRound() {
+    static reset() {
         this.height = 0;
         this.distance = 0;
         this.maxHeight = 0;
