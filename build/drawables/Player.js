@@ -9,14 +9,16 @@ export default class Player extends Drawable {
     totalBoost;
     boostPower;
     boostEfficiency;
+    xSpeed;
+    ySpeed;
     constructor() {
         super();
         this.image = CanvasUtil.loadNewImage('./assets/player.png');
         this.totalEnergy = 200;
         this.energy = 200;
-        this.totalBoost = 150;
+        this.totalBoost = 100;
         this.boost = this.totalBoost;
-        this.boostPower = 0.1;
+        this.boostPower = 1;
         this.image.width = window.innerWidth / 15;
         this.image.height = window.innerWidth / 15;
         this.posX = window.innerWidth / 10 - this.image.width / 2;
@@ -30,8 +32,8 @@ export default class Player extends Drawable {
     }
     activateBoost(xSpeed, ySpeed) {
         if (this.boost > 0) {
-            const addedX = this.boostPower;
-            const addedY = this.boostPower;
+            const addedX = xSpeed * (this.boostPower / 100);
+            const addedY = ySpeed * (this.boostPower / 100);
             this.boost -= 1 / (this.totalBoost / 100);
             return [xSpeed + addedX, ySpeed + addedY];
         }

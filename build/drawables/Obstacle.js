@@ -3,10 +3,17 @@ export default class Obstacle extends Drawable {
     speedModifierX;
     speedModifierY;
     scoreMultipler;
-    constructor() {
-        super();
-        this.posX = 500;
-        this.posY = 500;
+    move(xSpeed, ySpeed) {
+        this.posX -= xSpeed;
+        this.posY -= ySpeed;
+    }
+    collides(player) {
+        player.xSpeed -= this.speedModifierX;
+        player.ySpeed -= this.speedModifierY;
+    }
+    bounce(player) {
+        player.ySpeed *= -1;
+        player.ySpeed -= this.speedModifierY;
     }
 }
 //# sourceMappingURL=Obstacle.js.map
