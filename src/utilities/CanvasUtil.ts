@@ -1,6 +1,6 @@
 import Drawable from '../drawables/Drawable.js';
 import Player from '../drawables/Player.js';
-import MouseListener from '../ui/MouseListener.js';
+import MouseListener from './MouseListener.js';
 
 /**
  * Helper utlity class for working with the HTML Canvas Element.

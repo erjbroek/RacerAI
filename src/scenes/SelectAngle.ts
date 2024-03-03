@@ -1,6 +1,6 @@
 import Scene from './Scene.js';
 import KeyListener from '../utilities/KeyListener.js';
-import MouseListener from '../ui/MouseListener.js';
+import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Player from '../drawables/Player.js';
 import Launch from './Launch.js';

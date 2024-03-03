@@ -1,7 +1,7 @@
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import SelectAngle from './SelectAngle.js';
-import StartButton from '../ui/StartButton.js';
+import StartButton from '../background items/StartButton.js';
 export default class StartingScene extends Scene {
     logo;
     startButton;

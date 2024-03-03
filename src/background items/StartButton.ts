@@ -1,7 +1,7 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Drawable from '../drawables/Drawable.js';
 import KeyListener from '../utilities/KeyListener.js';
-import MouseListener from './MouseListener.js';
+import MouseListener from '../utilities/MouseListener.js';
 
 export default class StartButton extends Drawable {
   private hover: boolean;

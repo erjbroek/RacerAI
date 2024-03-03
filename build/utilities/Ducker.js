@@ -1,7 +1,7 @@
 import { Game } from './GameLoop.js';
 import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
-import MouseListener from '../ui/MouseListener.js';
+import MouseListener from './MouseListener.js';
 import StartingScene from '../scenes/StartingScene.js';
 export default class Ducker extends Game {
     canvas;

@@ -1,5 +1,5 @@
 import KeyListener from '../utilities/KeyListener.js';
-import MouseListener from '../ui/MouseListener.js';
+import MouseListener from '../utilities/MouseListener.js';
 
 export default abstract class Scene {
 
