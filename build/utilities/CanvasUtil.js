@@ -57,10 +57,10 @@ export default class CanvasUtil {
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.stroke();
     }
-    static drawRectangle(canvas, dx, dy, width, height, color = 'red') {
+    static drawRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.rect(dx, dy, width, height);
         ctx.stroke();
     }
@@ -79,7 +79,7 @@ export default class CanvasUtil {
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.fill();
     }
-    static fillRectangle(canvas, dx, dy, width, height, color = 'red', red = 255, green = 255, blue = 255, opacity = 1) {
+    static fillRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
