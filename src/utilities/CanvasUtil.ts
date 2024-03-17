@@ -263,12 +263,15 @@ export default class CanvasUtil {
     width: number,
     height: number,
     color: string = 'red',
+    red: number = 255,
+    green: number = 255,
+    blue: number = 255,
+    opacity: number = 1,
   ): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
-    ctx.fillStyle = color;
-    ctx.rect(dx, dy, width, height);
-    ctx.fill();
+    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+    ctx.fillRect(dx, dy, width, height);
   }
 
   /**

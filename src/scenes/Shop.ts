@@ -40,7 +40,7 @@ export default class Shop extends Scene {
 
   public render(canvas: HTMLCanvasElement): void {
     CanvasUtil.drawImage(canvas, this.backgroundImage, 0, 0, canvas.width, canvas.height, 0);
-    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 10, canvas.height / 10, 'lightlue');
-    CanvasUtil.writeTextToCanvas(canvas, `Duck dollars: ${HandleScore.duckDollars} $`, 20, 20, 'left', 'arial', 20, 'white');
+    CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 10, canvas.width / 1.25, canvas.height / 1.25, 'lightlue', 255, 255, 255, 0.6);
+    CanvasUtil.writeTextToCanvas(canvas, `Duck dollars: ${HandleScore.duckDollars} $`, 20, 20, 'left', 'arial', 20, 'black');
   }
 }

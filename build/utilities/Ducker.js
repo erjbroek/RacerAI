@@ -2,7 +2,7 @@ import { Game } from './GameLoop.js';
 import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
-import StartingScene from '../scenes/StartingScene.js';
+import Shop from '../scenes/shop.js';
 export default class Ducker extends Game {
     canvas;
     keyListener;
@@ -15,7 +15,7 @@ export default class Ducker extends Game {
         this.canvas.width = window.innerWidth;
         this.keyListener = new KeyListener();
         this.mouseListener = new MouseListener(canvas);
-        this.currentScene = new StartingScene();
+        this.currentScene = new Shop();
     }
     processInput() {
         this.currentScene.processInput(this.keyListener, this.mouseListener);

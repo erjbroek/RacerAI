@@ -79,12 +79,11 @@ export default class CanvasUtil {
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.fill();
     }
-    static fillRectangle(canvas, dx, dy, width, height, color = 'red') {
+    static fillRectangle(canvas, dx, dy, width, height, color = 'red', red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
-        ctx.fillStyle = color;
-        ctx.rect(dx, dy, width, height);
-        ctx.fill();
+        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+        ctx.fillRect(dx, dy, width, height);
     }
     static rotateImage(canvas, image, degrees) {
         const ctx = CanvasUtil.getCanvasContext(canvas);

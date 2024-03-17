@@ -4,6 +4,7 @@ import KeyListener from './KeyListener.js';
 import Scene from '../scenes/Scene.js';
 import MouseListener from './MouseListener.js';
 import StartingScene from '../scenes/StartingScene.js';
+import Shop from '../scenes/shop.js';
 
 export default class Ducker extends Game {
   private canvas: HTMLCanvasElement;
@@ -23,7 +24,7 @@ export default class Ducker extends Game {
     this.mouseListener = new MouseListener(canvas);
 
     // Set the starting scene
-    this.currentScene = new StartingScene();
+    this.currentScene = new Shop();
   }
 
   /**
