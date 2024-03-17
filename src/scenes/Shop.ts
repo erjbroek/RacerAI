@@ -12,6 +12,10 @@ export default class Shop extends Scene {
 
   private back: boolean = false;
 
+  private tileSize: number = window.innerWidth / 7.5;
+
+  private tilePosX: number = window.innerWidth / 10 + 30;
+
   public constructor() {
     super();
   }
@@ -40,13 +44,18 @@ export default class Shop extends Scene {
 
   public render(canvas: HTMLCanvasElement): void {
     CanvasUtil.drawImage(canvas, this.backgroundImage, 0, 0, canvas.width, canvas.height, 0);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 9, canvas.width / 1.25, canvas.height / 1.25, 255, 255, 255, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 10 + 30, canvas.height / 3.4 + 30, canvas.width / 2.5 - 30, canvas.height / 5 - 30, 0, 200, 0, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 2.05 + 30, canvas.height / 3.4 + 30, canvas.width / 2.5 - 30, canvas.height / 5 - 30, 0, 200, 40, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 10 + 30, canvas.height / 2.05 + 30, canvas.width / 2.5 - 30, canvas.height / 5 - 30, 0, 200, 80, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 2.05 + 30, canvas.height / 2.05 + 30, canvas.width / 2.5 - 30, canvas.height / 5 - 30, 0, 200, 120, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 10 + 30, canvas.height / 1.46 + 30, canvas.width / 2.5 - 30, canvas.height / 5 - 30, 0, 200, 160, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 2.05 + 30, canvas.height / 1.46 + 30, canvas.width / 2.5 - 30, canvas.height / 5 - 30, 0, 200, 200, 0.6);
+    CanvasUtil.fillRectangle(canvas, 0, canvas.height / 5, canvas.width, canvas.height, 255, 255, 255, 0.6);
+    CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 200, 200, 0.6);
+    CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 200, 200, 0.6);
+
+    CanvasUtil.fillRectangle(canvas, this.tilePosX, canvas.height / 3.3 + 30, this.tileSize, this.tileSize, 30, 175, 0, 0.6);
+    CanvasUtil.fillRectangle(canvas, this.tilePosX, canvas.height / 1.6 + 30, this.tileSize, this.tileSize, 30, 175, 0, 0.6);
+    CanvasUtil.fillRectangle(canvas, this.tilePosX + this.tileSize + 30, canvas.height / 3.3 + 30, this.tileSize, this.tileSize, 30, 175, 0, 0.6);
+    CanvasUtil.fillRectangle(canvas, this.tilePosX + this.tileSize + 30, canvas.height / 1.6 + 30, this.tileSize, this.tileSize, 30, 175, 0, 0.6);
+    CanvasUtil.fillRectangle(canvas, this.tilePosX + (this.tileSize + 30) * 2, canvas.height / 3.3 + 30, this.tileSize, this.tileSize, 30, 175, 0, 0.6);
+
+    // CanvasUtil.fillRectangle(canvas, canvas.width / 13 + 30, canvas.height / 2.05 + 30, canvas.width / 2.6 - 30, canvas.height / 5 - 30, 0, 200, 80, 0.6);
+    // CanvasUtil.fillRectangle(canvas, canvas.width / 13 + 30, canvas.height / 1.46 + 30, canvas.width / 2.6 - 30, canvas.height / 5 - 30, 0, 200, 160, 0.6);
 
     CanvasUtil.writeTextToCanvas(canvas, `Duck dollars: ${HandleScore.duckDollars} $`, 20, 20, 'left', 'arial', 20, 'black');
   }
