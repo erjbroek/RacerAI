@@ -1,3 +1,4 @@
+import HandleStats from '../ui/HandleStats.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Drawable from './Drawable.js';
 export default class Player extends Drawable {
@@ -16,9 +17,9 @@ export default class Player extends Drawable {
         this.image = CanvasUtil.loadNewImage('./assets/player.png');
         this.totalEnergy = 200;
         this.energy = 200;
-        this.totalBoost = 100;
+        this.totalBoost = HandleStats.boostFuel;
         this.boost = this.totalBoost;
-        this.boostPower = 1;
+        this.boostPower = HandleStats.boostPower;
         this.image.width = window.innerWidth / 15;
         this.image.height = window.innerWidth / 15;
         this.posX = window.innerWidth / 10 - this.image.width / 2;

@@ -6,7 +6,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import Scene from './Scene.js';
 import SelectAngle from './SelectAngle.js';
-import Shop from './shop.js';
+import Shop from './shop/Shop.js';
 
 export default class Choose extends Scene {
   private logo: HTMLImageElement;

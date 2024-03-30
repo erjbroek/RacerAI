@@ -4,7 +4,7 @@ import HandleScore from '../ui/handleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
 import SelectAngle from './SelectAngle.js';
-import Shop from './shop.js';
+import Shop from './shop/Shop.js';
 export default class Choose extends Scene {
     logo;
     upgrade;

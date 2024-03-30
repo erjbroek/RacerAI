@@ -20,6 +20,7 @@ module.exports = {
     'no-console': 'off',
     'linebreak-style': 'off',
     'max-len': ['error', { 'code': 150 }], // Set the maximum line length to 150 characters
+    "no-param-reassign": "off",
     'no-plusplus': ["error", { "allowForLoopAfterthoughts": true }],
     'jsdoc/require-jsdoc': [
       'error',

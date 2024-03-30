@@ -12,8 +12,8 @@
         "noEmitOnError": true
     },
     "include": [
-        "src/**/*"
-, "Ducker/utilities/Drawable.ts"    ],
+        "src/**/*", 
+        "Ducker/utilities/Drawable.ts"    ],
     "exclude": [
         "node_modules",
         "**/*.spec.ts"
