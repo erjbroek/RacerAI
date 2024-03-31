@@ -5,11 +5,12 @@ import MouseListener from '../../utilities/MouseListener.js';
 import Choose from '../Choose.js';
 import Scene from '../Scene.js';
 import SelectAngle from '../SelectAngle.js';
-import Fuel from './Fuel.js';
+import Fuel from '../Fuel.js';
 import FuelPower from './FuelPower.js';
 import Luck from './Luck.js';
 import Power from './Power.js';
 import Resistance from './Resistance.js';
+import ShopTile from './ShopTile.js';
 
 export default class Shop extends Scene {
   private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
@@ -26,6 +27,8 @@ export default class Shop extends Scene {
 
   private resistance: Resistance = new Resistance();
 
+  private selected: ShopTile = null;
+
   public constructor() {
     super();
   }
@@ -41,20 +44,22 @@ export default class Shop extends Scene {
       this.back = true;
     }
     [this.fuel, this.fuelPower, this.luck, this.power, this.resistance].forEach((tile) => {
+      tile.blueValue = 0;
       if (mouseListener.getMousePosition().x > tile.posX
       && mouseListener.getMousePosition().y > tile.posY
       && mouseListener.getMousePosition().x < tile.posX + tile.tileSize
       && mouseListener.getMousePosition().y < tile.posY + tile.tileSize) {
-        tile.blueValue = 255;
+        tile.opacity = 0.5;
         if (mouseListener.isButtonDown(0)) {
-          tile.opacity = 1;
-        } else {
-          tile.opacity = 0.6;
+          this.selected = tile;
         }
       } else {
-        tile.blueValue = 0;
+        tile.opacity = 0.6;
       }
     });
+    if (this.selected) {
+      this.selected.blueValue = 255;
+    }
   }
 
   /**
@@ -85,5 +90,9 @@ export default class Shop extends Scene {
     CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 200, 200, 0.6);
 
     CanvasUtil.writeTextToCanvas(canvas, `Duck dollars: ${HandleScore.duckDollars} $`, 20, 20, 'left', 'arial', 20, 'black');
+
+    if (this.selected) {
+      CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 5, 0, 0, 0, 0.1);
+    }
   }
 }

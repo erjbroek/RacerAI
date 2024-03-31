@@ -8,6 +8,8 @@ export default class Luck extends ShopTile {
     this.maxTier = 5;
     this.blueValue = 0;
     this.opacity = 0.6;
+    this.title = 'Luck';
+    this.description = 'An increase in luck means you find more rare coins and less bad obstacles/ enemies';
     this.upgradeCost = 200;
     this.upgradeMultiplier *= 3.5;
     this.tileSize = window.innerWidth / 7.5;
@@ -33,6 +35,7 @@ export default class Luck extends ShopTile {
    */
   public override render(canvas: HTMLCanvasElement) {
     CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
+    CanvasUtil.fillRectangle(canvas, this.posX + 30, this.posY + 30, this.tileSize - 60, this.tileSize - 60, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'luck', this.posX, this.posY);
   }
 }

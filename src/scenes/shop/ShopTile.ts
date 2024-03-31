@@ -5,6 +5,12 @@ export default abstract class ShopTile extends Drawable {
 
   public maxTier: number;
 
+  public title: string;
+
+  public description: string;
+
+  public selected: boolean;
+
   public upgradeCost: number;
 
   public upgradeMultiplier: number;

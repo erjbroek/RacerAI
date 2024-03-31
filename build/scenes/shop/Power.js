@@ -8,6 +8,8 @@ export default class Power extends ShopTile {
         this.maxTier = 5;
         this.blueValue = 0;
         this.opacity = 0.6;
+        this.title = 'Launch power';
+        this.description = 'The launch power increases the distance mister duck gets launched';
         this.upgradeCost = 50;
         this.upgradeMultiplier = 3.5;
         this.tileSize = window.innerWidth / 7.5;
@@ -24,6 +26,7 @@ export default class Power extends ShopTile {
     }
     render(canvas) {
         CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
+        CanvasUtil.fillRectangle(canvas, this.posX + 30, this.posY + 30, this.tileSize - 60, this.tileSize - 60, 255, 255, 255, this.opacity);
         CanvasUtil.writeText(canvas, 'power', this.posX, this.posY);
     }
 }

@@ -7,6 +7,8 @@ export default class Fuel extends ShopTile {
     super();
     this.tier = HandleStats.boostFuelTier;
     this.maxTier = 5;
+    this.title = 'Fuel amount';
+    this.description = 'This upgrades the efficiency of the jetpack, so you can boost longer';
     this.blueValue = 0;
     this.opacity = 0.6;
     this.upgradeCost = 50;
@@ -34,6 +36,7 @@ export default class Fuel extends ShopTile {
    */
   public override render(canvas: HTMLCanvasElement) {
     CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
+    CanvasUtil.fillRectangle(canvas, this.posX + 30, this.posY + 30, this.tileSize - 60, this.tileSize - 60, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'fuel', this.posX, this.posY);
   }
 }
