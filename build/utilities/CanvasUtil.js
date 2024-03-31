@@ -94,7 +94,7 @@ export default class CanvasUtil {
     }
     static collidesWith(player, item) {
         if (player.posX < item.posX + item.image.width
-            && player.posX + player.image.width > item.posX
+            && player.posX + player.image.width > item.posX + item.image.width / 3
             && player.posY < item.posY + item.image.height
             && player.posY + player.image.height > item.posY) {
             return true;

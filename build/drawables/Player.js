@@ -17,7 +17,7 @@ export default class Player extends Drawable {
         this.image = CanvasUtil.loadNewImage('./assets/player.png');
         this.totalEnergy = 200;
         this.energy = 200;
-        this.totalBoost = HandleStats.boostFuel;
+        this.totalBoost = HandleStats.fuel;
         this.boost = this.totalBoost;
         this.boostPower = HandleStats.boostPower;
         this.image.width = window.innerWidth / 15;

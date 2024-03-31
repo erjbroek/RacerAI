@@ -28,7 +28,7 @@ export default class Player extends Drawable {
     this.image = CanvasUtil.loadNewImage('./assets/player.png');
     this.totalEnergy = 200;
     this.energy = 200;
-    this.totalBoost = HandleStats.boostFuel;
+    this.totalBoost = HandleStats.fuel;
     this.boost = this.totalBoost;
     this.boostPower = HandleStats.boostPower;
 
@@ -70,7 +70,7 @@ export default class Player extends Drawable {
 
   /**
    * rotates the player based on the xSpeed and ySpeed;
-   * 
+   *
    * @param xSpeed is the horizontal speed of the player
    * @param ySpeed is the vertical speed of the player
    */

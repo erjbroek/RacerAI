@@ -1,4 +1,4 @@
-import Drawable from '../../drawables/Drawable.js';
+import Drawable from '../../../drawables/Drawable.js';
 
 export default abstract class ShopTile extends Drawable {
   public tier: number;

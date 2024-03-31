@@ -309,7 +309,7 @@ export default class CanvasUtil {
   public static collidesWith(player: Player, item: Drawable): boolean {
     if (
       player.posX < item.posX + item.image.width
-      && player.posX + player.image.width > item.posX
+      && player.posX + player.image.width > item.posX + item.image.width / 3
       && player.posY < item.posY + item.image.height
       && player.posY + player.image.height > item.posY
     ) {

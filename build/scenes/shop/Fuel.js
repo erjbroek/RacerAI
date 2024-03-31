@@ -4,9 +4,9 @@ import ShopTile from './ShopTile.js';
 export default class Fuel extends ShopTile {
     constructor() {
         super();
-        this.tier = HandleStats.boostFuelTier;
+        this.tier = HandleStats.fuelTier;
         this.maxTier = 5;
-        this.title = 'Fuel amount';
+        this.title = 'Fuel capacity';
         this.description = 'This upgrades the efficiency of the jetpack, so you can boost longer';
         this.blueValue = 0;
         this.opacity = 0.6;
@@ -18,7 +18,7 @@ export default class Fuel extends ShopTile {
     }
     level() {
         if (this.tier <= this.maxTier) {
-            HandleStats.boostFuelTier += 1;
+            HandleStats.fuelTier += 1;
             this.tier += 1;
             this.blueValue += 50;
             this.upgradeCost *= this.upgradeMultiplier;

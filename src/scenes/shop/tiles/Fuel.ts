@@ -1,14 +1,14 @@
-import HandleStats from '../../ui/HandleStats.js';
-import CanvasUtil from '../../utilities/CanvasUtil.js';
+import HandleStats from '../../../ui/HandleStats.js';
+import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 
 export default class Fuel extends ShopTile {
   public constructor() {
     super();
-    this.tier = HandleStats.boostFuelTier;
+    this.tier = HandleStats.fuelTier;
     this.maxTier = 5;
-    this.title = 'Fuel amount';
-    this.description = 'This upgrades the efficiency of the jetpack, so you can boost longer';
+    this.title = 'Fuel capacity';
+    this.description = 'This upgrades the efficiency of the jetpack, so you can boost longer'
     this.blueValue = 0;
     this.opacity = 0.6;
     this.upgradeCost = 50;
@@ -23,7 +23,7 @@ export default class Fuel extends ShopTile {
    */
   public level() {
     if (this.tier <= this.maxTier) {
-      HandleStats.boostFuelTier += 1;
+      HandleStats.fuelTier += 1;
       this.tier += 1;
       this.blueValue += 50;
       this.upgradeCost *= this.upgradeMultiplier;

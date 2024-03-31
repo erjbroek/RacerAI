@@ -1,5 +1,5 @@
 import Player from "../drawables/Player.js";
-import Power from '../scenes/shop/Power.js';
+import Power from '../scenes/shop/tiles/Power.js';
 import CanvasUtil from "../utilities/CanvasUtil.js";
 
 export default class HandleStats {
@@ -13,7 +13,7 @@ export default class HandleStats {
 
   public static boostPower: number = 1;
 
-  public static boostFuel: number = 100;
+  public static fuel: number = 100;
 
   public static launchPowerTier: number = 1;
 
@@ -25,5 +25,5 @@ export default class HandleStats {
 
   public static boostPowerTier: number = 1;
 
-  public static boostFuelTier: number = 1;
+  public static fuelTier: number = 1;
 }

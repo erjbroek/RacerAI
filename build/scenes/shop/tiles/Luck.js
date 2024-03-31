@@ -1,5 +1,5 @@
-import HandleStats from '../../ui/HandleStats.js';
-import CanvasUtil from '../../utilities/CanvasUtil.js';
+import HandleStats from '../../../ui/HandleStats.js';
+import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 export default class Luck extends ShopTile {
     constructor() {

@@ -4,6 +4,7 @@ import ShopTile from './ShopTile.js';
 export default class FuelPower extends ShopTile {
     constructor() {
         super();
+        this.tier = HandleStats.boostPowerTier;
         this.maxTier = 5;
         this.blueValue = 0;
         this.opacity = 0.6;
