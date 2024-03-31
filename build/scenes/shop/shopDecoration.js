@@ -114,7 +114,6 @@ export default class ShopDecoration {
         this.player.posY += this.ySpeed;
     }
     render(canvas) {
-        CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, 30, 200, 255, 255, 0.6);
         CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 6, this.red, this.green, this.blue, 1);
         CanvasUtil.fillCircle(canvas, canvas.width / 2, this.sunHeight, canvas.width / 3, 'Yellow');
         this.lightGrass.forEach((grass) => {
