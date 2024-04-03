@@ -18,6 +18,7 @@ export default class Shop extends Scene {
     resistance = new Resistance();
     selected = null;
     shopDecorator = new ShopDecoration();
+    buyButton = CanvasUtil.loadNewImage('./assets/buy-button.jpg');
     constructor() {
         super();
     }
@@ -26,7 +27,6 @@ export default class Shop extends Scene {
             this.back = true;
         }
         [this.fuel, this.fuelPower, this.luck, this.power, this.resistance].forEach((tile) => {
-            tile.blueValue = 0;
             if (mouseListener.getMousePosition().x > tile.posX
                 && mouseListener.getMousePosition().y > tile.posY
                 && mouseListener.getMousePosition().x < tile.posX + tile.tileSize
@@ -41,7 +41,14 @@ export default class Shop extends Scene {
             }
         });
         if (this.selected) {
-            this.selected.blueValue = 255;
+            if (mouseListener.getMousePosition().x > window.innerWidth / 1.7 + window.innerWidth / 8.5
+                && mouseListener.getMousePosition().y > window.innerHeight / 1.2
+                && mouseListener.getMousePosition().x < window.innerWidth / 1.7 + window.innerWidth / 8.5 + window.innerWidth / 10
+                && mouseListener.getMousePosition().y < window.innerHeight / 1.2 + window.innerHeight / 17) {
+                if (mouseListener.buttonPressed(0)) {
+                    this.selected.level();
+                }
+            }
         }
     }
     update(elapsed) {
@@ -66,7 +73,10 @@ export default class Shop extends Scene {
         CanvasUtil.writeTextToCanvas(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
         if (this.selected) {
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 5, 75, 75, 150, 0.2);
-            CanvasUtil.writeTextToCanvas(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.6 + 30, 'center', 'Arial', 40, 'white');
+            this.selected.renderSelect(canvas);
+            CanvasUtil.writeTextToCanvas(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.53 + 30, 'center', 'Arial', 40, 'white');
+            CanvasUtil.drawRectangle(canvas, canvas.width / 1.7 + canvas.width / 8.5, canvas.height / 1.2, canvas.width / 10, canvas.height / 17, 30, 30, 30, 0.7);
+            CanvasUtil.drawImage(canvas, this.buyButton, canvas.width / 1.7 + canvas.width / 8.5, canvas.height / 1.2, canvas.width / 10, canvas.height / 17);
         }
     }
 }

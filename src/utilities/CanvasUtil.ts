@@ -199,10 +199,12 @@ export default class CanvasUtil {
     green: number = 255,
     blue: number = 255,
     opacity: number = 1,
+    lineWidth: number = 1,
   ): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+    ctx.lineWidth = lineWidth;
     ctx.rect(dx, dy, width, height);
     ctx.stroke();
   }

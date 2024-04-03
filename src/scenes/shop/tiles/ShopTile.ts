@@ -20,4 +20,10 @@ export default abstract class ShopTile extends Drawable {
   public opacity: number;
 
   public tileSize: number;
+
+  public selectTile: boolean;
+
+  public abstract level(): void;
+
+  public abstract renderSelect(canvas: HTMLCanvasElement): void;
 }

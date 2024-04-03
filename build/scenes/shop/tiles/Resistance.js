@@ -6,15 +6,16 @@ export default class Resistance extends ShopTile {
         super();
         this.tier = HandleStats.launchPower;
         this.maxTier = 5;
-        this.blueValue = 0;
+        this.blueValue = 50 * HandleStats.airResistanceTier;
         this.opacity = 0.6;
         this.title = 'Air resistance';
         this.description = 'Upgrading this means mister duck will face less are, which means he wont be slowed down and fly further';
         this.upgradeCost = 100;
         this.upgradeMultiplier *= 2.3;
         this.tileSize = window.innerWidth / 7.5;
-        this.posX = window.innerWidth / 10 + 30 + this.tileSize + 30;
+        this.posX = window.innerWidth / 10 + this.tileSize + window.innerWidth / 32;
         this.posY = window.innerHeight / 1.6 + 30;
+        this.selectTile = false;
     }
     level() {
         if (this.tier <= this.maxTier) {
@@ -26,8 +27,11 @@ export default class Resistance extends ShopTile {
     }
     render(canvas) {
         CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
-        CanvasUtil.fillRectangle(canvas, this.posX + 30, this.posY + 30, this.tileSize - 60, this.tileSize - 60, 255, 255, 255, this.opacity);
+        CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
         CanvasUtil.writeText(canvas, 'air resistance', this.posX, this.posY);
+    }
+    renderSelect(canvas) {
+        CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 30, 30, 0.4, 4);
     }
 }
 //# sourceMappingURL=Resistance.js.map

@@ -9,19 +9,20 @@ export default class Fuel extends ShopTile {
     this.maxTier = 5;
     this.title = 'Fuel capacity';
     this.description = 'This upgrades the efficiency of the jetpack, so you can boost longer'
-    this.blueValue = 0;
+    this.blueValue = 50 * HandleStats.fuelTier;
     this.opacity = 0.6;
     this.upgradeCost = 50;
     this.upgradeMultiplier *= 2.5;
     this.tileSize = window.innerWidth / 7.5;
-    this.posX = window.innerWidth / 10 + 30 + (this.tileSize + 30) * 2;
+    this.posX = window.innerWidth / 10 + window.innerWidth / 64 + (this.tileSize + window.innerWidth / 64) * 2;
     this.posY = window.innerHeight / 3.3 + 30;
+    // this.selectTile = false;
   }
 
   /**
    * levels up launchpower
    */
-  public level() {
+  public override level() {
     if (this.tier <= this.maxTier) {
       HandleStats.fuelTier += 1;
       this.tier += 1;
@@ -36,7 +37,17 @@ export default class Fuel extends ShopTile {
    */
   public override render(canvas: HTMLCanvasElement) {
     CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
-    CanvasUtil.fillRectangle(canvas, this.posX + 30, this.posY + 30, this.tileSize - 60, this.tileSize - 60, 255, 255, 255, this.opacity);
+    if (this.selectTile) {
+      CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 30, 30, 0.4, 4);
+    }
+    CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'fuel', this.posX, this.posY);
+  }
+
+  /**
+   *
+   */
+  public renderSelect(canvas: HTMLCanvasElement) {
+    CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 30, 30, 0.4, 4);
   }
 }

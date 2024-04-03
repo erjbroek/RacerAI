@@ -10,5 +10,6 @@ export default class ShopTile extends Drawable {
     blueValue;
     opacity;
     tileSize;
+    selectTile;
 }
 //# sourceMappingURL=ShopTile.js.map

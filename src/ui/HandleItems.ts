@@ -57,7 +57,7 @@ export default class HandleItems {
 
     while (HandleItems.obstacles.filter((obj) => obj instanceof Mushroom).length < 1) {
       HandleItems.obstacles.push(new Mushroom(
-        window.innerWidth + (window.innerWidth * 4) * Math.random(),
+        window.innerWidth * 2 + (window.innerWidth * 10) * Math.random(),
         HandleScenery.grassDark[0].posY + HandleScenery.grassDark[0].image.height,
       ));
     }

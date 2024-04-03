@@ -39,7 +39,7 @@ export default class HandleItems {
             HandleItems.coins.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight() - 70));
         }
         while (HandleItems.obstacles.filter((obj) => obj instanceof Mushroom).length < 1) {
-            HandleItems.obstacles.push(new Mushroom(window.innerWidth + (window.innerWidth * 4) * Math.random(), HandleScenery.grassDark[0].posY + HandleScenery.grassDark[0].image.height));
+            HandleItems.obstacles.push(new Mushroom(window.innerWidth * 2 + (window.innerWidth * 10) * Math.random(), HandleScenery.grassDark[0].posY + HandleScenery.grassDark[0].image.height));
         }
     }
     static removeUnusedItems() {
