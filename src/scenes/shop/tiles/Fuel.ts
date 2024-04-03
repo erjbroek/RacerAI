@@ -1,4 +1,5 @@
 import HandleStats from '../../../ui/HandleStats.js';
+import HandleScore from '../../../ui/handleScore.js';
 import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 
@@ -22,12 +23,16 @@ export default class Fuel extends ShopTile {
   /**
    * levels up launchpower
    */
-  public override level() {
-    if (this.tier <= this.maxTier) {
-      HandleStats.fuelTier += 1;
-      this.tier += 1;
-      this.blueValue += 50;
-      this.upgradeCost *= this.upgradeMultiplier;
+  public override level(canvas: HTMLCanvasElement, canAfford: number) {
+    if (HandleScore.duckDollars >= this.upgradeCost) {
+      if (this.tier <= this.maxTier) {
+        HandleStats.fuelTier += 1;
+        this.tier += 1;
+        this.blueValue += 50;
+        this.upgradeCost *= this.upgradeMultiplier;
+      }
+    } else {
+      CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 255 * canAfford, 30, 30, 0.4, 8);
     }
   }
 
@@ -42,12 +47,5 @@ export default class Fuel extends ShopTile {
     }
     CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'fuel', this.posX, this.posY);
-  }
-
-  /**
-   *
-   */
-  public renderSelect(canvas: HTMLCanvasElement) {
-    CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 30, 30, 0.4, 4);
   }
 }

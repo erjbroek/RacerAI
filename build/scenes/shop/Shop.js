@@ -19,6 +19,7 @@ export default class Shop extends Scene {
     selected = null;
     shopDecorator = new ShopDecoration();
     buyButton = CanvasUtil.loadNewImage('./assets/buy-button.jpg');
+    canLevel = false;
     constructor() {
         super();
     }
@@ -45,9 +46,7 @@ export default class Shop extends Scene {
                 && mouseListener.getMousePosition().y > window.innerHeight / 1.2
                 && mouseListener.getMousePosition().x < window.innerWidth / 1.7 + window.innerWidth / 8.5 + window.innerWidth / 10
                 && mouseListener.getMousePosition().y < window.innerHeight / 1.2 + window.innerHeight / 17) {
-                if (mouseListener.buttonPressed(0)) {
-                    this.selected.level();
-                }
+                this.canLevel = mouseListener.buttonPressed(0);
             }
         }
     }
@@ -63,7 +62,12 @@ export default class Shop extends Scene {
         CanvasUtil.drawImage(canvas, this.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
         CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6);
         CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6);
-        CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 255, 255, 0.6);
+        if (this.canLevel) {
+            CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 50, 50, 0.8);
+        }
+        else {
+            CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 255, 255, 0.6);
+        }
         CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3);
         this.fuel.render(canvas);
         this.fuelPower.render(canvas);
@@ -73,9 +77,7 @@ export default class Shop extends Scene {
         CanvasUtil.writeTextToCanvas(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
         if (this.selected) {
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 5, 75, 75, 150, 0.2);
-            this.selected.renderSelect(canvas);
             CanvasUtil.writeTextToCanvas(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.53 + 30, 'center', 'Arial', 40, 'white');
-            CanvasUtil.drawRectangle(canvas, canvas.width / 1.7 + canvas.width / 8.5, canvas.height / 1.2, canvas.width / 10, canvas.height / 17, 30, 30, 30, 0.7);
             CanvasUtil.drawImage(canvas, this.buyButton, canvas.width / 1.7 + canvas.width / 8.5, canvas.height / 1.2, canvas.width / 10, canvas.height / 17);
         }
     }
