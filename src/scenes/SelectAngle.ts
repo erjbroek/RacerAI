@@ -126,7 +126,6 @@ export default class SelectAngle extends Scene {
       grass.render(canvas);
     });
 
-
     CanvasUtil.drawCircle(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, window.innerHeight / 5, 'lightgreen');
 
     const lineLength = 200;
