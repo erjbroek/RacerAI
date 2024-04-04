@@ -6,33 +6,31 @@ import ShopTile from './ShopTile.js';
 export default class Resistance extends ShopTile {
   public constructor() {
     super();
-    this.tier = HandleStats.launchPower;
-    this.maxTier = 5;
+    this.tier = HandleStats.airResistanceTier;
+    this.maxTier = 4;
     this.blueValue = 50 * HandleStats.airResistanceTier;
     this.opacity = 0.6;
     this.title = 'Air resistance';
-    this.description = 'Upgrading this means mister duck will face less are, which means he wont be slowed down and fly further';
+    this.description = 'Whenever flying, mister duck will experience ait resistance. Upgrading this<br>makes mister duck more aerodynamic resulting in further flight.';
     this.upgradeCost = 100;
-    this.upgradeMultiplier *= 2.3;
+    this.upgradeMultiplier = 1.9;
     this.tileSize = window.innerWidth / 7.5;
     this.posX = window.innerWidth / 10 + this.tileSize + window.innerWidth / 32;
     this.posY = window.innerHeight / 1.6 + 30;
-    this.selectTile = false;
+    this.statTiers = [0, 0.1, 0.25, 0.3, 0.45];
   }
 
   /**
    * levels up launchpower
    */
-  public override level(canvas: HTMLCanvasElement, canAfford: number) {
+  public override level() {
     if (HandleScore.duckDollars >= this.upgradeCost) {
-      if (this.tier <= this.maxTier) {
+      if (this.tier < this.maxTier) {
         HandleStats.airResistanceTier += 1;
         this.tier += 1;
-        this.blueValue += 50;
+        this.blueValue = (255 / this.maxTier) * this.tier;
         this.upgradeCost *= this.upgradeMultiplier;
       }
-    } else {
-      CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 255 * canAfford, 30, 30, 0.4, 8);
     }
   }
 

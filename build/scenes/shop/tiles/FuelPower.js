@@ -10,25 +10,22 @@ export default class FuelPower extends ShopTile {
         this.blueValue = 50 * HandleStats.boostPowerTier;
         this.opacity = 0.6;
         this.title = 'Jetpack power';
-        this.description = 'The power of the jetpack makes the jetpack more effective, resulting in more speed';
+        this.description = "The jetpack makes you fly in the direction you're facing.<br>Upgrading this means you get a better jetpack, resulating in higher speeds!";
         this.upgradeCost = 250;
-        this.upgradeMultiplier *= 3;
+        this.upgradeMultiplier = 2.5;
         this.tileSize = window.innerWidth / 7.5;
         this.posX = window.innerWidth / 10 + window.innerWidth / 64;
         this.posY = window.innerHeight / 1.6 + 30;
-        this.selectTile = false;
+        this.statTiers = [1, 1.1, 1.2, 1.35, 1.5, 1.6];
     }
-    level(canvas, canAfford) {
+    level() {
         if (HandleScore.duckDollars >= this.upgradeCost) {
-            if (this.tier <= this.maxTier) {
+            if (this.tier < this.maxTier) {
                 HandleStats.boostPowerTier += 1;
                 this.tier += 1;
-                this.blueValue += 50;
+                this.blueValue = (255 / this.maxTier) * this.tier;
                 this.upgradeCost *= this.upgradeMultiplier;
             }
-        }
-        else {
-            CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 255 * canAfford, 30, 30, 0.4, 8);
         }
     }
     render(canvas) {

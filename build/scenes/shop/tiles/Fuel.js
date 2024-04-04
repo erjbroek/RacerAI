@@ -6,28 +6,27 @@ export default class Fuel extends ShopTile {
     constructor() {
         super();
         this.tier = HandleStats.fuelTier;
-        this.maxTier = 5;
-        this.title = 'Fuel capacity';
-        this.description = 'This upgrades the efficiency of the jetpack, so you can boost longer';
+        this.maxTier = 4;
         this.blueValue = 50 * HandleStats.fuelTier;
         this.opacity = 0.6;
+        this.title = 'Fuel capacity';
+        this.description = 'The quality of the fuel makes it more efficient to use with your backpack.<br>Upgrading the fuel means you can boost for longer.';
         this.upgradeCost = 50;
-        this.upgradeMultiplier *= 2.5;
+        this.upgradeMultiplier = 2.3;
         this.tileSize = window.innerWidth / 7.5;
         this.posX = window.innerWidth / 10 + window.innerWidth / 64 + (this.tileSize + window.innerWidth / 64) * 2;
         this.posY = window.innerHeight / 3.3 + 30;
+        this.statTiers = [100, 120, 150, 180, 230];
     }
-    level(canvas, canAfford) {
+    level() {
         if (HandleScore.duckDollars >= this.upgradeCost) {
-            if (this.tier <= this.maxTier) {
+            if (this.tier < this.maxTier) {
+                HandleScore.duckDollars -= this.upgradeCost;
                 HandleStats.fuelTier += 1;
                 this.tier += 1;
-                this.blueValue += 50;
+                this.blueValue = (255 / this.maxTier) * this.tier;
                 this.upgradeCost *= this.upgradeMultiplier;
             }
-        }
-        else {
-            CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 255 * canAfford, 30, 30, 0.4, 8);
         }
     }
     render(canvas) {

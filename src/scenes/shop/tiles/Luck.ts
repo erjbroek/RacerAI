@@ -4,6 +4,8 @@ import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 
 export default class Luck extends ShopTile {
+  public luckStats: number[][] = [[], [], [], [], [], []];
+
   public constructor() {
     super();
     this.tier = HandleStats.luckTier;
@@ -11,28 +13,27 @@ export default class Luck extends ShopTile {
     this.blueValue = 50 * HandleStats.luckTier;
     this.opacity = 0.6;
     this.title = 'Luck';
-    this.description = 'An increase in luck means you find more rare coins and less bad obstacles/ enemies';
-    this.upgradeCost = 200;
-    this.upgradeMultiplier *= 3.5;
+    this.description = 'An increase in luck means you find better coins and face less obstacles<br>in the way.';
+    this.upgradeCost = 150;
+    this.upgradeMultiplier = 2.6;
     this.tileSize = window.innerWidth / 7.5;
     this.posX = window.innerWidth / 10 + this.tileSize + window.innerWidth / 32;
     this.posY = window.innerHeight / 3.3 + 30;
-    this.selectTile = false;
+    this.luckStats = [[0.0, 0.0], [0.07, 0.05], [0.15, 0.1], [0.25, 0.20], [0.36, 0.27], [0.5, 0.35]];
   }
 
   /**
    * levels up launchpower
    */
-  public override level(canvas: HTMLCanvasElement, canAfford: number) {
+  public override level() {
     if (HandleScore.duckDollars >= this.upgradeCost) {
-      if (this.tier <= this.maxTier) {
+      if (this.tier < this.maxTier) {
+        HandleScore.duckDollars -= this.upgradeCost;
         HandleStats.luckTier += 1;
         this.tier += 1;
-        this.blueValue += 50;
+        this.blueValue = (255 / this.maxTier) * this.tier;
         this.upgradeCost *= this.upgradeMultiplier;
       }
-    } else {
-      CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 255 * canAfford, 30, 30, 0.4, 8);
     }
   }
 

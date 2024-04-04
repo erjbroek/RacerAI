@@ -23,5 +23,9 @@ export default abstract class ShopTile extends Drawable {
 
   public selectTile: boolean;
 
-  public abstract level(canvas: HTMLCanvasElement, canAfford: number): void;
+  public imageTiers: string[];
+
+  public statTiers: number[];
+
+  public abstract level(): void;
 }

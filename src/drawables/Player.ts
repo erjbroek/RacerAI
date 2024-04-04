@@ -61,9 +61,9 @@ export default class Player extends Drawable {
    */
   public activateBoost(xSpeed: number, ySpeed: number) {
     if (this.boost > 0) {
-      const addedX = xSpeed * (this.boostPower / 100);
-      const addedY = ySpeed * (this.boostPower / 100);
-      this.boost -= 1 / (this.totalBoost / 100);
+      const addedX = xSpeed * (this.boostPower / 150);
+      const addedY = ySpeed * (this.boostPower / 150);
+      this.boost -= 1 / (this.totalBoost / HandleStats.fuel);
       return [xSpeed + addedX, ySpeed + addedY];
     } return [xSpeed, ySpeed];
   }

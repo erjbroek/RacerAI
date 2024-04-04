@@ -5,30 +5,27 @@ import ShopTile from './ShopTile.js';
 export default class Power extends ShopTile {
     constructor() {
         super();
-        this.tier = HandleStats.launchPower;
+        this.tier = HandleStats.launchPowerTier;
         this.maxTier = 5;
         this.blueValue = 50 * HandleStats.launchPowerTier;
         this.opacity = 0.6;
         this.title = 'Launch power';
-        this.description = 'The launch power increases the distance mister duck gets launched';
+        this.description = 'Whenever you start flying as a duck, you use your strong wings to launch <br>ourself as fast as possible. Upgrading this will guarantee faster launch<br>speeds!';
         this.upgradeCost = 50;
-        this.upgradeMultiplier = 3.5;
+        this.upgradeMultiplier = 1.9;
         this.tileSize = window.innerWidth / 7.5;
         this.posX = window.innerWidth / 10 + window.innerWidth / 64;
         this.posY = window.innerHeight / 3.3 + 30;
-        this.selectTile = false;
+        this.statTiers = [0, 0.1, 0.2, 0.33, 0.5, 0.75];
     }
-    level(canvas, canAfford) {
+    level() {
         if (HandleScore.duckDollars >= this.upgradeCost) {
-            if (this.tier <= this.maxTier) {
+            if (this.tier < this.maxTier) {
                 HandleStats.launchPowerTier += 1;
                 this.tier += 1;
-                this.blueValue += 50;
+                this.blueValue = (255 / this.maxTier) * this.tier;
                 this.upgradeCost *= this.upgradeMultiplier;
             }
-        }
-        else {
-            CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 255 * canAfford, 30, 30, 0.4, 8);
         }
     }
     render(canvas) {

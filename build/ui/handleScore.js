@@ -7,7 +7,7 @@ export default class HandleScore {
     static silverCoins = 0;
     static goldCoins = 0;
     static totalCoins = 0;
-    static duckDollars = 0;
+    static duckDollars = 9999999999;
     static enemiesHit = 0;
     static score = 0;
     static calculateDistances(xSpeed, height) {
