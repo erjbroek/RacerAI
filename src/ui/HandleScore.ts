@@ -1,6 +1,3 @@
-import Player from "../drawables/Player.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
-
 export default class HandleScore {
   public static height: number = 0;
 
@@ -26,10 +23,9 @@ export default class HandleScore {
 
   /**
    * @param xSpeed is the xSpeed the horizontal distance the player flies each frame
-   * @param ySpeed is the vertical distance the player flies each frame
    * @param height is the current height the player is at in pixels / 10
    */
-  public static calculateDistances(xSpeed: number, height: number,) {
+  public static calculateDistances(xSpeed: number, height: number) {
     this.distance += xSpeed / 200;
     this.height = height / 200;
     if (this.height >= this.maxHeight) {
@@ -52,9 +48,6 @@ export default class HandleScore {
 
   /**
    * gets stats from the launch, and calculates a score from those.
-   *
-   * @param distance the distance the player travelled
-   * @param maxHeight the maximum height the player reached
    */
   public static calculateScore() {
     // the formula for calculating the score, based on distance and height
@@ -62,7 +55,7 @@ export default class HandleScore {
   }
 
   /**
-   * @param canvas the selected canvas the score is rendered to
+   * @param coinType is the type of coin that is added
    */
   public static addCoin(coinType: number) {
     if (coinType === 1) {

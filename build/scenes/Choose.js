@@ -1,6 +1,6 @@
 import HandleItems from '../ui/HandleItems.js';
 import HandleScenery from '../ui/HandleScenery.js';
-import HandleScore from '../ui/handleScore.js';
+import HandleScore from '../ui/HandleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
 import SelectAngle from './SelectAngle.js';
@@ -18,7 +18,7 @@ export default class Choose extends Scene {
         HandleItems.reset();
         HandleScenery.reset();
     }
-    processInput(keyListener, mouseListener) {
+    processInput(keyListener) {
         if (keyListener.isKeyDown('KeyL')) {
             this.startRound = true;
         }
@@ -26,7 +26,7 @@ export default class Choose extends Scene {
             this.goShop = true;
         }
     }
-    update(elapsed) {
+    update() {
         if (this.startRound) {
             return new SelectAngle();
         }

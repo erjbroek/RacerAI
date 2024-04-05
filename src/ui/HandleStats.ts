@@ -1,7 +1,3 @@
-import Player from "../drawables/Player.js";
-import Power from '../scenes/shop/tiles/Power.js';
-import CanvasUtil from "../utilities/CanvasUtil.js";
-
 export default class HandleStats {
   public static launchPower: number = 1;
 

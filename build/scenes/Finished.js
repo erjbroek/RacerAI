@@ -1,4 +1,4 @@
-import HandleScore from '../ui/handleScore.js';
+import HandleScore from '../ui/HandleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Finished {
     scoreHolder = CanvasUtil.loadNewImage('./assets/scoreDisplay.png');

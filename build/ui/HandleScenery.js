@@ -6,7 +6,6 @@ import GrassDark from '../background items/GrassDark.js';
 import GrassLight from '../background items/GrassLight.js';
 export default class HandleScenery {
     static space = CanvasUtil.loadNewImage('./assets/space.png');
-    ;
     static backgrounds = [];
     static trees = [];
     static grassDark = [];

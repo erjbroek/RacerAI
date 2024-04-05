@@ -3,7 +3,7 @@ import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleScenery from '../ui/HandleScenery.js';
 import Finished from './Finished.js';
-import HandleScore from '../ui/handleScore.js';
+import HandleScore from '../ui/HandleScore.js';
 import Choose from './Choose.js';
 import HandleItems from '../ui/HandleItems.js';
 import Background from '../background items/Background.js';
@@ -17,7 +17,6 @@ export default class Launch extends Scene {
     constructor(launchAngle, launchPower) {
         super();
         this.launchAngle = launchAngle;
-        launchPower *= 1.6;
         this.player.angle = this.launchAngle;
         this.player.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.player.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
@@ -48,7 +47,7 @@ export default class Launch extends Scene {
             this.endGame = this.endScreen.processInput(keyListener, mouseListener);
         }
     }
-    update(elapsed) {
+    update() {
         this.applyGravity();
         HandleScenery.addScenery();
         HandleScenery.removeUnusedScenery();

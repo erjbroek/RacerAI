@@ -1,5 +1,5 @@
 import HandleStats from '../../../ui/HandleStats.js';
-import HandleScore from '../../../ui/handleScore.js';
+import HandleScore from '../../../ui/HandleScore.js';
 import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 export default class Power extends ShopTile {

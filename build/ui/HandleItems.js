@@ -1,8 +1,8 @@
-import Coin from "../drawables/Coin.js";
-import Mushroom from "../drawables/Mushroom.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import HandleScenery from "./HandleScenery.js";
-import HandleScore from "./handleScore.js";
+import Coin from '../drawables/Coin.js';
+import Mushroom from '../drawables/Mushroom.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import HandleScenery from './HandleScenery.js';
+import HandleScore from './HandleScore.js';
 export default class HandleItems {
     static coins = [];
     static obstacles = [];
@@ -64,7 +64,7 @@ export default class HandleItems {
                 HandleItems.coins.splice(HandleItems.coins.indexOf(coin), 1);
             }
         });
-        HandleItems.obstacles.forEach((obj, index) => {
+        HandleItems.obstacles.forEach((obj) => {
             if (CanvasUtil.collidesWith(player, obj)) {
                 if (obj instanceof Mushroom) {
                     HandleItems.obstacles.splice(HandleItems.obstacles.indexOf(obj), 1);

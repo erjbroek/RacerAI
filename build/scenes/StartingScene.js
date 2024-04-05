@@ -15,7 +15,7 @@ export default class StartingScene extends Scene {
     processInput(keyListener, mouseListener) {
         this.startButton.processInput(keyListener, mouseListener);
     }
-    update(elapsed) {
+    update() {
         if (this.startButton.getReadyGame()) {
             return new SelectAngle();
         }

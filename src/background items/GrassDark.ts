@@ -1,4 +1,3 @@
-import Drawable from '../drawables/Drawable.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import BackgroundItems from './BackgroundItems.js';
 

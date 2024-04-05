@@ -1,5 +1,5 @@
 import MouseListener from '../utilities/MouseListener.js';
-import HandleScore from '../ui/handleScore.js';
+import HandleScore from '../ui/HandleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 

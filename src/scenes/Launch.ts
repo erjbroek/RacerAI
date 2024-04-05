@@ -5,7 +5,7 @@ import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleScenery from '../ui/HandleScenery.js';
 import Finished from './Finished.js';
-import HandleScore from '../ui/handleScore.js';
+import HandleScore from '../ui/HandleScore.js';
 import Choose from './Choose.js';
 import HandleItems from '../ui/HandleItems.js';
 import Background from '../background items/Background.js';
@@ -26,7 +26,6 @@ export default class Launch extends Scene {
   public constructor(launchAngle: number, launchPower: number) {
     super();
     this.launchAngle = launchAngle;
-    launchPower *= 1.6;
     this.player.angle = this.launchAngle;
     this.player.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.player.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
@@ -67,10 +66,9 @@ export default class Launch extends Scene {
   /**
    * updates scene
    *
-   * @param elapsed is the elapsed time since each frame
    * @returns Scene
    */
-  public update(elapsed: number): Scene {
+  public update(): Scene {
     this.applyGravity();
     HandleScenery.addScenery();
     HandleScenery.removeUnusedScenery();
@@ -132,7 +130,7 @@ export default class Launch extends Scene {
     this.player.renderPower(canvas);
     CanvasUtil.writeTextToCanvas(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
     CanvasUtil.writeTextToCanvas(canvas, `xspeed: ${Math.round(this.player.xSpeed)}`, window.innerWidth / 50, window.innerHeight / 20, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeTextToCanvas(canvas, `yspeed: ${Math.round(this.player.ySpeed)}`, window.innerWidth / 50, window.innerHeight / 15, 'left', 'arial', 20, 'black')
+    CanvasUtil.writeTextToCanvas(canvas, `yspeed: ${Math.round(this.player.ySpeed)}`, window.innerWidth / 50, window.innerHeight / 15, 'left', 'arial', 20, 'black');
 
     if (this.finishFlight) {
       this.endScreen.endRound(canvas);

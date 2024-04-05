@@ -1,4 +1,4 @@
-import HandleScore from '../../ui/handleScore.js';
+import HandleScore from '../../ui/HandleScore.js';
 import CanvasUtil from '../../utilities/CanvasUtil.js';
 import Choose from '../Choose.js';
 import Scene from '../Scene.js';
@@ -91,7 +91,7 @@ export default class Shop extends Scene {
             for (let i = 1; i <= this.selected.tier; i++) {
                 CanvasUtil.fillRectangle(canvas, canvas.width / 1.8 + (canvas.width / 20) * i, canvas.height / 1.68, canvas.width / 20, canvas.height / 30, 30, 100, (255 / this.selected.maxTier) * i, 0.8);
             }
-            CanvasUtil.writeTextToCanvas(canvas, "NOW", canvas.width / 1.68, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
+            CanvasUtil.writeTextToCanvas(canvas, 'NOW', canvas.width / 1.68, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
             if (this.selected === this.luck) {
                 CanvasUtil.writeTextToCanvas(canvas, `- Better coin chances:${Math.round(this.luck.luckStats[this.luck.tier][0] * 100)}%`, canvas.width / 1.68, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
                 CanvasUtil.writeTextToCanvas(canvas, `- Less bad obstacles: ${Math.round(this.luck.luckStats[this.luck.tier][1] * 100)}%`, canvas.width / 1.68, canvas.height / 1.35, 'left', 'Arial', 15, 'black');
@@ -101,7 +101,7 @@ export default class Shop extends Scene {
                 }
             }
             else {
-                CanvasUtil.writeTextToCanvas(canvas, "UPGRADED", canvas.width / 1.32, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
+                CanvasUtil.writeTextToCanvas(canvas, 'UPGRADED', canvas.width / 1.32, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
                 CanvasUtil.writeTextToCanvas(canvas, `- ${this.selected.title}:${Math.round(this.selected.statTiers[this.selected.tier] * 100) / 100}`, canvas.width / 1.68, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
                 if (this.selected.tier < this.selected.maxTier) {
                     CanvasUtil.writeTextToCanvas(canvas, `- ${this.selected.title}:${Math.round(this.selected.statTiers[this.selected.tier + 1] * 100) / 100}`, canvas.width / 1.32, canvas.height / 1.45, 'left', 'Arial', 15, 'black');

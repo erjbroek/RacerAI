@@ -2,15 +2,13 @@ import Background from '../background items/Background.js';
 import BackgroundItems from '../background items/BackgroundItems.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Player from '../drawables/Player.js';
-import Coin from '../drawables/Coin.js';
-import HandleScore from './handleScore.js';
 import Tree from '../background items/Tree.js';
 import HandleItems from './HandleItems.js';
 import GrassDark from '../background items/GrassDark.js';
 import GrassLight from '../background items/GrassLight.js';
 
 export default class HandleScenery {
-  public static space: HTMLImageElement = CanvasUtil.loadNewImage('./assets/space.png');;
+  public static space: HTMLImageElement = CanvasUtil.loadNewImage('./assets/space.png');
 
   public static backgrounds: BackgroundItems[] = [];
 
@@ -134,7 +132,9 @@ export default class HandleScenery {
 
   /**
    * renders the objects to the canvas
+   *
    * @param canvas the selected canvas objects are rendered to
+   * @param player is the player that is used to relativly render the items to
    */
   public static render(canvas: HTMLCanvasElement, player: Player) {
     HandleScenery.backgrounds.forEach((background) => {

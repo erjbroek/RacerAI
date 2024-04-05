@@ -1,6 +1,5 @@
 import Scene from './Scene.js';
 import KeyListener from '../utilities/KeyListener.js';
-import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Player from '../drawables/Player.js';
 import Launch from './Launch.js';
@@ -44,9 +43,8 @@ export default class SelectAngle extends Scene {
    * Process user input.
    *
    * @param keyListener KeyListener instance to check key presses
-   * @param mouseListener MouseListener instance for mouse input
    */
-  public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
+  public processInput(keyListener: KeyListener): void {
     if (this.angleReady && keyListener.keyPressed('Space')) {
       this.powerReady = true;
     }

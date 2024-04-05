@@ -51,7 +51,7 @@ export default class CanvasUtil {
    * WARNING: This happens async. Therefor the result might not immediately be visible
    *
    * @param source the paths of the image to be loaded
-   * @param sources
+   * @param sources the sources of multiple images
    * @param folder the folder in which the images are located, root by default
    * @returns the array of images
    */
@@ -187,7 +187,11 @@ export default class CanvasUtil {
    * @param dy the y-coordinate of the rectangle's left left corner
    * @param width the width of the rectangle from x to the right
    * @param height the height of the rectrangle from y downwards
-   * @param color the color of the rectangle outline
+   * @param red is the red color value of the rectangle
+   * @param green is the green color value of the rectangle
+   * @param blue is the blue color value of the rectangle
+   * @param opacity is the opacity of the rectangle
+   * @param lineWidth is the width of the border
    */
   public static drawRectangle(
     canvas: HTMLCanvasElement,
@@ -259,7 +263,10 @@ export default class CanvasUtil {
    * @param dy the y-coordinate of the rectangle's left left corner
    * @param width the width of the rectangle from x to the right
    * @param height the height of the rectrangle from y downwards
-   * @param color the color of the rectangle
+   * @param red is the red color value of the rectangle
+   * @param green is the green color value of the rectangle
+   * @param blue is the blue color value of the rectangle
+   * @param opacity is the opacity of the rectangle
    */
   public static fillRectangle(
     canvas: HTMLCanvasElement,
@@ -299,14 +306,8 @@ export default class CanvasUtil {
 
   /**
    * @returns boolean
-   * @param object1X first object x position
-   * @param object1Y first object y position
-   * @param object1Width width of the first object
-   * @param object1Height height of the first object
-   * @param object2X x position of the second object
-   * @param object2Y y position of the second object
-   * @param object2Width width of the second object
-   * @param object2Height height of the second object
+   * @param player is the player that the collision is checked for
+   * @param item is the item that is checked for if the player collides with
    */
   public static collidesWith(player: Player, item: Drawable): boolean {
     if (
@@ -322,7 +323,6 @@ export default class CanvasUtil {
 
   /**
    * @returns boolean
-
    * @param item the selected item to check for hovering
    * @param mouse mouselistener used to check mouse position
    */

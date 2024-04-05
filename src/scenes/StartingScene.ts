@@ -29,12 +29,10 @@ export default class StartingScene extends Scene {
     this.startButton.processInput(keyListener, mouseListener);
   }
 
-  // eslint-disable-next-line jsdoc/require-returns
   /**
-   *
-   * @param elapsed time since last frame
+   * @returns scene
    */
-  public update(elapsed: number): Scene {
+  public update(): Scene {
     if (this.startButton.getReadyGame()) {
       return new SelectAngle();
     } return null;

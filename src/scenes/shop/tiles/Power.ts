@@ -1,5 +1,5 @@
 import HandleStats from '../../../ui/HandleStats.js';
-import HandleScore from '../../../ui/handleScore.js';
+import HandleScore from '../../../ui/HandleScore.js';
 import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 
@@ -36,6 +36,7 @@ export default class Power extends ShopTile {
 
   /**
    * renders the shape and image
+   *
    * @param canvas is the selected canvas to render to
    */
   public override render(canvas: HTMLCanvasElement) {
@@ -43,5 +44,4 @@ export default class Power extends ShopTile {
     CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'power', this.posX, this.posY);
   }
-
 }

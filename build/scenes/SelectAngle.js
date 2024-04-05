@@ -26,7 +26,7 @@ export default class SelectAngle extends Scene {
         HandleScenery.grassDark.push(new GrassDark(HandleScenery.grassLight[0].getWidth(), window.innerHeight - 80));
         HandleScenery.grassLight.push(new GrassLight(HandleScenery.grassDark[0].getWidth(), window.innerHeight - 100));
     }
-    processInput(keyListener, mouseListener) {
+    processInput(keyListener) {
         if (this.angleReady && keyListener.keyPressed('Space')) {
             this.powerReady = true;
         }

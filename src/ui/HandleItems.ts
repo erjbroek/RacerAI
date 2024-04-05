@@ -1,10 +1,10 @@
-import Coin from "../drawables/Coin.js";
-import Mushroom from "../drawables/Mushroom.js";
-import Obstacle from "../drawables/Obstacle.js";
-import Player from "../drawables/Player.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import HandleScenery from "./HandleScenery.js";
-import HandleScore from "./handleScore.js";
+import Coin from '../drawables/Coin.js';
+import Mushroom from '../drawables/Mushroom.js';
+import Obstacle from '../drawables/Obstacle.js';
+import Player from '../drawables/Player.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import HandleScenery from './HandleScenery.js';
+import HandleScore from './HandleScore.js';
 
 export default class HandleItems {
   private static coins: Coin[] = [];
@@ -83,7 +83,7 @@ export default class HandleItems {
   }
 
   /**
-   *
+   * @param player is the player that the item can collide with
    */
   public static collision(player: Player) {
     HandleItems.coins.forEach((coin) => {
@@ -94,7 +94,7 @@ export default class HandleItems {
       }
     });
 
-    HandleItems.obstacles.forEach((obj, index) => {
+    HandleItems.obstacles.forEach((obj) => {
       if (CanvasUtil.collidesWith(player, obj)) {
         if (obj instanceof Mushroom) {
           HandleItems.obstacles.splice(HandleItems.obstacles.indexOf(obj), 1);
@@ -106,6 +106,7 @@ export default class HandleItems {
 
   /**
    * renders the objects to the canvas
+   *
    * @param canvas the selected canvas objects are rendered to
    */
   public static render(canvas: HTMLCanvasElement) {

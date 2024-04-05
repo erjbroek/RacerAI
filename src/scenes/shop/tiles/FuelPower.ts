@@ -1,5 +1,5 @@
 import HandleStats from '../../../ui/HandleStats.js';
-import HandleScore from '../../../ui/handleScore.js';
+import HandleScore from '../../../ui/HandleScore.js';
 import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 
@@ -36,6 +36,7 @@ export default class FuelPower extends ShopTile {
 
   /**
    * renders the shape and image
+   *
    * @param canvas is the selected canvas to render to
    */
   public override render(canvas: HTMLCanvasElement) {
