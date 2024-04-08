@@ -7,7 +7,7 @@ export default class HandleScore {
     static silverCoins = 0;
     static goldCoins = 0;
     static totalCoins = 0;
-    static duckDollars = 0;
+    static duckDollars = 999999;
     static enemiesHit = 0;
     static score = 0;
     static calculateDistances(xSpeed, height) {
@@ -44,4 +44,4 @@ export default class HandleScore {
         }
     }
 }
-//# sourceMappingURL=handleScore.js.map
+//# sourceMappingURL=HandleScore.js.map

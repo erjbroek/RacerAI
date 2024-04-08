@@ -11,6 +11,7 @@ import Luck from './tiles/Luck.js';
 import Power from './tiles/Power.js';
 import Resistance from './tiles/Resistance.js';
 import ShopTile from './tiles/ShopTile.js';
+import CoinDuper from './tiles/coinMult.js';
 
 export default class Shop extends Scene {
   private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
@@ -26,6 +27,8 @@ export default class Shop extends Scene {
   private power: Power = new Power();
 
   private resistance: Resistance = new Resistance();
+
+  private coinMultiplier: CoinDuper = new CoinDuper();
 
   private selected: ShopTile = null;
 
@@ -49,7 +52,7 @@ export default class Shop extends Scene {
     if (keyListener.keyPressed('Space')) {
       this.back = true;
     }
-    [this.fuel, this.fuelPower, this.luck, this.power, this.resistance].forEach((tile) => {
+    [this.fuel, this.fuelPower, this.luck, this.power, this.resistance, this.coinMultiplier].forEach((tile) => {
       if (mouseListener.getMousePosition().x > tile.posX
       && mouseListener.getMousePosition().y > tile.posY
       && mouseListener.getMousePosition().x < tile.posX + tile.tileSize
@@ -108,6 +111,7 @@ export default class Shop extends Scene {
     this.luck.render(canvas);
     this.power.render(canvas);
     this.resistance.render(canvas);
+    this.coinMultiplier.render(canvas);
 
     CanvasUtil.writeTextToCanvas(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
 

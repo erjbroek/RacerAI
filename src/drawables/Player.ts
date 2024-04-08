@@ -30,7 +30,7 @@ export default class Player extends Drawable {
     this.energy = 200;
     this.totalBoost = HandleStats.fuel;
     this.boost = this.totalBoost;
-    this.boostPower = HandleStats.boostPower;
+    this.boostPower = HandleStats.fuelPower;
 
     this.image.width = window.innerWidth / 15;
     this.image.height = window.innerWidth / 15;

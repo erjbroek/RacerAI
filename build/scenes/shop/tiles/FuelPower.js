@@ -5,9 +5,9 @@ import ShopTile from './ShopTile.js';
 export default class FuelPower extends ShopTile {
     constructor() {
         super();
-        this.tier = HandleStats.boostPowerTier;
+        this.tier = HandleStats.fuelPowerTier;
         this.maxTier = 5;
-        this.blueValue = 50 * HandleStats.boostPowerTier;
+        this.blueValue = (255 / this.maxTier) * this.tier;
         this.opacity = 0.6;
         this.title = 'Jetpack power';
         this.description = "The jetpack makes you fly in the direction you're facing.<br>Upgrading this means you get a better jetpack, resulating in higher speeds!";
@@ -21,7 +21,8 @@ export default class FuelPower extends ShopTile {
     level() {
         if (HandleScore.duckDollars >= this.upgradeCost) {
             if (this.tier < this.maxTier) {
-                HandleStats.boostPowerTier += 1;
+                HandleStats.fuelPowerTier += 1;
+                HandleStats.fuelPower = this.statTiers[HandleStats.fuelPowerTier];
                 this.tier += 1;
                 this.blueValue = (255 / this.maxTier) * this.tier;
                 this.upgradeCost *= this.upgradeMultiplier;

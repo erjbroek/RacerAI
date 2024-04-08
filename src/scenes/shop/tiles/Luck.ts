@@ -10,7 +10,7 @@ export default class Luck extends ShopTile {
     super();
     this.tier = HandleStats.luckTier;
     this.maxTier = 5;
-    this.blueValue = 50 * HandleStats.luckTier;
+    this.blueValue = (255 / this.maxTier) * this.tier;
     this.opacity = 0.6;
     this.title = 'Luck';
     this.description = 'An increase in luck means you find better coins and face less obstacles<br>in the way.';
@@ -30,6 +30,7 @@ export default class Luck extends ShopTile {
       if (this.tier < this.maxTier) {
         HandleScore.duckDollars -= this.upgradeCost;
         HandleStats.luckTier += 1;
+        HandleStats.luck = this.luckStats[HandleStats.luckTier];
         this.tier += 1;
         this.blueValue = (255 / this.maxTier) * this.tier;
         this.upgradeCost *= this.upgradeMultiplier;

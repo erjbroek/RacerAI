@@ -8,6 +8,7 @@ import FuelPower from './tiles/FuelPower.js';
 import Luck from './tiles/Luck.js';
 import Power from './tiles/Power.js';
 import Resistance from './tiles/Resistance.js';
+import CoinDuper from './tiles/coinMult.js';
 export default class Shop extends Scene {
     backgroundImage = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
     back = false;
@@ -16,6 +17,7 @@ export default class Shop extends Scene {
     luck = new Luck();
     power = new Power();
     resistance = new Resistance();
+    coinMultiplier = new CoinDuper();
     selected = null;
     shopDecorator = new ShopDecoration();
     buyButton = CanvasUtil.loadNewImage('./assets/buy-button.jpg');
@@ -27,7 +29,7 @@ export default class Shop extends Scene {
         if (keyListener.keyPressed('Space')) {
             this.back = true;
         }
-        [this.fuel, this.fuelPower, this.luck, this.power, this.resistance].forEach((tile) => {
+        [this.fuel, this.fuelPower, this.luck, this.power, this.resistance, this.coinMultiplier].forEach((tile) => {
             if (mouseListener.getMousePosition().x > tile.posX
                 && mouseListener.getMousePosition().y > tile.posY
                 && mouseListener.getMousePosition().x < tile.posX + tile.tileSize
@@ -76,6 +78,7 @@ export default class Shop extends Scene {
         this.luck.render(canvas);
         this.power.render(canvas);
         this.resistance.render(canvas);
+        this.coinMultiplier.render(canvas);
         CanvasUtil.writeTextToCanvas(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
         if (this.selected) {
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2);

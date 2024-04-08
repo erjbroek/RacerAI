@@ -8,7 +8,7 @@ export default class Resistance extends ShopTile {
     super();
     this.tier = HandleStats.airResistanceTier;
     this.maxTier = 4;
-    this.blueValue = 50 * HandleStats.airResistanceTier;
+    this.blueValue = (255 / this.maxTier) * this.tier;
     this.opacity = 0.6;
     this.title = 'Air resistance';
     this.description = 'Whenever flying, mister duck will experience ait resistance. Upgrading this<br>makes mister duck more aerodynamic resulting in further flight.';
@@ -17,7 +17,7 @@ export default class Resistance extends ShopTile {
     this.tileSize = window.innerWidth / 7.5;
     this.posX = window.innerWidth / 10 + this.tileSize + window.innerWidth / 32;
     this.posY = window.innerHeight / 1.6 + 30;
-    this.statTiers = [0, 0.1, 0.25, 0.3, 0.45];
+    this.statTiers = [1, 0.9, 0.75, 0.65, 0.5];
   }
 
   /**
@@ -27,6 +27,7 @@ export default class Resistance extends ShopTile {
     if (HandleScore.duckDollars >= this.upgradeCost) {
       if (this.tier < this.maxTier) {
         HandleStats.airResistanceTier += 1;
+        HandleStats.airResistance = this.statTiers[HandleStats.airResistanceTier];
         this.tier += 1;
         this.blueValue = (255 / this.maxTier) * this.tier;
         this.upgradeCost *= this.upgradeMultiplier;

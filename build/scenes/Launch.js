@@ -7,6 +7,7 @@ import HandleScore from '../ui/HandleScore.js';
 import Choose from './Choose.js';
 import HandleItems from '../ui/HandleItems.js';
 import Background from '../background items/Background.js';
+import HandleStats from '../ui/HandleStats.js';
 export default class Launch extends Scene {
     launchAngle;
     player = new Player();
@@ -18,6 +19,7 @@ export default class Launch extends Scene {
         super();
         this.launchAngle = launchAngle;
         this.player.angle = this.launchAngle;
+        launchPower *= HandleStats.launchPower;
         this.player.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.player.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
         HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
@@ -80,8 +82,8 @@ export default class Launch extends Scene {
         else {
             this.player.ySpeed += this.gravity;
             if (this.player.xSpeed >= 0.03) {
-                this.player.xSpeed -= 0.03 * (this.player.xSpeed / 15);
-                this.player.ySpeed -= 0.03 * (this.player.ySpeed / 15);
+                this.player.xSpeed -= 0.045 * (this.player.xSpeed / 15) * HandleStats.airResistance;
+                this.player.ySpeed -= 0.045 * (this.player.ySpeed / 15) * HandleStats.airResistance;
             }
             if (Math.abs(this.player.xSpeed) <= 8 && this.player.touchedGround) {
                 this.player.rotate();
@@ -99,6 +101,11 @@ export default class Launch extends Scene {
         CanvasUtil.writeTextToCanvas(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
         CanvasUtil.writeTextToCanvas(canvas, `xspeed: ${Math.round(this.player.xSpeed)}`, window.innerWidth / 50, window.innerHeight / 20, 'left', 'arial', 20, 'black');
         CanvasUtil.writeTextToCanvas(canvas, `yspeed: ${Math.round(this.player.ySpeed)}`, window.innerWidth / 50, window.innerHeight / 15, 'left', 'arial', 20, 'black');
+        CanvasUtil.writeTextToCanvas(canvas, `fuel: ${HandleStats.fuel}`, window.innerWidth / 50, window.innerHeight / 8, 'left', 'arial', 20, 'black');
+        CanvasUtil.writeTextToCanvas(canvas, `fuel power: ${HandleStats.fuel}`, window.innerWidth / 50, window.innerHeight / 7, 'left', 'arial', 20, 'black');
+        CanvasUtil.writeTextToCanvas(canvas, `luck: ${HandleStats.luck[0]}, ${HandleStats.luck[1]}`, window.innerWidth / 50, window.innerHeight / 6.2, 'left', 'arial', 20, 'black');
+        CanvasUtil.writeTextToCanvas(canvas, `power: ${HandleStats.launchPower}`, window.innerWidth / 50, window.innerHeight / 5.5, 'left', 'arial', 20, 'black');
+        CanvasUtil.writeTextToCanvas(canvas, `air resistance: ${HandleStats.airResistance}`, window.innerWidth / 50, window.innerHeight / 5, 'left', 'arial', 20, 'black');
         if (this.finishFlight) {
             this.endScreen.endRound(canvas);
         }
