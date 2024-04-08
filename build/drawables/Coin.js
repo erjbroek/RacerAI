@@ -1,6 +1,6 @@
-import HandleStats from "../ui/HandleStats.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import Drawable from "./Drawable.js";
+import HandleStats from '../ui/HandleStats.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import Drawable from './Drawable.js';
 export default class Coin extends Drawable {
     value;
     coinType;

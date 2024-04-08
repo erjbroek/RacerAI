@@ -1,6 +1,5 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Obstacle from './Obstacle.js';
-import Player from './Player.js';
 
 export default class Mushroom extends Obstacle {
   public constructor(posX: number, bottom: number) {
