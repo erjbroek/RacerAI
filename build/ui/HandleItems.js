@@ -35,7 +35,7 @@ export default class HandleItems {
         }
     }
     static addItems() {
-        while (HandleItems.coins.filter((obj) => obj instanceof Coin).length < 15) {
+        while (HandleItems.coins.filter((obj) => obj instanceof Coin).length < 99) {
             HandleItems.coins.push(new Coin(window.innerWidth + (window.innerWidth + Math.random() * (window.innerWidth * 3)), HandleScenery.backgrounds[0].getPosY() + HandleScenery.backgrounds[0].getHeight() - 70));
         }
         while (HandleItems.obstacles.filter((obj) => obj instanceof Mushroom).length < 1) {

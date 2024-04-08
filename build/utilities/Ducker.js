@@ -3,6 +3,7 @@ import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
 import Shop from '../scenes/shop/Shop.js';
+import Cookies from '../ui/Cookies.js';
 export default class Ducker extends Game {
     canvas;
     keyListener;
@@ -15,6 +16,7 @@ export default class Ducker extends Game {
         this.canvas.width = window.innerWidth;
         this.keyListener = new KeyListener();
         this.mouseListener = new MouseListener(canvas);
+        Cookies.loadStatsFromCookieSlot(1);
         this.currentScene = new Shop();
     }
     processInput() {

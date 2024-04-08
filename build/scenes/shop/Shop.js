@@ -1,3 +1,4 @@
+import Cookies from '../../ui/Cookies.js';
 import HandleScore from '../../ui/HandleScore.js';
 import CanvasUtil from '../../utilities/CanvasUtil.js';
 import Choose from '../Choose.js';
@@ -8,7 +9,7 @@ import FuelPower from './tiles/FuelPower.js';
 import Luck from './tiles/Luck.js';
 import Power from './tiles/Power.js';
 import Resistance from './tiles/Resistance.js';
-import CoinDuper from './tiles/coinMult.js';
+import CoinMult from './tiles/coinMult.js';
 export default class Shop extends Scene {
     backgroundImage = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
     back = false;
@@ -17,7 +18,7 @@ export default class Shop extends Scene {
     luck = new Luck();
     power = new Power();
     resistance = new Resistance();
-    coinMultiplier = new CoinDuper();
+    coinMultiplier = new CoinMult();
     selected = null;
     shopDecorator = new ShopDecoration();
     buyButton = CanvasUtil.loadNewImage('./assets/buy-button.jpg');
@@ -28,6 +29,18 @@ export default class Shop extends Scene {
     processInput(keyListener, mouseListener) {
         if (keyListener.keyPressed('Space')) {
             this.back = true;
+        }
+        if (keyListener.keyPressed('Digit1')) {
+            Cookies.saveStatsToCookies(1);
+            console.log('save');
+        }
+        if (keyListener.keyPressed('Digit2')) {
+            Cookies.saveStatsToCookies(2);
+            console.log('save');
+        }
+        if (keyListener.keyPressed('Digit3')) {
+            Cookies.saveStatsToCookies(3);
+            console.log('save');
         }
         [this.fuel, this.fuelPower, this.luck, this.power, this.resistance, this.coinMultiplier].forEach((tile) => {
             if (mouseListener.getMousePosition().x > tile.posX
