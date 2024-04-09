@@ -1,5 +1,4 @@
 import Cookies from '../../ui/Cookies.js';
-import HandleScore from '../../ui/HandleScore.js';
 import CanvasUtil from '../../utilities/CanvasUtil.js';
 import KeyListener from '../../utilities/KeyListener.js';
 import MouseListener from '../../utilities/MouseListener.js';
@@ -12,7 +11,8 @@ import Luck from './tiles/Luck.js';
 import Power from './tiles/Power.js';
 import Resistance from './tiles/Resistance.js';
 import ShopTile from './tiles/ShopTile.js';
-import CoinMult from './tiles/coinMult.js';
+import CoinMult from './tiles/CoinMult.js';
+import HandleScore from '../../ui/HandleScore.js';
 
 export default class Shop extends Scene {
   private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
