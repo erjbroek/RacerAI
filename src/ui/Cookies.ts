@@ -43,7 +43,7 @@ export default class Cookies {
     let statsJson = '';
 
     cookies.forEach((cookie) => {
-      console.log(cookie )
+      console.log(cookie)
       const [name, value] = cookie.split('=');
       if (name.trim() === cookieName) {
         statsJson = value;
