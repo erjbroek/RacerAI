@@ -16,7 +16,7 @@ import HandleStats from '../../ui/HandleStats.js';
 import HandleScore from '../../ui/HandleScore.js';
 
 export default class Shop extends Scene {
-  private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/introSceneBackground.png');
+  private static backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/introSceneBackground.png');
 
   private back: boolean = false;
 
@@ -114,7 +114,7 @@ export default class Shop extends Scene {
    */
   public render(canvas: HTMLCanvasElement): void {
     this.shopDecorator.render(canvas);
-    CanvasUtil.drawImage(canvas, this.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
+    CanvasUtil.drawImage(canvas, Shop.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
     CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3);
     CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6);
     CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6);
