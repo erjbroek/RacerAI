@@ -9,7 +9,6 @@ import Luck from './tiles/Luck.js';
 import Power from './tiles/Power.js';
 import Resistance from './tiles/Resistance.js';
 import CoinMult from './tiles/CoinMult.js';
-import HandleScore from '../../ui/HandleScore.js';
 export default class Shop extends Scene {
     backgroundImage = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
     back = false;
@@ -92,7 +91,6 @@ export default class Shop extends Scene {
         this.power.render(canvas);
         this.resistance.render(canvas);
         this.coinMultiplier.render(canvas);
-        CanvasUtil.writeTextToCanvas(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
         if (this.selected) {
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2);
             CanvasUtil.writeTextToCanvas(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.71, 'center', 'Arial', 30, 'white');
