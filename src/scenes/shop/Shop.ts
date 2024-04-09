@@ -12,6 +12,7 @@ import Power from './tiles/Power.js';
 import Resistance from './tiles/Resistance.js';
 import ShopTile from './tiles/ShopTile.js';
 import CoinMult from './tiles/CoinMult.js';
+import HandleStats from '../../ui/HandleStats.js';
 import HandleScore from '../../ui/HandleScore.js';
 
 export default class Shop extends Scene {
@@ -53,6 +54,7 @@ export default class Shop extends Scene {
     if (keyListener.keyPressed('Space')) {
       this.back = true;
     }
+    HandleStats.airResistance += 0;
 
     if (keyListener.keyPressed('Digit1')) {
       Cookies.saveStatsToCookies(1);
