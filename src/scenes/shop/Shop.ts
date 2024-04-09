@@ -16,7 +16,7 @@ import HandleStats from '../../ui/HandleStats.js';
 import HandleScore from '../../ui/HandleScore.js';
 
 export default class Shop extends Scene {
-  private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
+  private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/introSceneBackground.png');
 
   private back: boolean = false;
 

@@ -3,7 +3,6 @@ import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import Scene from '../scenes/Scene.js';
 import MouseListener from './MouseListener.js';
-import Shop from '../scenes/shop/Shop.js';
 import Cookies from '../ui/Cookies.js';
 import StartingScene from '../scenes/StartingScene.js';
 

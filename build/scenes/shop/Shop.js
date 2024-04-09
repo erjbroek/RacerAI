@@ -12,7 +12,7 @@ import CoinMult from './tiles/CoinMult.js';
 import HandleStats from '../../ui/HandleStats.js';
 import HandleScore from '../../ui/HandleScore.js';
 export default class Shop extends Scene {
-    backgroundImage = CanvasUtil.loadNewImage('/assets/introSceneBackground.png');
+    backgroundImage = CanvasUtil.loadNewImage('./assets/introSceneBackground.png');
     back = false;
     fuel = new Fuel();
     fuelPower = new FuelPower();
