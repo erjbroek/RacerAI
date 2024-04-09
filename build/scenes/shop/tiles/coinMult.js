@@ -2,7 +2,7 @@ import HandleStats from '../../../ui/HandleStats.js';
 import HandleScore from '../../../ui/HandleScore.js';
 import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
-export default class CoinDuper extends ShopTile {
+export default class CoinMult extends ShopTile {
     constructor() {
         super();
         this.tier = HandleStats.coinMultTier;
@@ -39,4 +39,4 @@ export default class CoinDuper extends ShopTile {
         CanvasUtil.writeText(canvas, 'coin multiplier', this.posX, this.posY);
     }
 }
-//# sourceMappingURL=coinMult.js.map
+//# sourceMappingURL=CoinMult.js.map

@@ -3,7 +3,7 @@ import HandleScore from '../../../ui/HandleScore.js';
 import CanvasUtil from '../../../utilities/CanvasUtil.js';
 import ShopTile from './ShopTile.js';
 
-export default class CoinDuper extends ShopTile {
+export default class CoinMult extends ShopTile {
   public constructor() {
     super();
     this.tier = HandleStats.coinMultTier;
