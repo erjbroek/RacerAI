@@ -10,9 +10,9 @@ import Shop from './shop/Shop.js';
 export default class Choose extends Scene {
   private logo: HTMLImageElement;
 
-  private upgrade: HTMLImageElement;
+  private shopImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/shop.png');
 
-  private continue: HTMLImageElement;
+  private continueImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/startbutton.png');
 
   private goShop: boolean = false;
 
@@ -56,8 +56,10 @@ export default class Choose extends Scene {
   public render(canvas: HTMLCanvasElement): void {
     CanvasUtil.fillCanvas(canvas, '#7cc7b9');
     CanvasUtil.drawImage(canvas, this.logo, window.innerWidth / 3.3, 0 + window.innerHeight / 20, window.innerWidth / 2.8, window.innerHeight / 2.8);
-    CanvasUtil.fillRectangle(canvas, window.innerWidth / 3.5, window.innerHeight / 2, window.innerWidth / 7, window.innerHeight / 10, 0, 0, 0);
-    CanvasUtil.fillRectangle(canvas, window.innerWidth / 1.9, window.innerHeight / 2, window.innerWidth / 7, window.innerHeight / 10, 0, 0, 0);
-    CanvasUtil.writeTextToCanvas(canvas, `Duck dollars: ${HandleScore.duckDollars}`, window.innerWidth / 1.8, window.innerHeight / 2 + window.innerHeight / 8, 'left', 'arial', 20, 'black');
+    CanvasUtil.drawImage(canvas, this.shopImage, window.innerWidth / 3.5, window.innerHeight / 2, window.innerWidth / 7, window.innerHeight / 10, 0);
+    CanvasUtil.drawImage(canvas, this.continueImage, window.innerWidth / 1.9, window.innerHeight / 2, window.innerWidth / 7, window.innerHeight / 10, 0);
+    // CanvasUtil.fillRectangle(canvas, window.innerWidth / 3.5, window.innerHeight / 2, window.innerWidth / 7, window.innerHeight / 10, 0, 0, 0);
+    // CanvasUtil.fillRectangle(canvas, window.innerWidth / 1.9, window.innerHeight / 2, window.innerWidth / 7, window.innerHeight / 10, 0, 0, 0);
+    CanvasUtil.writeText(canvas, `Duck dollars: ${HandleScore.duckDollars}`, window.innerWidth / 1.8, window.innerHeight / 2 + window.innerHeight / 8, 'left', 'arial', 20, 'black');
   }
 }

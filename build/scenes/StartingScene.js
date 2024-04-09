@@ -25,7 +25,7 @@ export default class StartingScene extends Scene {
         CanvasUtil.drawImage(canvas, this.logo, 0, 0, canvas.width, canvas.height, 0);
         CanvasUtil.drawImage(canvas, this.title, canvas.width / 2, canvas.height / 23, this.title.width / 2.2, this.title.height / 2.2, 0);
         this.startButton.render(canvas);
-        CanvasUtil.writeTextToCanvas(canvas, 'Made by: Erik van den Broek', canvas.width / 1.4, canvas.height / 1.6, 'center', 'arial', 15, 'gray');
+        CanvasUtil.writeText(canvas, 'Made by: Erik van den Broek', canvas.width / 1.4, canvas.height / 1.6, 'center', 'arial', 15, 'gray');
     }
 }
 //# sourceMappingURL=StartingScene.js.map

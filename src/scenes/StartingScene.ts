@@ -54,6 +54,6 @@ export default class StartingScene extends Scene {
       0,
     );
     this.startButton.render(canvas);
-    CanvasUtil.writeTextToCanvas(canvas, 'Made by: Erik van den Broek', canvas.width / 1.4, canvas.height / 1.6, 'center', 'arial', 15, 'gray');
+    CanvasUtil.writeText(canvas, 'Made by: Erik van den Broek', canvas.width / 1.4, canvas.height / 1.6, 'center', 'arial', 15, 'gray');
   }
 }

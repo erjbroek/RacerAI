@@ -132,17 +132,17 @@ export default class Shop extends Scene {
     this.resistance.render(canvas);
     this.coinMultiplier.render(canvas);
 
-    CanvasUtil.writeTextToCanvas(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
+    CanvasUtil.writeText(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
 
     if (this.selected) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2);
-      CanvasUtil.writeTextToCanvas(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.71, 'center', 'Arial', 30, 'white');
+      CanvasUtil.writeText(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.71, 'center', 'Arial', 30, 'white');
 
       const descriptionLines = this.selected.description.split('<br>');
       descriptionLines.forEach((line, index) => {
         CanvasUtil.writeText(canvas, line, canvas.width / 1.68, canvas.height / 2.4 + (index * 18), 'left', 'Arial', 18, 'black');
       });
-      CanvasUtil.writeTextToCanvas(canvas, `price: ${Math.round(this.selected.upgradeCost)} $`, canvas.width / 1.68, canvas.height / 1.75, 'left', 'arial', 20, 'black');
+      CanvasUtil.writeText(canvas, `price: ${Math.round(this.selected.upgradeCost)} $`, canvas.width / 1.68, canvas.height / 1.75, 'left', 'arial', 20, 'black');
 
       for (let i = 1; i <= this.selected.maxTier; i++) {
         CanvasUtil.drawRectangle(canvas, canvas.width / 1.8 + (canvas.width / 20) * i, canvas.height / 1.68, canvas.width / 20, canvas.height / 30, 30, 100, 100, 0.8, 3);
@@ -151,19 +151,19 @@ export default class Shop extends Scene {
         CanvasUtil.fillRectangle(canvas, canvas.width / 1.8 + (canvas.width / 20) * i, canvas.height / 1.68, canvas.width / 20, canvas.height / 30, 30, 100, (255 / this.selected.maxTier) * i, 0.8);
       }
 
-      CanvasUtil.writeTextToCanvas(canvas, 'NOW', canvas.width / 1.68, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
+      CanvasUtil.writeText(canvas, 'NOW', canvas.width / 1.68, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
       if (this.selected === this.luck) {
-        CanvasUtil.writeTextToCanvas(canvas, `- Better coin chances:${Math.round(this.luck.luckStats[this.luck.tier][0] * 100)}%`, canvas.width / 1.68, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
-        CanvasUtil.writeTextToCanvas(canvas, `- Less bad obstacles: ${Math.round(this.luck.luckStats[this.luck.tier][1] * 100)}%`, canvas.width / 1.68, canvas.height / 1.35, 'left', 'Arial', 15, 'black');
+        CanvasUtil.writeText(canvas, `- Better coin chances:${Math.round(this.luck.luckStats[this.luck.tier][0] * 100)}%`, canvas.width / 1.68, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
+        CanvasUtil.writeText(canvas, `- Less bad obstacles: ${Math.round(this.luck.luckStats[this.luck.tier][1] * 100)}%`, canvas.width / 1.68, canvas.height / 1.35, 'left', 'Arial', 15, 'black');
         if (this.selected.tier < this.selected.maxTier) {
-          CanvasUtil.writeTextToCanvas(canvas, `- Less bad obstacles: ${Math.round(this.luck.luckStats[this.luck.tier + 1][1] * 100)}%`, canvas.width / 1.32, canvas.height / 1.35, 'left', 'Arial', 15, 'black');
-          CanvasUtil.writeTextToCanvas(canvas, `- Better coin chances:${Math.round(this.luck.luckStats[this.luck.tier + 1][0] * 100)}%`, canvas.width / 1.32, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
+          CanvasUtil.writeText(canvas, `- Less bad obstacles: ${Math.round(this.luck.luckStats[this.luck.tier + 1][1] * 100)}%`, canvas.width / 1.32, canvas.height / 1.35, 'left', 'Arial', 15, 'black');
+          CanvasUtil.writeText(canvas, `- Better coin chances:${Math.round(this.luck.luckStats[this.luck.tier + 1][0] * 100)}%`, canvas.width / 1.32, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
         }
       } else {
-        CanvasUtil.writeTextToCanvas(canvas, 'UPGRADED', canvas.width / 1.32, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
-        CanvasUtil.writeTextToCanvas(canvas, `- ${this.selected.title}:${Math.round(this.selected.statTiers[this.selected.tier] * 100) / 100}`, canvas.width / 1.68, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
+        CanvasUtil.writeText(canvas, 'UPGRADED', canvas.width / 1.32, canvas.height / 1.5, 'left', 'Arial', 15, 'black');
+        CanvasUtil.writeText(canvas, `- ${this.selected.title}:${Math.round(this.selected.statTiers[this.selected.tier] * 100) / 100}`, canvas.width / 1.68, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
         if (this.selected.tier < this.selected.maxTier) {
-          CanvasUtil.writeTextToCanvas(canvas, `- ${this.selected.title}:${Math.round(this.selected.statTiers[this.selected.tier + 1] * 100) / 100}`, canvas.width / 1.32, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
+          CanvasUtil.writeText(canvas, `- ${this.selected.title}:${Math.round(this.selected.statTiers[this.selected.tier + 1] * 100) / 100}`, canvas.width / 1.32, canvas.height / 1.45, 'left', 'Arial', 15, 'black');
         }
       }
 

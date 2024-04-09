@@ -5,6 +5,7 @@ import Scene from '../scenes/Scene.js';
 import MouseListener from './MouseListener.js';
 import Cookies from '../ui/Cookies.js';
 import StartingScene from '../scenes/StartingScene.js';
+import Choose from '../scenes/Choose.js';
 
 export default class Ducker extends Game {
   private canvas: HTMLCanvasElement;
