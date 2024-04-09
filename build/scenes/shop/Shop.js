@@ -12,7 +12,7 @@ import CoinMult from './tiles/CoinMult.js';
 import HandleStats from '../../ui/HandleStats.js';
 import HandleScore from '../../ui/HandleScore.js';
 export default class Shop extends Scene {
-    static backgroundImage = CanvasUtil.loadNewImage('./assets/introSceneBackground.png');
+    backgroundImage = CanvasUtil.loadNewImage('assets/introSceneBackground.png');
     back = false;
     fuel = new Fuel();
     fuelPower = new FuelPower();
@@ -78,7 +78,7 @@ export default class Shop extends Scene {
     }
     render(canvas) {
         this.shopDecorator.render(canvas);
-        CanvasUtil.drawImage(canvas, Shop.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
+        CanvasUtil.drawImage(canvas, this.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
         CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3);
         CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6);
         CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6);
