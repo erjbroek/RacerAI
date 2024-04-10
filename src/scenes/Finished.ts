@@ -3,9 +3,6 @@ import HandleScore from '../ui/HandleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import HandleStats from '../ui/HandleStats.js';
-import SelectAngle from './SelectAngle.js';
-import Shop from './shop/Shop.js';
-import Scene from './Scene.js';
 
 export default class Finished {
   private opacity: number = 0.0;

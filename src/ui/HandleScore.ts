@@ -1,5 +1,6 @@
 import Mushroom from '../drawables/Mushroom.js';
 import Obstacle from '../drawables/Obstacle.js';
+import HandleStats from './HandleStats.js';
 
 export default class HandleScore {
   public static height: number = 0;
@@ -88,7 +89,7 @@ export default class HandleScore {
       const coinScore = this.totalCoins;
 
       this.score = distanceScore + heightScore + speedScore + mushroomScore + coinScore;
-      HandleScore.duckDollars += HandleScore.totalCoins;
+      HandleScore.duckDollars += Math.round(HandleScore.totalCoins * HandleStats.coinMult);
       const minutes = Math.floor((this.totalTime / 1000) / 60);
       const seconds = Math.floor((this.totalTime / 1000) % 60);
       const miliSeconds = Math.floor(this.totalTime % 1000);
