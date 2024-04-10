@@ -42,7 +42,7 @@ export default class Fuel extends ShopTile {
    * @param canvas is the selected canvas to render to
    */
   public override render(canvas: HTMLCanvasElement) {
-    CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
+    CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity, 20);
     if (this.selectTile) {
       CanvasUtil.drawRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 30, 30, 0.4, 4);
     }

@@ -80,6 +80,31 @@ export default class MouseListener {
    */
   public static areaPressed(posX: number, posY: number, width: number, height: number): boolean {
     if (
+      MouseListener.buttonPressed(0)
+      && MouseListener.mouseCoordinates.x > posX
+      && MouseListener.mouseCoordinates.y > posY
+      && MouseListener.mouseCoordinates.x < posX + width
+      && MouseListener.mouseCoordinates.y < posY + height
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+    /**
+   * Returns the current mouse coordinates in an object
+   *
+   * @returns MouseCoordinates object with current position of mouse
+   */
+  /**
+   * @returns boolean if the mouse clicks between the specified positions
+   * @param posX the x-coordinate of the top-left corner of the rectangle
+   * @param posY the y-coordinate of the top-left corner of the rectangle
+   * @param width the width of the rectangle
+   * @param height the height of the rectangle
+   */
+  public static areaDown(posX: number, posY: number, width: number, height: number): boolean {
+    if (
       MouseListener.isButtonDown(0)
       && MouseListener.mouseCoordinates.x > posX
       && MouseListener.mouseCoordinates.y > posY

@@ -85,14 +85,6 @@ export default class Shop extends Scene {
       if (MouseListener.areaPressed(window.innerWidth / 1.45 + window.innerWidth / 6.9, window.innerHeight / 1.13, window.innerWidth / 14, window.innerHeight / 22.6)) {
         this.selected.level();
       }
-      // if (MouseListener.getMousePosition().x > window.innerWidth / 1.45 + window.innerWidth / 6.9
-      // && MouseListener.getMousePosition().y > window.innerHeight / 1.13
-      // && MouseListener.getMousePosition().x < window.innerWidth / 1.45 + window.innerWidth / 6.9 + window.innerWidth / 14
-      // && MouseListener.getMousePosition().y < window.innerHeight / 1.13 + window.innerHeight / 22.6) {
-      //   if (MouseListener.buttonPressed(0)) {
-      //     this.selected.level();
-      //   }
-      // }
     }
   }
 
@@ -115,14 +107,14 @@ export default class Shop extends Scene {
   public render(canvas: HTMLCanvasElement): void {
     this.shopDecorator.render(canvas);
     CanvasUtil.drawImage(canvas, this.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
-    CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3);
-    CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6);
-    CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6);
+    CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3, 10);
+    CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6, 10);
+    CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6, 10);
 
     if (this.canLevel) {
-      CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 50, 50, 0.8);
+      CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 50, 50, 0.8, 10);
     } else {
-      CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 255, 255, 0.6);
+      CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 255, 255, 0.6, 10);
     }
 
     this.fuel.render(canvas);
@@ -135,7 +127,7 @@ export default class Shop extends Scene {
     CanvasUtil.writeText(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
 
     if (this.selected) {
-      CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2);
+      CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2, 10);
       CanvasUtil.writeText(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.71, 'center', 'Arial', 30, 'white');
 
       const descriptionLines = this.selected.description.split('<br>');

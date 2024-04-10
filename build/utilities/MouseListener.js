@@ -38,6 +38,16 @@ export default class MouseListener {
         return false;
     }
     static areaPressed(posX, posY, width, height) {
+        if (MouseListener.buttonPressed(0)
+            && MouseListener.mouseCoordinates.x > posX
+            && MouseListener.mouseCoordinates.y > posY
+            && MouseListener.mouseCoordinates.x < posX + width
+            && MouseListener.mouseCoordinates.y < posY + height) {
+            return true;
+        }
+        return false;
+    }
+    static areaDown(posX, posY, width, height) {
         if (MouseListener.isButtonDown(0)
             && MouseListener.mouseCoordinates.x > posX
             && MouseListener.mouseCoordinates.y > posY

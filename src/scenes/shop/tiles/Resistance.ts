@@ -41,7 +41,7 @@ export default class Resistance extends ShopTile {
    * @param canvas is the selected canvas to render to
    */
   public override render(canvas: HTMLCanvasElement) {
-    CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity);
+    CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity, 20);
     CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'air resistance', this.posX, this.posY);
   }

@@ -72,14 +72,14 @@ export default class Shop extends Scene {
     render(canvas) {
         this.shopDecorator.render(canvas);
         CanvasUtil.drawImage(canvas, this.backgroundImage, 0, canvas.height / 6, canvas.width, canvas.height, 0);
-        CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3);
-        CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6);
-        CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6);
+        CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6, canvas.width, canvas.height, 255, 255, 255, 0.3, 10);
+        CanvasUtil.fillRectangle(canvas, 0, canvas.height / 6 + 3, canvas.width, canvas.height / 40, 200, 255, 255, 0.6, 10);
+        CanvasUtil.fillRectangle(canvas, canvas.width / 9.5, canvas.height / 3.2, canvas.width / 2.2, canvas.height / 1.57, 200, 255, 255, 0.6, 10);
         if (this.canLevel) {
-            CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 50, 50, 0.8);
+            CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 50, 50, 0.8, 10);
         }
         else {
-            CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 255, 255, 0.6);
+            CanvasUtil.fillRectangle(canvas, canvas.width / 1.7, canvas.height / 3.2, canvas.width / 3, canvas.height / 1.57, 200, 255, 255, 0.6, 10);
         }
         this.fuel.render(canvas);
         this.fuelPower.render(canvas);
@@ -89,7 +89,7 @@ export default class Shop extends Scene {
         this.coinMultiplier.render(canvas);
         CanvasUtil.writeText(canvas, `${HandleScore.duckDollars} $`, canvas.width / 2.95, canvas.height / 3.7, 'center', 'arial', 40, 'black');
         if (this.selected) {
-            CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2);
+            CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 3.08, canvas.width / 3.12, canvas.height / 15, 75, 75, 150, 0.2, 10);
             CanvasUtil.writeText(canvas, this.selected.title.toUpperCase(), canvas.width / 1.7 + canvas.width / 3 / 2, canvas.height / 2.71, 'center', 'Arial', 30, 'white');
             const descriptionLines = this.selected.description.split('<br>');
             descriptionLines.forEach((line, index) => {
