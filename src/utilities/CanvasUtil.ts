@@ -254,11 +254,22 @@ export default class CanvasUtil {
     green: number = 255,
     blue: number = 255,
     opacity: number = 1,
+    borderRadius: number = 0,
   ): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
+    ctx.moveTo(dx + borderRadius, dy);
+    ctx.lineTo(dx + width - borderRadius, dy);
+    ctx.arcTo(dx + width, dy, dx + width, dy + borderRadius, borderRadius);
+    ctx.lineTo(dx + width, dy + height - borderRadius);
+    ctx.arcTo(dx + width, dy + height, dx + width - borderRadius, dy + height, borderRadius);
+    ctx.lineTo(dx + borderRadius, dy + height);
+    ctx.arcTo(dx, dy + height, dx, dy + height - borderRadius, borderRadius);
+    ctx.lineTo(dx, dy + borderRadius);
+    ctx.arcTo(dx, dy, dx + borderRadius, dy, borderRadius);
+    ctx.closePath();
     ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
-    ctx.fillRect(dx, dy, width, height);
+    ctx.fill();
   }
 
   /**

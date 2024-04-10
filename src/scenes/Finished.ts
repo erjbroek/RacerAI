@@ -37,7 +37,6 @@ export default class Finished {
   public endRound(canvas: HTMLCanvasElement): void {
     // Calculate the score
     HandleScore.calculateScore();
-    console.log(HandleScore.fTime);
 
     // Fill the background with a semi-transparent color
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height, 100, 80, 150, this.opacity * 0.2);
@@ -78,12 +77,6 @@ export default class Finished {
 
     CanvasUtil.writeText(canvas, `Total Score: ${HandleScore.score.toFixed(1)}`, canvas.width / 2, canvas.height / 1.5, 'center', 'Arial', 40, 'white', this.opacity);
 
-    // Placeholder for button to go to the shop
-    CanvasUtil.fillRectangle(canvas, canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
-    CanvasUtil.writeText(canvas, 'Go to Shop', canvas.width / 2.5, canvas.height - 65, 'center', 'Arial', 25, 'black');
-
-    // Placeholder for button to retry the round
-    CanvasUtil.fillRectangle(canvas, canvas.width / 2 + canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
-    CanvasUtil.writeText(canvas, 'Retry', canvas.width / 1.25, canvas.height - 65, 'center', 'Arial', 24, 'black');
+    CanvasUtil.fillRectangle(canvas, canvas.width / 3, canvas.height / 1.5, canvas.width / 10, canvas.height / 25, 255, 255, 255, this.opacity * 0.3, 20);
   }
 }
