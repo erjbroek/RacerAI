@@ -19,7 +19,7 @@ export default class Finished {
         HandleScore.calculateScore();
         console.log(HandleScore.fTime);
         CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height, 100, 80, 150, this.opacity * 0.2);
-        CanvasUtil.fillRectangle(canvas, canvas.width / 12, canvas.height / 14, canvas.width - 2 * (canvas.width / 12), canvas.height - 2 * (canvas.height / 20), 50, 50, 100, this.opacity * 0.1);
+        CanvasUtil.fillRectangle(canvas, canvas.width / 12, canvas.height / 14, canvas.width - 2 * (canvas.width / 12), canvas.height - 2 * (canvas.height / 20), 49, 50, 100, this.opacity * 0.1);
         CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 10, canvas.width / 4, canvas.height - 2 * (canvas.height / 4), 50, 50, 100, this.opacity * 0.25);
         CanvasUtil.fillRectangle(canvas, canvas.width / 10 + canvas.width / 4 + canvas.width / 41, canvas.height / 10, canvas.width / 4, canvas.height - 2 * (canvas.height / 4), 50, 50, 100, this.opacity * 0.25);
         CanvasUtil.fillRectangle(canvas, canvas.width / 10 + (2 * canvas.width + 8 * (canvas.width / 41)) / 4, canvas.height / 10, canvas.width / 4, canvas.height - 2 * (canvas.height / 4), 50, 50, 100, this.opacity * 0.25);
