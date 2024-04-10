@@ -81,7 +81,14 @@ export default class HandleScore {
   public static calculateScore() {
     // the formula for calculating the score, based on distance and height
     if (!this.isFirstTimeTriggered) {
-      this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
+      const distanceScore = this.distance;
+      const heightScore = this.maxHeight * 5;
+      const speedScore = this.maxSpeed / 20;
+      const mushroomScore = this.hitMushroom * 10;
+      const coinScore = this.totalCoins;
+
+      this.score = distanceScore + heightScore + speedScore + mushroomScore + coinScore;
+
       const minutes = Math.floor((this.totalTime / 1000) / 60);
       const seconds = Math.floor((this.totalTime / 1000) % 60);
       const miliSeconds = Math.floor(this.totalTime % 1000);

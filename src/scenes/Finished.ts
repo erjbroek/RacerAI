@@ -76,6 +76,8 @@ export default class Finished {
     CanvasUtil.writeText(canvas, 'Amount hit', canvas.width / 1.32, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.writeText(canvas, `${HandleScore.hitMushroom}`, canvas.width / 1.135, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
 
+    CanvasUtil.writeText(canvas, `Total Score: ${HandleScore.score.toFixed(1)}`, canvas.width / 2, canvas.height / 1.5, 'center', 'Arial', 40, 'white', this.opacity);
+
     // Placeholder for button to go to the shop
     CanvasUtil.fillRectangle(canvas, canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
     CanvasUtil.writeText(canvas, 'Go to Shop', canvas.width / 2.5, canvas.height - 65, 'center', 'Arial', 25, 'black');
@@ -84,5 +86,4 @@ export default class Finished {
     CanvasUtil.fillRectangle(canvas, canvas.width / 2 + canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
     CanvasUtil.writeText(canvas, 'Retry', canvas.width / 1.25, canvas.height - 65, 'center', 'Arial', 24, 'black');
   }
-
 }

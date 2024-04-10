@@ -47,6 +47,7 @@ export default class Finished {
         CanvasUtil.drawImage(canvas, this.mushroomImage, canvas.width / 1.5, canvas.height / 6 - canvas.height / 40, canvas.height / 20, canvas.height / 23);
         CanvasUtil.writeText(canvas, 'Amount hit', canvas.width / 1.32, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
         CanvasUtil.writeText(canvas, `${HandleScore.hitMushroom}`, canvas.width / 1.135, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
+        CanvasUtil.writeText(canvas, `Total Score: ${HandleScore.score.toFixed(1)}`, canvas.width / 2, canvas.height / 1.5, 'center', 'Arial', 40, 'white', this.opacity);
         CanvasUtil.fillRectangle(canvas, canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
         CanvasUtil.writeText(canvas, 'Go to Shop', canvas.width / 2.5, canvas.height - 65, 'center', 'Arial', 25, 'black');
         CanvasUtil.fillRectangle(canvas, canvas.width / 2 + canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
