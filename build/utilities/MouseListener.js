@@ -38,7 +38,7 @@ export default class MouseListener {
         return false;
     }
     static areaPressed(posX, posY, width, height) {
-        if (MouseListener.buttonPressed(0)
+        if (MouseListener.isButtonDown(0)
             && MouseListener.mouseCoordinates.x > posX
             && MouseListener.mouseCoordinates.y > posY
             && MouseListener.mouseCoordinates.x < posX + width

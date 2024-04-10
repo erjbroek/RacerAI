@@ -8,6 +8,8 @@ import Background from '../background items/Background.js';
 import HandleScenery from '../ui/HandleScenery.js';
 import GrassDark from '../background items/GrassDark.js';
 import GrassLight from '../background items/GrassLight.js';
+import HandleScore from '../ui/HandleScore.js';
+import HandleItems from '../ui/HandleItems.js';
 
 export default class SelectAngle extends Scene {
   private player: Player;
@@ -30,6 +32,9 @@ export default class SelectAngle extends Scene {
 
   public constructor() {
     super();
+    HandleScore.reset();
+    HandleItems.reset();
+    HandleScenery.reset();
     this.player = new Player();
     this.backgrounds = [];
     this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));

@@ -22,7 +22,7 @@ export default class HandleScore {
             this.maxHeight = this.height;
         }
         if (Math.sqrt(xSpeed ** 2 + ySpeed ** 2) >= this.maxSpeed) {
-            this.maxSpeed = xSpeed ** 2 + ySpeed ** 2;
+            this.maxSpeed = Math.sqrt(xSpeed ** 2 + ySpeed ** 2);
         }
     }
     static hitObject(object) {

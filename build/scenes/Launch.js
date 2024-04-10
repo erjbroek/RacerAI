@@ -1,4 +1,3 @@
-import MouseListener from '../utilities/MouseListener.js';
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
@@ -21,9 +20,9 @@ export default class Launch extends Scene {
         this.launchAngle = launchAngle;
         this.player.angle = this.launchAngle;
         launchPower *= HandleStats.launchPower;
+        HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
         this.player.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
         this.player.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
-        HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
     }
     processInput(keyListener, mouseListener) {
         if (!HandleScenery.touchingGround && !(Math.abs(this.player.xSpeed) <= 8 && this.player.touchedGround)) {
@@ -47,7 +46,7 @@ export default class Launch extends Scene {
             }
         }
         if (this.finishFlight) {
-            this.endGame = (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || MouseListener.buttonPressed(0));
+            this.endScreen.processInput(keyListener, mouseListener);
         }
     }
     update(elapsed) {

@@ -1,6 +1,5 @@
 import Drawable from '../drawables/Drawable.js';
 import Player from '../drawables/Player.js';
-import MouseListener from './MouseListener.js';
 
 /**
  * Helper utlity class for working with the HTML Canvas Element.
@@ -50,7 +49,6 @@ export default class CanvasUtil {
    * Loads a new images into an HTMLImageElements
    * WARNING: This happens async. Therefor the result might not immediately be visible
    *
-   * @param source the paths of the image to be loaded
    * @param sources the sources of multiple images
    * @param folder the folder in which the images are located, root by default
    * @returns the array of images

@@ -21,9 +21,6 @@ export default class Choose extends Scene {
   public constructor() {
     super();
     this.logo = CanvasUtil.loadNewImage('./assets/mainTitle.png');
-    HandleScore.reset();
-    HandleItems.reset();
-    HandleScenery.reset();
   }
 
   /**

@@ -29,9 +29,9 @@ export default class Launch extends Scene {
     this.launchAngle = launchAngle;
     this.player.angle = this.launchAngle;
     launchPower *= HandleStats.launchPower;
+    HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
     this.player.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.player.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
-    HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
   }
 
   /**
@@ -61,7 +61,8 @@ export default class Launch extends Scene {
       }
     }
     if (this.finishFlight) {
-      this.endGame = (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || MouseListener.buttonPressed(0));
+      this.endScreen.processInput(keyListener, mouseListener);
+      // this.endGame = (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || MouseListener.buttonPressed(0));
     }
   }
 

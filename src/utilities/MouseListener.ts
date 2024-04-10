@@ -1,5 +1,3 @@
-import Drawable from '../drawables/Drawable.js';
-
 export interface MouseCoordinates {
   x: number;
   y: number;
@@ -75,7 +73,6 @@ export default class MouseListener {
    */
   /**
    * @returns boolean if the mouse clicks between the specified positions
-   * @param mouse the mouselistener used to check mouse position and button press
    * @param posX the x-coordinate of the top-left corner of the rectangle
    * @param posY the y-coordinate of the top-left corner of the rectangle
    * @param width the width of the rectangle
@@ -83,7 +80,7 @@ export default class MouseListener {
    */
   public static areaPressed(posX: number, posY: number, width: number, height: number): boolean {
     if (
-      MouseListener.buttonPressed(0)
+      MouseListener.isButtonDown(0)
       && MouseListener.mouseCoordinates.x > posX
       && MouseListener.mouseCoordinates.y > posY
       && MouseListener.mouseCoordinates.x < posX + width
@@ -96,8 +93,10 @@ export default class MouseListener {
 
   /**
    * @returns boolean
-   * @param item the selected item to check for hovering
-   * @param mouse mouselistener used to check mouse position
+   * @param posX is the posX of the item the mouse is hovering over
+   * @param posY is the posY of the item the mouse is hovering over
+   * @param width is the width of the item the mouse is hovering over
+   * @param height is the height of the item the mouse is hovering over
    */
   public static mouseHover(posX: number, posY: number, width: number, height: number): boolean {
     if (
