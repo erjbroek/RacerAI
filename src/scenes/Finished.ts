@@ -11,6 +11,8 @@ export default class Finished {
 
   private transitionTime: number = 1000;
 
+  private mushroomImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/mushroom.png');
+
   /**
    * @param keyListener is used to check for keyboard inputs
    * @param mouseListener is used to check for mouse movements and inputs
@@ -51,26 +53,32 @@ export default class Finished {
     // Render relevant stats and scores
     CanvasUtil.writeText(canvas, 'Distance flown:', canvas.width / 9, canvas.height / 6, 'left', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.writeText(canvas, 'Max height:', canvas.width / 9, canvas.height / 4.8, 'left', 'Arial', 25, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, 'Duration', canvas.width / 9, canvas.height / 4, 'left', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, 'Max speed:', canvas.width / 9, canvas.height / 4, 'left', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, 'Duration', canvas.width / 9, canvas.height / 3.45, 'left', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.writeText(canvas, `${HandleScore.distance.toFixed(2)} meters`, canvas.width / 3, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.writeText(canvas, `${HandleScore.maxHeight.toFixed(2)} meters`, canvas.width / 3, canvas.height / 4.8, 'right', 'Arial', 25, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, `${HandleScore.fTime}`, canvas.width / 3, canvas.height / 4, 'right', 'Arial', 30, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.maxSpeed.toFixed(1)} m/s`, canvas.width / 3, canvas.height / 4, 'right', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.fTime}`, canvas.width / 3, canvas.height / 3.45, 'right', 'Arial', 25, 'white', this.opacity);
 
     CanvasUtil.writeText(canvas, 'Bronze coins:', canvas.width / 2.6, canvas.height / 6, 'left', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.writeText(canvas, 'Silver coins:', canvas.width / 2.6, canvas.height / 4.8, 'left', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.writeText(canvas, 'Gold coins:', canvas.width / 2.6, canvas.height / 4, 'left', 'Arial', 25, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, 'Coin multiplier:', canvas.width / 2.6, canvas.height / 2.2, 'left', 'Arial', 25, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, `${HandleScore.bronzeCoins}`, canvas.width / 1.65, canvas.height / 6, 'right', 'Arial', 30, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, `${HandleScore.silverCoins}`, canvas.width / 1.65, canvas.height / 4.8, 'right', 'Arial', 30, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, `${HandleScore.goldCoins}`, canvas.width / 1.65, canvas.height / 4, 'right', 'Arial', 30, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, `x ${HandleStats.coinMult}`, canvas.width / 1.65, canvas.height / 2.2, 'right', 'Arial', 30, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, 'Coin multiplier:', canvas.width / 2.6, canvas.height / 2.1, 'left', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.bronzeCoins}`, canvas.width / 1.65, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.silverCoins}`, canvas.width / 1.65, canvas.height / 4.8, 'right', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.goldCoins}`, canvas.width / 1.65, canvas.height / 4, 'right', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `x ${HandleStats.coinMult}`, canvas.width / 1.65, canvas.height / 2.1, 'right', 'Arial', 25, 'white', this.opacity);
     CanvasUtil.fillRectangle(canvas, canvas.width / 2.6, canvas.height / 2, canvas.width / 4.5, canvas.height / 600, 20, 20, 30, this.opacity * 0.2);
-    CanvasUtil.writeText(canvas, 'Total coins earned:', canvas.width / 2.6, canvas.height / 1.8, 'left', 'Arial', 30, 'white', this.opacity);
-    CanvasUtil.writeText(canvas, `${HandleScore.totalCoins}`, canvas.width / 1.65, canvas.height / 1.8, 'right', 'Arial', 30, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, 'Total coins earned:', canvas.width / 2.6, canvas.height / 1.8, 'left', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.totalCoins}`, canvas.width / 1.65, canvas.height / 1.8, 'right', 'Arial', 25, 'white', this.opacity);
+
+    CanvasUtil.drawImage(canvas, this.mushroomImage, canvas.width / 1.5, canvas.height / 6 - canvas.height / 40, canvas.height / 20, canvas.height / 23);
+    CanvasUtil.writeText(canvas, 'Amount hit', canvas.width / 1.32, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
+    CanvasUtil.writeText(canvas, `${HandleScore.hitMushroom}`, canvas.width / 1.135, canvas.height / 6, 'right', 'Arial', 25, 'white', this.opacity);
 
     // Placeholder for button to go to the shop
     CanvasUtil.fillRectangle(canvas, canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);
-    CanvasUtil.writeText(canvas, 'Go to Shop', canvas.width / 2.5, canvas.height - 65, 'center', 'Arial', 24, 'black');
+    CanvasUtil.writeText(canvas, 'Go to Shop', canvas.width / 2.5, canvas.height - 65, 'center', 'Arial', 25, 'black');
 
     // Placeholder for button to retry the round
     CanvasUtil.fillRectangle(canvas, canvas.width / 2 + canvas.width / 4, canvas.height - 100, canvas.width / 4, 50, 255, 255, 255, this.opacity * 0.5);

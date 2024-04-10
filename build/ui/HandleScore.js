@@ -1,3 +1,4 @@
+import Mushroom from '../drawables/Mushroom.js';
 export default class HandleScore {
     static height = 0;
     static distance = 0;
@@ -8,16 +9,25 @@ export default class HandleScore {
     static goldCoins = 0;
     static totalCoins = 0;
     static duckDollars = 999999;
+    static hitMushroom = 0;
     static enemiesHit = 0;
     static score = 0;
     static totalTime = 0;
     static fTime = '';
     static isFirstTimeTriggered = false;
-    static calculateDistances(xSpeed, height) {
+    static calculateDistances(xSpeed, height, ySpeed) {
         this.distance += xSpeed / 200;
         this.height = height / 200;
         if (this.height >= this.maxHeight) {
             this.maxHeight = this.height;
+        }
+        if (Math.sqrt(xSpeed ** 2 + ySpeed ** 2) >= this.maxSpeed) {
+            this.maxSpeed = xSpeed ** 2 + ySpeed ** 2;
+        }
+    }
+    static hitObject(object) {
+        if (object instanceof Mushroom) {
+            this.hitMushroom += 1;
         }
     }
     static reset() {
@@ -30,6 +40,7 @@ export default class HandleScore {
         this.goldCoins = 0;
         this.totalCoins = 0;
         this.enemiesHit = 0;
+        this.hitMushroom = 0;
         this.score = 0;
         this.totalTime = 0;
         this.isFirstTimeTriggered = false;

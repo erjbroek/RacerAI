@@ -90,6 +90,7 @@ export default class Launch extends Scene {
       - (window.innerHeight
       - (HandleScenery.backgrounds[0].posY
       + HandleScenery.backgrounds[0].image.height)),
+      this.player.ySpeed,
     );
     if (Math.abs(this.player.xSpeed) + Math.abs(this.player.ySpeed) <= 0.1) {
       this.finishFlight = true;

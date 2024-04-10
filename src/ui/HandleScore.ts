@@ -1,3 +1,6 @@
+import Mushroom from '../drawables/Mushroom.js';
+import Obstacle from '../drawables/Obstacle.js';
+
 export default class HandleScore {
   public static height: number = 0;
 
@@ -17,6 +20,8 @@ export default class HandleScore {
 
   public static duckDollars: number = 999999;
 
+  public static hitMushroom: number = 0;
+
   public static enemiesHit: number = 0;
 
   public static score: number = 0;
@@ -28,14 +33,29 @@ export default class HandleScore {
   private static isFirstTimeTriggered: boolean = false;
 
   /**
-   * @param xSpeed is the xSpeed the horizontal distance the player flies each frame
+   * @param xSpeed is the xSpeed, the horizontal distance the player flies each frame
    * @param height is the current height the player is at in pixels / 10
+   * @param ySpeed is the ySpeed, the vertical distance the player flies each frame
    */
-  public static calculateDistances(xSpeed: number, height: number) {
+  public static calculateDistances(xSpeed: number, height: number, ySpeed: number) {
     this.distance += xSpeed / 200;
     this.height = height / 200;
     if (this.height >= this.maxHeight) {
       this.maxHeight = this.height;
+    }
+    if (Math.sqrt(xSpeed ** 2 + ySpeed ** 2) >= this.maxSpeed) {
+      this.maxSpeed = xSpeed ** 2 + ySpeed ** 2;
+    }
+  }
+
+  /**
+   * updates all objects hit during the run for score calculation
+   *
+   * @param object is the object the player hit
+   */
+  public static hitObject(object: Obstacle) {
+    if (object instanceof Mushroom) {
+      this.hitMushroom += 1;
     }
   }
 
@@ -49,6 +69,7 @@ export default class HandleScore {
     this.goldCoins = 0;
     this.totalCoins = 0;
     this.enemiesHit = 0;
+    this.hitMushroom = 0;
     this.score = 0;
     this.totalTime = 0;
     this.isFirstTimeTriggered = false;

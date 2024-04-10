@@ -65,7 +65,7 @@ export default class Launch extends Scene {
         HandleScore.calculateDistances(this.player.xSpeed, (window.innerHeight - this.player.posY - this.player.image.height)
             - (window.innerHeight
                 - (HandleScenery.backgrounds[0].posY
-                    + HandleScenery.backgrounds[0].image.height)));
+                    + HandleScenery.backgrounds[0].image.height)), this.player.ySpeed);
         if (Math.abs(this.player.xSpeed) + Math.abs(this.player.ySpeed) <= 0.1) {
             this.finishFlight = true;
         }

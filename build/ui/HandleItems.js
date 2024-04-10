@@ -67,6 +67,7 @@ export default class HandleItems {
         HandleItems.obstacles.forEach((obj) => {
             if (CanvasUtil.collidesWith(player, obj)) {
                 if (obj instanceof Mushroom) {
+                    HandleScore.hitObject(obj);
                     HandleItems.obstacles.splice(HandleItems.obstacles.indexOf(obj), 1);
                     obj.bounce(player);
                 }
