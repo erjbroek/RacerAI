@@ -8,6 +8,8 @@ import Choose from './Choose.js';
 import HandleItems from '../ui/HandleItems.js';
 import Background from '../background items/Background.js';
 import HandleStats from '../ui/HandleStats.js';
+import Shop from './shop/Shop.js';
+import SelectAngle from './SelectAngle.js';
 export default class Launch extends Scene {
     launchAngle;
     player = new Player();
@@ -53,6 +55,13 @@ export default class Launch extends Scene {
         HandleScore.totalTime += elapsed;
         if (this.finishFlight) {
             this.endScreen.update(elapsed);
+            if (this.endScreen.goShop) {
+                return new Shop();
+            }
+            if (this.endScreen.retry) {
+                return new SelectAngle();
+            }
+            return null;
         }
         this.applyGravity();
         HandleScenery.addScenery();

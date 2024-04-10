@@ -16,9 +16,9 @@ export default class Finished {
 
   private mushroomImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/mushroom.png');
 
-  private goShop: boolean = false;
+  public goShop: boolean = false;
 
-  private retry: boolean = false;
+  public retry: boolean = false;
 
   /**
    * @param keyListener is used to check for keyboard inputs
@@ -26,30 +26,23 @@ export default class Finished {
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener) {
     if (MouseListener.areaPressed((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
-      console.log("shop")
+      this.goShop = true;
     }
     if (MouseListener.areaPressed((window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
-      console.log("retry")
+      this.retry = true;
     }
   }
 
   /**
    *@param elapsed is the elapsed time in ms each frame takes
    */
-  public update(elapsed: number): Scene {
+  public update(elapsed: number) {
     if (this.totalTime >= this.transitionTime) {
       this.totalTime = this.transitionTime;
     } else {
       this.totalTime += elapsed;
     }
     this.opacity = (this.totalTime / this.transitionTime);
-
-    if (this.goShop) {
-      return new Shop();
-    }
-    if (this.retry) {
-      return new SelectAngle();
-    } return null;
   }
 
   /**

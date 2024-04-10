@@ -2,8 +2,6 @@ import MouseListener from '../utilities/MouseListener.js';
 import HandleScore from '../ui/HandleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleStats from '../ui/HandleStats.js';
-import SelectAngle from './SelectAngle.js';
-import Shop from './shop/Shop.js';
 export default class Finished {
     opacity = 0.0;
     totalTime = 0;
@@ -13,10 +11,10 @@ export default class Finished {
     retry = false;
     processInput(keyListener, mouseListener) {
         if (MouseListener.areaPressed((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
-            console.log("shop");
+            this.goShop = true;
         }
         if (MouseListener.areaPressed((window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
-            console.log("retry");
+            this.retry = true;
         }
     }
     update(elapsed) {
@@ -27,13 +25,6 @@ export default class Finished {
             this.totalTime += elapsed;
         }
         this.opacity = (this.totalTime / this.transitionTime);
-        if (this.goShop) {
-            return new Shop();
-        }
-        if (this.retry) {
-            return new SelectAngle();
-        }
-        return null;
     }
     endRound(canvas) {
         HandleScore.calculateScore();
