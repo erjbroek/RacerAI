@@ -50,6 +50,7 @@ export default class Launch extends Scene {
         }
     }
     update(elapsed) {
+        HandleScore.totalTime += elapsed;
         if (this.finishFlight) {
             this.endScreen.update(elapsed);
         }

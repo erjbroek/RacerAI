@@ -21,6 +21,12 @@ export default class HandleScore {
 
   public static score: number = 0;
 
+  public static totalTime: number = 0;
+
+  public static fTime: string = '';
+
+  private static isFirstTimeTriggered: boolean = false;
+
   /**
    * @param xSpeed is the xSpeed the horizontal distance the player flies each frame
    * @param height is the current height the player is at in pixels / 10
@@ -44,14 +50,23 @@ export default class HandleScore {
     this.totalCoins = 0;
     this.enemiesHit = 0;
     this.score = 0;
+    this.totalTime = 0;
+    this.isFirstTimeTriggered = false;
   }
 
   /**
-   * gets stats from the launch, and calculates a score from those.
+   *
    */
   public static calculateScore() {
     // the formula for calculating the score, based on distance and height
-    this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
+    if (!this.isFirstTimeTriggered) {
+      this.score = (this.distance / 2) * ((this.maxHeight / 10) + 1);
+      const minutes = Math.floor((this.totalTime / 1000) / 60);
+      const seconds = Math.floor((this.totalTime / 1000) % 60);
+      const miliSeconds = Math.floor(this.totalTime % 1000);
+      this.fTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${miliSeconds.toString().padStart(3, '0')}`;
+      this.isFirstTimeTriggered = true;
+    }
   }
 
   /**

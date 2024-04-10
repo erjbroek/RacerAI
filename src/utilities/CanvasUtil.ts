@@ -123,6 +123,7 @@ export default class CanvasUtil {
     fontFamily: string = 'sans-serif',
     fontSize: number = 20,
     color: string = 'red',
+    opacity: number = 0,
   ): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontSize}px ${fontFamily}`;
