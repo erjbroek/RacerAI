@@ -88,7 +88,7 @@ export default class HandleScore {
       const coinScore = this.totalCoins;
 
       this.score = distanceScore + heightScore + speedScore + mushroomScore + coinScore;
-
+      HandleScore.duckDollars += HandleScore.totalCoins;
       const minutes = Math.floor((this.totalTime / 1000) / 60);
       const seconds = Math.floor((this.totalTime / 1000) % 60);
       const miliSeconds = Math.floor(this.totalTime % 1000);

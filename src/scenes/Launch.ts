@@ -6,7 +6,6 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import HandleScenery from '../ui/HandleScenery.js';
 import Finished from './Finished.js';
 import HandleScore from '../ui/HandleScore.js';
-import Choose from './Choose.js';
 import HandleItems from '../ui/HandleItems.js';
 import Background from '../background items/Background.js';
 import HandleStats from '../ui/HandleStats.js';
@@ -104,10 +103,7 @@ export default class Launch extends Scene {
     if (Math.abs(this.player.xSpeed) + Math.abs(this.player.ySpeed) <= 0.1) {
       this.finishFlight = true;
     }
-    if (this.endGame) {
-      HandleScore.duckDollars += HandleScore.totalCoins;
-      return new Choose();
-    }
+
     return this;
   }
 

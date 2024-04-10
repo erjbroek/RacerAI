@@ -2,7 +2,6 @@ import Cookies from '../../ui/Cookies.js';
 import CanvasUtil from '../../utilities/CanvasUtil.js';
 import KeyListener from '../../utilities/KeyListener.js';
 import MouseListener from '../../utilities/MouseListener.js';
-import Choose from '../Choose.js';
 import Scene from '../Scene.js';
 import ShopDecoration from './shopDecoration.js';
 import Fuel from './tiles/Fuel.js';
@@ -14,6 +13,7 @@ import ShopTile from './tiles/ShopTile.js';
 import CoinMult from './tiles/CoinMult.js';
 import HandleStats from '../../ui/HandleStats.js';
 import HandleScore from '../../ui/HandleScore.js';
+import SelectAngle from '../SelectAngle.js';
 
 export default class Shop extends Scene {
   private backgroundImage: HTMLImageElement = CanvasUtil.loadNewImage('assets/introSceneBackground.png');
@@ -54,7 +54,6 @@ export default class Shop extends Scene {
     if (keyListener.keyPressed('Space')) {
       this.back = true;
     }
-    HandleStats.airResistance += 0;
 
     if (keyListener.keyPressed('Digit1')) {
       Cookies.saveStatsToCookies(1);
@@ -95,7 +94,7 @@ export default class Shop extends Scene {
   public update(elapsed: number): Scene {
     this.shopDecorator.update(elapsed);
     if (this.back) {
-      return new Choose();
+      return new SelectAngle();
     } return null;
   }
 
