@@ -1,3 +1,4 @@
+import MouseListener from '../utilities/MouseListener.js';
 import Player from '../drawables/Player.js';
 import Scene from './Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
@@ -46,7 +47,7 @@ export default class Launch extends Scene {
             }
         }
         if (this.finishFlight) {
-            this.endGame = this.endScreen.processInput(keyListener, mouseListener);
+            this.endGame = (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || MouseListener.buttonPressed(0));
         }
     }
     update(elapsed) {

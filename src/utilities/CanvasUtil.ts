@@ -123,7 +123,6 @@ export default class CanvasUtil {
     fontFamily: string = 'sans-serif',
     fontSize: number = 20,
     color: string = 'red',
-    opacity: number = 0,
   ): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontSize}px ${fontFamily}`;
@@ -243,6 +242,7 @@ export default class CanvasUtil {
    * @param green is the green color value of the rectangle
    * @param blue is the blue color value of the rectangle
    * @param opacity is the opacity of the rectangle
+   * @param borderRadius is the border radius of the rectangle
    */
   public static fillRectangle(
     canvas: HTMLCanvasElement,
@@ -302,23 +302,6 @@ export default class CanvasUtil {
       && player.posX + player.image.width > item.posX + item.image.width / 3
       && player.posY < item.posY + item.image.height
       && player.posY + player.image.height > item.posY
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  /**
-   * @returns boolean
-   * @param item the selected item to check for hovering
-   * @param mouse mouselistener used to check mouse position
-   */
-  public static mouseHover(item: Drawable, mouse: MouseListener): boolean {
-    if (
-      mouse.getMousePosition().x > item.posX
-      && mouse.getMousePosition().y > item.posY
-      && mouse.getMousePosition().x < item.posX + item.image.width
-      && mouse.getMousePosition().y < item.posY + item.image.height
     ) {
       return true;
     }

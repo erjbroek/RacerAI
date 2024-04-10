@@ -1,5 +1,6 @@
 import Cookies from '../../ui/Cookies.js';
 import CanvasUtil from '../../utilities/CanvasUtil.js';
+import MouseListener from '../../utilities/MouseListener.js';
 import Choose from '../Choose.js';
 import Scene from '../Scene.js';
 import ShopDecoration from './shopDecoration.js';
@@ -45,12 +46,9 @@ export default class Shop extends Scene {
             console.log('save');
         }
         [this.fuel, this.fuelPower, this.luck, this.power, this.resistance, this.coinMultiplier].forEach((tile) => {
-            if (mouseListener.getMousePosition().x > tile.posX
-                && mouseListener.getMousePosition().y > tile.posY
-                && mouseListener.getMousePosition().x < tile.posX + tile.tileSize
-                && mouseListener.getMousePosition().y < tile.posY + tile.tileSize) {
+            if (MouseListener.mouseHover(tile.posX, tile.posY, tile.tileSize, tile.tileSize)) {
                 tile.opacity = 0.5;
-                if (mouseListener.isButtonDown(0)) {
+                if (MouseListener.isButtonDown(0)) {
                     this.selected = tile;
                 }
             }
@@ -59,13 +57,8 @@ export default class Shop extends Scene {
             }
         });
         if (this.selected) {
-            if (mouseListener.getMousePosition().x > window.innerWidth / 1.45 + window.innerWidth / 6.9
-                && mouseListener.getMousePosition().y > window.innerHeight / 1.13
-                && mouseListener.getMousePosition().x < window.innerWidth / 1.45 + window.innerWidth / 6.9 + window.innerWidth / 14
-                && mouseListener.getMousePosition().y < window.innerHeight / 1.13 + window.innerHeight / 22.6) {
-                if (mouseListener.buttonPressed(0)) {
-                    this.selected.level();
-                }
+            if (MouseListener.areaPressed(window.innerWidth / 1.45 + window.innerWidth / 6.9, window.innerHeight / 1.13, window.innerWidth / 14, window.innerHeight / 22.6)) {
+                this.selected.level();
             }
         }
     }

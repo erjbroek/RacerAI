@@ -25,9 +25,9 @@ export default class StartButton extends Drawable {
    * @param mouseListener the mouselistener used
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-    if (CanvasUtil.mouseHover(this, mouseListener)) {
+    if (MouseListener.mouseHover(this.posX, this.posY, this.image.width, this.image.height)) {
       this.image = CanvasUtil.loadNewImage('./assets/startButtonHover.png');
-      if (mouseListener.buttonPressed(0)) {
+      if (MouseListener.buttonPressed(0)) {
         this.readyGame = true;
       }
     } else {

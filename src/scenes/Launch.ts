@@ -61,7 +61,7 @@ export default class Launch extends Scene {
       }
     }
     if (this.finishFlight) {
-      this.endGame = this.endScreen.processInput(keyListener, mouseListener);
+      this.endGame = (keyListener.isKeyDown('Space') || keyListener.isKeyDown('Enter') || MouseListener.buttonPressed(0));
     }
   }
 

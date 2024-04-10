@@ -40,7 +40,7 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red', opacity = 0) {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red') {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.font = `${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
@@ -105,15 +105,6 @@ export default class CanvasUtil {
             && player.posX + player.image.width > item.posX + item.image.width / 3
             && player.posY < item.posY + item.image.height
             && player.posY + player.image.height > item.posY) {
-            return true;
-        }
-        return false;
-    }
-    static mouseHover(item, mouse) {
-        if (mouse.getMousePosition().x > item.posX
-            && mouse.getMousePosition().y > item.posY
-            && mouse.getMousePosition().x < item.posX + item.image.width
-            && mouse.getMousePosition().y < item.posY + item.image.height) {
             return true;
         }
         return false;

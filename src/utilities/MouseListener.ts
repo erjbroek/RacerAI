@@ -1,3 +1,5 @@
+import Drawable from '../drawables/Drawable.js';
+
 export interface MouseCoordinates {
   x: number;
   y: number;
@@ -10,11 +12,11 @@ export default class MouseListener {
 
   public static readonly BUTTON_RIGHT = 2;
 
-  private mouseCoordinates: MouseCoordinates = { x: 0, y: 0 };
+  public static mouseCoordinates: MouseCoordinates = { x: 0, y: 0 };
 
-  private buttonDown: Record<number, boolean> = {};
+  private static buttonDown: Record<number, boolean> = {};
 
-  private buttonQueried: Record<number, boolean> = {};
+  private static buttonQueried: Record<number, boolean> = {};
 
   /**
    *
@@ -23,17 +25,17 @@ export default class MouseListener {
    */
   public constructor(canvas: HTMLCanvasElement, disableContextMenu: boolean = false) {
     canvas.addEventListener('mousemove', (ev: MouseEvent) => {
-      this.mouseCoordinates = {
+      MouseListener.mouseCoordinates = {
         x: ev.offsetX,
         y: ev.offsetY,
       };
     });
     canvas.addEventListener('mousedown', (ev: MouseEvent) => {
-      this.buttonDown[ev.button] = true;
+      MouseListener.buttonDown[ev.button] = true;
     });
     canvas.addEventListener('mouseup', (ev: MouseEvent) => {
-      this.buttonDown[ev.button] = false;
-      this.buttonQueried[ev.button] = false;
+      MouseListener.buttonDown[ev.button] = false;
+      MouseListener.buttonQueried[ev.button] = false;
     });
     if (disableContextMenu) {
       canvas.addEventListener('contextmenu', (ev: MouseEvent) => {
@@ -48,7 +50,7 @@ export default class MouseListener {
    * @param buttonCode the mouse button to check
    * @returns `true` when the specified button is currently down
    */
-  public isButtonDown(buttonCode: number = 0): boolean {
+  public static isButtonDown(buttonCode: number = 0): boolean {
     return this.buttonDown[buttonCode];
   }
 
@@ -57,8 +59,8 @@ export default class MouseListener {
    * @param buttonCode the mouse button to check
    * @returns `true` when the specified button was pressed
    */
-  public buttonPressed(buttonCode: number = 0): boolean {
-    if (this.buttonQueried[buttonCode] === true) return false;
+  public static buttonPressed(buttonCode: number = 0): boolean {
+    if (MouseListener.buttonQueried[buttonCode] === true) return false;
     if (this.buttonDown[buttonCode] === true) {
       this.buttonQueried[buttonCode] = true;
       return true;
@@ -71,7 +73,41 @@ export default class MouseListener {
    *
    * @returns MouseCoordinates object with current position of mouse
    */
-  public getMousePosition(): MouseCoordinates {
-    return this.mouseCoordinates;
+  /**
+   * @returns boolean if the mouse clicks between the specified positions
+   * @param mouse the mouselistener used to check mouse position and button press
+   * @param posX the x-coordinate of the top-left corner of the rectangle
+   * @param posY the y-coordinate of the top-left corner of the rectangle
+   * @param width the width of the rectangle
+   * @param height the height of the rectangle
+   */
+  public static areaPressed(posX: number, posY: number, width: number, height: number): boolean {
+    if (
+      MouseListener.buttonPressed(0)
+      && MouseListener.mouseCoordinates.x > posX
+      && MouseListener.mouseCoordinates.y > posY
+      && MouseListener.mouseCoordinates.x < posX + width
+      && MouseListener.mouseCoordinates.y < posY + height
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * @returns boolean
+   * @param item the selected item to check for hovering
+   * @param mouse mouselistener used to check mouse position
+   */
+  public static mouseHover(posX: number, posY: number, width: number, height: number): boolean {
+    if (
+      MouseListener.mouseCoordinates.x > posX
+      && MouseListener.mouseCoordinates.y > posY
+      && MouseListener.mouseCoordinates.x < posX + width
+      && MouseListener.mouseCoordinates.y < posY + height
+    ) {
+      return true;
+    }
+    return false;
   }
 }

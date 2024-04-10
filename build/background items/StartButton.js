@@ -1,5 +1,6 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Drawable from '../drawables/Drawable.js';
+import MouseListener from '../utilities/MouseListener.js';
 export default class StartButton extends Drawable {
     hover;
     readyGame;
@@ -13,9 +14,9 @@ export default class StartButton extends Drawable {
         this.readyGame = false;
     }
     processInput(keyListener, mouseListener) {
-        if (CanvasUtil.mouseHover(this, mouseListener)) {
+        if (MouseListener.mouseHover(this.posX, this.posY, this.image.width, this.image.height)) {
             this.image = CanvasUtil.loadNewImage('./assets/startButtonHover.png');
-            if (mouseListener.buttonPressed(0)) {
+            if (MouseListener.buttonPressed(0)) {
                 this.readyGame = true;
             }
         }
