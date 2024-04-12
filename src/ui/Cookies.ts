@@ -1,7 +1,27 @@
-import Scene from '../scenes/Scene.js';
-import StartingScene from '../scenes/StartingScene.js';
-import HandleScore from './HandleScore.js';
-import HandleStats from './HandleStats.js';
+import Scene from "../scenes/Scene.js";
+import StartingScene from "../scenes/StartingScene.js";
+import HandleScore from "./HandleScore.js";
+import HandleStats from "./HandleStats.js";
+
+export interface Stats {
+  launchPower: number;
+  moveEnergy: number;
+  luck: number;
+  airResistance: number;
+  fuelPower: number;
+  fuel: number;
+  coinMult: number;
+  launchPowerTier: number;
+  moveEnergyTier: number;
+  luckTier: number;
+  airResistanceTier: number;
+  fuelPowerTier: number;
+  fuelTier: number;
+  coinMultTier: number;
+  duckDollars: number;
+  playTime: number;
+  fPlayTime: number;
+}
 
 export default class Cookies {
   /**
@@ -26,10 +46,36 @@ export default class Cookies {
       fuelTier: HandleStats.fuelTier,
       coinMultTier: HandleStats.coinMultTier,
       duckDollars: HandleScore.duckDollars,
+      playTime: HandleScore.playTime,
+      fPlayTime: HandleScore.fPlayTime,
     };
 
     const statsJson = JSON.stringify(stats);
     document.cookie = `slot${slotNumber}_stats=${statsJson}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+  }
+
+  /**
+   * Get stats from a specific slot
+   * @param slotNumber The slot number to retrieve stats from
+   * @returns The stats object from the specified slot, or null if not found
+   */
+  public static getStatsFromSlot(slotNumber: number): Stats | null {
+    const cookieName = `slot${slotNumber}_stats`;
+    const cookies = document.cookie.split(";");
+    let statsJson = "";
+
+    cookies.forEach((cookie) => {
+      const [name, value] = cookie.split("=");
+      if (name.trim() === cookieName) {
+        statsJson = value;
+      }
+    });
+
+    if (statsJson) {
+      const stats = JSON.parse(statsJson);
+      return stats;
+    }
+    return null;
   }
 
   /**
@@ -39,12 +85,12 @@ export default class Cookies {
    */
   public static loadStatsFromCookieSlot(slotNumber: number) {
     const cookieName = `slot${slotNumber}_stats`;
-    const cookies = document.cookie.split(';');
-    let statsJson = '';
+    const cookies = document.cookie.split(";");
+    let statsJson = "";
 
     cookies.forEach((cookie) => {
-      console.log(cookie)
-      const [name, value] = cookie.split('=');
+      console.log(cookie);
+      const [name, value] = cookie.split("=");
       if (name.trim() === cookieName) {
         statsJson = value;
       }
@@ -68,13 +114,15 @@ export default class Cookies {
       HandleStats.fuelTier = stats.fuelTier;
       HandleStats.coinMultTier = stats.coinMultTier;
       HandleScore.duckDollars = stats.duckDollars;
+      HandleScore.playTime = stats.playTime;
+      HandleScore.fPlayTime = stats.fPlayTime;
     }
   }
 
   /**
    * resets cookies
    */
-  public static removeAllCookies(): Scene {
+  public static removeAllCookies() {
     const cookies = document.cookie.split(";");
 
     cookies.forEach((cookie) => {
@@ -82,6 +130,5 @@ export default class Cookies {
       // Remove the cookie by setting its expiration to a past date
       document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
     });
-    return new StartingScene();
   }
 }

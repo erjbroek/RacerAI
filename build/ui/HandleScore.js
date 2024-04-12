@@ -14,6 +14,8 @@ export default class HandleScore {
     static enemiesHit = 0;
     static score = 0;
     static totalTime = 0;
+    static playTime = 0;
+    static fPlayTime = '';
     static fTime = '';
     static isFirstTimeTriggered = false;
     static calculateDistances(xSpeed, height, ySpeed) {
@@ -25,6 +27,13 @@ export default class HandleScore {
         if (Math.sqrt(xSpeed ** 2 + ySpeed ** 2) >= this.maxSpeed) {
             this.maxSpeed = Math.sqrt(xSpeed ** 2 + ySpeed ** 2);
         }
+    }
+    static calculatePlayTime(elapsed) {
+        this.playTime += elapsed;
+        const minutes = Math.floor((this.playTime / 1000) / 60);
+        const seconds = Math.floor((this.playTime / 1000) % 60);
+        const miliSeconds = Math.floor(this.playTime % 1000);
+        this.fPlayTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${miliSeconds.toString().padStart(3, '0')}`;
     }
     static hitObject(object) {
         if (object instanceof Mushroom) {

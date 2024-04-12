@@ -7,6 +7,7 @@ import Cookies from '../ui/Cookies.js';
 import StartingScene from '../scenes/StartingScene.js';
 import Shop from '../scenes/shop/Shop.js';
 import Save from '../scenes/Save.js';
+import HandleScore from '../ui/HandleScore.js';
 
 export default class Ducker extends Game {
   private canvas: HTMLCanvasElement;
@@ -44,6 +45,7 @@ export default class Ducker extends Game {
    * @returns true if the game should continue
    */
   public update(elapsed: number): boolean {
+    HandleScore.calculatePlayTime(elapsed);
     const nextScene = this.currentScene.update(elapsed);
 
     if (nextScene !== null) this.currentScene = nextScene;

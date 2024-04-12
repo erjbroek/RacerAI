@@ -1,6 +1,5 @@
-import StartingScene from '../scenes/StartingScene.js';
-import HandleScore from './HandleScore.js';
-import HandleStats from './HandleStats.js';
+import HandleScore from "./HandleScore.js";
+import HandleStats from "./HandleStats.js";
 export default class Cookies {
     static saveStatsToCookies(slotNumber) {
         const stats = {
@@ -19,17 +18,35 @@ export default class Cookies {
             fuelTier: HandleStats.fuelTier,
             coinMultTier: HandleStats.coinMultTier,
             duckDollars: HandleScore.duckDollars,
+            playTime: HandleScore.playTime,
+            fPlayTime: HandleScore.fPlayTime,
         };
         const statsJson = JSON.stringify(stats);
         document.cookie = `slot${slotNumber}_stats=${statsJson}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
     }
+    static getStatsFromSlot(slotNumber) {
+        const cookieName = `slot${slotNumber}_stats`;
+        const cookies = document.cookie.split(";");
+        let statsJson = "";
+        cookies.forEach((cookie) => {
+            const [name, value] = cookie.split("=");
+            if (name.trim() === cookieName) {
+                statsJson = value;
+            }
+        });
+        if (statsJson) {
+            const stats = JSON.parse(statsJson);
+            return stats;
+        }
+        return null;
+    }
     static loadStatsFromCookieSlot(slotNumber) {
         const cookieName = `slot${slotNumber}_stats`;
-        const cookies = document.cookie.split(';');
-        let statsJson = '';
+        const cookies = document.cookie.split(";");
+        let statsJson = "";
         cookies.forEach((cookie) => {
             console.log(cookie);
-            const [name, value] = cookie.split('=');
+            const [name, value] = cookie.split("=");
             if (name.trim() === cookieName) {
                 statsJson = value;
             }
@@ -51,6 +68,8 @@ export default class Cookies {
             HandleStats.fuelTier = stats.fuelTier;
             HandleStats.coinMultTier = stats.coinMultTier;
             HandleScore.duckDollars = stats.duckDollars;
+            HandleScore.playTime = stats.playTime;
+            HandleScore.fPlayTime = stats.fPlayTime;
         }
     }
     static removeAllCookies() {
@@ -59,7 +78,6 @@ export default class Cookies {
             const [name, _] = cookie.split("=");
             document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
         });
-        return new StartingScene();
     }
 }
 //# sourceMappingURL=Cookies.js.map

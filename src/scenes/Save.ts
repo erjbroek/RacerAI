@@ -1,3 +1,6 @@
+import Cookies from '../ui/Cookies.js';
+import { Stats } from '../ui/Cookies.js'
+import HandleScore from '../ui/HandleScore.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import MouseListener from '../utilities/MouseListener.js';
@@ -9,6 +12,12 @@ export default class Save extends Scene {
   private logo: HTMLImageElement;
 
   private slotWidth: number = window.innerWidth / 4;
+
+  private slot1Stats: Stats | null = Cookies.getStatsFromSlot(1);
+
+  private slot2Stats: Stats | null = Cookies.getStatsFromSlot(2);
+
+  private slot3Stats: Stats | null = Cookies.getStatsFromSlot(3);
 
   public constructor() {
     super();
@@ -61,5 +70,9 @@ export default class Save extends Scene {
     CanvasUtil.writeText(canvas, 'Slot 1', canvas.width / 5.3, canvas.height / 4, 'center', 'arial', 50, 'white');
     CanvasUtil.writeText(canvas, 'Slot 2', canvas.width / 2, canvas.height / 4, 'center', 'arial', 50, 'white');
     CanvasUtil.writeText(canvas, 'Slot 3', canvas.width / 1.23, canvas.height / 4, 'center', 'arial', 50, 'white');
+
+    CanvasUtil.writeText(canvas, `Time played ${this.slot1Stats.fPlayTime}`, canvas.width / 5.3, canvas.height / 3, 'center', 'arial', 20, 'white');
+    CanvasUtil.writeText(canvas, `Time played ${this.slot2Stats.fPlayTime}`, canvas.width / 2, canvas.height / 3, 'center', 'arial', 20, 'white');
+    CanvasUtil.writeText(canvas, `Time played ${this.slot3Stats.fPlayTime}`, canvas.width / 1.23, canvas.height / 3, 'center', 'arial', 20, 'white');
   }
 }

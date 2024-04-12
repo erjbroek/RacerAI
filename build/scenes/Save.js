@@ -1,9 +1,13 @@
+import Cookies from '../ui/Cookies.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
 export default class Save extends Scene {
     background;
     logo;
     slotWidth = window.innerWidth / 4;
+    slot1Stats = Cookies.getStatsFromSlot(1);
+    slot2Stats = Cookies.getStatsFromSlot(2);
+    slot3Stats = Cookies.getStatsFromSlot(3);
     constructor() {
         super();
         this.background = CanvasUtil.loadNewImage('./assets/backMountains.png');
@@ -30,6 +34,9 @@ export default class Save extends Scene {
         CanvasUtil.writeText(canvas, 'Slot 1', canvas.width / 5.3, canvas.height / 4, 'center', 'arial', 50, 'white');
         CanvasUtil.writeText(canvas, 'Slot 2', canvas.width / 2, canvas.height / 4, 'center', 'arial', 50, 'white');
         CanvasUtil.writeText(canvas, 'Slot 3', canvas.width / 1.23, canvas.height / 4, 'center', 'arial', 50, 'white');
+        CanvasUtil.writeText(canvas, `Time played ${this.slot1Stats.fPlayTime}`, canvas.width / 5.3, canvas.height / 3, 'center', 'arial', 20, 'white');
+        CanvasUtil.writeText(canvas, `Time played ${this.slot2Stats.fPlayTime}`, canvas.width / 2, canvas.height / 3, 'center', 'arial', 20, 'white');
+        CanvasUtil.writeText(canvas, `Time played ${this.slot3Stats.fPlayTime}`, canvas.width / 1.23, canvas.height / 3, 'center', 'arial', 20, 'white');
     }
 }
 //# sourceMappingURL=Save.js.map

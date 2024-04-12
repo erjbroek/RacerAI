@@ -29,6 +29,10 @@ export default class HandleScore {
 
   public static totalTime: number = 0;
 
+  public static playTime: number = 0;
+
+  public static fPlayTime: string = '';
+
   public static fTime: string = '';
 
   private static isFirstTimeTriggered: boolean = false;
@@ -47,6 +51,19 @@ export default class HandleScore {
     if (Math.sqrt(xSpeed ** 2 + ySpeed ** 2) >= this.maxSpeed) {
       this.maxSpeed = Math.sqrt(xSpeed ** 2 + ySpeed ** 2);
     }
+  }
+
+  /**
+   * calculates total playtime of the player
+   *
+   * @param elapsed is the elapsed time that the player has played
+   */
+  public static calculatePlayTime(elapsed: number) {
+    this.playTime += elapsed;
+    const minutes = Math.floor((this.playTime / 1000) / 60);
+    const seconds = Math.floor((this.playTime / 1000) % 60);
+    const miliSeconds = Math.floor(this.playTime % 1000);
+    this.fPlayTime = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${miliSeconds.toString().padStart(3, '0')}`;
   }
 
   /**
