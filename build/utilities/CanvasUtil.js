@@ -1,11 +1,11 @@
 export default class CanvasUtil {
     static getCanvasContext(canvas) {
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx === null)
-            throw new Error('Canvas Rendering Context is null');
+            throw new Error("Canvas Rendering Context is null");
         return ctx;
     }
-    static fillCanvas(canvas, colour = '#FF10F0') {
+    static fillCanvas(canvas, colour = "#FF10F0") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
@@ -24,13 +24,14 @@ export default class CanvasUtil {
         }
         return images;
     }
-    static drawImage(canvas, image, dx, dy, width = 0, height = 0, rotation = 0) {
+    static drawImage(canvas, image, dx, dy, width = 0, height = 0, rotation = 0, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         if (width === 0)
             width = image.width;
         if (height === 0)
             height = image.height;
         ctx.save();
+        ctx.globalAlpha = opacity;
         ctx.translate(dx + width / 2, dy + height / 2);
         ctx.rotate((rotation * Math.PI) / 180);
         ctx.drawImage(image, -width / 2, -height / 2, width, height);
@@ -40,29 +41,34 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red') {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = "center", fontFamily = "sans-serif", fontSize = 20, color = "red") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.font = `${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
-    static drawCircle(canvas, centerX, centerY, radius, color = 'red') {
+    static drawCircle(canvas, centerX, centerY, radius, color = "red") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.strokeStyle = color;
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.stroke();
     }
-    static drawRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1, lineWidth = 1) {
+    static drawRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1, lineWidth = 1, borderRadius = 0) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.lineWidth = lineWidth;
-        ctx.rect(dx, dy, width, height);
+        ctx.moveTo(dx + borderRadius, dy);
+        ctx.arcTo(dx + width, dy, dx + width, dy + height, borderRadius);
+        ctx.arcTo(dx + width, dy + height, dx, dy + height, borderRadius);
+        ctx.arcTo(dx, dy + height, dx, dy, borderRadius);
+        ctx.arcTo(dx, dy, dx + borderRadius, dy, borderRadius);
+        ctx.closePath();
         ctx.stroke();
     }
-    static drawLine(canvas, x1, y1, x2, y2, color = 'red') {
+    static drawLine(canvas, x1, y1, x2, y2, color = "red") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.strokeStyle = color;
@@ -70,7 +76,7 @@ export default class CanvasUtil {
         ctx.lineTo(x2, y2);
         ctx.stroke();
     }
-    static fillCircle(canvas, centerX, centerY, radius, color = 'red') {
+    static fillCircle(canvas, centerX, centerY, radius, color = "red") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.fillStyle = color;
@@ -101,10 +107,7 @@ export default class CanvasUtil {
         ctx.restore();
     }
     static collidesWith(player, item) {
-        if (player.posX < item.posX + item.image.width
-            && player.posX + player.image.width > item.posX + item.image.width / 3
-            && player.posY < item.posY + item.image.height
-            && player.posY + player.image.height > item.posY) {
+        if (player.posX < item.posX + item.image.width && player.posX + player.image.width > item.posX + item.image.width / 3 && player.posY < item.posY + item.image.height && player.posY + player.image.height > item.posY) {
             return true;
         }
         return false;

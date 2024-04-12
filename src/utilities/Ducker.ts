@@ -6,6 +6,7 @@ import MouseListener from './MouseListener.js';
 import Cookies from '../ui/Cookies.js';
 import StartingScene from '../scenes/StartingScene.js';
 import Shop from '../scenes/shop/Shop.js';
+import Save from '../scenes/Save.js';
 
 export default class Ducker extends Game {
   private canvas: HTMLCanvasElement;
@@ -26,7 +27,7 @@ export default class Ducker extends Game {
     Cookies.loadStatsFromCookieSlot(1);
 
     // Set the starting scene
-    this.currentScene = new Shop();
+    this.currentScene = new Save();
   }
 
   /**

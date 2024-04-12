@@ -1,5 +1,5 @@
-import Drawable from '../drawables/Drawable.js';
-import Player from '../drawables/Player.js';
+import Drawable from "../drawables/Drawable.js";
+import Player from "../drawables/Player.js";
 
 /**
  * Helper utlity class for working with the HTML Canvas Element.
@@ -13,8 +13,8 @@ export default class CanvasUtil {
    * @returns the 2D rendering context of the canvas
    */
   private static getCanvasContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
-    if (ctx === null) throw new Error('Canvas Rendering Context is null');
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+    if (ctx === null) throw new Error("Canvas Rendering Context is null");
     return ctx;
   }
 
@@ -24,7 +24,7 @@ export default class CanvasUtil {
    * @param canvas canvas that requires filling
    * @param colour the colour that the canvas will be filled with
    */
-  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = '#FF10F0'): void {
+  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = "#FF10F0"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.rect(0, 0, canvas.width, canvas.height);
@@ -61,33 +61,17 @@ export default class CanvasUtil {
     return images;
   }
 
-  public static drawImage(
-    canvas: HTMLCanvasElement,
-    image: HTMLImageElement,
-    dx: number,
-    dy: number,
-    width: number = 0,
-    height: number = 0,
-    rotation: number = 0,
-  ): void {
+  public static drawImage(canvas: HTMLCanvasElement, image: HTMLImageElement, dx: number, dy: number, width: number = 0, height: number = 0, rotation: number = 0, opacity: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
 
     if (width === 0) width = image.width;
     if (height === 0) height = image.height;
 
-    // Save the current state of the canvas
     ctx.save();
-
-    // Move the origin to the center of the image
+    ctx.globalAlpha = opacity;
     ctx.translate(dx + width / 2, dy + height / 2);
-
-    // Rotate the canvas
     ctx.rotate((rotation * Math.PI) / 180);
-
-    // Draw the image back to its original position
     ctx.drawImage(image, -width / 2, -height / 2, width, height);
-
-    // Restore the previous state of the canvas
     ctx.restore();
   }
 
@@ -112,16 +96,7 @@ export default class CanvasUtil {
    * @param fontSize font size in pixels
    * @param color colour of text to write
    */
-  public static writeText(
-    canvas: HTMLCanvasElement,
-    text: string,
-    xCoordinate: number,
-    yCoordinate: number,
-    alignment: CanvasTextAlign = 'center',
-    fontFamily: string = 'sans-serif',
-    fontSize: number = 20,
-    color: string = 'red',
-  ): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = "center", fontFamily: string = "sans-serif", fontSize: number = 20, color: string = "red"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
@@ -138,13 +113,7 @@ export default class CanvasUtil {
    * @param radius the radius of the circle
    * @param color the color of the circle outline
    */
-  public static drawCircle(
-    canvas: HTMLCanvasElement,
-    centerX: number,
-    centerY: number,
-    radius: number,
-    color: string = 'red',
-  ): void {
+  public static drawCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, color: string = "red"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.strokeStyle = color;
@@ -153,36 +122,40 @@ export default class CanvasUtil {
   }
 
   /**
-   * Draw a rectangle outline to the canvas
+   * Draw a rectangle outline with optional border radius to the canvas
    *
    * @param canvas the canvas to draw to
-   * @param dx the x-coordinate of the rectangle's left left corner
-   * @param dy the y-coordinate of the rectangle's left left corner
-   * @param width the width of the rectangle from x to the right
-   * @param height the height of the rectrangle from y downwards
+   * @param dx the x-coordinate of the rectangle's top-left corner
+   * @param dy the y-coordinate of the rectangle's top-left corner
+   * @param width the width of the rectangle
+   * @param height the height of the rectangle
    * @param red is the red color value of the rectangle
    * @param green is the green color value of the rectangle
    * @param blue is the blue color value of the rectangle
    * @param opacity is the opacity of the rectangle
    * @param lineWidth is the width of the border
+   * @param borderRadius is the border radius of the rectangle
    */
-  public static drawRectangle(
-    canvas: HTMLCanvasElement,
-    dx: number,
-    dy: number,
-    width: number,
-    height: number,
-    red: number = 255,
-    green: number = 255,
-    blue: number = 255,
-    opacity: number = 1,
-    lineWidth: number = 1,
-  ): void {
+  public static drawRectangle(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, lineWidth: number = 1, borderRadius: number = 0): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.lineWidth = lineWidth;
-    ctx.rect(dx, dy, width, height);
+
+    // Top left corner
+    ctx.moveTo(dx + borderRadius, dy);
+    ctx.arcTo(dx + width, dy, dx + width, dy + height, borderRadius);
+
+    // Top right corner
+    ctx.arcTo(dx + width, dy + height, dx, dy + height, borderRadius);
+
+    // Bottom right corner
+    ctx.arcTo(dx, dy + height, dx, dy, borderRadius);
+
+    // Bottom left corner
+    ctx.arcTo(dx, dy, dx + borderRadius, dy, borderRadius);
+
+    ctx.closePath();
     ctx.stroke();
   }
 
@@ -196,7 +169,7 @@ export default class CanvasUtil {
    * @param y2 y position of the ennding point of drawn line
    * @param color selected color of the line
    */
-  public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, color: string = 'red'): void {
+  public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, color: string = "red"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.strokeStyle = color;
@@ -214,13 +187,7 @@ export default class CanvasUtil {
    * @param radius the radius of the circle
    * @param color the color of the circle
    */
-  public static fillCircle(
-    canvas: HTMLCanvasElement,
-    centerX: number,
-    centerY: number,
-    radius: number,
-    color: string = 'red',
-  ): void {
+  public static fillCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, color: string = "red"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.fillStyle = color;
@@ -242,18 +209,7 @@ export default class CanvasUtil {
    * @param opacity is the opacity of the rectangle
    * @param borderRadius is the border radius of the rectangle
    */
-  public static fillRectangle(
-    canvas: HTMLCanvasElement,
-    dx: number,
-    dy: number,
-    width: number,
-    height: number,
-    red: number = 255,
-    green: number = 255,
-    blue: number = 255,
-    opacity: number = 1,
-    borderRadius: number = 0,
-  ): void {
+  public static fillRectangle(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, borderRadius: number = 0): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.moveTo(dx + borderRadius, dy);
@@ -277,11 +233,7 @@ export default class CanvasUtil {
    * @param image the image to rotate
    * @param degrees the degrees to rotate the image
    */
-  public static rotateImage(
-    canvas: HTMLCanvasElement,
-    image: HTMLImageElement,
-    degrees: number,
-  ): void {
+  public static rotateImage(canvas: HTMLCanvasElement, image: HTMLImageElement, degrees: number): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.translate(canvas.width / 2, canvas.height / 2);
     ctx.rotate((degrees * Math.PI) / 180);
@@ -295,12 +247,7 @@ export default class CanvasUtil {
    * @param item is the item that is checked for if the player collides with
    */
   public static collidesWith(player: Player, item: Drawable): boolean {
-    if (
-      player.posX < item.posX + item.image.width
-      && player.posX + player.image.width > item.posX + item.image.width / 3
-      && player.posY < item.posY + item.image.height
-      && player.posY + player.image.height > item.posY
-    ) {
+    if (player.posX < item.posX + item.image.width && player.posX + player.image.width > item.posX + item.image.width / 3 && player.posY < item.posY + item.image.height && player.posY + player.image.height > item.posY) {
       return true;
     }
     return false;

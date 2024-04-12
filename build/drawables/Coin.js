@@ -1,4 +1,3 @@
-import HandleStats from '../ui/HandleStats.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Drawable from './Drawable.js';
 export default class Coin extends Drawable {
@@ -15,7 +14,7 @@ export default class Coin extends Drawable {
             this.range = window.innerHeight;
             this.height = 0;
             this.image = CanvasUtil.loadNewImage('./assets/bronzeCoin.png');
-            this.value = 2 * HandleStats.coinMult;
+            this.value = 2;
             this.coinType = 1;
             this.posY = bottom - (spawnChances * this.range) - this.height;
         }
@@ -23,7 +22,7 @@ export default class Coin extends Drawable {
             this.range = 2 * window.innerHeight;
             this.height = window.innerHeight * 0.5;
             this.image = CanvasUtil.loadNewImage('./assets/silverCoin.png');
-            this.value = 6 * HandleStats.coinMult;
+            this.value = 6;
             this.coinType = 2;
             this.posY = bottom - (spawnChances * this.range) - this.height;
         }
@@ -31,7 +30,7 @@ export default class Coin extends Drawable {
             this.range = 9 * window.innerHeight;
             this.height = window.innerHeight;
             this.image = CanvasUtil.loadNewImage('./assets/goldCoin.png');
-            this.value = 20 * HandleStats.coinMult;
+            this.value = 20;
             this.coinType = 3;
             this.posY -= window.innerHeight / 1.1;
             this.posY = bottom - (spawnChances * this.range) - this.height;
