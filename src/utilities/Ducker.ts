@@ -28,7 +28,7 @@ export default class Ducker extends Game {
     Cookies.loadStatsFromCookieSlot(1);
 
     // Set the starting scene
-    this.currentScene = new Shop();
+    this.currentScene = new Save();
   }
 
   /**

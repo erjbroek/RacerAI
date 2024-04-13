@@ -93,7 +93,6 @@ export default class Finished {
     CanvasUtil.fillRectangle(canvas, (canvas.width / 2 - canvas.width / 30) - canvas.width / 10, canvas.height / 1.4, canvas.width / 10, canvas.height / 20, 255, 255, 255, this.opacity * 0.3, 20);
     CanvasUtil.writeText(canvas, 'Retry', canvas.width / 2 + canvas.width / 12, canvas.height / 1.337, 'center', 'arial', 25, 'white');
     CanvasUtil.writeText(canvas, 'Shop', canvas.width / 2 - canvas.width / 12, canvas.height / 1.337, 'center', 'arial', 25, 'white');
-
     // CanvasUtil.drawRectangle(canvas, canvas.width / 2, 0, canvas.width / 500, canvas.height, 255, 0, 0, 1);
   }
 }
