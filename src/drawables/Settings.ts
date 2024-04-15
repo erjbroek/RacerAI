@@ -9,9 +9,9 @@ export default class Settings {
 
   public static home: HTMLImageElement = CanvasUtil.loadNewImage('./assets/home.png');
 
-  private static animationDuration: number = 500;
+  private static animationDuration: number = 1000;
 
-  private static height: number = 1;
+  private static height: number = 0;
 
   public static goHome: boolean = false;
 
@@ -46,7 +46,8 @@ export default class Settings {
         if (this.height >= targetHeight) {
           this.opened = true;
           this.open = false;
-          this.animationDuration = 500;
+          this.animationDuration = 1000;
+          this.height = targetHeight;
         }
       }
     } else if (this.close) {
@@ -57,7 +58,8 @@ export default class Settings {
         if (this.height <= targetHeight) {
           this.opened = false;
           this.close = false;
-          this.animationDuration = 500;
+          this.animationDuration = 1000;
+          this.height = targetHeight;
         }
       }
     }
