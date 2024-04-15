@@ -5,7 +5,7 @@ export default class Settings {
     static save = CanvasUtil.loadNewImage('./assets/floppy.png');
     static home = CanvasUtil.loadNewImage('./assets/home.png');
     static animationDuration = 700;
-    static height = window.innerHeight / 16.25;
+    static height = window.innerHeight / 15;
     static goHome = false;
     static goSave = false;
     static opened = false;
@@ -37,7 +37,7 @@ export default class Settings {
             }
         }
         else if (this.close) {
-            targetHeight = window.innerHeight / 16.25;
+            targetHeight = window.innerHeight / 15;
             if (this.opened) {
                 this.height = this.lerp(this.height, targetHeight, elapsed / this.animationDuration);
                 this.animationDuration -= elapsed;
@@ -57,7 +57,8 @@ export default class Settings {
         CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 15, canvas.width / 40, 30, 200, 80, 1);
         CanvasUtil.fillRectangle(canvas, canvas.width * 0.935, canvas.height / 15, canvas.width / 20, this.height - window.innerHeight / 16.25, 30, 200, 80, 1, 0);
         CanvasUtil.fillCircle(canvas, canvas.width * 0.96, this.height, canvas.width / 40, 30, 200, 80, 1);
-        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 16.25, canvas.width / 60, 100, 255, 160, 1);
+        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 15, canvas.width / 60, 100, 255, 160, 1);
+        CanvasUtil.drawImage(canvas, this.hamburger, canvas.width * 0.949, canvas.height / 21, this.hamburger.width / 22, this.hamburger.height / 18);
     }
 }
 //# sourceMappingURL=Settings.js.map
