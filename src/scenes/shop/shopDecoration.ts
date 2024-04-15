@@ -143,7 +143,7 @@ export default class ShopDecoration {
    */
   public render(canvas: HTMLCanvasElement) {
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 6, this.red, this.green, this.blue, 1);
-    CanvasUtil.fillCircle(canvas, canvas.width / 2, this.sunHeight, canvas.width / 3, 'Yellow');
+    CanvasUtil.fillCircle(canvas, canvas.width / 2, this.sunHeight, canvas.width / 3, 237, 233, 157, 1);
 
     this.lightGrass.forEach((grass) => {
       grass.render(canvas);

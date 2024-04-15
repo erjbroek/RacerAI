@@ -22,11 +22,10 @@ export default class Finished {
    * @param mouseListener is used to check for mouse movements and inputs
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener) {
-    if (MouseListener.areaPressed((window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
+    if (MouseListener.areaDown((window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
       this.retry = true;
-      console.log("retry")
     }
-    if (MouseListener.areaPressed((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
+    if (MouseListener.areaDown((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
       this.goShop = true;
     }
   }
@@ -94,6 +93,5 @@ export default class Finished {
     CanvasUtil.fillRectangle(canvas, (canvas.width / 2 - canvas.width / 30) - canvas.width / 10, canvas.height / 1.4, canvas.width / 10, canvas.height / 20, 255, 255, 255, this.opacity * 0.3, 20);
     CanvasUtil.writeText(canvas, 'Retry', canvas.width / 2 + canvas.width / 12, canvas.height / 1.337, 'center', 'arial', 25, 'white');
     CanvasUtil.writeText(canvas, 'Shop', canvas.width / 2 - canvas.width / 12, canvas.height / 1.337, 'center', 'arial', 25, 'white');
-    // CanvasUtil.drawRectangle(canvas, canvas.width / 2, 0, canvas.width / 500, canvas.height, 255, 0, 0, 1);
   }
 }

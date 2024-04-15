@@ -2,8 +2,8 @@ import { Game } from './GameLoop.js';
 import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
-import Save from '../scenes/Save.js';
 import HandleScore from '../ui/HandleScore.js';
+import SelectAngle from '../scenes/SelectAngle.js';
 export default class Ducker extends Game {
     canvas;
     keyListener;
@@ -16,7 +16,7 @@ export default class Ducker extends Game {
         this.canvas.width = window.innerWidth;
         this.keyListener = new KeyListener();
         this.mouseListener = new MouseListener(canvas);
-        this.currentScene = new Save();
+        this.currentScene = new SelectAngle();
     }
     processInput() {
         this.currentScene.processInput(this.keyListener, this.mouseListener);

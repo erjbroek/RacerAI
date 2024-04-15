@@ -129,18 +129,19 @@ export default class SelectAngle extends Scene {
       grass.render(canvas);
     });
 
-    CanvasUtil.drawCircle(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, window.innerHeight / 5, 'lightgreen');
+    CanvasUtil.drawCircle(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, window.innerHeight / 5, 200, 255, 200, 1);
 
     const lineLength = 200;
     const lineEndX = this.player.posX + this.player.image.width
     / 2 + lineLength * Math.cos((this.launchAngle * Math.PI) / 180);
     const lineEndY = this.player.posY + this.player.image.height
     / 2 + lineLength * Math.sin((this.launchAngle * Math.PI) / 180);
-    CanvasUtil.drawLine(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, lineEndX, lineEndY, 'lightgreen');
+    CanvasUtil.drawLine(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, lineEndX, lineEndY, 200, 255, 200, 1);
 
     if (this.angleReady) {
       CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, window.innerHeight / 10 - 280, 255, 0, 0);
       CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower, window.innerWidth / 50, this.launchPower, 255, 0, 0);
     }
+    CanvasUtil.fillCircle(canvas, canvas.width * 0.975, canvas.width / 40, canvas.width / 60, 30, 200, 80, 1);
   }
 }

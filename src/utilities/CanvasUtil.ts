@@ -113,10 +113,10 @@ export default class CanvasUtil {
    * @param radius the radius of the circle
    * @param color the color of the circle outline
    */
-  public static drawCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, color: string = "red"): void {
+  public static drawCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.stroke();
   }
@@ -169,10 +169,10 @@ export default class CanvasUtil {
    * @param y2 y position of the ennding point of drawn line
    * @param color selected color of the line
    */
-  public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, color: string = "red"): void {
+  public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
-    ctx.strokeStyle = color;
+    ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);
     ctx.stroke();
@@ -187,10 +187,10 @@ export default class CanvasUtil {
    * @param radius the radius of the circle
    * @param color the color of the circle
    */
-  public static fillCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, color: string = "red"): void {
+  public static fillCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
-    ctx.fillStyle = color;
+    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
     ctx.fill();
   }

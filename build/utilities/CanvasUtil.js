@@ -48,10 +48,10 @@ export default class CanvasUtil {
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);
     }
-    static drawCircle(canvas, centerX, centerY, radius, color = "red") {
+    static drawCircle(canvas, centerX, centerY, radius, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.stroke();
     }
@@ -68,18 +68,18 @@ export default class CanvasUtil {
         ctx.closePath();
         ctx.stroke();
     }
-    static drawLine(canvas, x1, y1, x2, y2, color = "red") {
+    static drawLine(canvas, x1, y1, x2, y2, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
-        ctx.strokeStyle = color;
+        ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
         ctx.stroke();
     }
-    static fillCircle(canvas, centerX, centerY, radius, color = "red") {
+    static fillCircle(canvas, centerX, centerY, radius, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
-        ctx.fillStyle = color;
+        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.fill();
     }

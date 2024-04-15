@@ -9,6 +9,8 @@ import Shop from '../scenes/shop/Shop.js';
 import Save from '../scenes/Save.js';
 import HandleScore from '../ui/HandleScore.js';
 import SelectAngle from '../scenes/SelectAngle.js';
+import Finished from '../scenes/Finished.js';
+import Launch from '../scenes/Launch.js';
 
 export default class Ducker extends Game {
   private canvas: HTMLCanvasElement;
@@ -28,7 +30,7 @@ export default class Ducker extends Game {
     this.mouseListener = new MouseListener(canvas);
 
     // Set the starting scene
-    this.currentScene = new Save();
+    this.currentScene = new SelectAngle();
   }
 
   /**
