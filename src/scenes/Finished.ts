@@ -22,10 +22,10 @@ export default class Finished {
    * @param mouseListener is used to check for mouse movements and inputs
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener) {
-    if (MouseListener.areaDown((window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
+    if (MouseListener.areaDown(0, (window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
       this.retry = true;
     }
-    if (MouseListener.areaDown((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
+    if (MouseListener.areaDown(0, (window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
       this.goShop = true;
     }
   }

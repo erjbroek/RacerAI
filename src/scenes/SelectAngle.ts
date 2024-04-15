@@ -10,6 +10,8 @@ import GrassDark from '../background items/GrassDark.js';
 import GrassLight from '../background items/GrassLight.js';
 import HandleScore from '../ui/HandleScore.js';
 import HandleItems from '../ui/HandleItems.js';
+import Settings from '../drawables/Settings.js';
+import MouseListener from '../utilities/MouseListener.js';
 
 export default class SelectAngle extends Scene {
   private player: Player;
@@ -56,6 +58,7 @@ export default class SelectAngle extends Scene {
     if (keyListener.keyPressed('Space')) {
       this.angleReady = true;
     }
+    Settings.processInput();
   }
 
   /**
@@ -65,6 +68,7 @@ export default class SelectAngle extends Scene {
    * @returns New scene, or null if not changing scenes
    */
   public update(elapsed: number): Scene {
+    Settings.update(elapsed);
     if (!this.angleReady) {
       this.updateRotation();
     } else {
@@ -142,6 +146,6 @@ export default class SelectAngle extends Scene {
       CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, window.innerHeight / 10 - 280, 255, 0, 0);
       CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower, window.innerWidth / 50, this.launchPower, 255, 0, 0);
     }
-    CanvasUtil.fillCircle(canvas, canvas.width * 0.975, canvas.width / 40, canvas.width / 60, 30, 200, 80, 1);
+    Settings.renderSettings(canvas);
   }
 }

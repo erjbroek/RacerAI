@@ -20,60 +20,60 @@ export default class Save extends Scene {
     processInput(keyListener, mouseListener) {
         if (!this.startTimer) {
             if (Cookies.checkCookieForSlot(1)) {
-                if (MouseListener.areaDown(window.innerWidth / 12, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 12, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.loadStatsFromCookieSlot(1);
                     this.slot1Stats = Cookies.getStatsFromSlot(1);
                     this.startTimer = true;
                 }
-                if (MouseListener.areaDown(window.innerWidth / 8 + window.innerWidth / 7.8, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 7.8, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
                     Cookies.removeCookie(1);
                 }
-                if (MouseListener.areaDown(window.innerWidth / 12 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 12 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.saveStatsToCookies(1);
                     this.slot1Stats = Cookies.getStatsFromSlot(1);
                 }
             }
-            else if (MouseListener.areaDown(window.innerWidth / 12 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+            else if (MouseListener.areaDown(0, window.innerWidth / 12 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                 Cookies.saveStatsToCookies(1);
                 Cookies.loadStatsFromCookieSlot(1);
                 this.slot1Stats = Cookies.getStatsFromSlot(1);
                 this.startTimer = true;
             }
             if (Cookies.checkCookieForSlot(2)) {
-                if (MouseListener.areaDown(window.innerWidth / 2.52, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 2.52, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.loadStatsFromCookieSlot(2);
                     this.slot2Stats = Cookies.getStatsFromSlot(2);
                     this.startTimer = true;
                 }
-                if (MouseListener.areaDown(window.innerWidth / 8 + window.innerWidth / 2.28, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 2.28, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
                     Cookies.removeCookie(2);
                 }
-                if (MouseListener.areaDown(window.innerWidth / 2.52 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 2.52 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.saveStatsToCookies(2);
                     this.slot2Stats = Cookies.getStatsFromSlot(2);
                 }
             }
-            else if (MouseListener.areaDown(window.innerWidth / 2.52 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+            else if (MouseListener.areaDown(0, window.innerWidth / 2.52 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                 Cookies.saveStatsToCookies(2);
                 Cookies.loadStatsFromCookieSlot(2);
                 this.slot2Stats = Cookies.getStatsFromSlot(2);
                 this.startTimer = true;
             }
             if (Cookies.checkCookieForSlot(3)) {
-                if (MouseListener.areaDown(window.innerWidth / 1.41, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 1.41, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.loadStatsFromCookieSlot(3);
                     this.slot3Stats = Cookies.getStatsFromSlot(3);
                     this.startTimer = true;
                 }
-                if (MouseListener.areaDown(window.innerWidth / 8 + window.innerWidth / 1.324, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 1.324, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
                     Cookies.removeCookie(3);
                 }
-                if (MouseListener.areaDown(window.innerWidth / 1.41 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+                if (MouseListener.areaDown(0, window.innerWidth / 1.41 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.saveStatsToCookies(3);
                     this.slot3Stats = Cookies.getStatsFromSlot(3);
                 }
             }
-            else if (MouseListener.areaDown(window.innerWidth / 1.41 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+            else if (MouseListener.areaDown(0, window.innerWidth / 1.41 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                 Cookies.saveStatsToCookies(3);
                 Cookies.loadStatsFromCookieSlot(3);
                 this.slot3Stats = Cookies.getStatsFromSlot(3);

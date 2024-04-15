@@ -8,6 +8,7 @@ import GrassDark from '../background items/GrassDark.js';
 import GrassLight from '../background items/GrassLight.js';
 import HandleScore from '../ui/HandleScore.js';
 import HandleItems from '../ui/HandleItems.js';
+import Settings from '../drawables/Settings.js';
 export default class SelectAngle extends Scene {
     player;
     backgrounds;
@@ -38,8 +39,10 @@ export default class SelectAngle extends Scene {
         if (keyListener.keyPressed('Space')) {
             this.angleReady = true;
         }
+        Settings.processInput();
     }
     update(elapsed) {
+        Settings.update(elapsed);
         if (!this.angleReady) {
             this.updateRotation();
         }
@@ -102,7 +105,7 @@ export default class SelectAngle extends Scene {
             CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, window.innerHeight / 10 - 280, 255, 0, 0);
             CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower, window.innerWidth / 50, this.launchPower, 255, 0, 0);
         }
-        CanvasUtil.fillCircle(canvas, canvas.width * 0.975, canvas.width / 40, canvas.width / 60, 30, 200, 80, 1);
+        Settings.renderSettings(canvas);
     }
 }
 //# sourceMappingURL=SelectAngle.js.map

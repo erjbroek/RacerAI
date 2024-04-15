@@ -33,7 +33,6 @@ export default class Player extends Drawable {
     this.totalBoost = HandleStats.fuel;
     this.boost = this.totalBoost;
     this.boostPower = HandleStats.fuelPower;
-    this.hat = CanvasUtil.loadNewImage('./assets/hat1.png');
     this.image.width = window.innerWidth / 15;
     this.image.height = window.innerWidth / 15;
     this.posX = window.innerWidth / 10 - this.image.width / 2;

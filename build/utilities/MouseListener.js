@@ -37,8 +37,8 @@ export default class MouseListener {
         }
         return false;
     }
-    static areaPressed(posX, posY, width, height) {
-        if (MouseListener.buttonPressed(0)
+    static areaPressed(buttonCode, posX, posY, width, height) {
+        if (MouseListener.buttonPressed(buttonCode)
             && MouseListener.mouseCoordinates.x > posX
             && MouseListener.mouseCoordinates.y > posY
             && MouseListener.mouseCoordinates.x < posX + width
@@ -47,8 +47,16 @@ export default class MouseListener {
         }
         return false;
     }
-    static areaDown(posX, posY, width, height) {
-        if (MouseListener.isButtonDown(0)
+    static circlePressed(buttonCode, posX, posY, radius) {
+        if (MouseListener.buttonPressed(buttonCode)) {
+            const dx = MouseListener.mouseCoordinates.x - posX;
+            const dy = MouseListener.mouseCoordinates.y - posY;
+            return Math.sqrt(dx ** 2 + dy ** 2) < radius;
+        }
+        return false;
+    }
+    static areaDown(buttonCode, posX, posY, width, height) {
+        if (MouseListener.isButtonDown(buttonCode)
             && MouseListener.mouseCoordinates.x > posX
             && MouseListener.mouseCoordinates.y > posY
             && MouseListener.mouseCoordinates.x < posX + width

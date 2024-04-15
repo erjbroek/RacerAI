@@ -55,7 +55,7 @@ export default class Shop extends Scene {
             }
         });
         if (this.selected) {
-            if (MouseListener.areaPressed(window.innerWidth / 1.45 + window.innerWidth / 6.9, window.innerHeight / 1.13, window.innerWidth / 14, window.innerHeight / 22.6)) {
+            if (MouseListener.areaPressed(0, window.innerWidth / 1.45 + window.innerWidth / 6.9, window.innerHeight / 1.13, window.innerWidth / 14, window.innerHeight / 22.6)) {
                 this.selected.level();
             }
         }

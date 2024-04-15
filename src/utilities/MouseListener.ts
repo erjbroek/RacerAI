@@ -67,20 +67,16 @@ export default class MouseListener {
   }
 
   /**
-   * Returns the current mouse coordinates in an object
-   *
-   * @returns MouseCoordinates object with current position of mouse
-   */
-  /**
    * @returns boolean if the mouse clicks between the specified positions
+   * @param buttonCode the mouse button to check
    * @param posX the x-coordinate of the top-left corner of the rectangle
    * @param posY the y-coordinate of the top-left corner of the rectangle
    * @param width the width of the rectangle
    * @param height the height of the rectangle
    */
-  public static areaPressed(posX: number, posY: number, width: number, height: number): boolean {
+  public static areaPressed(buttonCode: number, posX: number, posY: number, width: number, height: number): boolean {
     if (
-      MouseListener.buttonPressed(0)
+      MouseListener.buttonPressed(buttonCode)
       && MouseListener.mouseCoordinates.x > posX
       && MouseListener.mouseCoordinates.y > posY
       && MouseListener.mouseCoordinates.x < posX + width
@@ -91,21 +87,32 @@ export default class MouseListener {
     return false;
   }
 
-    /**
-   * Returns the current mouse coordinates in an object
-   *
-   * @returns MouseCoordinates object with current position of mouse
+  /**
+   * @returns boolean
+   * @param buttonCode the mouse button to check
+   * @param posX the x-coordinate of the mid point of the circle
+   * @param posY the y-coordinate of the mid point of the circle
+   * @param radius the radius of the circle
    */
+  public static circlePressed(buttonCode: number, posX: number, posY: number, radius: number): boolean {
+    if (MouseListener.buttonPressed(buttonCode)) {
+      const dx = MouseListener.mouseCoordinates.x - posX;
+      const dy = MouseListener.mouseCoordinates.y - posY;
+      return Math.sqrt(dx ** 2 + dy ** 2) < radius;
+    } return false;
+  }
+
   /**
    * @returns boolean if the mouse clicks between the specified positions
+   * @param buttonCode the mouse button to check
    * @param posX the x-coordinate of the top-left corner of the rectangle
    * @param posY the y-coordinate of the top-left corner of the rectangle
    * @param width the width of the rectangle
    * @param height the height of the rectangle
    */
-  public static areaDown(posX: number, posY: number, width: number, height: number): boolean {
+  public static areaDown(buttonCode: number, posX: number, posY: number, width: number, height: number): boolean {
     if (
-      MouseListener.isButtonDown(0)
+      MouseListener.isButtonDown(buttonCode)
       && MouseListener.mouseCoordinates.x > posX
       && MouseListener.mouseCoordinates.y > posY
       && MouseListener.mouseCoordinates.x < posX + width
