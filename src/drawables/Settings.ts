@@ -9,7 +9,7 @@ export default class Settings {
 
   public static home: HTMLImageElement = CanvasUtil.loadNewImage('./assets/home.png');
 
-  private static animationDuration: number = 1000;
+  private static animationDuration: number = 700;
 
   private static height: number = 0;
 
@@ -46,7 +46,7 @@ export default class Settings {
         if (this.height >= targetHeight) {
           this.opened = true;
           this.open = false;
-          this.animationDuration = 1000;
+          this.animationDuration = 700;
           this.height = targetHeight;
         }
       }
@@ -58,7 +58,7 @@ export default class Settings {
         if (this.height <= targetHeight) {
           this.opened = false;
           this.close = false;
-          this.animationDuration = 1000;
+          this.animationDuration = 700;
           this.height = targetHeight;
         }
       }

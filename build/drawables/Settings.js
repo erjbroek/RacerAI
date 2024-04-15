@@ -4,7 +4,7 @@ export default class Settings {
     static cog = CanvasUtil.loadNewImage('./assets/cog.png');
     static save = CanvasUtil.loadNewImage('./assets/floppy.png');
     static home = CanvasUtil.loadNewImage('./assets/home.png');
-    static animationDuration = 1000;
+    static animationDuration = 700;
     static height = 0;
     static goHome = false;
     static goSave = false;
@@ -31,7 +31,7 @@ export default class Settings {
                 if (this.height >= targetHeight) {
                     this.opened = true;
                     this.open = false;
-                    this.animationDuration = 1000;
+                    this.animationDuration = 700;
                     this.height = targetHeight;
                 }
             }
@@ -44,7 +44,7 @@ export default class Settings {
                 if (this.height <= targetHeight) {
                     this.opened = false;
                     this.close = false;
-                    this.animationDuration = 1000;
+                    this.animationDuration = 700;
                     this.height = targetHeight;
                 }
             }
