@@ -10,11 +10,12 @@ export default class Finished {
     goShop = false;
     retry = false;
     processInput(keyListener, mouseListener) {
-        if (MouseListener.areaPressed((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
-            this.goShop = true;
-        }
         if (MouseListener.areaPressed((window.innerWidth / 2 + window.innerWidth / 30), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
             this.retry = true;
+            console.log("retry");
+        }
+        if (MouseListener.areaPressed((window.innerWidth / 2 - window.innerWidth / 7.5), window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 20)) {
+            this.goShop = true;
         }
     }
     update(elapsed) {

@@ -24,6 +24,8 @@ export interface Stats {
 }
 
 export default class Cookies {
+  public static activeSlot: number = 0;
+
   /**
    * saves player stats
    *
@@ -84,6 +86,7 @@ export default class Cookies {
    * @param {number} slotNumber - The slot number to load stats from
    */
   public static loadStatsFromCookieSlot(slotNumber: number) {
+    Cookies.activeSlot = slotNumber;
     const cookieName = `slot${slotNumber}_stats`;
     const cookies = document.cookie.split(";");
     let statsJson = "";
@@ -120,15 +123,42 @@ export default class Cookies {
   }
 
   /**
-   * resets cookies
+   * Check if a cookie exists for the given slot number
+   *
+   * @param {number} slotNumber - The slot number to check for
+   * @returns {boolean} - True if a cookie exists for the slot, false otherwise
    */
-  public static removeAllCookies() {
+  public static checkCookieForSlot(slotNumber: number): boolean {
+    const cookieName = `slot${slotNumber}_stats`;
     const cookies = document.cookie.split(";");
 
-    cookies.forEach((cookie) => {
-      const [name, _] = cookie.split("=");
-      // Remove the cookie by setting its expiration to a past date
-      document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-    });
+    for (let i = 0; i < cookies.length; i++) {
+      const [name, _] = cookies[i].split("=");
+      if (name.trim() === cookieName) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * resets cookies
+   */
+  public static removeCookie(slotNumber: number) {
+    const cookieName = `slot${slotNumber}_stats`;
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i++) {
+      const [name, _] = cookies[i].split("=");
+      if (name.trim() === cookieName) {
+        document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+      }
+    }
+    // cookies.forEach((cookie) => {
+    //   const [name, _] = cookie.split("=");
+    //   // Remove the cookie by setting its expiration to a past date
+    //   document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+    // });
   }
 }

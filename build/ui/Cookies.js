@@ -1,6 +1,7 @@
 import HandleScore from "./HandleScore.js";
 import HandleStats from "./HandleStats.js";
 export default class Cookies {
+    static activeSlot = 0;
     static saveStatsToCookies(slotNumber) {
         const stats = {
             launchPower: HandleStats.launchPower,
@@ -41,6 +42,7 @@ export default class Cookies {
         return null;
     }
     static loadStatsFromCookieSlot(slotNumber) {
+        Cookies.activeSlot = slotNumber;
         const cookieName = `slot${slotNumber}_stats`;
         const cookies = document.cookie.split(";");
         let statsJson = "";
@@ -72,12 +74,26 @@ export default class Cookies {
             HandleScore.fPlayTime = stats.fPlayTime;
         }
     }
-    static removeAllCookies() {
+    static checkCookieForSlot(slotNumber) {
+        const cookieName = `slot${slotNumber}_stats`;
         const cookies = document.cookie.split(";");
-        cookies.forEach((cookie) => {
-            const [name, _] = cookie.split("=");
-            document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-        });
+        for (let i = 0; i < cookies.length; i++) {
+            const [name, _] = cookies[i].split("=");
+            if (name.trim() === cookieName) {
+                return true;
+            }
+        }
+        return false;
+    }
+    static removeCookie(slotNumber) {
+        const cookieName = `slot${slotNumber}_stats`;
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+            const [name, _] = cookies[i].split("=");
+            if (name.trim() === cookieName) {
+                document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+            }
+        }
     }
 }
 //# sourceMappingURL=Cookies.js.map

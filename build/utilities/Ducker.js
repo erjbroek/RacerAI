@@ -2,7 +2,6 @@ import { Game } from './GameLoop.js';
 import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
-import Cookies from '../ui/Cookies.js';
 import Save from '../scenes/Save.js';
 import HandleScore from '../ui/HandleScore.js';
 export default class Ducker extends Game {
@@ -17,7 +16,6 @@ export default class Ducker extends Game {
         this.canvas.width = window.innerWidth;
         this.keyListener = new KeyListener();
         this.mouseListener = new MouseListener(canvas);
-        Cookies.loadStatsFromCookieSlot(1);
         this.currentScene = new Save();
     }
     processInput() {
