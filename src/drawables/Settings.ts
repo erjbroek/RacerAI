@@ -11,7 +11,7 @@ export default class Settings {
 
   private static animationDuration: number = 700;
 
-  private static height: number = 0;
+  private static height: number = window.innerWidth / 30;
 
   public static goHome: boolean = false;
 
@@ -39,7 +39,7 @@ export default class Settings {
   public static update(elapsed: number) {
     let targetHeight: number;
     if (this.open) {
-      targetHeight = window.innerHeight / 5;
+      targetHeight = window.innerHeight / 4;
       if (!this.opened) {
         this.height = this.lerp(this.height, targetHeight, elapsed / this.animationDuration);
         this.animationDuration -= elapsed;
@@ -51,7 +51,7 @@ export default class Settings {
         }
       }
     } else if (this.close) {
-      targetHeight = 0;
+      targetHeight = window.innerWidth / 30;
       if (this.opened) {
         this.height = this.lerp(this.height, targetHeight, elapsed / this.animationDuration);
         this.animationDuration -= elapsed;
@@ -81,7 +81,9 @@ export default class Settings {
    *
    */
   public static renderSettings(canvas: HTMLCanvasElement) {
-    CanvasUtil.fillCircle(canvas, canvas.width * 0.975, canvas.width / 40, canvas.height / 40, 30, 200, 80, 1);
-    CanvasUtil.fillRectangle(canvas, canvas.width * 0.975, canvas.width / 40, canvas.width / 20, this.height, 30, 200, 80, 1);
+    CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.width / 30, canvas.height / 20, 30, 200, 80, 1);
+    CanvasUtil.fillRectangle(canvas, canvas.width * 0.935, canvas.width / 30, canvas.height / 10, this.height - window.innerWidth / 30, 30, 200, 80, 1, 0);
+    CanvasUtil.fillCircle(canvas, canvas.width * 0.96, this.height, canvas.height / 20, 30, 200, 80, 1);
+    // CanvasUtil.fillRectangle(canvas, canvas.width * 0.935, canvas.width / 60, canvas.height / 10, this.height, 30, 200, 80, 1, canvas.height / 20);
   }
 }

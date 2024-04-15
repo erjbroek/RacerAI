@@ -142,6 +142,8 @@ export default class CanvasUtil {
     ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.lineWidth = lineWidth;
 
+    borderRadius = Math.min(borderRadius, width / 2, height / 2);
+
     // Top left corner
     ctx.moveTo(dx + borderRadius, dy);
     ctx.arcTo(dx + width, dy, dx + width, dy + height, borderRadius);
@@ -212,6 +214,7 @@ export default class CanvasUtil {
   public static fillRectangle(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, borderRadius: number = 0): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
+    borderRadius = Math.min(borderRadius, width / 2, height / 2);
     ctx.moveTo(dx + borderRadius, dy);
     ctx.lineTo(dx + width - borderRadius, dy);
     ctx.arcTo(dx + width, dy, dx + width, dy + borderRadius, borderRadius);
