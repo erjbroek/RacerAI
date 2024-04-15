@@ -1,18 +1,18 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import MouseListener from '../utilities/MouseListener.js';
 export default class Settings {
-    static cog = CanvasUtil.loadNewImage('./assets/cog.png');
+    static hamburger = CanvasUtil.loadNewImage('./assets/hamburger.png');
     static save = CanvasUtil.loadNewImage('./assets/floppy.png');
     static home = CanvasUtil.loadNewImage('./assets/home.png');
     static animationDuration = 700;
-    static height = window.innerWidth / 30;
+    static height = window.innerHeight / 16.25;
     static goHome = false;
     static goSave = false;
     static opened = false;
     static open = false;
     static close = false;
     static processInput() {
-        if (MouseListener.circlePressed(0, window.innerWidth * 0.975, window.innerWidth / 40, window.innerHeight / 40)) {
+        if (MouseListener.circlePressed(0, window.innerWidth * 0.96, window.innerWidth / 30, window.innerHeight / 20)) {
             if (!this.opened) {
                 this.open = true;
             }
@@ -37,7 +37,7 @@ export default class Settings {
             }
         }
         else if (this.close) {
-            targetHeight = window.innerWidth / 30;
+            targetHeight = window.innerHeight / 16.25;
             if (this.opened) {
                 this.height = this.lerp(this.height, targetHeight, elapsed / this.animationDuration);
                 this.animationDuration -= elapsed;
@@ -54,9 +54,10 @@ export default class Settings {
         return start * (1 - t) + end * t;
     }
     static renderSettings(canvas) {
-        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.width / 30, canvas.height / 20, 30, 200, 80, 1);
-        CanvasUtil.fillRectangle(canvas, canvas.width * 0.935, canvas.width / 30, canvas.height / 10, this.height - window.innerWidth / 30, 30, 200, 80, 1, 0);
-        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, this.height, canvas.height / 20, 30, 200, 80, 1);
+        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 15, canvas.width / 40, 30, 200, 80, 1);
+        CanvasUtil.fillRectangle(canvas, canvas.width * 0.935, canvas.height / 15, canvas.width / 20, this.height - window.innerHeight / 16.25, 30, 200, 80, 1, 0);
+        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, this.height, canvas.width / 40, 30, 200, 80, 1);
+        CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 16.25, canvas.width / 60, 100, 255, 160, 1);
     }
 }
 //# sourceMappingURL=Settings.js.map
