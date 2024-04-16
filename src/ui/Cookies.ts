@@ -153,10 +153,11 @@ export default class Cookies {
 
     for (let i = 0; i < cookies.length; i++) {
       const [name, _] = cookies[i].split("=");
-      console.log('name:' + name)
+      console.log('name: ' + name)
+      console.log('cookiename: ' + cookieName)
       if (name.trim() === cookieName) {
-        console.log('cookienameInTrim: ' + cookieName)
         document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
+        console.log(document.cookie;)
       }
     }
     // cookies.forEach((cookie) => {
