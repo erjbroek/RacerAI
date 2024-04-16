@@ -2,7 +2,7 @@ import Cookies from '../ui/Cookies.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
-import StartingScene from './StartingScene.js';
+import SelectAngle from './SelectAngle.js';
 export default class Save extends Scene {
     background;
     logo;
@@ -86,7 +86,7 @@ export default class Save extends Scene {
             this.time -= elapsed;
             this.renderLoad = true;
             if (this.time <= 0) {
-                return new StartingScene();
+                return new SelectAngle();
             }
         }
         return this;

@@ -1,8 +1,12 @@
+import Save from '../scenes/Save.js';
+import SelectAngle from '../scenes/SelectAngle.js';
+import StartingScene from '../scenes/StartingScene.js';
+import Shop from '../scenes/shop/Shop.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import MouseListener from '../utilities/MouseListener.js';
 
-export default class Settings {
+export default class Menu {
   public static hamburger: HTMLImageElement = CanvasUtil.loadNewImage('./assets/hamburger.png');
 
   public static save: HTMLImageElement = CanvasUtil.loadNewImage('./assets/floppy.png');
@@ -11,13 +15,15 @@ export default class Settings {
 
   public static cart: HTMLImageElement = CanvasUtil.loadNewImage('./assets/cart.png');
 
-  private static animationDuration: number = 700;
+  public static goSave: boolean = false;
 
-  private static height: number = window.innerHeight / 15;
+  public static goShop: boolean = false;
 
   public static goHome: boolean = false;
 
-  public static goSave: boolean = false;
+  private static animationDuration: number = 700;
+
+  private static height: number = window.innerHeight / 15;
 
   public static opened: boolean = false;
 
@@ -39,15 +45,21 @@ export default class Settings {
 
     if (this.opened) {
       if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 6.5, window.innerWidth / 50)) {
-        console.log("save")
+        this.goSave = true;
+      } else {
+        this.goSave = false;
       }
       if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 4.18, window.innerWidth / 50)) {
-        console.log("shop")
+        this.goShop = true;
+      } else {
+        this.goShop = false;
       }
       if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 3.08, window.innerWidth / 50)) {
-        console.log("home")
+        this.goHome = true;
+      } else {
+        this.goHome = false;
       }
-    }
+    } return this;
   }
 
   /**

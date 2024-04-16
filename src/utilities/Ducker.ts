@@ -11,6 +11,7 @@ import HandleScore from '../ui/HandleScore.js';
 import SelectAngle from '../scenes/SelectAngle.js';
 import Finished from '../scenes/Finished.js';
 import Launch from '../scenes/Launch.js';
+import Menu from '../drawables/Menu.js';
 
 export default class Ducker extends Game {
   private canvas: HTMLCanvasElement;

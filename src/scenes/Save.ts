@@ -5,6 +5,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
+import SelectAngle from './SelectAngle.js';
 import StartingScene from './StartingScene.js';
 
 export default class Save extends Scene {
@@ -115,7 +116,7 @@ export default class Save extends Scene {
       this.time -= elapsed;
       this.renderLoad = true;
       if (this.time <= 0) {
-        return new StartingScene();
+        return new SelectAngle();
       }
     }
     return this;

@@ -8,7 +8,10 @@ import GrassDark from '../background items/GrassDark.js';
 import GrassLight from '../background items/GrassLight.js';
 import HandleScore from '../ui/HandleScore.js';
 import HandleItems from '../ui/HandleItems.js';
-import Settings from '../drawables/Settings.js';
+import Menu from '../drawables/Menu.js';
+import Save from './Save.js';
+import Shop from './shop/Shop.js';
+import StartingScene from './StartingScene.js';
 export default class SelectAngle extends Scene {
     player;
     backgrounds;
@@ -18,6 +21,7 @@ export default class SelectAngle extends Scene {
     launchPower = 0;
     launchSpeed = 0;
     totalTime = 0;
+    greenValue = 1;
     powerReady = false;
     constructor() {
         super();
@@ -39,10 +43,19 @@ export default class SelectAngle extends Scene {
         if (keyListener.keyPressed('Space')) {
             this.angleReady = true;
         }
-        Settings.processInput();
+        Menu.processInput();
     }
     update(elapsed) {
-        Settings.update(elapsed);
+        Menu.update(elapsed);
+        if (Menu.goSave) {
+            return new Save();
+        }
+        if (Menu.goShop) {
+            return new Shop();
+        }
+        if (Menu.goHome) {
+            return new StartingScene();
+        }
         if (!this.angleReady) {
             this.updateRotation();
         }
@@ -102,10 +115,10 @@ export default class SelectAngle extends Scene {
             / 2 + lineLength * Math.sin((this.launchAngle * Math.PI) / 180);
         CanvasUtil.drawLine(canvas, this.player.posX + this.player.image.width / 2, this.player.posY + this.player.image.height / 2, lineEndX, lineEndY, 200, 255, 200, 1);
         if (this.angleReady) {
-            CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, window.innerHeight / 10 - 280, 255, 0, 0);
-            CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower, window.innerWidth / 50, this.launchPower, 255, 0, 0);
+            CanvasUtil.drawRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5, window.innerWidth / 50, window.innerHeight / 10 - canvas.height / 2.08, 30000 / this.launchPower, this.greenValue * this.launchPower, 0, 1);
+            CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower * 1.8, window.innerWidth / 50, this.launchPower * 1.8, 30000 / this.launchPower, this.greenValue * (this.launchPower * 2), 0, 1);
         }
-        Settings.renderSettings(canvas);
+        Menu.renderSettings(canvas);
     }
 }
 //# sourceMappingURL=SelectAngle.js.map

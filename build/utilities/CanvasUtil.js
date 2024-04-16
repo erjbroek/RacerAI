@@ -60,7 +60,6 @@ export default class CanvasUtil {
         ctx.beginPath();
         ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.lineWidth = lineWidth;
-        borderRadius = Math.min(borderRadius, width / 2, height / 2);
         ctx.moveTo(dx + borderRadius, dy);
         ctx.arcTo(dx + width, dy, dx + width, dy + height, borderRadius);
         ctx.arcTo(dx + width, dy + height, dx, dy + height, borderRadius);
@@ -87,7 +86,6 @@ export default class CanvasUtil {
     static fillRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1, borderRadius = 0) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
-        borderRadius = Math.min(borderRadius, width / 2, height / 2);
         ctx.moveTo(dx + borderRadius, dy);
         ctx.lineTo(dx + width - borderRadius, dy);
         ctx.arcTo(dx + width, dy, dx + width, dy + borderRadius, borderRadius);
