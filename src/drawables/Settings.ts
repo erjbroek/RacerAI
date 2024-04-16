@@ -9,6 +9,8 @@ export default class Settings {
 
   public static home: HTMLImageElement = CanvasUtil.loadNewImage('./assets/home.png');
 
+  public static cart: HTMLImageElement = CanvasUtil.loadNewImage('./assets/cart.png');
+
   private static animationDuration: number = 700;
 
   private static height: number = window.innerHeight / 15;
@@ -24,7 +26,7 @@ export default class Settings {
   private static close: boolean = false;
 
   /**
-   *
+   * processes player imput
    */
   public static processInput() {
     if (MouseListener.circlePressed(0, window.innerWidth * 0.96, window.innerWidth / 30, window.innerHeight / 20)) {
@@ -34,12 +36,27 @@ export default class Settings {
         this.close = true;
       }
     }
+
+    if (this.opened) {
+      if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 6.5, window.innerWidth / 50)) {
+        console.log("save")
+      }
+      if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 4.18, window.innerWidth / 50)) {
+        console.log("shop")
+      }
+      if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 3.08, window.innerWidth / 50)) {
+        console.log("home")
+      }
+    }
   }
 
+  /**
+   * @param elapsed is the elapsed time each frame
+   */
   public static update(elapsed: number) {
     let targetHeight: number;
     if (this.open) {
-      targetHeight = window.innerHeight / 4;
+      targetHeight = window.innerHeight / 3.08;
       if (!this.opened) {
         this.height = this.lerp(this.height, targetHeight, elapsed / this.animationDuration);
         this.animationDuration -= elapsed;
@@ -84,7 +101,15 @@ export default class Settings {
     CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 15, canvas.width / 40, 30, 200, 80, 1);
     CanvasUtil.fillRectangle(canvas, canvas.width * 0.935, canvas.height / 15, canvas.width / 20, this.height - window.innerHeight / 16.25, 30, 200, 80, 1, 0);
     CanvasUtil.fillCircle(canvas, canvas.width * 0.96, this.height, canvas.width / 40, 30, 200, 80, 1);
-    CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 15, canvas.width / 60, 100, 255, 160, 1);
-    CanvasUtil.drawImage(canvas, this.hamburger, canvas.width * 0.949, canvas.height / 21, this.hamburger.width / 22, this.hamburger.height / 18)
+    CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 15, canvas.width / 50, 100, 255, 160, 1);
+    CanvasUtil.drawImage(canvas, this.hamburger, canvas.width * 0.949, canvas.height / 21, canvas.width / 45, canvas.height / 26);
+    if (this.opened && !this.close) {
+      CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 6.5, canvas.width / 50, 0, 0, 0, 0.2);
+      CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 4.18, canvas.width / 50, 0, 0, 0, 0.2);
+      CanvasUtil.fillCircle(canvas, canvas.width * 0.96, canvas.height / 3.08, canvas.width / 50, 0, 0, 0, 0.2);
+      CanvasUtil.drawImage(canvas, this.save, canvas.width * 0.946, canvas.height / 8, canvas.width / 35, canvas.height / 17);
+      CanvasUtil.drawImage(canvas, this.cart, canvas.width * 0.937, canvas.height / 5, canvas.width / 22, canvas.height / 12);
+      CanvasUtil.drawImage(canvas, this.home, canvas.width * 0.944, canvas.height / 3.4, canvas.width / 30, canvas.height / 17);
+    }
   }
 }

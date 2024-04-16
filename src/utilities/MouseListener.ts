@@ -22,21 +22,21 @@ export default class MouseListener {
    * @param disableContextMenu true to disable the context (right click) menu. Default: false
    */
   public constructor(canvas: HTMLCanvasElement, disableContextMenu: boolean = false) {
-    canvas.addEventListener('mousemove', (ev: MouseEvent) => {
+    canvas.addEventListener("mousemove", (ev: MouseEvent) => {
       MouseListener.mouseCoordinates = {
         x: ev.offsetX,
         y: ev.offsetY,
       };
     });
-    canvas.addEventListener('mousedown', (ev: MouseEvent) => {
+    canvas.addEventListener("mousedown", (ev: MouseEvent) => {
       MouseListener.buttonDown[ev.button] = true;
     });
-    canvas.addEventListener('mouseup', (ev: MouseEvent) => {
+    canvas.addEventListener("mouseup", (ev: MouseEvent) => {
       MouseListener.buttonDown[ev.button] = false;
       MouseListener.buttonQueried[ev.button] = false;
     });
     if (disableContextMenu) {
-      canvas.addEventListener('contextmenu', (ev: MouseEvent) => {
+      canvas.addEventListener("contextmenu", (ev: MouseEvent) => {
         ev.preventDefault();
       });
     }
@@ -57,7 +57,7 @@ export default class MouseListener {
    * @param buttonCode the mouse button to check
    * @returns `true` when the specified button was pressed
    */
-  public static buttonPressed(buttonCode: number = 0): boolean {
+  public static buttonPressed(buttonCode: number): boolean {
     if (MouseListener.buttonQueried[buttonCode] === true) return false;
     if (this.buttonDown[buttonCode] === true) {
       this.buttonQueried[buttonCode] = true;
@@ -75,13 +75,7 @@ export default class MouseListener {
    * @param height the height of the rectangle
    */
   public static areaPressed(buttonCode: number, posX: number, posY: number, width: number, height: number): boolean {
-    if (
-      MouseListener.buttonPressed(buttonCode)
-      && MouseListener.mouseCoordinates.x > posX
-      && MouseListener.mouseCoordinates.y > posY
-      && MouseListener.mouseCoordinates.x < posX + width
-      && MouseListener.mouseCoordinates.y < posY + height
-    ) {
+    if (MouseListener.buttonPressed(buttonCode) && MouseListener.mouseCoordinates.x > posX && MouseListener.mouseCoordinates.y > posY && MouseListener.mouseCoordinates.x < posX + width && MouseListener.mouseCoordinates.y < posY + height) {
       return true;
     }
     return false;
@@ -99,7 +93,24 @@ export default class MouseListener {
       const dx = MouseListener.mouseCoordinates.x - posX;
       const dy = MouseListener.mouseCoordinates.y - posY;
       return Math.sqrt(dx ** 2 + dy ** 2) < radius;
-    } return false;
+    }
+    return false;
+  }
+
+  /**
+   * @returns boolean
+   * @param buttonCode the mouse button to check
+   * @param posX the x-coordinate of the mid point of the circle
+   * @param posY the y-coordinate of the mid point of the circle
+   * @param radius the radius of the circle
+   */
+  public static circleDown(buttonCode: number, posX: number, posY: number, radius: number): boolean {
+    if (MouseListener.isButtonDown(buttonCode)) {
+      const dx = MouseListener.mouseCoordinates.x - posX;
+      const dy = MouseListener.mouseCoordinates.y - posY;
+      return Math.sqrt(dx ** 2 + dy ** 2) < radius;
+    }
+    return false;
   }
 
   /**
@@ -111,13 +122,7 @@ export default class MouseListener {
    * @param height the height of the rectangle
    */
   public static areaDown(buttonCode: number, posX: number, posY: number, width: number, height: number): boolean {
-    if (
-      MouseListener.isButtonDown(buttonCode)
-      && MouseListener.mouseCoordinates.x > posX
-      && MouseListener.mouseCoordinates.y > posY
-      && MouseListener.mouseCoordinates.x < posX + width
-      && MouseListener.mouseCoordinates.y < posY + height
-    ) {
+    if (MouseListener.isButtonDown(buttonCode) && MouseListener.mouseCoordinates.x > posX && MouseListener.mouseCoordinates.y > posY && MouseListener.mouseCoordinates.x < posX + width && MouseListener.mouseCoordinates.y < posY + height) {
       return true;
     }
     return false;
@@ -131,12 +136,7 @@ export default class MouseListener {
    * @param height is the height of the item the mouse is hovering over
    */
   public static mouseHover(posX: number, posY: number, width: number, height: number): boolean {
-    if (
-      MouseListener.mouseCoordinates.x > posX
-      && MouseListener.mouseCoordinates.y > posY
-      && MouseListener.mouseCoordinates.x < posX + width
-      && MouseListener.mouseCoordinates.y < posY + height
-    ) {
+    if (MouseListener.mouseCoordinates.x > posX && MouseListener.mouseCoordinates.y > posY && MouseListener.mouseCoordinates.x < posX + width && MouseListener.mouseCoordinates.y < posY + height) {
       return true;
     }
     return false;
