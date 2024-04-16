@@ -1,8 +1,11 @@
+import Menu from '../drawables/Menu.js';
 import Cookies from '../ui/Cookies.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
 import SelectAngle from './SelectAngle.js';
+import StartingScene from './StartingScene.js';
+import Shop from './shop/Shop.js';
 export default class Save extends Scene {
     background;
     logo;
@@ -18,6 +21,7 @@ export default class Save extends Scene {
         this.background = CanvasUtil.loadNewImage('./assets/backMountains.png');
     }
     processInput(keyListener, mouseListener) {
+        Menu.processInput();
         if (!this.startTimer) {
             if (Cookies.checkCookieForSlot(1)) {
                 if (MouseListener.areaDown(0, window.innerWidth / 12, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
@@ -82,6 +86,13 @@ export default class Save extends Scene {
         }
     }
     update(elapsed) {
+        Menu.update(elapsed);
+        if (Menu.goShop) {
+            return new Shop();
+        }
+        if (Menu.goHome) {
+            return new StartingScene();
+        }
         if (this.startTimer) {
             this.time -= elapsed;
             this.renderLoad = true;
@@ -159,6 +170,7 @@ export default class Save extends Scene {
             CanvasUtil.drawRectangle(canvas, canvas.width / 3 - 10, canvas.height / 3 - 10, canvas.width / 3 + 20, canvas.height / 3 + 20, 0, 0, 0, 1, 10, 50);
             CanvasUtil.writeText(canvas, 'slot loaded succesfully', canvas.width / 2, canvas.height / 2, 'center', 'arial', 35, 'white');
         }
+        Menu.renderSettings(canvas);
     }
 }
 //# sourceMappingURL=Save.js.map

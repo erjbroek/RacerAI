@@ -14,9 +14,14 @@ export default class Menu {
     static open = false;
     static close = false;
     static processInput() {
-        if (MouseListener.circlePressed(0, window.innerWidth * 0.96, window.innerWidth / 30, window.innerHeight / 20)) {
-            if (!this.opened) {
-                this.open = true;
+        if (MouseListener.isButtonDown(0)) {
+            if (MouseListener.circleCollision(window.innerWidth * 0.96, window.innerWidth / 30, window.innerHeight / 20)) {
+                if (!this.opened) {
+                    this.open = true;
+                }
+                else {
+                    this.close = true;
+                }
             }
             else {
                 this.close = true;
@@ -25,21 +30,18 @@ export default class Menu {
         if (this.opened) {
             if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 6.5, window.innerWidth / 50)) {
                 this.goSave = true;
-                this.close = true;
             }
             else {
                 this.goSave = false;
             }
             if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 4.18, window.innerWidth / 50)) {
                 this.goShop = true;
-                this.close = true;
             }
             else {
                 this.goShop = false;
             }
             if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 3.08, window.innerWidth / 50)) {
                 this.goHome = true;
-                this.close = true;
             }
             else {
                 this.goHome = false;

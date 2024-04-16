@@ -59,6 +59,11 @@ export default class MouseListener {
         }
         return false;
     }
+    static circleCollision(posX, posY, radius) {
+        const dx = MouseListener.mouseCoordinates.x - posX;
+        const dy = MouseListener.mouseCoordinates.y - posY;
+        return Math.sqrt(dx ** 2 + dy ** 2) < radius;
+    }
     static areaDown(buttonCode, posX, posY, width, height) {
         if (MouseListener.isButtonDown(buttonCode) && MouseListener.mouseCoordinates.x > posX && MouseListener.mouseCoordinates.y > posY && MouseListener.mouseCoordinates.x < posX + width && MouseListener.mouseCoordinates.y < posY + height) {
             return true;

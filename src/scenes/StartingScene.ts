@@ -4,6 +4,9 @@ import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import SelectAngle from './SelectAngle.js';
 import StartButton from '../background items/StartButton.js';
+import Menu from '../drawables/Menu.js';
+import Save from './Save.js';
+import Shop from './shop/Shop.js';
 
 export default class StartingScene extends Scene {
   private logo: HTMLImageElement;
@@ -26,13 +29,21 @@ export default class StartingScene extends Scene {
    * @param mouseListener the mouselistener used
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
+    Menu.processInput();
     this.startButton.processInput(keyListener, mouseListener);
   }
 
   /**
    * @returns scene
    */
-  public update(): Scene {
+  public update(elapsed: number): Scene {
+    Menu.update(elapsed);
+    if (Menu.goSave) {
+      return new Save();
+    }
+    if (Menu.goShop) {
+      return new Shop();
+    }
     if (this.startButton.getReadyGame()) {
       return new SelectAngle();
     } return null;
@@ -55,5 +66,6 @@ export default class StartingScene extends Scene {
     );
     this.startButton.render(canvas);
     CanvasUtil.writeText(canvas, 'Made by: Erik van den Broek', canvas.width / 1.4, canvas.height / 1.6, 'center', 'arial', 15, 'gray');
+    Menu.renderSettings(canvas);
   }
 }

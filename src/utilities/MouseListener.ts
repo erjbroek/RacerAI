@@ -114,6 +114,18 @@ export default class MouseListener {
   }
 
   /**
+   * @returns boolean
+   * @param posX the x-coordinate of the mid point of the circle
+   * @param posY the y-coordinate of the mid point of the circle
+   * @param radius the radius of the circle
+   */
+  public static circleCollision(posX: number, posY: number, radius: number): boolean {
+    const dx = MouseListener.mouseCoordinates.x - posX;
+    const dy = MouseListener.mouseCoordinates.y - posY;
+    return Math.sqrt(dx ** 2 + dy ** 2) < radius;
+  }
+
+  /**
    * @returns boolean if the mouse clicks between the specified positions
    * @param buttonCode the mouse button to check
    * @param posX the x-coordinate of the top-left corner of the rectangle

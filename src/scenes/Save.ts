@@ -1,3 +1,4 @@
+import Menu from '../drawables/Menu.js';
 import Cookies from '../ui/Cookies.js';
 import { Stats } from '../ui/Cookies.js'
 import HandleScore from '../ui/HandleScore.js';
@@ -7,6 +8,7 @@ import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
 import SelectAngle from './SelectAngle.js';
 import StartingScene from './StartingScene.js';
+import Shop from './shop/Shop.js';
 
 export default class Save extends Scene {
   private background: HTMLImageElement;
@@ -39,6 +41,7 @@ export default class Save extends Scene {
    * @param mouseListener tracks the players mouse inputs
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
+    Menu.processInput();
     if (!this.startTimer) {
       // slot 1
       if (Cookies.checkCookieForSlot(1)) {
@@ -112,6 +115,13 @@ export default class Save extends Scene {
    * @returns Scene
    */
   public update(elapsed: number): Scene {
+    Menu.update(elapsed);
+    if (Menu.goShop) {
+      return new Shop();
+    }
+    if (Menu.goHome) {
+      return new StartingScene();
+    }
     if (this.startTimer) {
       this.time -= elapsed;
       this.renderLoad = true;
@@ -201,5 +211,6 @@ export default class Save extends Scene {
       CanvasUtil.drawRectangle(canvas, canvas.width / 3 - 10, canvas.height / 3 - 10, canvas.width / 3 + 20, canvas.height / 3 + 20, 0, 0, 0, 1, 10, 50);
       CanvasUtil.writeText(canvas, 'slot loaded succesfully', canvas.width / 2, canvas.height / 2, 'center', 'arial', 35, 'white')
     }
+    Menu.renderSettings(canvas);
   }
 }
