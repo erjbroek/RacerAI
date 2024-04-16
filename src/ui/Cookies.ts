@@ -147,15 +147,15 @@ export default class Cookies {
    */
   public static removeCookie(slotNumber: number) {
     const cookieName = `slot${slotNumber}_stats`;
-    console.log(cookieName);
+    console.log('cookiename: ' + cookieName);
     const cookies = document.cookie.split(";");
-    console.log(cookies);
+    console.log('cookies: ' + cookies);
 
     for (let i = 0; i < cookies.length; i++) {
       const [name, _] = cookies[i].split("=");
-      console.log(name)
+      console.log('name:' + name)
       if (name.trim() === cookieName) {
-        console.log('cookiename: ' + cookieName)
+        console.log('cookienameInTrim: ' + cookieName)
         document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
       }
     }
