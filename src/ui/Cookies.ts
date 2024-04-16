@@ -147,7 +147,9 @@ export default class Cookies {
    */
   public static removeCookie(slotNumber: number) {
     const cookieName = `slot${slotNumber}_stats`;
+    console.log(cookieName);
     const cookies = document.cookie.split(";");
+    console.log(cookies);
 
     for (let i = 0; i < cookies.length; i++) {
       const [name, _] = cookies[i].split("=");

@@ -13,8 +13,6 @@ import Shop from './shop/Shop.js';
 export default class Save extends Scene {
   private background: HTMLImageElement;
 
-  private logo: HTMLImageElement;
-
   private slotWidth: number = window.innerWidth / 4;
 
   private slot1Stats: Stats | null = Cookies.getStatsFromSlot(1);

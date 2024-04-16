@@ -8,7 +8,6 @@ import StartingScene from './StartingScene.js';
 import Shop from './shop/Shop.js';
 export default class Save extends Scene {
     background;
-    logo;
     slotWidth = window.innerWidth / 4;
     slot1Stats = Cookies.getStatsFromSlot(1);
     slot2Stats = Cookies.getStatsFromSlot(2);
