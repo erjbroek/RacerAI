@@ -143,27 +143,10 @@ export default class Cookies {
   }
 
   /**
-   * resets cookies
+   * @param slotNumber is the selected slotnumber to be deleted
    */
   public static removeCookie(slotNumber: number) {
     const cookieName = `slot${slotNumber}_stats`;
-    console.log('cookiename: ' + cookieName);
-    const cookies = document.cookie.split(";");
-    console.log('cookies: ' + cookies);
-
-    for (let i = 0; i < cookies.length; i++) {
-      const [name, _] = cookies[i].split("=");
-      console.log('name: ' + name)
-      console.log('cookiename: ' + cookieName)
-      if (name.trim() === cookieName) {
-        document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-        console.log(document.cookie)
-      }
-    }
-    // cookies.forEach((cookie) => {
-    //   const [name, _] = cookie.split("=");
-    //   // Remove the cookie by setting its expiration to a past date
-    //   document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-    // });
+    document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   }
 }
