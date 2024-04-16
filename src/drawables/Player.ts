@@ -28,6 +28,15 @@ export default class Player extends Drawable {
   public constructor() {
     super();
     this.image = CanvasUtil.loadNewImage('./assets/player.png');
+    if (HandleStats.airResistanceTier >= 1) {
+      this.image = CanvasUtil.loadNewImage('./assets/player1.png');
+    }
+    if (HandleStats.airResistanceTier >= 3) {
+      this.image = CanvasUtil.loadNewImage('./assets/player2.png');
+    }
+    if (HandleStats.airResistanceTier >= 5) {
+      this.image = CanvasUtil.loadNewImage('./assets/player3.png');
+    }
     this.totalEnergy = 200;
     this.energy = 200;
     this.totalBoost = HandleStats.fuel;
@@ -37,13 +46,6 @@ export default class Player extends Drawable {
     this.image.height = window.innerWidth / 15;
     this.posX = window.innerWidth / 10 - this.image.width / 2;
     this.posY = window.innerHeight / 1.1 - this.image.height / 3;
-    if (HandleStats.airResistanceTier >= 1) {
-      this.image = CanvasUtil.loadNewImage('./assets/player1.png');
-    } else if (HandleStats.airResistanceTier >= 3) {
-      this.image = CanvasUtil.loadNewImage('./assets/player2.png');
-    } else if (HandleStats.airResistance >= 5) {
-      this.image = CanvasUtil.loadNewImage('./assets/player3.png');
-    }
   }
 
   /**

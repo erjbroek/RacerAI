@@ -14,7 +14,7 @@ export default class Save extends Scene {
     slot2Stats = Cookies.getStatsFromSlot(2);
     slot3Stats = Cookies.getStatsFromSlot(3);
     startTimer = false;
-    time = 2000;
+    time = 1000;
     renderLoad = false;
     constructor() {
         super();
@@ -123,7 +123,7 @@ export default class Save extends Scene {
             CanvasUtil.writeText(canvas, `Time played ${this.slot1Stats.fPlayTime}`, canvas.width / 5.3, canvas.height / 3, 'center', 'arial', 20, 'white');
             CanvasUtil.writeText(canvas, `- Duck dollars: ${this.slot1Stats.duckDollars}`, canvas.width / 7.4, canvas.height / 2, 'center', 'arial', 20, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width / 12, canvas.height / 1.25, canvas.width / 11, canvas.height / 20, 255, 255, 255, 0.4, 25);
-            CanvasUtil.writeText(canvas, 'load', canvas.width / 8, canvas.height / 1.2, 'center', 'arial', 25, 'white');
+            CanvasUtil.writeText(canvas, 'play', canvas.width / 8, canvas.height / 1.2, 'center', 'arial', 25, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width / 8 + canvas.width / 7.8, canvas.height / 5.5, canvas.width / 20, canvas.height / 25, 200, 50, 50, 0.9, 15);
             CanvasUtil.writeText(canvas, 'save', canvas.width / 8 + canvas.width / 8.4, canvas.height / 1.2, 'center', 'arial', 25, 'white');
             CanvasUtil.writeText(canvas, 'Delete', canvas.width / 8 + canvas.width / 7.3, canvas.height / 4.8, 'left', 'Arial', 20, 'white');
@@ -138,7 +138,7 @@ export default class Save extends Scene {
             CanvasUtil.writeText(canvas, `Time played ${this.slot2Stats.fPlayTime}`, canvas.width / 2, canvas.height / 3, 'center', 'arial', 20, 'white');
             CanvasUtil.writeText(canvas, `- Duck dollars: ${this.slot2Stats.duckDollars}`, canvas.width / 2.25, canvas.height / 2, 'center', 'arial', 20, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width / 2.52, canvas.height / 1.25, canvas.width / 11, canvas.height / 20, 255, 255, 255, 0.4, 25);
-            CanvasUtil.writeText(canvas, 'load', canvas.width / 2.28, canvas.height / 1.2, 'center', 'arial', 25, 'white');
+            CanvasUtil.writeText(canvas, 'play', canvas.width / 2.28, canvas.height / 1.2, 'center', 'arial', 25, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width / 8 + canvas.width / 2.28, canvas.height / 5.5, canvas.width / 20, canvas.height / 25, 200, 50, 50, 0.9, 15);
             CanvasUtil.writeText(canvas, 'save', canvas.width / 2.28 + canvas.width / 8.4, canvas.height / 1.2, 'center', 'arial', 25, 'white');
             CanvasUtil.writeText(canvas, 'Delete', canvas.width / 8 + canvas.width / 2.23, canvas.height / 4.8, 'left', 'Arial', 20, 'white');
@@ -153,7 +153,7 @@ export default class Save extends Scene {
             CanvasUtil.writeText(canvas, `Time played ${this.slot3Stats.fPlayTime}`, canvas.width / 1.23, canvas.height / 3, 'center', 'arial', 20, 'white');
             CanvasUtil.writeText(canvas, `- Duck dollars: ${this.slot3Stats.duckDollars}`, canvas.width / 1.31, canvas.height / 2, 'center', 'arial', 20, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.41, canvas.height / 1.25, canvas.width / 11, canvas.height / 20, 255, 255, 255, 0.4, 25);
-            CanvasUtil.writeText(canvas, 'load ', canvas.width / 1.325, canvas.height / 1.2, 'center', 'arial', 25, 'white');
+            CanvasUtil.writeText(canvas, 'play ', canvas.width / 1.325, canvas.height / 1.2, 'center', 'arial', 25, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width / 8 + canvas.width / 1.324, canvas.height / 5.5, canvas.width / 20, canvas.height / 25, 200, 50, 50, 0.9, 15);
             CanvasUtil.writeText(canvas, 'save', canvas.width / 1.325 + canvas.width / 8.4, canvas.height / 1.2, 'center', 'arial', 25, 'white');
             CanvasUtil.writeText(canvas, 'Delete', canvas.width / 8 + canvas.width / 1.306, canvas.height / 4.8, 'left', 'Arial', 20, 'white');

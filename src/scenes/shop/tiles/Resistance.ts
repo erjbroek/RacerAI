@@ -7,7 +7,7 @@ export default class Resistance extends ShopTile {
   public constructor() {
     super();
     this.tier = HandleStats.airResistanceTier;
-    this.maxTier = 4;
+    this.maxTier = 5;
     this.blueValue = (255 / this.maxTier) * this.tier;
     this.opacity = 0.6;
     this.title = 'Air resistance';
@@ -17,7 +17,7 @@ export default class Resistance extends ShopTile {
     this.tileSize = window.innerWidth / 7.5;
     this.posX = window.innerWidth / 10 + this.tileSize + window.innerWidth / 32;
     this.posY = window.innerHeight / 1.6 + 30;
-    this.statTiers = [1, 0.9, 0.75, 0.65, 0.5];
+    this.statTiers = [1, 0.9, 0.75, 0.65, 0.5, 0.4];
   }
 
   /**

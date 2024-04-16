@@ -9,6 +9,9 @@ import Background from '../background items/Background.js';
 import HandleStats from '../ui/HandleStats.js';
 import Shop from './shop/Shop.js';
 import SelectAngle from './SelectAngle.js';
+import Menu from '../drawables/Menu.js';
+import StartingScene from './StartingScene.js';
+import Save from './Save.js';
 export default class Launch extends Scene {
     launchAngle;
     player = new Player();
@@ -48,11 +51,22 @@ export default class Launch extends Scene {
         }
         if (this.finishFlight) {
             this.endScreen.processInput(keyListener, mouseListener);
+            Menu.processInput();
         }
     }
     update(elapsed) {
         HandleScore.totalTime += elapsed;
         if (this.finishFlight) {
+            Menu.update(elapsed);
+            if (Menu.goSave) {
+                return new Save();
+            }
+            if (Menu.goShop) {
+                return new Shop();
+            }
+            if (Menu.goHome) {
+                return new StartingScene();
+            }
             this.endScreen.update(elapsed);
             if (this.endScreen.goShop) {
                 return new Shop();
@@ -116,6 +130,7 @@ export default class Launch extends Scene {
         CanvasUtil.writeText(canvas, `air resistance: ${HandleStats.airResistance}`, window.innerWidth / 50, window.innerHeight / 5, 'left', 'arial', 20, 'black');
         if (this.finishFlight) {
             this.endScreen.endRound(canvas);
+            Menu.renderSettings(canvas);
         }
     }
 }
