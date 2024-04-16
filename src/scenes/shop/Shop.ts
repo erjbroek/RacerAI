@@ -55,23 +55,8 @@ export default class Shop extends Scene {
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
     Menu.processInput();
-    if (keyListener.keyPressed('Space')) {
+    if (MouseListener.areaDown(0, window.innerWidth / 1.26, window.innerHeight / 4.5, window.innerWidth / 8, window.innerHeight / 16)) {
       this.back = true;
-    }
-
-    if (keyListener.keyPressed('Digit1')) {
-      Cookies.saveStatsToCookies(1);
-      console.log('save');
-    }
-
-    if (keyListener.keyPressed('Digit2')) {
-      Cookies.saveStatsToCookies(2);
-      console.log('save');
-    }
-
-    if (keyListener.keyPressed('Digit3')) {
-      Cookies.saveStatsToCookies(3);
-      console.log('save');
     }
 
     [this.fuel, this.fuelPower, this.luck, this.power, this.resistance, this.coinMultiplier].forEach((tile) => {
@@ -175,5 +160,7 @@ export default class Shop extends Scene {
       CanvasUtil.drawImage(canvas, this.buyButton, canvas.width / 1.45 + canvas.width / 6.9, canvas.height / 1.13, canvas.width / 14, canvas.height / 22.6);
     }
     Menu.renderSettings(canvas);
+    CanvasUtil.fillRectangle(canvas, canvas.width / 1.26, canvas.height / 4.5, canvas.width / 8, canvas.height / 16, 40, 150, 100, 0.8, 10);
+    CanvasUtil.writeText(canvas, 'LAUNCH!', canvas.width / 1.26 + canvas.width / 16, canvas.height / 4.5 + canvas.height / 25, 'center', 'arial', 25, 'white')
   }
 }

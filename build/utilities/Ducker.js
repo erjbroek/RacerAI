@@ -4,6 +4,7 @@ import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
 import Cookies from '../ui/Cookies.js';
 import StartingScene from '../scenes/StartingScene.js';
+import Shop from '../scenes/shop/Shop.js';
 import Save from '../scenes/Save.js';
 import HandleScore from '../ui/HandleScore.js';
 export default class Ducker extends Game {
@@ -32,8 +33,6 @@ export default class Ducker extends Game {
                 found = i;
             }
         }
-        console.log(count);
-        console.log(found);
         if (count === 1) {
             this.cookieFound = true;
             Cookies.loadStatsFromCookieSlot(found);
@@ -47,6 +46,7 @@ export default class Ducker extends Game {
             this.cookieFound = true;
             this.currentScene = new Save();
         }
+        this.currentScene = new Shop();
     }
     processInput() {
         this.currentScene.processInput(this.keyListener, this.mouseListener);

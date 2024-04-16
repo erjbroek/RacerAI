@@ -50,8 +50,6 @@ export default class Ducker extends Game {
         found = i;
       }
     }
-    console.log(count);
-    console.log(found);
     if (count === 1) {
       this.cookieFound = true;
       Cookies.loadStatsFromCookieSlot(found);
@@ -63,6 +61,7 @@ export default class Ducker extends Game {
       this.cookieFound = true;
       this.currentScene = new Save();
     }
+    this.currentScene = new Shop();
   }
 
   /**
