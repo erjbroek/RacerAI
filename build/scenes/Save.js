@@ -21,6 +21,7 @@ export default class Save extends Scene {
         this.background = CanvasUtil.loadNewImage('./assets/backMountains.png');
     }
     processInput(keyListener, mouseListener) {
+        console.log("Test");
         Menu.processInput();
         if (!this.startTimer) {
             console.log(MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y);

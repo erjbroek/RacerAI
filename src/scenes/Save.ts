@@ -41,6 +41,7 @@ export default class Save extends Scene {
    * @param mouseListener tracks the players mouse inputs
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
+    console.log("Test");
     Menu.processInput();
     if (!this.startTimer) {
       console.log(MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y);
