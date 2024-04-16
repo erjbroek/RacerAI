@@ -61,7 +61,6 @@ export default class Ducker extends Game {
       this.cookieFound = true;
       this.currentScene = new Save();
     }
-    this.currentScene = new Shop();
   }
 
   /**
