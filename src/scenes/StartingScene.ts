@@ -7,6 +7,7 @@ import StartButton from '../background items/StartButton.js';
 import Menu from '../drawables/Menu.js';
 import Save from './Save.js';
 import Shop from './shop/Shop.js';
+import Cookies from '../ui/Cookies.js';
 
 export default class StartingScene extends Scene {
   private logo: HTMLImageElement;

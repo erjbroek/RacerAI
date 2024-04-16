@@ -23,7 +23,7 @@ export default class Menu {
                     this.close = true;
                 }
             }
-            else {
+            else if (this.opened) {
                 this.close = true;
             }
         }

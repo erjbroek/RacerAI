@@ -42,7 +42,7 @@ export default class Menu {
         } else {
           this.close = true;
         }
-      } else {
+      } else if (this.opened) {
         this.close = true;
       }
     }

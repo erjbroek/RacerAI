@@ -37,6 +37,13 @@ export default class Player extends Drawable {
     this.image.height = window.innerWidth / 15;
     this.posX = window.innerWidth / 10 - this.image.width / 2;
     this.posY = window.innerHeight / 1.1 - this.image.height / 3;
+    if (HandleStats.airResistanceTier >= 1) {
+      this.image = CanvasUtil.loadNewImage('./assets/player1.png');
+    } else if (HandleStats.airResistanceTier >= 3) {
+      this.image = CanvasUtil.loadNewImage('./assets/player2.png');
+    } else if (HandleStats.airResistance >= 5) {
+      this.image = CanvasUtil.loadNewImage('./assets/player3.png');
+    }
   }
 
   /**
