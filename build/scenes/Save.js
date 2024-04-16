@@ -23,6 +23,8 @@ export default class Save extends Scene {
     processInput(keyListener, mouseListener) {
         Menu.processInput();
         if (!this.startTimer) {
+            console.log(MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y);
+            console.log(window.innerWidth / 8 + window.innerWidth / 7.8, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25);
             if (Cookies.checkCookieForSlot(1)) {
                 if (MouseListener.areaDown(0, window.innerWidth / 12, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.loadStatsFromCookieSlot(1);
