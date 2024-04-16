@@ -92,7 +92,9 @@ export default class Cookies {
         console.log(cookies);
         for (let i = 0; i < cookies.length; i++) {
             const [name, _] = cookies[i].split("=");
+            console.log(name);
             if (name.trim() === cookieName) {
+                console.log('cookiename: ' + cookieName);
                 document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
             }
         }
