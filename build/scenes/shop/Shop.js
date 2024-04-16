@@ -11,6 +11,9 @@ import Resistance from './tiles/Resistance.js';
 import CoinMult from './tiles/CoinMult.js';
 import HandleScore from '../../ui/HandleScore.js';
 import SelectAngle from '../SelectAngle.js';
+import Menu from '../../drawables/Menu.js';
+import Save from '../Save.js';
+import StartingScene from '../StartingScene.js';
 export default class Shop extends Scene {
     backgroundImage = CanvasUtil.loadNewImage('assets/introSceneBackground.png');
     back = false;
@@ -28,6 +31,7 @@ export default class Shop extends Scene {
         super();
     }
     processInput(keyListener, mouseListener) {
+        Menu.processInput();
         if (keyListener.keyPressed('Space')) {
             this.back = true;
         }
@@ -61,6 +65,13 @@ export default class Shop extends Scene {
         }
     }
     update(elapsed) {
+        Menu.update(elapsed);
+        if (Menu.goSave) {
+            return new Save();
+        }
+        if (Menu.goHome) {
+            return new StartingScene();
+        }
         this.shopDecorator.update(elapsed);
         if (this.back) {
             return new SelectAngle();
@@ -121,6 +132,7 @@ export default class Shop extends Scene {
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.68, canvas.height / 1.575, canvas.width / 3.12, canvas.height / 1000, 75, 75, 150, 0.6);
             CanvasUtil.drawImage(canvas, this.buyButton, canvas.width / 1.45 + canvas.width / 6.9, canvas.height / 1.13, canvas.width / 14, canvas.height / 22.6);
         }
+        Menu.renderSettings(canvas);
     }
 }
 //# sourceMappingURL=Shop.js.map

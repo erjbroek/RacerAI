@@ -25,18 +25,21 @@ export default class Menu {
         if (this.opened) {
             if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 6.5, window.innerWidth / 50)) {
                 this.goSave = true;
+                this.close = true;
             }
             else {
                 this.goSave = false;
             }
             if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 4.18, window.innerWidth / 50)) {
                 this.goShop = true;
+                this.close = true;
             }
             else {
                 this.goShop = false;
             }
             if (MouseListener.circleDown(0, window.innerWidth * 0.96, window.innerHeight / 3.08, window.innerWidth / 50)) {
                 this.goHome = true;
+                this.close = true;
             }
             else {
                 this.goHome = false;
