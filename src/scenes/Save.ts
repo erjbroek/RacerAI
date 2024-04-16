@@ -49,6 +49,7 @@ export default class Save extends Scene {
       // slot 1
       if (Cookies.checkCookieForSlot(1)) {
         if (MouseListener.areaDown(0, window.innerWidth / 12, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
+          console.log("test1")
           Cookies.loadStatsFromCookieSlot(1);
           this.slot1Stats = Cookies.getStatsFromSlot(1);
           this.startTimer = true;
