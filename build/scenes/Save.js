@@ -31,6 +31,7 @@ export default class Save extends Scene {
                 }
                 if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 7.8, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
                     Cookies.removeCookie(1);
+                    console.log("remove 1");
                 }
                 if (MouseListener.areaDown(0, window.innerWidth / 12 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.saveStatsToCookies(1);
@@ -51,6 +52,7 @@ export default class Save extends Scene {
                 }
                 if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 2.28, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
                     Cookies.removeCookie(2);
+                    console.log("remove 2");
                 }
                 if (MouseListener.areaDown(0, window.innerWidth / 2.52 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.saveStatsToCookies(2);
@@ -71,6 +73,7 @@ export default class Save extends Scene {
                 }
                 if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 1.324, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
                     Cookies.removeCookie(3);
+                    console.log("remove 3");
                 }
                 if (MouseListener.areaDown(0, window.innerWidth / 1.41 + window.innerWidth / 8.8, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
                     Cookies.saveStatsToCookies(3);
