@@ -49,6 +49,7 @@ export default class Save extends Scene {
           this.startTimer = true;
         }
         if (MouseListener.areaDown(0, window.innerWidth / 8 + window.innerWidth / 7.8, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25)) {
+          console.log("remove 1 aa");
           Cookies.removeCookie(1);
           console.log("remove 1");
         }
