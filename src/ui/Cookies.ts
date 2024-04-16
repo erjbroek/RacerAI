@@ -157,7 +157,7 @@ export default class Cookies {
       console.log('cookiename: ' + cookieName)
       if (name.trim() === cookieName) {
         document.cookie = `${name.trim()}=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/`;
-        console.log(document.cookie;)
+        console.log(document.cookie)
       }
     }
     // cookies.forEach((cookie) => {
