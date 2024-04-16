@@ -41,15 +41,11 @@ export default class Save extends Scene {
    * @param mouseListener tracks the players mouse inputs
    */
   public processInput(keyListener: KeyListener, mouseListener: MouseListener): void {
-    console.log("Test");
     Menu.processInput();
     if (!this.startTimer) {
-      console.log(MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y);
-      console.log(window.innerWidth / 8 + window.innerWidth / 7.8, window.innerHeight / 5.5, window.innerWidth / 20, window.innerHeight / 25);
       // slot 1
       if (Cookies.checkCookieForSlot(1)) {
         if (MouseListener.areaDown(0, window.innerWidth / 12, window.innerHeight / 1.25, window.innerWidth / 11, window.innerHeight / 20)) {
-          console.log("test1")
           Cookies.loadStatsFromCookieSlot(1);
           this.slot1Stats = Cookies.getStatsFromSlot(1);
           this.startTimer = true;
