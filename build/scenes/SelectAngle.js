@@ -12,6 +12,7 @@ import Menu from '../drawables/Menu.js';
 import Save from './Save.js';
 import Shop from './shop/Shop.js';
 import StartingScene from './StartingScene.js';
+import DistanceMeter from './DistanceMeter.js';
 export default class SelectAngle extends Scene {
     player;
     backgrounds;
@@ -23,6 +24,7 @@ export default class SelectAngle extends Scene {
     totalTime = 0;
     greenValue = 1;
     powerReady = false;
+    distanceMeter;
     constructor() {
         super();
         HandleScore.reset();
@@ -31,6 +33,7 @@ export default class SelectAngle extends Scene {
         this.player = new Player();
         this.backgrounds = [];
         this.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
+        this.distanceMeter = new DistanceMeter(0);
         HandleScenery.grassDark.push(new GrassDark(0, window.innerHeight - 80));
         HandleScenery.grassLight.push(new GrassLight(0, window.innerHeight - 100));
         HandleScenery.grassDark.push(new GrassDark(HandleScenery.grassLight[0].getWidth(), window.innerHeight - 80));
@@ -47,6 +50,7 @@ export default class SelectAngle extends Scene {
     }
     update(elapsed) {
         Menu.update(elapsed);
+        this.distanceMeter.update(elapsed, 0);
         if (Menu.goSave) {
             return new Save();
         }
@@ -119,6 +123,7 @@ export default class SelectAngle extends Scene {
             CanvasUtil.fillRectangle(canvas, window.innerWidth / 100, window.innerHeight / 1.5 - this.launchPower * 1.8, window.innerWidth / 50, this.launchPower * 1.8, 30000 / this.launchPower, this.greenValue * (this.launchPower * 2), 0, 1);
         }
         Menu.renderSettings(canvas);
+        this.distanceMeter.render(canvas, this.player.angle);
     }
 }
 //# sourceMappingURL=SelectAngle.js.map

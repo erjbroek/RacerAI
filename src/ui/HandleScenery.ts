@@ -74,8 +74,7 @@ export default class HandleScenery {
         HandleScenery.backgrounds.push(
           new Background(
             HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth(),
-            HandleScenery.backgrounds[0].getPosY(),
-            Math.random(),
+            HandleScenery.backgrounds[0].getPosY()
           ),
         );
       }

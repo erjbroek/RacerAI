@@ -14,6 +14,7 @@ import SelectAngle from './SelectAngle.js';
 import Menu from '../drawables/Menu.js';
 import StartingScene from './StartingScene.js';
 import Save from './Save.js';
+import DistanceMeter from './DistanceMeter.js';
 
 export default class Launch extends Scene {
   private launchAngle: number;
@@ -28,6 +29,8 @@ export default class Launch extends Scene {
 
   private gravity: number = 0.19;
 
+  private distanceMeter: DistanceMeter;
+
   public constructor(launchAngle: number, launchPower: number) {
     super();
     this.launchAngle = launchAngle;
@@ -36,6 +39,7 @@ export default class Launch extends Scene {
     HandleScenery.backgrounds.push(new Background(0, window.innerHeight - 302 * 4, 1));
     this.player.xSpeed = (launchPower / 10) * Math.cos((launchAngle * Math.PI) / 180);
     this.player.ySpeed = (launchPower / 10) * Math.sin((launchAngle * Math.PI) / 180);
+    this.distanceMeter = new DistanceMeter(Math.abs(this.player.xSpeed) + Math.abs(this.player.ySpeed));
   }
 
   /**
@@ -116,7 +120,7 @@ export default class Launch extends Scene {
     if (Math.abs(this.player.xSpeed) + Math.abs(this.player.ySpeed) <= 0.1) {
       this.finishFlight = true;
     }
-
+    this.distanceMeter.update(elapsed, Math.abs(this.player.xSpeed) + Math.abs(this.player.ySpeed));
     return this;
   }
 
@@ -154,14 +158,16 @@ export default class Launch extends Scene {
     CanvasUtil.fillCanvas(canvas, 'Black');
     HandleScenery.render(canvas, this.player);
     this.player.renderPower(canvas);
-    CanvasUtil.writeText(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `xspeed: ${Math.round(this.player.xSpeed)}`, window.innerWidth / 50, window.innerHeight / 20, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `yspeed: ${Math.round(this.player.ySpeed)}`, window.innerWidth / 50, window.innerHeight / 15, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `fuel: ${HandleStats.fuel}`, window.innerWidth / 50, window.innerHeight / 8, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `fuel power: ${HandleStats.fuel}`, window.innerWidth / 50, window.innerHeight / 7, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `luck: ${HandleStats.luck[0]}, ${HandleStats.luck[1]}`, window.innerWidth / 50, window.innerHeight / 6.2, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `power: ${HandleStats.launchPower}`, window.innerWidth / 50, window.innerHeight / 5.5, 'left', 'arial', 20, 'black');
-    CanvasUtil.writeText(canvas, `air resistance: ${HandleStats.airResistance}`, window.innerWidth / 50, window.innerHeight / 5, 'left', 'arial', 20, 'black');
+    this.distanceMeter.render(canvas, this.player.angle);
+    // CanvasUtil.writeText(canvas, `coins: ${HandleScore.totalCoins}`, window.innerWidth / 50, window.innerHeight / 30, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `xspeed: ${Math.round(this.player.xSpeed)}`, window.innerWidth / 50, window.innerHeight / 20, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `yspeed: ${Math.round(this.player.ySpeed)}`, window.innerWidth / 50, window.innerHeight / 15, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `distance: ${HandleScore.distance}`, window.innerWidth / 50, window.innerHeight / 11, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `fuel: ${HandleStats.fuel}`, window.innerWidth / 50, window.innerHeight / 8, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `fuel power: ${HandleStats.fuel}`, window.innerWidth / 50, window.innerHeight / 7, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `luck: ${HandleStats.luck[0]}, ${HandleStats.luck[1]}`, window.innerWidth / 50, window.innerHeight / 6.2, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `power: ${HandleStats.launchPower}`, window.innerWidth / 50, window.innerHeight / 5.5, 'left', 'arial', 20, 'black');
+    // CanvasUtil.writeText(canvas, `air resistance: ${HandleStats.airResistance}`, window.innerWidth / 50, window.innerHeight / 5, 'left', 'arial', 20, 'black');
 
     if (this.finishFlight) {
       this.endScreen.endRound(canvas);

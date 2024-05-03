@@ -25,6 +25,29 @@ export default class Cookies {
         const statsJson = JSON.stringify(stats);
         document.cookie = `slot${slotNumber}_stats=${statsJson}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
     }
+    static startSlot(slotNumber) {
+        const stats = {
+            launchPower: 1,
+            moveEnergy: 1,
+            luck: [0, 0],
+            airResistance: 1,
+            fuelPower: 1,
+            fuel: 100,
+            coinMult: 1,
+            launchPowerTier: 0,
+            moveEnergyTier: 0,
+            luckTier: 0,
+            airResistanceTier: 0,
+            fuelPowerTier: 0,
+            fuelTier: 0,
+            coinMultTier: 0,
+            duckDollars: 999999,
+            playTime: 0,
+            fPlayTime: '00:00.000',
+        };
+        const statsJson = JSON.stringify(stats);
+        document.cookie = `slot${slotNumber}_stats=${statsJson}; expires=Fri, 31 Dec 9999 23:59:59 GMT`;
+    }
     static getStatsFromSlot(slotNumber) {
         const cookieName = `slot${slotNumber}_stats`;
         const cookies = document.cookie.split(";");

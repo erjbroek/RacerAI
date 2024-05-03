@@ -49,7 +49,7 @@ export default class HandleScenery {
     static addScenery() {
         if (HandleScenery.backgrounds.length < 2) {
             if (HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth() <= window.innerWidth) {
-                HandleScenery.backgrounds.push(new Background(HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth(), HandleScenery.backgrounds[0].getPosY(), Math.random()));
+                HandleScenery.backgrounds.push(new Background(HandleScenery.backgrounds[0].getPosX() + HandleScenery.backgrounds[0].getWidth(), HandleScenery.backgrounds[0].getPosY()));
             }
         }
         while (HandleScenery.trees.length < 2) {
