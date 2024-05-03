@@ -172,9 +172,10 @@ export default class CanvasUtil {
    * @param blue the blue color value of the line
    * @param opacity the opacity of the line
    */
-  public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1): void {
+  public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, lineWidth: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
+    ctx.lineWidth = lineWidth;
     ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.moveTo(x1, y1);
     ctx.lineTo(x2, y2);

@@ -7,6 +7,8 @@ export default class HandleScore {
 
   public static distance: number = 0;
 
+  public static maxDistance: number = 0;
+
   public static maxHeight: number = 0;
 
   public static maxSpeed: number = 0;
@@ -44,6 +46,9 @@ export default class HandleScore {
    */
   public static calculateDistances(xSpeed: number, height: number, ySpeed: number) {
     this.distance += xSpeed / 200;
+    if (this.distance >= this.maxDistance) {
+      this.maxDistance = this.distance;
+    }
     this.height = height / 200;
     if (this.height >= this.maxHeight) {
       this.maxHeight = this.height;

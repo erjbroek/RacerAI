@@ -19,6 +19,7 @@ export default class Cookies {
             fuelTier: HandleStats.fuelTier,
             coinMultTier: HandleStats.coinMultTier,
             duckDollars: HandleScore.duckDollars,
+            maxDistance: HandleScore.maxDistance,
             playTime: HandleScore.playTime,
             fPlayTime: HandleScore.fPlayTime,
         };
@@ -42,6 +43,7 @@ export default class Cookies {
             fuelTier: 0,
             coinMultTier: 0,
             duckDollars: 999999,
+            maxDistance: 0,
             playTime: 0,
             fPlayTime: '00:00.000',
         };
@@ -93,6 +95,7 @@ export default class Cookies {
             HandleStats.fuelTier = stats.fuelTier;
             HandleStats.coinMultTier = stats.coinMultTier;
             HandleScore.duckDollars = stats.duckDollars;
+            HandleScore.maxDistance = stats.maxDistance;
             HandleScore.playTime = stats.playTime;
             HandleScore.fPlayTime = stats.fPlayTime;
         }

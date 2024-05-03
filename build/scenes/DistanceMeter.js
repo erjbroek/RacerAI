@@ -12,7 +12,9 @@ export default class DistanceMeter {
     launchSpeed;
     startPoint = [0, 0];
     time = 0;
-    route = [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+    route = [[0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0]];
+    mapSize = 3;
+    lineThickness = 0;
     constructor(launchSpeed) {
         this.playerPosX = 0;
         this.playerPosY = 0;
@@ -37,6 +39,7 @@ export default class DistanceMeter {
         this.playerPosX = HandleScore.distance * 200;
         this.playerPosY = HandleScore.height * 200;
         const speedDivider = speed / this.launchSpeed;
+        this.lineThickness = (speedDivider * 1.8);
         if (speedDivider <= 0.4) {
             this.red = 255;
             this.green = Math.round(255 * speedDivider * 2.5);
@@ -59,7 +62,7 @@ export default class DistanceMeter {
         }
         this.time += elapsed;
         if (this.time >= 100) {
-            this.startPoint = [this.playerPosX * 0.03864, this.playerPosY * 0.03864, this.red, this.green, this.blue];
+            this.startPoint = [this.playerPosX * (0.03864 / this.mapSize), this.playerPosY * 0.03864, this.red, this.green, this.blue, this.lineThickness * 2];
             this.route.push(this.startPoint);
             this.time = 0;
         }
@@ -73,11 +76,12 @@ export default class DistanceMeter {
         CanvasUtil.drawRectangle(canvas, canvas.width / 60, canvas.height / 100 + canvas.height / 30, canvas.width / 1.15, canvas.height / 12, 255, 255, 255, 1, 2, 0);
         if (this.route.length >= 2) {
             for (let i = 0; i <= this.route.length - 2; i++) {
-                CanvasUtil.drawLine(canvas, this.route[i][0] + canvas.width / 60, canvas.height - canvas.height / 1.14 - this.route[i][1], this.route[i + 1][0] + canvas.width / 60, canvas.height - canvas.height / 1.14 - this.route[i + 1][1], this.route[i][2], this.route[i][3], this.route[i][4], 1);
+                CanvasUtil.drawLine(canvas, this.route[i][0] + canvas.width / 60, canvas.height - canvas.height / 1.14 - this.route[i][1], this.route[i + 1][0] + canvas.width / 60, canvas.height - canvas.height / 1.14 - this.route[i + 1][1], this.route[i][2], this.route[i][3], this.route[i][4], 1, this.route[i][5]);
             }
             CanvasUtil.drawImage(canvas, this.playerImage, this.route[this.route.length - 1][0] + canvas.width / 100, canvas.height - canvas.height / 1.12 - this.route[this.route.length - 1][1], canvas.width / 40, canvas.height / 30, angle);
         }
-        CanvasUtil.fillRectangle(canvas, this.startPoint[0], this.startPoint[1], 30, 30, 255, 0, 0, 1);
+        CanvasUtil.fillRectangle(canvas, canvas.width / 40 + HandleScore.maxDistance * 200 * (0.03864 / this.mapSize), canvas.height / 100 + canvas.height / 30, 1, canvas.height / 12, 200, 0, 0, 0.5);
+        CanvasUtil.writeText(canvas, 'record', canvas.width / 40 + HandleScore.maxDistance * 200 * (0.03864 / this.mapSize), canvas.height / 100 + canvas.height / 30, 'center', 'arial', 10, 'white');
     }
 }
 //# sourceMappingURL=DistanceMeter.js.map

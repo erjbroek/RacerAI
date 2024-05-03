@@ -3,6 +3,7 @@ import HandleStats from './HandleStats.js';
 export default class HandleScore {
     static height = 0;
     static distance = 0;
+    static maxDistance = 0;
     static maxHeight = 0;
     static maxSpeed = 0;
     static bronzeCoins = 0;
@@ -20,6 +21,9 @@ export default class HandleScore {
     static isFirstTimeTriggered = false;
     static calculateDistances(xSpeed, height, ySpeed) {
         this.distance += xSpeed / 200;
+        if (this.distance >= this.maxDistance) {
+            this.maxDistance = this.distance;
+        }
         this.height = height / 200;
         if (this.height >= this.maxHeight) {
             this.maxHeight = this.height;

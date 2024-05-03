@@ -68,9 +68,10 @@ export default class CanvasUtil {
         ctx.closePath();
         ctx.stroke();
     }
-    static drawLine(canvas, x1, y1, x2, y2, red = 255, green = 255, blue = 255, opacity = 1) {
+    static drawLine(canvas, x1, y1, x2, y2, red = 255, green = 255, blue = 255, opacity = 1, lineWidth = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
+        ctx.lineWidth = lineWidth;
         ctx.strokeStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
