@@ -81,7 +81,7 @@ export default class DistanceMeter {
             CanvasUtil.drawImage(canvas, this.playerImage, this.route[this.route.length - 1][0] + canvas.width / 100, canvas.height - canvas.height / 1.12 - this.route[this.route.length - 1][1], canvas.width / 40, canvas.height / 30, angle);
         }
         CanvasUtil.fillRectangle(canvas, canvas.width / 40 + HandleScore.maxDistance * 200 * (0.03864 / this.mapSize), canvas.height / 100 + canvas.height / 30, 1, canvas.height / 12, 200, 0, 0, 0.5);
-        CanvasUtil.writeText(canvas, 'record', canvas.width / 40 + HandleScore.maxDistance * 200 * (0.03864 / this.mapSize), canvas.height / 100 + canvas.height / 30, 'center', 'arial', 10, 'white');
+        CanvasUtil.writeText(canvas, 'record', canvas.width / 40 + HandleScore.maxDistance * 200 * (0.03864 / this.mapSize), canvas.height / 100 + canvas.height / 33, 'center', 'arial', 10, 'pink');
     }
 }
 //# sourceMappingURL=DistanceMeter.js.map
