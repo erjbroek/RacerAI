@@ -94,8 +94,6 @@ export default class Player extends Drawable {
     const hatPosX = endX - this.hat.width / 4;
     const hatPosY = endY - this.hat.height / 4;
 
-    // CanvasUtil.drawLine(canvas, center[0], center[1], endX, endY, 255, 0, 0, 1, 10);
-    // CanvasUtil.fillCircle(canvas, endX, endY, 10, 255, 0, 0);
     CanvasUtil.drawImage(canvas, this.hat, hatPosX, hatPosY, this.hat.width / 2, this.hat.height / 2, this.angle);
   }
 
