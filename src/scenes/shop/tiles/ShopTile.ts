@@ -9,6 +9,10 @@ export default abstract class ShopTile extends Drawable {
 
   public description: string;
 
+  public noImage: boolean;
+
+  public emptySlot: HTMLImageElement;
+
   public selected: boolean;
 
   public upgradeCost: number;

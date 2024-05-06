@@ -139,7 +139,7 @@ export default class HandleScenery {
     HandleScenery.backgrounds.forEach((background) => {
       background.render(canvas);
     });
-    CanvasUtil.drawImage(canvas, HandleScenery.space, 0, HandleScenery.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0);
+    CanvasUtil.drawImage(canvas, HandleScenery.space, 0, HandleScenery.backgrounds[0].getPosY() - window.innerHeight * 5, window.innerWidth, window.innerHeight * 5, 0, 1);
     HandleScenery.grassLight.forEach((grass) => {
       grass.render(canvas);
     });

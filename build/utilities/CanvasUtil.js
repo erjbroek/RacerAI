@@ -24,14 +24,16 @@ export default class CanvasUtil {
         }
         return images;
     }
-    static drawImage(canvas, image, dx, dy, width = 0, height = 0, rotation = 0, opacity = 1) {
+    static drawImage(canvas, image, dx, dy, width = 0, height = 0, rotation = 0, opacity) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         if (width === 0)
             width = image.width;
         if (height === 0)
             height = image.height;
         ctx.save();
-        ctx.globalAlpha = opacity;
+        if (opacity !== undefined) {
+            ctx.globalAlpha = opacity;
+        }
         ctx.translate(dx + width / 2, dy + height / 2);
         ctx.rotate((rotation * Math.PI) / 180);
         ctx.drawImage(image, -width / 2, -height / 2, width, height);

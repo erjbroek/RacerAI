@@ -12,6 +12,7 @@ export default class Power extends ShopTile {
     this.opacity = 0.6;
     this.title = 'Launch power';
     this.description = 'Whenever you start flying as a duck, you use your strong wings to launch <br>ourself as fast as possible. Upgrading this will guarantee faster launch<br>speeds!';
+    this.noImage = true;
     this.upgradeCost = 50;
     this.upgradeMultiplier = 1.9;
     this.tileSize = window.innerWidth / 7.5;

@@ -12,6 +12,7 @@ export default class CoinMult extends ShopTile {
     this.opacity = 0.6;
     this.title = 'Coin duplication';
     this.description = 'With the use of advanced technologies, all coins gathered after a run can<br>are able to be duplicated. Upgrading this will increase the amount of coins<br>that will be duplicated';
+    this.noImage = true;
     this.upgradeCost = 350;
     this.upgradeMultiplier = 2.5;
     this.tileSize = window.innerWidth / 7.5;

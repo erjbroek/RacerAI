@@ -14,6 +14,7 @@ export default class Luck extends ShopTile {
     this.opacity = 0.6;
     this.title = 'Luck';
     this.description = 'An increase in luck means you find better coins and face less obstacles<br>in the way.';
+    this.noImage = true;
     this.upgradeCost = 150;
     this.upgradeMultiplier = 2.6;
     this.tileSize = window.innerWidth / 7.5;

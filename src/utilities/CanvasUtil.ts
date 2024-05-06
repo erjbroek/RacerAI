@@ -61,19 +61,24 @@ export default class CanvasUtil {
     return images;
   }
 
-  public static drawImage(canvas: HTMLCanvasElement, image: HTMLImageElement, dx: number, dy: number, width: number = 0, height: number = 0, rotation: number = 0, opacity: number = 1): void {
+  public static drawImage(canvas: HTMLCanvasElement, image: HTMLImageElement, dx: number, dy: number, width: number = 0, height: number = 0, rotation: number = 0, opacity?: number): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
 
     if (width === 0) width = image.width;
     if (height === 0) height = image.height;
 
     ctx.save();
-    ctx.globalAlpha = opacity;
+
+    // Check if opacity is explicitly provided
+    if (opacity !== undefined) {
+      ctx.globalAlpha = opacity;
+    }
+
     ctx.translate(dx + width / 2, dy + height / 2);
     ctx.rotate((rotation * Math.PI) / 180);
     ctx.drawImage(image, -width / 2, -height / 2, width, height);
     ctx.restore();
-  }
+}
 
   /**
    * Clear the canvas, preparing for drawing

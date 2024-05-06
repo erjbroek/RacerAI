@@ -4,6 +4,8 @@ export default class ShopTile extends Drawable {
     maxTier;
     title;
     description;
+    noImage;
+    emptySlot;
     selected;
     upgradeCost;
     upgradeMultiplier;

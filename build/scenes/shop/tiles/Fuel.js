@@ -11,6 +11,7 @@ export default class Fuel extends ShopTile {
         this.opacity = 0.6;
         this.title = 'Fuel capacity';
         this.description = 'The quality of the fuel makes it more efficient to use with your backpack.<br>Upgrading the fuel means you can boost for longer.';
+        this.noImage = true;
         this.upgradeCost = 50;
         this.upgradeMultiplier = 2.3;
         this.tileSize = window.innerWidth / 7.5;

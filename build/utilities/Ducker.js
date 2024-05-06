@@ -78,14 +78,14 @@ export default class Ducker extends Game {
         CanvasUtil.clearCanvas(this.canvas);
         this.currentScene.render(this.canvas);
         if (this.renderFound) {
-            CanvasUtil.drawImage(this.canvas, this.logo, 0, 0, this.canvas.width, this.canvas.height);
+            CanvasUtil.drawImage(this.canvas, this.logo, 0, 0, this.canvas.width, this.canvas.height, 0, 1);
             CanvasUtil.fillRectangle(this.canvas, 0, 0, this.canvas.width, this.canvas.height, 0, 0, 0, 0.2, 0);
             CanvasUtil.fillRectangle(this.canvas, this.canvas.width / 3, this.canvas.height / 3, this.canvas.width / 3, this.canvas.height / 3, 30, 200, 120, 0.6, 40);
             CanvasUtil.drawRectangle(this.canvas, this.canvas.width / 3 - 10, this.canvas.height / 3 - 10, this.canvas.width / 3 + 20, this.canvas.height / 3 + 20, 0, 0, 0, 1, 10, 50);
             CanvasUtil.writeText(this.canvas, 'save data found', this.canvas.width / 2, this.canvas.height / 2, 'center', 'arial', 35, 'white');
         }
         if (this.renderNotFound) {
-            CanvasUtil.drawImage(this.canvas, this.logo, 0, 0, this.canvas.width, this.canvas.height);
+            CanvasUtil.drawImage(this.canvas, this.logo, 0, 0, this.canvas.width, this.canvas.height, 0, 1);
             CanvasUtil.fillRectangle(this.canvas, 0, 0, this.canvas.width, this.canvas.height, 0, 0, 0, 0.2, 0);
             CanvasUtil.fillRectangle(this.canvas, this.canvas.width / 3, this.canvas.height / 3, this.canvas.width / 3, this.canvas.height / 3, 200, 100, 120, 0.6, 40);
             CanvasUtil.drawRectangle(this.canvas, this.canvas.width / 3 - 10, this.canvas.height / 3 - 10, this.canvas.width / 3 + 20, this.canvas.height / 3 + 20, 0, 0, 0, 1, 10, 50);

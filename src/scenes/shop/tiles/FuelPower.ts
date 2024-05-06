@@ -12,6 +12,7 @@ export default class FuelPower extends ShopTile {
     this.opacity = 0.6;
     this.title = 'Jetpack power';
     this.description = "The jetpack makes you fly in the direction you're facing.<br>Upgrading this means you get a better jetpack, resulating in higher speeds!";
+    this.noImage = true;
     this.upgradeCost = 250;
     this.upgradeMultiplier = 2.5;
     this.tileSize = window.innerWidth / 7.5;
