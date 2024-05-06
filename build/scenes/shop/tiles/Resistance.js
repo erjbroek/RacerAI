@@ -35,6 +35,7 @@ export default class Resistance extends ShopTile {
         CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity, 20);
         CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
         CanvasUtil.writeText(canvas, 'air resistance', this.posX, this.posY);
+        CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
         if (HandleStats.airResistanceTier >= 5) {
             this.image = CanvasUtil.loadNewImage('./assets/hat3.png');
             CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 2, this.posY + this.tileSize / 2 - this.image.height / 2, this.image.width, this.image.height, 0, 1);
@@ -47,7 +48,6 @@ export default class Resistance extends ShopTile {
             this.image = CanvasUtil.loadNewImage('./assets/hat1.png');
             CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 2, this.posY + this.tileSize / 2 - this.image.height / 2, this.image.width, this.image.height, 0, 1);
         }
-        CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
     }
 }
 //# sourceMappingURL=Resistance.js.map
