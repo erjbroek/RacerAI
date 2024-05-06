@@ -47,7 +47,7 @@ export default class Resistance extends ShopTile {
             this.image = CanvasUtil.loadNewImage('./assets/hat1.png');
             CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 2, this.posY + this.tileSize / 2 - this.image.height / 2, this.image.width, this.image.height, 0, 1);
         }
-        CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.image.width / 2, this.posY + this.tileSize / 2 - this.image.height / 4 + canvas.height / 30, this.image.width, this.image.height / 2, 0, 0.3);
+        CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
     }
 }
 //# sourceMappingURL=Resistance.js.map

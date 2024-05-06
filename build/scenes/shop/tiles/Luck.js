@@ -12,7 +12,8 @@ export default class Luck extends ShopTile {
         this.opacity = 0.6;
         this.title = 'Luck';
         this.description = 'An increase in luck means you find better coins and face less obstacles<br>in the way.';
-        this.noImage = true;
+        this.image = CanvasUtil.loadNewImage('./assets/clover1.png');
+        this.emptySlot = CanvasUtil.loadNewImage('./assets/emptyslot.png');
         this.upgradeCost = 150;
         this.upgradeMultiplier = 2.6;
         this.tileSize = window.innerWidth / 7.5;
@@ -36,6 +37,27 @@ export default class Luck extends ShopTile {
         CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity, 20);
         CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
         CanvasUtil.writeText(canvas, 'luck', this.posX, this.posY);
+        CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
+        if (HandleStats.luckTier >= 5) {
+            this.image = CanvasUtil.loadNewImage('./assets/clover5.png');
+            CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 4, this.posY + this.tileSize / 2 - this.image.height / 4, this.image.width / 2, this.image.height / 2, 0, 1);
+        }
+        else if (HandleStats.luckTier >= 4) {
+            this.image = CanvasUtil.loadNewImage('./assets/clover4.png');
+            CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 4, this.posY + this.tileSize / 2 - this.image.height / 4, this.image.width / 2, this.image.height / 2, 0, 1);
+        }
+        else if (HandleStats.luckTier >= 3) {
+            this.image = CanvasUtil.loadNewImage('./assets/clover3.png');
+            CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 4, this.posY + this.tileSize / 2 - this.image.height / 4, this.image.width / 2, this.image.height / 2, 0, 1);
+        }
+        else if (HandleStats.luckTier >= 2) {
+            this.image = CanvasUtil.loadNewImage('./assets/clover2.png');
+            CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 4, this.posY + this.tileSize / 2 - this.image.height / 4, this.image.width / 2, this.image.height / 2, 0, 1);
+        }
+        else if (HandleStats.luckTier >= 1) {
+            this.image = CanvasUtil.loadNewImage('./assets/clover1.png');
+            CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 4, this.posY + this.tileSize / 2 - this.image.height / 4, this.image.width / 2, this.image.height / 2, 0, 1);
+        }
     }
 }
 //# sourceMappingURL=Luck.js.map
