@@ -28,7 +28,13 @@ export default class Player extends Drawable {
   public constructor() {
     super();
     this.image = CanvasUtil.loadNewImage('./assets/player.png');
-    this.hat = CanvasUtil.loadNewImage('./assets/hat3.png');
+    if (HandleStats.airResistanceTier >= 5) {
+      this.hat = CanvasUtil.loadNewImage('./assets/hat3.png');
+    } else if (HandleStats.airResistanceTier >= 3) {
+      this.hat = CanvasUtil.loadNewImage('./assets/hat2.png');
+    } else if (HandleStats.airResistanceTier >= 1) {
+      this.hat = CanvasUtil.loadNewImage('./assets/hat1.png');
+    }
     this.totalEnergy = 200;
     this.energy = 200;
     this.totalBoost = HandleStats.fuel;
@@ -85,16 +91,18 @@ export default class Player extends Drawable {
   }
 
   public renderHat(canvas: HTMLCanvasElement) {
-    const center: number[] = [this.posX + this.image.width / 2, this.posY + this.image.height / 2];
-    const lineLength = 28; // Adjust the length of the line as needed
+    if (this.hat) {
+      const center: number[] = [this.posX + this.image.width / 2, this.posY + this.image.height / 2];
+      const lineLength = 28; // Adjust the length of the line as needed
 
-    const endX = center[0] + Math.cos(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength;
-    const endY = center[1] + Math.sin(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength; // Adjust the hat position
+      const endX = center[0] + Math.cos(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength;
+      const endY = center[1] + Math.sin(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength; // Adjust the hat position
 
-    const hatPosX = endX - this.hat.width / 4;
-    const hatPosY = endY - this.hat.height / 4;
+      const hatPosX = endX - this.hat.width / 4;
+      const hatPosY = endY - this.hat.height / 4;
 
-    CanvasUtil.drawImage(canvas, this.hat, hatPosX, hatPosY, this.hat.width / 2, this.hat.height / 2, this.angle);
+      CanvasUtil.drawImage(canvas, this.hat, hatPosX, hatPosY, this.hat.width / 2, this.hat.height / 2, this.angle);
+    }
   }
 
   /**

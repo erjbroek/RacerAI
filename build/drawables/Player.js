@@ -16,7 +16,15 @@ export default class Player extends Drawable {
     constructor() {
         super();
         this.image = CanvasUtil.loadNewImage('./assets/player.png');
-        this.hat = CanvasUtil.loadNewImage('./assets/hat3.png');
+        if (HandleStats.airResistanceTier >= 5) {
+            this.hat = CanvasUtil.loadNewImage('./assets/hat3.png');
+        }
+        else if (HandleStats.airResistanceTier >= 3) {
+            this.hat = CanvasUtil.loadNewImage('./assets/hat2.png');
+        }
+        else if (HandleStats.airResistanceTier >= 1) {
+            this.hat = CanvasUtil.loadNewImage('./assets/hat1.png');
+        }
         this.totalEnergy = 200;
         this.energy = 200;
         this.totalBoost = HandleStats.fuel;
@@ -49,13 +57,15 @@ export default class Player extends Drawable {
         this.angle = angle;
     }
     renderHat(canvas) {
-        const center = [this.posX + this.image.width / 2, this.posY + this.image.height / 2];
-        const lineLength = 28;
-        const endX = center[0] + Math.cos(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength;
-        const endY = center[1] + Math.sin(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength;
-        const hatPosX = endX - this.hat.width / 4;
-        const hatPosY = endY - this.hat.height / 4;
-        CanvasUtil.drawImage(canvas, this.hat, hatPosX, hatPosY, this.hat.width / 2, this.hat.height / 2, this.angle);
+        if (this.hat) {
+            const center = [this.posX + this.image.width / 2, this.posY + this.image.height / 2];
+            const lineLength = 28;
+            const endX = center[0] + Math.cos(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength;
+            const endY = center[1] + Math.sin(((this.angle - canvas.width / 50) * Math.PI) / 180) * lineLength;
+            const hatPosX = endX - this.hat.width / 4;
+            const hatPosY = endY - this.hat.height / 4;
+            CanvasUtil.drawImage(canvas, this.hat, hatPosX, hatPosY, this.hat.width / 2, this.hat.height / 2, this.angle);
+        }
     }
     renderPower(canvas) {
         if (this.energy > 0) {
