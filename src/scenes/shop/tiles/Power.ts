@@ -12,7 +12,7 @@ export default class Power extends ShopTile {
     this.opacity = 0.6;
     this.title = 'Launch power';
     this.description = 'Whenever you start flying as a duck, you use your strong wings to launch <br>ourself as fast as possible. Upgrading this will guarantee faster launch<br>speeds!';
-    this.noImage = true;
+    this.emptySlot = CanvasUtil.loadNewImage('./assets/emptyslot.png');
     this.upgradeCost = 50;
     this.upgradeMultiplier = 1.9;
     this.tileSize = window.innerWidth / 7.5;
@@ -45,5 +45,6 @@ export default class Power extends ShopTile {
     CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.tileSize, this.tileSize, 30, 175, this.blueValue, this.opacity, 20);
     CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'power', this.posX, this.posY);
+    CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
   }
 }

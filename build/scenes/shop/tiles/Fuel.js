@@ -11,7 +11,7 @@ export default class Fuel extends ShopTile {
         this.opacity = 0.6;
         this.title = 'Fuel capacity';
         this.description = 'The quality of the fuel makes it more efficient to use with your backpack.<br>Upgrading the fuel means you can boost for longer.';
-        this.noImage = true;
+        this.emptySlot = CanvasUtil.loadNewImage('./assets/emptyslot.png');
         this.upgradeCost = 50;
         this.upgradeMultiplier = 2.3;
         this.tileSize = window.innerWidth / 7.5;
@@ -38,6 +38,7 @@ export default class Fuel extends ShopTile {
         }
         CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
         CanvasUtil.writeText(canvas, 'fuel', this.posX, this.posY);
+        CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
     }
 }
 //# sourceMappingURL=Fuel.js.map

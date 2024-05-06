@@ -25,8 +25,6 @@ export default class Launch extends Scene {
 
   private endScreen: Finished = new Finished();
 
-  private endGame: boolean = false;
-
   private gravity: number = 0.19;
 
   private distanceMeter: DistanceMeter;

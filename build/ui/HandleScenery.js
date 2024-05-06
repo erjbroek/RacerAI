@@ -91,6 +91,7 @@ export default class HandleScenery {
             grass.render(canvas);
         });
         player.render(canvas);
+        player.renderHat(canvas);
         HandleItems.render(canvas);
         HandleScenery.grassDark.forEach((grass) => {
             grass.render(canvas);

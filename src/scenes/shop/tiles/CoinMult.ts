@@ -12,7 +12,7 @@ export default class CoinMult extends ShopTile {
     this.opacity = 0.6;
     this.title = 'Coin duplication';
     this.description = 'With the use of advanced technologies, all coins gathered after a run can<br>are able to be duplicated. Upgrading this will increase the amount of coins<br>that will be duplicated';
-    this.noImage = true;
+    this.emptySlot = CanvasUtil.loadNewImage('./assets/emptyslot.png');
     this.upgradeCost = 350;
     this.upgradeMultiplier = 2.5;
     this.tileSize = window.innerWidth / 7.5;
@@ -49,5 +49,6 @@ export default class CoinMult extends ShopTile {
     }
     CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
     CanvasUtil.writeText(canvas, 'coin multiplier', this.posX, this.posY);
+    CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
   }
 }

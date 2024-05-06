@@ -18,7 +18,6 @@ export default class Launch extends Scene {
     player = new Player();
     finishFlight = false;
     endScreen = new Finished();
-    endGame = false;
     gravity = 0.19;
     distanceMeter;
     constructor(launchAngle, launchPower) {

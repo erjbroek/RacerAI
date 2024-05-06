@@ -147,6 +147,7 @@ export default class SelectAngle extends Scene {
       grass.render(canvas);
     });
     this.player.render(canvas);
+    this.player.renderHat(canvas);
     HandleScenery.grassDark.forEach((grass) => {
       grass.render(canvas);
     });
