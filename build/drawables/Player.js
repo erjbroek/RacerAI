@@ -15,7 +15,12 @@ export default class Player extends Drawable {
     hat;
     constructor() {
         super();
-        this.image = CanvasUtil.loadNewImage('./assets/player.png');
+        if (HandleStats.launchPowerTier > 0) {
+            this.image = CanvasUtil.loadNewImage(`./assets/player${HandleStats.launchPowerTier}.png`);
+        }
+        else {
+            this.image = CanvasUtil.loadNewImage('./assets/player.png');
+        }
         if (HandleStats.airResistanceTier >= 5) {
             this.hat = CanvasUtil.loadNewImage('./assets/hat3.png');
         }

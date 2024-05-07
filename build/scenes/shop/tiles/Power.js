@@ -12,6 +12,7 @@ export default class Power extends ShopTile {
         this.title = 'Launch power';
         this.description = 'Whenever you start flying as a duck, you use your strong wings to launch <br>ourself as fast as possible. Upgrading this will guarantee faster launch<br>speeds!';
         this.emptySlot = CanvasUtil.loadNewImage('./assets/emptyslot.png');
+        this.image = CanvasUtil.loadNewImage('./assets/player.png');
         this.upgradeCost = 50;
         this.upgradeMultiplier = 1.9;
         this.tileSize = window.innerWidth / 7.5;
@@ -35,6 +36,14 @@ export default class Power extends ShopTile {
         CanvasUtil.fillRectangle(canvas, this.posX + window.innerWidth / 64, this.posY + window.innerWidth / 64, this.tileSize - window.innerWidth / 32, this.tileSize - window.innerWidth / 32, 255, 255, 255, this.opacity);
         CanvasUtil.writeText(canvas, 'power', this.posX, this.posY);
         CanvasUtil.drawImage(canvas, this.emptySlot, this.posX + this.tileSize / 2 - this.emptySlot.width / 4, this.posY + this.tileSize / 2 - this.emptySlot.height / 4 + canvas.height / 30, this.emptySlot.width / 2, this.emptySlot.height / 2, 0, 0.3);
+        if (HandleStats.launchPowerTier > 0) {
+            this.image = CanvasUtil.loadNewImage(`./assets/player${HandleStats.launchPowerTier}.png`);
+        }
+        else {
+            this.image = CanvasUtil.loadNewImage('./assets/player.png');
+        }
+        console.log('draw');
+        CanvasUtil.drawImage(canvas, this.image, this.posX + this.tileSize / 2 - this.image.width / 6, this.posY + this.tileSize / 2 - this.image.height / 6, this.image.width / 3, this.image.height / 3, 0, 1);
     }
 }
 //# sourceMappingURL=Power.js.map
