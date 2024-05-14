@@ -1,4 +1,4 @@
 import Drawable from './Drawable.js';
-export default class Player extends Drawable {
+export default class Car extends Drawable {
 }
 //# sourceMappingURL=Player.js.map

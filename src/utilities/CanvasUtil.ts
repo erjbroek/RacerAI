@@ -1,6 +1,3 @@
-import Drawable from '../drawables/Drawable.js';
-import Player from '../drawables/Player.js';
-
 /**
  * Helper utlity class for working with the HTML Canvas Element.
  *
@@ -255,15 +252,15 @@ export default class CanvasUtil {
     ctx.restore();
   }
 
-  /**
-   * @returns boolean
-   * @param player is the player that the collision is checked for
-   * @param item is the item that is checked for if the player collides with
-   */
-  public static collidesWith(player: Player, item: Drawable): boolean {
-    if (player.posX < item.posX + item.image.width && player.posX + player.image.width > item.posX + item.image.width / 3 && player.posY < item.posY + item.image.height && player.posY + player.image.height > item.posY) {
-      return true;
-    }
-    return false;
-  }
+  // /**
+  //  * @returns boolean
+  //  * @param player is the player that the collision is checked for
+  //  * @param item is the item that is checked for if the player collides with
+  //  */
+  // public static collidesWith(player: Player, item: Drawable): boolean {
+  //   if (player.posX < item.posX + item.image.width && player.posX + player.image.width > item.posX + item.image.width / 3 && player.posY < item.posY + item.image.height && player.posY + player.image.height > item.posY) {
+  //     return true;
+  //   }
+  //   return false;
+  // }
 }

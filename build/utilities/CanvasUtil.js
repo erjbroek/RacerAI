@@ -109,11 +109,5 @@ export default class CanvasUtil {
         ctx.drawImage(image, -image.width / 2, -image.height / 2);
         ctx.restore();
     }
-    static collidesWith(player, item) {
-        if (player.posX < item.posX + item.image.width && player.posX + player.image.width > item.posX + item.image.width / 3 && player.posY < item.posY + item.image.height && player.posY + player.image.height > item.posY) {
-            return true;
-        }
-        return false;
-    }
 }
 //# sourceMappingURL=CanvasUtil.js.map

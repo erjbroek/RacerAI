@@ -143,7 +143,7 @@ export default class SelectStart extends Scene {
       }
     });
     if (this.finished) {
-      return new GeneticAlgorithm(this.track, this.radius, this.lineStart, this.lineEnd)
+      return new GeneticAlgorithm(this.track, this.radius, this.lineStart, this.lineEnd, this.midPoint);
     }
     return this;
   }
