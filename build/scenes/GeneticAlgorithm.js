@@ -1,3 +1,4 @@
+import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from './Scene.js';
 export default class GeneticAlgorithm extends Scene {
     track;
@@ -17,6 +18,9 @@ export default class GeneticAlgorithm extends Scene {
         return this;
     }
     render(canvas) {
+        this.track.forEach((trackPiece) => {
+            CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 0, 0, 0);
+        });
     }
     ;
 }

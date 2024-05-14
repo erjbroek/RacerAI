@@ -1,3 +1,4 @@
+import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
@@ -37,6 +38,8 @@ export default class GeneticAlgorithm extends Scene {
    *
    */
   public override render(canvas: HTMLCanvasElement): void {
-
+    this.track.forEach((trackPiece) => {
+      CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 0, 0, 0);
+    });
   };
 }
