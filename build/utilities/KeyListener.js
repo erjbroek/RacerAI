@@ -49,21 +49,21 @@ export default class KeyListener {
     static KEY_X = 'KeyX';
     static KEY_Y = 'KeyY';
     static KEY_Z = 'KeyZ';
-    keyDown = {};
-    keyPressedQueried = {};
+    static keyDown = {};
+    static keyPressedQueried = {};
     constructor() {
         window.addEventListener('keydown', (ev) => {
-            this.keyDown[ev.code] = true;
+            KeyListener.keyDown[ev.code] = true;
         });
         window.addEventListener('keyup', (ev) => {
-            this.keyDown[ev.code] = false;
-            this.keyPressedQueried[ev.code] = false;
+            KeyListener.keyDown[ev.code] = false;
+            KeyListener.keyPressedQueried[ev.code] = false;
         });
     }
-    isKeyDown(keyCode) {
+    static isKeyDown(keyCode) {
         return this.keyDown[keyCode] === true;
     }
-    keyPressed(keyCode) {
+    static keyPressed(keyCode) {
         if (this.keyPressedQueried[keyCode] === true)
             return false;
         if (this.keyDown[keyCode] === true) {

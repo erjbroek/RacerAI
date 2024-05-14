@@ -1,6 +1,6 @@
-import Ducker from './utilities/Ducker.js';
 import { GameLoop } from './utilities/GameLoop.js';
-const game = new Ducker(document.getElementById('game'));
+import Racer from './utilities/Racer.js';
+const game = new Racer(document.getElementById('game'));
 const gameLoop = new GameLoop(game);
 window.addEventListener('load', () => {
     gameLoop.start();

@@ -122,9 +122,9 @@ export default class KeyListener {
    * the array and the boolean is the state of that key (`true` means that
    * the key is down).
    */
-  private keyDown: Record<string, boolean> = {};
+  private static keyDown: Record<string, boolean> = {};
 
-  private keyPressedQueried: Record<string, boolean> = {};
+  private static keyPressedQueried: Record<string, boolean> = {};
 
   /**
    * Constructs a new KeyListener.
@@ -133,11 +133,11 @@ export default class KeyListener {
     // Register the arrow methods as listeners to keyevents
     // There is a third event ('keypress'), but we do not need to use it
     window.addEventListener('keydown', (ev: KeyboardEvent) => {
-      this.keyDown[ev.code] = true;
+      KeyListener.keyDown[ev.code] = true;
     });
     window.addEventListener('keyup', (ev: KeyboardEvent) => {
-      this.keyDown[ev.code] = false;
-      this.keyPressedQueried[ev.code] = false;
+      KeyListener.keyDown[ev.code] = false;
+      KeyListener.keyPressedQueried[ev.code] = false;
     });
   }
 
@@ -148,7 +148,7 @@ export default class KeyListener {
    * @param keyCode the keyCode to check
    * @returns `true` when the specified key is currently down
    */
-  public isKeyDown(keyCode: string): boolean {
+  public static isKeyDown(keyCode: string): boolean {
     return this.keyDown[keyCode] === true;
   }
 
@@ -156,7 +156,7 @@ export default class KeyListener {
    * @param keyCode the keycode to check
    * @returns 'true' when the specified key is pressed
    */
-  public keyPressed(keyCode: string): boolean {
+  public static keyPressed(keyCode: string): boolean {
     if (this.keyPressedQueried[keyCode] === true) return false;
     if (this.keyDown[keyCode] === true) {
       this.keyPressedQueried[keyCode] = true;

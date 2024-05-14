@@ -1,5 +1,5 @@
-import Drawable from "../drawables/Drawable.js";
-import Player from "../drawables/Player.js";
+import Drawable from '../drawables/Drawable.js';
+import Player from '../drawables/Player.js';
 
 /**
  * Helper utlity class for working with the HTML Canvas Element.
