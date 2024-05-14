@@ -9,6 +9,10 @@ export default abstract class Car {
 
   public rotation: number;
 
+  public xSpeed: number;
+
+  public ySpeed: number;
+
   public abstract update(elapsed: number): void
 
   public abstract render(canvas: HTMLCanvasElement): void;

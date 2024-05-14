@@ -102,6 +102,19 @@ export default class CanvasUtil {
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.fill();
     }
+    static drawCar(canvas, dx, dy, width, height, rotation, color = 'red', opacity = 1) {
+        const ctx = CanvasUtil.getCanvasContext(canvas);
+        ctx.save();
+        ctx.translate(dx + width / 2, dy + height / 2);
+        ctx.rotate((rotation * Math.PI) / 180);
+        ctx.beginPath();
+        ctx.rect(-width / 2, -height / 2, width, height);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.globalAlpha = opacity;
+        ctx.fill();
+        ctx.restore();
+    }
     static rotateImage(canvas, image, degrees) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.translate(canvas.width / 2, canvas.height / 2);

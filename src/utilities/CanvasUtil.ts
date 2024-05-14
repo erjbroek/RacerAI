@@ -237,6 +237,23 @@ export default class CanvasUtil {
     ctx.fill();
   }
 
+  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, color: string = 'red', opacity = 1) {
+    const ctx = CanvasUtil.getCanvasContext(canvas);
+    ctx.save();
+
+    ctx.translate(dx + width / 2, dy + height / 2);
+    ctx.rotate((rotation * Math.PI) / 180);
+    ctx.beginPath();
+    ctx.rect(-width / 2, -height / 2, width, height);
+    ctx.closePath();
+
+    ctx.fillStyle = color;
+    ctx.globalAlpha = opacity;
+    ctx.fill();
+
+    ctx.restore();
+  }
+
   /**
    * Rotate an image on an HTML5 canvas.
    *
@@ -251,16 +268,4 @@ export default class CanvasUtil {
     ctx.drawImage(image, -image.width / 2, -image.height / 2);
     ctx.restore();
   }
-
-  // /**
-  //  * @returns boolean
-  //  * @param player is the player that the collision is checked for
-  //  * @param item is the item that is checked for if the player collides with
-  //  */
-  // public static collidesWith(player: Player, item: Drawable): boolean {
-  //   if (player.posX < item.posX + item.image.width && player.posX + player.image.width > item.posX + item.image.width / 3 && player.posY < item.posY + item.image.height && player.posY + player.image.height > item.posY) {
-  //     return true;
-  //   }
-  //   return false;
-  // }
 }
