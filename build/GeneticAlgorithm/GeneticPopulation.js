@@ -6,7 +6,7 @@ export default class GeneticPopulation {
     size;
     highScore = 0;
     moveNumber = 0;
-    amountMoves = 20;
+    amountMoves = 40;
     extinct = false;
     moveDuration = 400;
     track;
@@ -23,15 +23,13 @@ export default class GeneticPopulation {
     update(elapsed) {
         if (!this.extinct) {
             this.moveDuration -= elapsed;
-            this.cars.forEach((car) => {
-                car.processMoves(this.moveNumber);
-            });
             if (this.moveDuration <= 0) {
                 this.moveNumber += 1;
                 this.moveDuration = 200;
             }
             this.cars.forEach((car) => {
                 if (car.alive) {
+                    car.processMoves(this.moveNumber);
                     car.update(elapsed);
                     car.alive = this.track.checkCollisionWithTrack(car);
                 }

@@ -13,7 +13,7 @@ export default class GeneticPopulation {
 
   public moveNumber: number = 0;
 
-  public amountMoves: number = 20;
+  public amountMoves: number = 40;
 
   public extinct: boolean = false;
 
@@ -39,15 +39,13 @@ export default class GeneticPopulation {
   public update(elapsed: number): void {
     if (!this.extinct) {
       this.moveDuration -= elapsed;
-      this.cars.forEach((car) => {
-        car.processMoves(this.moveNumber);
-      });
       if (this.moveDuration <= 0) {
         this.moveNumber += 1;
         this.moveDuration = 200;
       }
       this.cars.forEach((car) => {
         if (car.alive) {
+          car.processMoves(this.moveNumber);
           car.update(elapsed);
           car.alive = this.track.checkCollisionWithTrack(car);
         }
