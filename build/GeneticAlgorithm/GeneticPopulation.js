@@ -6,7 +6,7 @@ export default class GeneticPopulation {
     size;
     highScore = 0;
     moveNumber = 0;
-    amountMoves = 5;
+    amountMoves = 20;
     extinct = false;
     moveDuration = 400;
     track;
@@ -14,7 +14,7 @@ export default class GeneticPopulation {
         this.size = size;
         this.track = track;
         for (let i = 0; i < size; i++) {
-            this.cars.push(new GeneticCar(startingLine, startingAngle, 5));
+            this.cars.push(new GeneticCar(startingLine, startingAngle, this.amountMoves));
         }
         this.track.road.forEach((road) => {
             road[2] = 1;
@@ -23,12 +23,12 @@ export default class GeneticPopulation {
     update(elapsed) {
         if (!this.extinct) {
             this.moveDuration -= elapsed;
+            this.cars.forEach((car) => {
+                car.processMoves(this.moveNumber);
+            });
             if (this.moveDuration <= 0) {
-                this.cars.forEach((car) => {
-                    car.processMoves(this.moveNumber);
-                });
                 this.moveNumber += 1;
-                this.moveDuration = 400;
+                this.moveDuration = 200;
             }
             this.cars.forEach((car) => {
                 if (car.alive) {

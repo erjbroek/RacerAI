@@ -10,7 +10,7 @@ export default class GeneticAlgorithm extends Scene {
         this.track = track;
         this.radius = radius;
         const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
-        this.population = new GeneticPopulation(140, this.track.midPoint, startAngle, this.track);
+        this.population = new GeneticPopulation(3000, this.track.midPoint, startAngle, this.track);
     }
     processInput(keyListener) {
     }
