@@ -1,8 +1,8 @@
-import Scene from './Scene.js';
-import MouseListener from '../utilities/MouseListener.js';
-import CanvasUtil from '../utilities/CanvasUtil.js';
-import SelectStart from './SelectStart.js';
-export default class DrawTrack extends Scene {
+import Scene from './scenes/Scene.js';
+import MouseListener from './utilities/MouseListener.js';
+import CanvasUtil from './utilities/CanvasUtil.js';
+import SelectStart from './scenes/selectStart.js';
+export default class StartingScene extends Scene {
     radius = window.innerWidth / 28;
     allValid = false;
     closed = false;

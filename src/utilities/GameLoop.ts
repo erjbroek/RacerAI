@@ -57,10 +57,13 @@ export class GameLoop {
 
   private readonly frameTimeLimit: number = 1000 / this.targetFrameRate;
 
-  public constructor(game: Game, mode: number = GameLoop.NORMAL_MODE) {
+  private canvas: HTMLCanvasElement;
+
+  public constructor(game: Game, canvas: HTMLCanvasElement, mode: number = GameLoop.NORMAL_MODE) {
     this.state = GameLoop.STATE_IDLE;
     this.mode = mode;
     this.game = game;
+    this.canvas = canvas; // Initialize canvas
   }
 
   /**
@@ -150,5 +153,20 @@ export class GameLoop {
     this.frameEnd = now;
     this.gameTime = now - this.gameStart;
     this.frameCount += 1;
+
+    this.renderFPS();
   };
+
+  /**
+   * renders fps on the screen
+   */
+  private renderFPS() {
+    const context = this.canvas.getContext('2d');
+    if (context) {
+      context.fillStyle = 'black';
+      context.clearRect(0, 0, 100, 50); // Clear the area where the FPS will be rendered
+      context.font = '20px Arial';
+      context.fillText(`FPS: ${this.fps}`, 10, 30);
+    }
+  }
 }

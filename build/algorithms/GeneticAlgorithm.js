@@ -1,6 +1,6 @@
 import CanvasUtil from "../utilities/CanvasUtil.js";
-import Scene from "./Scene.js";
-import GeneticPopulation from './GeneticPopulation.js';
+import Scene from "../scenes/Scene.js";
+import GeneticPopulation from '../cars/GeneticPopulation.js';
 export default class GeneticAlgorithm extends Scene {
     track;
     radius;

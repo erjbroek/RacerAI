@@ -19,10 +19,12 @@ export class GameLoop {
     load;
     targetFrameRate = 80;
     frameTimeLimit = 1000 / this.targetFrameRate;
-    constructor(game, mode = GameLoop.NORMAL_MODE) {
+    canvas;
+    constructor(game, canvas, mode = GameLoop.NORMAL_MODE) {
         this.state = GameLoop.STATE_IDLE;
         this.mode = mode;
         this.game = game;
+        this.canvas = canvas;
     }
     start() {
         if (this.state === GameLoop.STATE_IDLE) {
@@ -78,6 +80,16 @@ export class GameLoop {
         this.frameEnd = now;
         this.gameTime = now - this.gameStart;
         this.frameCount += 1;
+        this.renderFPS();
     };
+    renderFPS() {
+        const context = this.canvas.getContext('2d');
+        if (context) {
+            context.fillStyle = 'black';
+            context.clearRect(0, 0, 100, 50);
+            context.font = '20px Arial';
+            context.fillText(`FPS: ${this.fps}`, 10, 30);
+        }
+    }
 }
 //# sourceMappingURL=GameLoop.js.map

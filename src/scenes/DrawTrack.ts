@@ -2,9 +2,9 @@ import Scene from './Scene.js';
 import KeyListener from '../utilities/KeyListener.js';
 import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import SelectStart from './selectStart.js';
+import SelectStart from './SelectStart.js';
 
-export default class StartingScene extends Scene {
+export default class DrawTrack extends Scene {
   private radius: number = window.innerWidth / 28;
 
   private allValid: boolean = false;

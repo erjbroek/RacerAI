@@ -1,25 +1,28 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import KeyListener from "../utilities/KeyListener.js";
-import GeneticCar from "./GeneticCar.js";
-import Population from './Population.js';
-import Scene from "./Scene.js";
-import Track from './Track.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import KeyListener from '../utilities/KeyListener.js';
+import Scene from '../scenes/Scene.js';
+import Track from '../Track.js';
+import GeneticPopulation from './GeneticPopulation.js';
 
 export default class GeneticAlgorithm extends Scene {
   private track: Track;
 
   private radius: number;
 
-  private population: Population;
+  private population: GeneticPopulation;
 
   public constructor(track: Track, radius: number) {
     super();
     this.track = track;
     this.radius = radius;
     const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
-    this.population = new Population(30, this.track.midPoint, startAngle, this.track);
+    this.population = new GeneticPopulation(140, this.track.midPoint, startAngle, this.track);
   }
 
+  /**
+   *
+   * @param keyListener
+   */
   public override processInput(keyListener: KeyListener): void {
 
   }
@@ -37,7 +40,7 @@ export default class GeneticAlgorithm extends Scene {
    * @param canvas is the selected canvas all items are rendered on
    */
   public override render(canvas: HTMLCanvasElement): void {
-    canvas.style.cursor = "default";
+    canvas.style.cursor = 'default';
     this.track.render(canvas);
     this.population.render(canvas);
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);

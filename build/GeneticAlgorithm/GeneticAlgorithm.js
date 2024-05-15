@@ -1,5 +1,5 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import Scene from "./Scene.js";
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import Scene from '../scenes/Scene.js';
 import GeneticPopulation from './GeneticPopulation.js';
 export default class GeneticAlgorithm extends Scene {
     track;
@@ -10,7 +10,7 @@ export default class GeneticAlgorithm extends Scene {
         this.track = track;
         this.radius = radius;
         const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
-        this.population = new GeneticPopulation(30, this.track.midPoint, startAngle, this.track);
+        this.population = new GeneticPopulation(140, this.track.midPoint, startAngle, this.track);
     }
     processInput(keyListener) {
     }
@@ -19,7 +19,7 @@ export default class GeneticAlgorithm extends Scene {
         return this;
     }
     render(canvas) {
-        canvas.style.cursor = "default";
+        canvas.style.cursor = 'default';
         this.track.render(canvas);
         this.population.render(canvas);
         CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);

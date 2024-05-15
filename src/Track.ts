@@ -1,5 +1,5 @@
-import CanvasUtil from '../utilities/CanvasUtil.js';
-import GeneticCar from './GeneticCar.js';
+import CanvasUtil from './utilities/CanvasUtil.js';
+import GeneticCar from './GeneticAlgorithm/GeneticCar.js';
 
 export default class Track {
   public road: number[][];
@@ -115,7 +115,7 @@ export default class Track {
    */
   public render(canvas: HTMLCanvasElement) {
     this.road.forEach((trackPiece) => {
-      CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 120 * trackPiece[2], 0, 1);
+      CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 0, 0, 1);
     });
   }
 }

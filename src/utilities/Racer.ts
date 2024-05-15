@@ -3,10 +3,9 @@ import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import Scene from '../scenes/Scene.js';
 import MouseListener from './MouseListener.js';
-import StartingScene from '../scenes/DrawTrack.js';
 import DrawTrack from '../scenes/DrawTrack.js';
 
-export default class Ducker extends Game {
+export default class Racer extends Game {
   private canvas: HTMLCanvasElement;
 
   private keyListener: KeyListener;
@@ -51,5 +50,6 @@ export default class Ducker extends Game {
   public render(): void {
     CanvasUtil.clearCanvas(this.canvas);
     this.currentScene.render(this.canvas);
+    // CanvasUtil.writeText(canvas, `fps: ${}`)
   }
 }

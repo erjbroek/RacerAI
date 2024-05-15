@@ -1,5 +1,5 @@
-import Car from "./Car.js";
-import { ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, } from './Actions.js';
+import Car from '../Car.js';
+import { ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, } from '../Actions.js';
 export default class GeneticCar extends Car {
     moves = [];
     fitness = 0;

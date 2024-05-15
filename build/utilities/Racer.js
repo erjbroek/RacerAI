@@ -3,7 +3,7 @@ import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import MouseListener from './MouseListener.js';
 import DrawTrack from '../scenes/DrawTrack.js';
-export default class Ducker extends Game {
+export default class Racer extends Game {
     canvas;
     keyListener;
     mouseListener;

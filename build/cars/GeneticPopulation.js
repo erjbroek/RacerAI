@@ -1,6 +1,6 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import GeneticCar from './GeneticCar.js';
-export default class Population {
+import GeneticCar from '../scenes/GeneticCar.js';
+export default class GeneticPopulation {
     cars = [];
     generation = 1;
     size;
@@ -44,4 +44,4 @@ export default class Population {
         });
     }
 }
-//# sourceMappingURL=Population.js.map
+//# sourceMappingURL=GeneticPopulation.js.map

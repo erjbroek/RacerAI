@@ -1,9 +1,10 @@
 import { GameLoop } from './utilities/GameLoop.js';
 import Racer from './utilities/Racer.js';
 
-const game = new Racer(document.getElementById('game') as HTMLCanvasElement);
+const gameCanvas = document.getElementById('game') as HTMLCanvasElement;
+const game = new Racer(gameCanvas);
 
-const gameLoop = new GameLoop(game);
+const gameLoop = new GameLoop(game, gameCanvas); // Pass the canvas to the GameLoop
 window.addEventListener('load', () => {
   gameLoop.start();
 });

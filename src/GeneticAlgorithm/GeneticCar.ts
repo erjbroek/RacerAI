@@ -1,7 +1,7 @@
-import Car from "./Car.js";
+import Car from '../Car.js';
 import {
   ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT,
-} from './Actions.js';
+} from '../Actions.js';
 
 export default class GeneticCar extends Car {
   private moves: number[] = [];
@@ -19,11 +19,12 @@ export default class GeneticCar extends Car {
     this.ySpeed = 0;
     const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT];
     this.moves = this.generateRandomMoves(amountMoves, possibleMoves);
-    console.log(this.moves)
+    // console.log(this.moves)
   }
 
   /**
    * Generates a list of random moves
+   *
    * @param amountMoves The number of moves to generate
    * @param possibleMoves The array of possible moves
    * @returns An array of random moves
@@ -42,7 +43,6 @@ export default class GeneticCar extends Car {
    */
   public processMoves(moveNumber: number) {
     const move = this.moves[moveNumber];
-    console.log(move)
     switch (move) {
       case 0:
         this.rotateLeft();
@@ -70,7 +70,6 @@ export default class GeneticCar extends Car {
       this.rotation -= 20;
       this.updateSpeedWithRotation();
     }
-    console.log('left')
   }
 
   /**
@@ -81,7 +80,6 @@ export default class GeneticCar extends Car {
       this.rotation += 20;
       this.updateSpeedWithRotation();
     }
-    console.log('right')
   }
 
   /**
@@ -106,7 +104,6 @@ export default class GeneticCar extends Car {
 
     this.xSpeed += deltaX;
     this.ySpeed -= deltaY;
-    console.log('accelerate')
   }
 
   /**
@@ -115,7 +112,6 @@ export default class GeneticCar extends Car {
   public brake() {
     this.xSpeed *= 0.6;
     this.ySpeed *= 0.6;
-    console.log('break')
   }
 
   /**

@@ -1,8 +1,8 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import GeneticCar from './GeneticCar.js';
-import Track from './Track.js';
+import Track from '../Track.js';
 
-export default class Population {
+export default class GeneticPopulation {
   public cars: GeneticCar[] = [];
 
   public generation: number = 1;
@@ -24,9 +24,12 @@ export default class Population {
   public constructor(size: number, startingLine: number[], startingAngle: number, track: Track) {
     this.size = size;
     this.track = track;
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < size; i++) {
       this.cars.push(new GeneticCar(startingLine, startingAngle, 5));
     }
+    this.track.road.forEach((road) => {
+      road[2] = 1;
+    });
   }
 
   /**
