@@ -10,6 +10,8 @@ export default class GeneticAlgorithm extends Scene {
     lineEnd;
     startAngle;
     midPoint;
+    moveDuration = 400;
+    moveNumber = 0;
     constructor(track, radius, lineStart, lineEnd, midPoint) {
         super();
         this.track = track;
@@ -17,23 +19,39 @@ export default class GeneticAlgorithm extends Scene {
         this.lineStart = lineStart;
         this.lineEnd = lineEnd;
         this.midPoint = midPoint;
-        this.startAngle = Math.atan((this.lineStart[1] - this.lineEnd[1]) / (this.lineStart[0] - this.lineEnd[0])) * 180 / Math.PI;
+        this.startAngle = (Math.atan((this.lineStart[1] - this.lineEnd[1]) / (this.lineStart[0] - this.lineEnd[0])) * 180) / Math.PI;
         this.cars.push(new GeneticCar(this.midPoint, this.startAngle));
     }
     processInput() {
         if (KeyListener.keyPressed('KeyW')) {
-            console.log('drive');
             this.cars[0].accelerate();
+        }
+        else if (KeyListener.keyPressed('KeyS')) {
+            this.cars[0].brake();
+        }
+        else if (KeyListener.keyPressed('KeyD')) {
+            this.cars[0].rotateRight();
+        }
+        else if (KeyListener.keyPressed('KeyA')) {
+            this.cars[0].rotateLeft();
         }
     }
     update(elapsed) {
+        this.moveDuration -= elapsed;
+        if (this.moveDuration <= 0) {
+            this.cars.forEach((car) => {
+                car.processMoves(this.moveNumber);
+            });
+            this.moveNumber += 1;
+            this.moveDuration = 400;
+        }
         this.cars.forEach((car) => {
             car.update(elapsed);
         });
         return this;
     }
     render(canvas) {
-        canvas.style.cursor = "default";
+        canvas.style.cursor = 'default';
         this.track.forEach((trackPiece) => {
             CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 0, 0, 0);
         });

@@ -1,6 +1,13 @@
 import Car from './Car.js';
 
+const ROTATE_LEFT = 0;
+const ROTATE_RIGHT = 1;
+const ACCELERATE = 2;
+const BRAKE = 3;
+
 export default class GeneticCar extends Car {
+  private moves: number[] = [];
+
   public constructor(midPoint: number[], startAngle: number) {
     super();
     this.width = window.innerHeight / 40;
@@ -9,20 +16,63 @@ export default class GeneticCar extends Car {
     this.rotation = startAngle;
     this.xSpeed = 0;
     this.ySpeed = 0;
+    this.moves = [ACCELERATE, ACCELERATE, ROTATE_LEFT, ROTATE_LEFT, ROTATE_RIGHT, BRAKE];
   }
 
+  /**
+   * @param moveNumber is the index of the moves list that should be triggered
+   */
+  public processMoves(moveNumber: number) {
+    const move = this.moves[moveNumber];
+    switch (move) {
+      case ROTATE_LEFT:
+        this.rotateLeft();
+        break;
+      case ROTATE_RIGHT:
+        this.rotateRight();
+        break;
+      case ACCELERATE:
+        this.accelerate();
+        break;
+      case BRAKE:
+        this.brake();
+        break;
+      default:
+        console.error('Invalid move:', move);
+        break;
+    }
+  }
+
+  /**
+   * rotates the car left
+   */
   public rotateLeft() {
-    // Allow rotation only if the car is moving (speed is non-zero)
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation -= 1;
+      this.rotation -= 20;
+      this.updateSpeedWithRotation();
     }
   }
 
+  /**
+   * rotates the car right
+   */
   public rotateRight() {
-    // Allow rotation only if the car is moving (speed is non-zero)
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation += 1;
+      this.rotation += 20;
+      this.updateSpeedWithRotation();
     }
+  }
+
+  /**
+   * after rotating, this updates the x and y speed of the car
+   */
+  private updateSpeedWithRotation() {
+    const radians = ((this.rotation - 90) * Math.PI) / 180;
+
+    const speedMagnitude = Math.sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
+
+    this.xSpeed = speedMagnitude * Math.cos(radians);
+    this.ySpeed = speedMagnitude * Math.sin(radians);
   }
 
   /**
@@ -41,8 +91,14 @@ export default class GeneticCar extends Car {
    *
    */
   public brake() {
-    this.xSpeed *= 0.9;
-    this.ySpeed *= 0.9;
+    if (this.xSpeed !== 0 || this.ySpeed !== 0) {
+      const deltaRotation = (this.rotation * Math.PI) / 180;
+      const deltaX = Math.sin(deltaRotation) * 1.1;
+      const deltaY = Math.cos(deltaRotation) * 1.1;
+
+      this.xSpeed -= deltaX;
+      this.ySpeed += deltaY;
+    }
   }
 
   /**
@@ -53,14 +109,5 @@ export default class GeneticCar extends Car {
   public override update(elapsed: number): void {
     this.posX += this.xSpeed;
     this.posY += this.ySpeed;
-  }
-
-  /**
-   * renders the car
-   *
-   * @param canvas is the selected canvas the car is rendered to
-   */
-  public override render(canvas: HTMLCanvasElement): void {
-
   }
 }

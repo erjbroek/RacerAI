@@ -13,7 +13,5 @@ export default abstract class Car {
 
   public ySpeed: number;
 
-  public abstract update(elapsed: number): void
-
-  public abstract render(canvas: HTMLCanvasElement): void;
+  public abstract update(elapsed: number): void;
 }
