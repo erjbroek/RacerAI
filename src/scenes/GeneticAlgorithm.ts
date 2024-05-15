@@ -1,10 +1,12 @@
-import CanvasUtil from '../utilities/CanvasUtil.js';
-import KeyListener from '../utilities/KeyListener.js';
-import GeneticCar from './GeneticCar.js';
-import Scene from './Scene.js';
+import CanvasUtil from "../utilities/CanvasUtil.js";
+import KeyListener from "../utilities/KeyListener.js";
+import GeneticCar from "./GeneticCar.js";
+import Scene from "./Scene.js";
 
 export default class GeneticAlgorithm extends Scene {
   private track: number[][];
+
+  private aliveCars: GeneticCar[] = [];
 
   private cars: GeneticCar[] = [];
 
@@ -22,6 +24,10 @@ export default class GeneticAlgorithm extends Scene {
 
   private moveNumber: number = 0;
 
+  private gridSize: number;
+
+  private grid: Map<string, number[]>;
+
   public constructor(track: number[][], radius: number, lineStart: number[], lineEnd: number[], midPoint: number[]) {
     super();
     this.track = track;
@@ -30,21 +36,86 @@ export default class GeneticAlgorithm extends Scene {
     this.lineEnd = lineEnd;
     this.midPoint = midPoint;
     this.startAngle = (Math.atan((this.lineStart[1] - this.lineEnd[1]) / (this.lineStart[0] - this.lineEnd[0])) * 180) / Math.PI;
-    this.cars.push(new GeneticCar(this.midPoint, this.startAngle));
+    for (let i = 0; i < 100; i++) {
+      this.aliveCars.push(new GeneticCar(this.midPoint, this.startAngle));
+    }
+
+    this.gridSize = Math.ceil(window.innerWidth / 10);
+    this.grid = new Map();
+    this.initializeGrid();
+  }
+
+  public override processInput(keyListener: KeyListener): void {
+
   }
 
   /**
-   * processes
+   * initialises the grid
    */
-  public override processInput(): void {
-    if (KeyListener.keyPressed('KeyW')) {
-      this.cars[0].accelerate();
-    } else if (KeyListener.keyPressed('KeyS')) {
-      this.cars[0].brake();
-    } else if (KeyListener.keyPressed('KeyD')) {
-      this.cars[0].rotateRight();
-    } else if (KeyListener.keyPressed('KeyA')) {
-      this.cars[0].rotateLeft();
+  private initializeGrid() {
+    this.track.forEach((trackPiece, index) => {
+      const [x, y] = trackPiece;
+      const cellKey = this.getCellKey(x, y);
+      if (!this.grid.has(cellKey)) {
+        this.grid.set(cellKey, []);
+      }
+      this.grid.get(cellKey)?.push(index);
+    });
+  }
+
+  /**
+   *
+   * @param x is the x position of the item
+   * @param y is the y position of the item
+   * @returns the gridkey as string
+   */
+  private getCellKey(x: number, y: number): string {
+    const gridX = Math.floor(x / this.gridSize);
+    const gridY = Math.floor(y / this.gridSize);
+    return `${gridX},${gridY}`;
+  }
+
+  private getTracksInCell(cellKey: string): number[] {
+    return this.grid.get(cellKey) || [];
+  }
+
+  /**
+   * @param car is the selected car that will be used to check collision with track
+   */
+  private checkCollisionWithTrack(car: GeneticCar) {
+    const gridX = Math.floor(car.posX / this.gridSize);
+    const gridY = Math.floor(car.posY / this.gridSize);
+
+    let collisionOccured = false;
+
+    const checkCollisionInCell = (cellX: number, cellY: number) => {
+      const cellKey = `${cellX},${cellY}`;
+      const tracksInCell = this.getTracksInCell(cellKey);
+
+      tracksInCell.forEach((trackIndex) => {
+        const [trackX, trackY] = this.track[trackIndex];
+        const distanceSquared = (car.posX - trackX) ** 2 + (car.posY - trackY) ** 2;
+        const minDistanceSquared = this.radius ** 2;
+        if (distanceSquared < minDistanceSquared) {
+          collisionOccured = true;
+        }
+      });
+    };
+
+    for (let offsetX = -1; offsetX <= 1; offsetX++) {
+      for (let offsetY = -1; offsetY <= 1; offsetY++) {
+        const cellX = gridX + offsetX;
+        const cellY = gridY + offsetY;
+        checkCollisionInCell(cellX, cellY);
+      }
+    }
+
+    if (!collisionOccured) {
+      car.dead = true;
+      this.cars.push(car);
+      this.aliveCars.splice(this.aliveCars.indexOf(car), 1);
+    } else {
+      car.dead = false;
     }
   }
 
@@ -53,17 +124,25 @@ export default class GeneticAlgorithm extends Scene {
    * @returns scene
    */
   public override update(elapsed: number): Scene {
-    this.moveDuration -= elapsed;
-    if (this.moveDuration <= 0) {
-      this.cars.forEach((car) => {
-        car.processMoves(this.moveNumber);
+    if (this.aliveCars.length > 0) {
+      this.moveDuration -= elapsed;
+      if (this.moveDuration <= 0) {
+        console.log(this.aliveCars)
+        this.aliveCars.forEach((car) => {
+          car.processMoves(this.moveNumber);
+        });
+        this.moveNumber += 1;
+        this.moveDuration = 400;
+      }
+      this.aliveCars.forEach((car) => {
+        if (!car.dead) {
+          car.update(elapsed);
+          this.checkCollisionWithTrack(car);
+        }
       });
-      this.moveNumber += 1;
-      this.moveDuration = 400;
+    } else {
+      console.log('rip')
     }
-    this.cars.forEach((car) => {
-      car.update(elapsed);
-    });
     return this;
   }
 
@@ -71,11 +150,11 @@ export default class GeneticAlgorithm extends Scene {
    * @param canvas is the selected canvas all items are rendered on
    */
   public override render(canvas: HTMLCanvasElement): void {
-    canvas.style.cursor = 'default';
+    canvas.style.cursor = "default";
     this.track.forEach((trackPiece) => {
       CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 0, 0, 0);
     });
-    this.cars.forEach((car) => {
+    this.aliveCars.forEach((car) => {
       CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation);
     });
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);

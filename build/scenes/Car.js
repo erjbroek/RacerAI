@@ -6,5 +6,6 @@ export default class Car {
     rotation;
     xSpeed;
     ySpeed;
+    dead;
 }
 //# sourceMappingURL=Car.js.map

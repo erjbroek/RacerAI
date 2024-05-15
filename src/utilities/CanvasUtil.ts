@@ -241,7 +241,7 @@ export default class CanvasUtil {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
-    ctx.translate(dx + width / 2, dy + height / 2);
+    ctx.translate(dx, dy); // Render at dx, dy without adjusting for the center
     ctx.rotate((rotation * Math.PI) / 180);
     ctx.beginPath();
     ctx.rect(-width / 2, -height / 2, width, height);
@@ -252,7 +252,7 @@ export default class CanvasUtil {
     ctx.fill();
 
     ctx.restore();
-  }
+}
 
   /**
    * Rotate an image on an HTML5 canvas.

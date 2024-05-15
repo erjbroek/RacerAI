@@ -13,5 +13,7 @@ export default abstract class Car {
 
   public ySpeed: number;
 
+  public dead: boolean;
+
   public abstract update(elapsed: number): void;
 }

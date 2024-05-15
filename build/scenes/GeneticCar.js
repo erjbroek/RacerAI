@@ -31,7 +31,6 @@ export default class GeneticCar extends Car {
                 this.brake();
                 break;
             default:
-                console.error('Invalid move:', move);
                 break;
         }
     }
@@ -61,13 +60,8 @@ export default class GeneticCar extends Car {
         this.ySpeed -= deltaY;
     }
     brake() {
-        if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            const deltaRotation = (this.rotation * Math.PI) / 180;
-            const deltaX = Math.sin(deltaRotation) * 1.1;
-            const deltaY = Math.cos(deltaRotation) * 1.1;
-            this.xSpeed -= deltaX;
-            this.ySpeed += deltaY;
-        }
+        this.xSpeed *= 0.6;
+        this.ySpeed *= 0.6;
     }
     update(elapsed) {
         this.posX += this.xSpeed;

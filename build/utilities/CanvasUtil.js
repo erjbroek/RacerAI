@@ -105,7 +105,7 @@ export default class CanvasUtil {
     static drawCar(canvas, dx, dy, width, height, rotation, color = 'red', opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
-        ctx.translate(dx + width / 2, dy + height / 2);
+        ctx.translate(dx, dy);
         ctx.rotate((rotation * Math.PI) / 180);
         ctx.beginPath();
         ctx.rect(-width / 2, -height / 2, width, height);
