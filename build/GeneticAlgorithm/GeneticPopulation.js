@@ -6,7 +6,7 @@ export default class GeneticPopulation {
     size;
     highScore = 0;
     moveNumber = 0;
-    amountMoves = 40;
+    amountMoves = 10;
     extinct = false;
     moveDuration = 400;
     track;

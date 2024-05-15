@@ -13,7 +13,7 @@ export default class GeneticPopulation {
 
   public moveNumber: number = 0;
 
-  public amountMoves: number = 40;
+  public amountMoves: number = 10;
 
   public extinct: boolean = false;
 
