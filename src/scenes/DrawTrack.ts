@@ -110,9 +110,7 @@ export default class StartingScene extends Scene {
     if (!this.checked) {
       this.allValid = true;
       let close = false; // Initialize close to false
-      const enough = false;
       this.flag = false;
-      const loopFound = false;
       let totalFound = 0;
       this.track.forEach((track1) => {
         const found: number[] = [];
@@ -137,7 +135,6 @@ export default class StartingScene extends Scene {
               if (closedAmount <= 3) {
                 close = false;
               }
-              console.log(`closed: ${closedAmount}`);
             }
           }
         });
@@ -153,7 +150,6 @@ export default class StartingScene extends Scene {
       if (totalFound / this.track.length <= 0.7) {
         this.straightPiece = false;
       }
-      console.log(totalFound / this.track.length);
       this.closed = close;
     }
     this.checked = true;

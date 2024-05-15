@@ -1,33 +1,43 @@
-import Car from './Car.js';
-const ROTATE_LEFT = 0;
-const ROTATE_RIGHT = 1;
-const ACCELERATE = 2;
-const BRAKE = 3;
+import Car from "./Car.js";
+import { ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, } from './Actions.js';
 export default class GeneticCar extends Car {
     moves = [];
-    constructor(midPoint, startAngle) {
+    fitness = 0;
+    constructor(midPoint, startAngle, amountMoves) {
         super();
         this.width = window.innerHeight / 40;
         this.height = window.innerHeight / 25;
+        this.alive = true;
         [this.posX, this.posY] = [midPoint[0], midPoint[1]];
         this.rotation = startAngle;
         this.xSpeed = 0;
         this.ySpeed = 0;
-        this.moves = [ACCELERATE, ACCELERATE, ROTATE_LEFT, ROTATE_LEFT, ROTATE_RIGHT, BRAKE];
+        const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT];
+        this.moves = this.generateRandomMoves(amountMoves, possibleMoves);
+        console.log(this.moves);
+    }
+    generateRandomMoves(amountMoves, possibleMoves) {
+        const moves = [];
+        for (let i = 0; i < amountMoves; i++) {
+            const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+            moves.push(randomMove);
+        }
+        return moves;
     }
     processMoves(moveNumber) {
         const move = this.moves[moveNumber];
+        console.log(move);
         switch (move) {
-            case ROTATE_LEFT:
+            case 0:
                 this.rotateLeft();
                 break;
-            case ROTATE_RIGHT:
+            case 1:
                 this.rotateRight();
                 break;
-            case ACCELERATE:
+            case 2:
                 this.accelerate();
                 break;
-            case BRAKE:
+            case 3:
                 this.brake();
                 break;
             default:
@@ -39,12 +49,14 @@ export default class GeneticCar extends Car {
             this.rotation -= 20;
             this.updateSpeedWithRotation();
         }
+        console.log('left');
     }
     rotateRight() {
         if (this.xSpeed !== 0 || this.ySpeed !== 0) {
             this.rotation += 20;
             this.updateSpeedWithRotation();
         }
+        console.log('right');
     }
     updateSpeedWithRotation() {
         const radians = ((this.rotation - 90) * Math.PI) / 180;
@@ -58,10 +70,12 @@ export default class GeneticCar extends Car {
         const deltaY = Math.cos(deltaRotation);
         this.xSpeed += deltaX;
         this.ySpeed -= deltaY;
+        console.log('accelerate');
     }
     brake() {
         this.xSpeed *= 0.6;
         this.ySpeed *= 0.6;
+        console.log('break');
     }
     update(elapsed) {
         this.posX += this.xSpeed;
