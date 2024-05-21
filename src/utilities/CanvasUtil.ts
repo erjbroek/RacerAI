@@ -1,3 +1,5 @@
+import GeneticCar from '../GeneticAlgorithm/GeneticCar.js';
+
 /**
  * Helper utlity class for working with the HTML Canvas Element.
  *
@@ -5,6 +7,10 @@
  * @author Frans Blauw
  */
 export default class CanvasUtil {
+  private static canvas: HTMLCanvasElement;
+
+  private static ctx: CanvasRenderingContext2D;
+
   /**
    * @param canvas the canvas on which will be drawn
    * @returns the 2D rendering context of the canvas
@@ -13,6 +19,17 @@ export default class CanvasUtil {
     const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
     if (ctx === null) throw new Error("Canvas Rendering Context is null");
     return ctx;
+  }
+
+  public static setCanvas(canvas: HTMLCanvasElement): void {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext("2d");
+    if (this.ctx === null) throw new Error("Canvas Rendering Context is null");
+  }
+
+  public static getCanvas(): HTMLCanvasElement {
+    if (!this.canvas) throw new Error("Canvas is not set");
+    return this.canvas;
   }
 
   /**
@@ -237,7 +254,14 @@ export default class CanvasUtil {
     ctx.fill();
   }
 
-  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, color: string = 'red', opacity = 1) {
+  public static getPixelColor(canvas: HTMLCanvasElement, x: number, y: number): ImageData {
+    const context = canvas.getContext('2d', { willReadFrequently: true });
+    if (context) {
+      return context.getImageData(x, y, 1, 1);
+    } throw new Error('Unable to get canvas context');
+  }
+
+  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, opacity: number, alive: boolean) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -246,13 +270,17 @@ export default class CanvasUtil {
     ctx.beginPath();
     ctx.rect(-width / 2, -height / 2, width, height);
     ctx.closePath();
+    if (alive) {
+      ctx.fillStyle = 'green';
+    } else {
+      ctx.fillStyle = 'red';
+    }
 
-    ctx.fillStyle = color;
     ctx.globalAlpha = opacity;
     ctx.fill();
 
     ctx.restore();
-}
+  }
 
   /**
    * Rotate an image on an HTML5 canvas.

@@ -1,12 +1,22 @@
-import Car from "../Car.js";
-import { ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT } from "../Actions.js";
+import Car from '../Car.js';
+import {
+  ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT,
+} from '../Actions.js';
 
 export default class GeneticCar extends Car {
   public moves: number[] = [];
 
-  private fitness: number = 0;
+  public fitness: number = 0;
 
-  public constructor(midPoint: number[], startAngle: number, amountMoves: number) {
+  private checkAlive: number = 2500;
+
+  public position: number = 0;
+
+  public parentPosition: number;
+
+  public distance: number = 0;
+
+  public constructor(midPoint: number[], startAngle: number, moves: number[], amountMoves: number, parentPosition: number = null) {
     super();
     this.width = window.innerHeight / 40;
     this.height = window.innerHeight / 25;
@@ -15,8 +25,13 @@ export default class GeneticCar extends Car {
     this.rotation = startAngle;
     this.xSpeed = 0;
     this.ySpeed = 0;
-    const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT];
-    this.moves = this.generateRandomMoves(amountMoves, possibleMoves);
+    this.parentPosition = parentPosition;
+    if (moves.length === 0) {
+      const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT];
+      this.moves = this.generateRandomMoves(amountMoves, possibleMoves);
+    } else {
+      this.moves = moves;
+    }
     // console.log(this.moves)
   }
 
@@ -27,7 +42,7 @@ export default class GeneticCar extends Car {
    * @param possibleMoves The array of possible moves
    * @returns An array of random moves
    */
-  private generateRandomMoves(amountMoves: number, possibleMoves: number[]): number[] {
+  public generateRandomMoves(amountMoves: number, possibleMoves: number[]): number[] {
     const moves: number[] = [];
     for (let i = 0; i < amountMoves; i++) {
       const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
@@ -38,9 +53,17 @@ export default class GeneticCar extends Car {
 
   /**
    * @param moveNumber is the index of the moves list that should be triggered
+   * @param elapsed
    */
-  public processMoves(moveNumber: number) {
+  public processMoves(moveNumber: number, elapsed: number) {
     const move = this.moves[moveNumber];
+    if (moveNumber === this.moves.length - 1) {
+      this.alive = false;
+      this.checkAlive -= elapsed;
+    }
+    if (this.checkAlive <= 0) {
+      this.alive = false;
+    }
     switch (move) {
       case 0:
         this.accelerate();
@@ -66,12 +89,39 @@ export default class GeneticCar extends Car {
     }
   }
 
+  public mutateMoves(moves: number[]): number[] {
+    const baseMutationRate = 0.01; // Base mutation rate
+    const steepness = 3; // Steepness factor, adjust this to make the curve steeper
+    const newMoves = [...moves];
+
+    for (let i = 0; i < newMoves.length; i++) {
+      // Calculate the mutation rate exponentially based on the index
+      const currentMutationRate = baseMutationRate * Math.exp(steepness * (i / newMoves.length - 1));
+      if (Math.random() < currentMutationRate) {
+        newMoves[i] = this.generateRandomMove(); // Generate a new random move
+      }
+    }
+    return newMoves;
+  }
+
+  public generateRandomMove(): number {
+    const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT];
+    return possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+  }
+
+  public addMoves(amount: number) {
+    const newMoves = this.generateRandomMoves(amount, [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT]);
+    newMoves.forEach((newMove) => {
+      this.moves.push(newMove);
+    });
+  }
+
   /**
    * rotates the car left
    */
   public rotateLeft() {
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation -= 0.8;
+      this.rotation -= 1.2;
       this.updateSpeedWithRotation();
     }
   }
@@ -81,7 +131,7 @@ export default class GeneticCar extends Car {
    */
   public rotateRight() {
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation += 0.8;
+      this.rotation += 1.2;
       this.updateSpeedWithRotation();
     }
   }
@@ -91,7 +141,7 @@ export default class GeneticCar extends Car {
    */
   public rotateSharpLeft() {
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation -= 1.5;
+      this.rotation -= 2;
       this.updateSpeedWithRotation();
     }
   }
@@ -101,7 +151,7 @@ export default class GeneticCar extends Car {
    */
   public rotateSharpRight() {
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation += 1.5;
+      this.rotation += 2;
       this.updateSpeedWithRotation();
     }
   }
@@ -126,8 +176,8 @@ export default class GeneticCar extends Car {
     const deltaX = Math.sin(deltaRotation);
     const deltaY = Math.cos(deltaRotation);
 
-    this.xSpeed += deltaX / 30;
-    this.ySpeed -= deltaY / 30;
+    this.xSpeed += deltaX / 10;
+    this.ySpeed -= deltaY / 10;
   }
 
   /**
@@ -135,9 +185,17 @@ export default class GeneticCar extends Car {
    */
   public brake() {
     // Reduce the effect by a factor of 50
-    const brakeFactor = 1 - (1 - 0.6) / 20;
+    const brakeFactor = 1 - (1 - 0.6) / 10;
     this.xSpeed *= brakeFactor;
     this.ySpeed *= brakeFactor;
+  }
+
+  /**
+   *
+   */
+  public updateDistance() {
+    const distance = Math.abs(this.xSpeed) + Math.abs(this.ySpeed);
+    this.distance += distance;
   }
 
   /**
@@ -146,6 +204,14 @@ export default class GeneticCar extends Car {
    * @param elapsed is the elapsed time that has passed since each frame
    */
   public override update(elapsed: number): void {
+    this.xSpeed *= 0.99;
+    this.ySpeed *= 0.99;
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.04) {
+      this.checkAlive -= elapsed;
+    }
+    if (this.checkAlive <= 0) {
+      this.alive = false;
+    }
     this.posX += this.xSpeed;
     this.posY += this.ySpeed;
   }

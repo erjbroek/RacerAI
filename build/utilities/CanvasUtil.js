@@ -1,9 +1,22 @@
 export default class CanvasUtil {
+    static canvas;
+    static ctx;
     static getCanvasContext(canvas) {
         const ctx = canvas.getContext("2d");
         if (ctx === null)
             throw new Error("Canvas Rendering Context is null");
         return ctx;
+    }
+    static setCanvas(canvas) {
+        this.canvas = canvas;
+        this.ctx = canvas.getContext("2d");
+        if (this.ctx === null)
+            throw new Error("Canvas Rendering Context is null");
+    }
+    static getCanvas() {
+        if (!this.canvas)
+            throw new Error("Canvas is not set");
+        return this.canvas;
     }
     static fillCanvas(canvas, colour = "#FF10F0") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
@@ -102,7 +115,14 @@ export default class CanvasUtil {
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.fill();
     }
-    static drawCar(canvas, dx, dy, width, height, rotation, color = 'red', opacity = 1) {
+    static getPixelColor(canvas, x, y) {
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+        if (context) {
+            return context.getImageData(x, y, 1, 1);
+        }
+        throw new Error('Unable to get canvas context');
+    }
+    static drawCar(canvas, dx, dy, width, height, rotation, opacity, alive) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
         ctx.translate(dx, dy);
@@ -110,7 +130,12 @@ export default class CanvasUtil {
         ctx.beginPath();
         ctx.rect(-width / 2, -height / 2, width, height);
         ctx.closePath();
-        ctx.fillStyle = color;
+        if (alive) {
+            ctx.fillStyle = 'green';
+        }
+        else {
+            ctx.fillStyle = 'red';
+        }
         ctx.globalAlpha = opacity;
         ctx.fill();
         ctx.restore();

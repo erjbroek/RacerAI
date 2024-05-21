@@ -146,7 +146,6 @@ export default class SelectStart extends Scene {
     CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 12, canvas.width / 10, canvas.height / 20, 200, 50, 50, 1, 5);
     CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'arial', 25, 'white');
 
-    CanvasUtil.drawLine(canvas, this.track.lineStart[0], this.track.lineStart[1], this.track.lineEnd[0], this.track.lineEnd[1], 0, 255, 0, 1, 3);
     CanvasUtil.drawImage(canvas, this.flag, MouseListener.mouseCoordinates.x - this.flag.width / 20, MouseListener.mouseCoordinates.y - this.flag.height / 20, this.flag.width / 10, this.flag.height / 10, 0, 0.6);
     if (this.draw) {
       CanvasUtil.drawImage(canvas, this.flag, this.track.midPoint[0] - this.flag.width / 20, this.track.midPoint[1] - this.flag.height / 20, this.flag.width / 10, this.flag.height / 10, 0);
