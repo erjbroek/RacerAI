@@ -11,7 +11,7 @@ RacerAI is a racing game that introduces a unique twist to the genre by integrat
 - **Track Drawer**: Design and customize your own racing tracks with an intuitive drawing interface.
 - **AI Learning Algorithms**: Utilize machine learning algorithms to evolve the behavior of AI-controlled cars:
   - **Genetic Algorithm**: Inspired by natural selection, evolve car behaviors over generations, gradually improving racing skills through simulated evolution.
-  - **NEAT Algorithm**: Employ NeuroEvolution of Augmenting Topologies (NEAT) to enable cars to evolve behavior and structure of their neural networks, allowing for the emergence of more sophisticated driving strategies.
+  - **Work in progress - NEAT Algorithm**: Employ NeuroEvolution of Augmenting Topologies (NEAT) to enable cars to evolve behavior and structure of their neural networks, allowing for the emergence of more sophisticated driving strategies.
 - **Dynamic Racing Experience**: Watch as AI cars learn from each race, continuously improving their driving strategies and performance.
 
   <br>
