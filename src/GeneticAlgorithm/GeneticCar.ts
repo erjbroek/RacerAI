@@ -8,13 +8,17 @@ export default class GeneticCar extends Car {
 
   public fitness: number = 0;
 
-  private checkAlive: number = 2500;
+  private checkAlive: number = 800;
 
   public position: number = 0;
 
   public parentPosition: number;
 
   public distance: number = 0;
+
+  public collided: boolean = false;
+
+  public finished: boolean = false;
 
   public constructor(midPoint: number[], startAngle: number, moves: number[], amountMoves: number, parentPosition: number = null) {
     super();
@@ -57,8 +61,8 @@ export default class GeneticCar extends Car {
    */
   public processMoves(moveNumber: number, elapsed: number) {
     const move = this.moves[moveNumber];
-    if (moveNumber === this.moves.length - 1) {
-      this.alive = false;
+    if (moveNumber >= this.moves.length - 1) {
+      // this.alive = false;
       this.checkAlive -= elapsed;
     }
     if (this.checkAlive <= 0) {
@@ -90,17 +94,17 @@ export default class GeneticCar extends Car {
   }
 
   public mutateMoves(moves: number[]): number[] {
-    const baseMutationRate = 0.01; // Base mutation rate
-    const steepness = 3; // Steepness factor, adjust this to make the curve steeper
-    const newMoves = [...moves];
+    const newMoves = [...moves]; // Clone the array to avoid modifying the original moves
+    const mutationCount = Math.ceil(newMoves.length * 0.06); // Mutate 5% of the moves, for example
 
-    for (let i = 0; i < newMoves.length; i++) {
-      // Calculate the mutation rate exponentially based on the index
-      const currentMutationRate = baseMutationRate * Math.exp(steepness * (i / newMoves.length - 1));
+    for (let i = 0; i < mutationCount; i++) {
+      const moveIndex = Math.floor(Math.random() * newMoves.length);
+      const currentMutationRate = 0.01 + ((moveIndex / newMoves.length) ** 2); // Base rate with exponential growth
       if (Math.random() < currentMutationRate) {
-        newMoves[i] = this.generateRandomMove(); // Generate a new random move
+        newMoves[moveIndex] = this.generateRandomMove(); // Generate a new random move
       }
     }
+
     return newMoves;
   }
 
@@ -120,6 +124,12 @@ export default class GeneticCar extends Car {
    * rotates the car left
    */
   public rotateLeft() {
+    const deltaRotation = (this.rotation * Math.PI) / 180;
+    const deltaX = Math.sin(deltaRotation);
+    const deltaY = Math.cos(deltaRotation);
+
+    this.xSpeed += deltaX / 13;
+    this.ySpeed -= deltaY / 13;
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
       this.rotation -= 1.2;
       this.updateSpeedWithRotation();
@@ -130,6 +140,12 @@ export default class GeneticCar extends Car {
    * rotates the car right
    */
   public rotateRight() {
+    const deltaRotation = (this.rotation * Math.PI) / 180;
+    const deltaX = Math.sin(deltaRotation);
+    const deltaY = Math.cos(deltaRotation);
+
+    this.xSpeed += deltaX / 13;
+    this.ySpeed -= deltaY / 13;
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
       this.rotation += 1.2;
       this.updateSpeedWithRotation();
@@ -140,6 +156,12 @@ export default class GeneticCar extends Car {
    * rotates the car left
    */
   public rotateSharpLeft() {
+    const deltaRotation = (this.rotation * Math.PI) / 180;
+    const deltaX = Math.sin(deltaRotation);
+    const deltaY = Math.cos(deltaRotation);
+
+    this.xSpeed += deltaX / 20;
+    this.ySpeed -= deltaY / 20;
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
       this.rotation -= 2;
       this.updateSpeedWithRotation();
@@ -150,6 +172,12 @@ export default class GeneticCar extends Car {
    * rotates the car right
    */
   public rotateSharpRight() {
+    const deltaRotation = (this.rotation * Math.PI) / 180;
+    const deltaX = Math.sin(deltaRotation);
+    const deltaY = Math.cos(deltaRotation);
+
+    this.xSpeed += deltaX / 20;
+    this.ySpeed -= deltaY / 20;
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
       this.rotation += 2;
       this.updateSpeedWithRotation();
@@ -176,8 +204,8 @@ export default class GeneticCar extends Car {
     const deltaX = Math.sin(deltaRotation);
     const deltaY = Math.cos(deltaRotation);
 
-    this.xSpeed += deltaX / 10;
-    this.ySpeed -= deltaY / 10;
+    this.xSpeed += deltaX / 7;
+    this.ySpeed -= deltaY / 7;
   }
 
   /**
@@ -185,7 +213,7 @@ export default class GeneticCar extends Car {
    */
   public brake() {
     // Reduce the effect by a factor of 50
-    const brakeFactor = 1 - (1 - 0.6) / 10;
+    const brakeFactor = 1 - (1 - 0.6) / 13;
     this.xSpeed *= brakeFactor;
     this.ySpeed *= brakeFactor;
   }
@@ -204,15 +232,15 @@ export default class GeneticCar extends Car {
    * @param elapsed is the elapsed time that has passed since each frame
    */
   public override update(elapsed: number): void {
-    this.xSpeed *= 0.99;
-    this.ySpeed *= 0.99;
-    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.04) {
+    this.xSpeed *= 0.96;
+    this.ySpeed *= 0.96;
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
       this.checkAlive -= elapsed;
     }
     if (this.checkAlive <= 0) {
       this.alive = false;
     }
-    this.posX += this.xSpeed;
-    this.posY += this.ySpeed;
+    this.posX += this.xSpeed / 5 * (elapsed);
+    this.posY += this.ySpeed / 5 * (elapsed);
   }
 }

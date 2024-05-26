@@ -71,10 +71,22 @@ export default class Track {
             }
         }
         if (!collisionOccured) {
-            car.fitness /= 3;
+            car.collided = true;
             return false;
         }
         return true;
+    }
+    checkCrossingFinishLine(car) {
+        const [x1, y1] = this.lineStart;
+        const [x2, y2] = this.lineEnd;
+        const [carX, carY] = [car.posX, car.posY];
+        const isBetweenStartAndEnd = (carX >= Math.min(x1, x2) && carX <= Math.max(x1, x2) &&
+            carY >= Math.min(y1, y2) && carY <= Math.max(y1, y2));
+        if (isBetweenStartAndEnd) {
+            console.log('yay');
+            return true;
+        }
+        return false;
     }
     render(canvas) {
         this.road.forEach((trackPiece) => {

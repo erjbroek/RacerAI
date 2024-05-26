@@ -167,4 +167,4 @@ export default class GeneticCar extends Car {
         this.posY += this.ySpeed / 5 * (elapsed);
     }
 }
-//# sourceMappingURL=GeneticCar.js.map
+//# sourceMappingURL=NeatAlgoritm.js.map
