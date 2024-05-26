@@ -1,4 +1,5 @@
 import Car from '../Car.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class NeatCar extends Car {
     fitness = 0;
     checkAlive = 800;
@@ -9,87 +10,75 @@ export default class NeatCar extends Car {
     finished = false;
     rayLength = 100;
     numRays = 5;
-    raySpread = 90;
-    constructor(midPoint, startAngle, parentPosition = null) {
+    raySpread = 180;
+    rayLengths;
+    constructor(startPoint, startAngle, parentPosition = null) {
         super();
         this.width = window.innerHeight / 40;
         this.height = window.innerHeight / 25;
         this.alive = true;
-        [this.posX, this.posY] = [midPoint[0], midPoint[1]];
+        [this.posX, this.posY] = [startPoint[0], startPoint[1]];
         this.rotation = startAngle;
         this.xSpeed = 0;
         this.ySpeed = 0;
         this.parentPosition = parentPosition;
+        this.rayLengths = Array(this.numRays).fill(this.rayLength);
     }
     castRays(track) {
         const rayAngles = this.calculateRayAngles();
-        const distances = rayAngles.map((angle) => this.castRay(angle, track));
-        return distances;
+        this.rayLengths = rayAngles.map((angle) => this.castRay(angle, track));
+        return this.rayLengths;
     }
     calculateRayAngles() {
         const angles = [];
         for (let i = 0; i < this.numRays; i++) {
-            const angle = (i / (this.numRays - 1)) * this.raySpread - (this.raySpread / 2);
+            const angle = (i / (this.numRays - 1)) * this.raySpread - (this.raySpread / 2) - 90;
             angles.push(this.rotation + angle);
         }
         return angles;
     }
     castRay(angle, track) {
         const radianAngle = (angle * Math.PI) / 180;
-        const rayX = this.posX + this.rayLength * Math.cos(radianAngle);
-        const rayY = this.posY + this.rayLength * Math.sin(radianAngle);
-        let closestDistance = this.rayLength;
-        track.road.forEach(([trackX, trackY]) => {
-            const distance = this.getRayIntersectionDistance(this.posX, this.posY, rayX, rayY, trackX, trackY, track.radius);
-            if (distance < closestDistance) {
-                closestDistance = distance;
+        let rayX = this.posX;
+        let rayY = this.posY;
+        for (let d = 0; d < this.rayLength; d++) {
+            rayX = this.posX + d * Math.cos(radianAngle);
+            rayY = this.posY + d * Math.sin(radianAngle);
+            const gridX = Math.floor(rayX / track.gridSize);
+            const gridY = Math.floor(rayY / track.gridSize);
+            let collisionOccured = false;
+            for (let offsetX = -1; offsetX <= 1; offsetX++) {
+                for (let offsetY = -1; offsetY <= 1; offsetY++) {
+                    const cellX = gridX + offsetX;
+                    const cellY = gridY + offsetY;
+                    const cellKey = `${cellX},${cellY}`;
+                    const tracksInCell = track.getTracksInCell(cellKey);
+                    tracksInCell.forEach((trackIndex) => {
+                        const [trackX, trackY] = track.road[trackIndex];
+                        const distanceSquared = (rayX - trackX) ** 2 + (rayY - trackY) ** 2;
+                        const minDistanceSquared = track.radius ** 2;
+                        if (distanceSquared < minDistanceSquared) {
+                            collisionOccured = true;
+                        }
+                    });
+                }
             }
-        });
-        return closestDistance;
-    }
-    getRayIntersectionDistance(rayStartX, rayStartY, rayEndX, rayEndY, trackX, trackY, radius) {
-        const dx = rayEndX - rayStartX;
-        const dy = rayEndY - rayStartY;
-        const fx = rayStartX - trackX;
-        const fy = rayStartY - trackY;
-        const a = dx * dx + dy * dy;
-        const b = 2 * (fx * dx + fy * dy);
-        const c = (fx * fx + fy * fy) - radius * radius;
-        const discriminant = b * b - 4 * a * c;
-        if (discriminant >= 0) {
-            const discriminantSqrt = Math.sqrt(discriminant);
-            const t1 = (-b - discriminantSqrt) / (2 * a);
-            const t2 = (-b + discriminantSqrt) / (2 * a);
-            if (t1 >= 0 && t1 <= 1) {
-                return t1 * Math.sqrt(dx * dx + dy * dy);
-            }
-            if (t2 >= 0 && t2 <= 1) {
-                return t2 * Math.sqrt(dx * dx + dy * dy);
+            if (!collisionOccured) {
+                return d;
             }
         }
         return this.rayLength;
     }
-    mutate() {
-    }
+    mutate() { }
     rotateLeft() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 13;
-        this.ySpeed -= deltaY / 13;
         if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation -= 1.2;
+            this.rotation -= 2.3;
             this.updateSpeedWithRotation();
         }
     }
     rotateRight() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 13;
-        this.ySpeed -= deltaY / 13;
         if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation += 1.2;
+            this.rotation += 2.3;
             this.updateSpeedWithRotation();
         }
     }
@@ -126,6 +115,17 @@ export default class NeatCar extends Car {
         }
         this.posX += this.xSpeed / 5 * (elapsed);
         this.posY += this.ySpeed / 5 * (elapsed);
+    }
+    render(canvas, track) {
+        this.castRays(track);
+        const rayAngles = this.calculateRayAngles();
+        rayAngles.forEach((angle, i) => {
+            const distance = this.rayLengths[i];
+            const radianAngle = (angle * Math.PI) / 180;
+            const endX = this.posX + distance * Math.cos(radianAngle);
+            const endY = this.posY + distance * Math.sin(radianAngle);
+            CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 1);
+        });
     }
 }
 //# sourceMappingURL=NeatCar.js.map

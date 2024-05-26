@@ -69,7 +69,7 @@ export default class Track {
     return `${gridX},${gridY}`;
   }
 
-  private getTracksInCell(cellKey: string): number[] {
+  public getTracksInCell(cellKey: string): number[] {
     return this.grid.get(cellKey) || [];
   }
 
@@ -142,6 +142,6 @@ export default class Track {
     this.road.forEach((trackPiece) => {
       CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 0, 0, 1);
     });
-    CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], 0, 255, 0, 1, 4);
+    CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], 0, 255, 180, 1, 3);
   }
 }

@@ -142,8 +142,12 @@ export default class GeneticCar extends Car {
         const deltaRotation = (this.rotation * Math.PI) / 180;
         const deltaX = Math.sin(deltaRotation);
         const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 7;
-        this.ySpeed -= deltaY / 7;
+        if (this.xSpeed >= -5 && this.xSpeed <= 5) {
+            this.xSpeed += deltaX / 7;
+        }
+        if (this.ySpeed >= -5 && this.ySpeed <= 5) {
+            this.ySpeed -= deltaY / 7;
+        }
     }
     brake() {
         const brakeFactor = 1 - (1 - 0.6) / 13;
@@ -155,16 +159,16 @@ export default class GeneticCar extends Car {
         this.distance += distance;
     }
     update(elapsed) {
-        this.xSpeed *= 0.96;
-        this.ySpeed *= 0.96;
+        this.xSpeed *= 0.99;
+        this.ySpeed *= 0.99;
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
             this.checkAlive -= elapsed;
         }
         if (this.checkAlive <= 0) {
             this.alive = false;
         }
-        this.posX += this.xSpeed / 5 * (elapsed);
-        this.posY += this.ySpeed / 5 * (elapsed);
+        this.posX += this.xSpeed;
+        this.posY += this.ySpeed;
     }
 }
 //# sourceMappingURL=GeneticCar.js.map

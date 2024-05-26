@@ -204,8 +204,12 @@ export default class GeneticCar extends Car {
     const deltaX = Math.sin(deltaRotation);
     const deltaY = Math.cos(deltaRotation);
 
-    this.xSpeed += deltaX / 7;
-    this.ySpeed -= deltaY / 7;
+    if (this.xSpeed >= -5 && this.xSpeed <= 5) {
+      this.xSpeed += deltaX / 7;
+    }
+    if (this.ySpeed >= -5 && this.ySpeed <= 5) {
+      this.ySpeed -= deltaY / 7;
+    }
   }
 
   /**
@@ -232,15 +236,15 @@ export default class GeneticCar extends Car {
    * @param elapsed is the elapsed time that has passed since each frame
    */
   public override update(elapsed: number): void {
-    this.xSpeed *= 0.96;
-    this.ySpeed *= 0.96;
+    this.xSpeed *= 0.99;
+    this.ySpeed *= 0.99;
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
       this.checkAlive -= elapsed;
     }
     if (this.checkAlive <= 0) {
       this.alive = false;
     }
-    this.posX += this.xSpeed / 5 * (elapsed);
-    this.posY += this.ySpeed / 5 * (elapsed);
+    this.posX += this.xSpeed;
+    this.posY += this.ySpeed;
   }
 }

@@ -1,170 +1,72 @@
-import Car from '../Car.js';
-import { ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT, } from '../Actions.js';
-export default class GeneticCar extends Car {
-    moves = [];
-    fitness = 0;
-    checkAlive = 800;
-    position = 0;
-    parentPosition;
-    distance = 0;
-    collided = false;
-    finished = false;
-    constructor(midPoint, startAngle, moves, amountMoves, parentPosition = null) {
+import CanvasUtil from "../utilities/CanvasUtil.js";
+import Scene from "../scenes/Scene.js";
+import MouseListener from "../utilities/MouseListener.js";
+import NeatPopulation from './NeatPopulation.js';
+export default class NeatAlgorithm extends Scene {
+    track;
+    radius;
+    population;
+    startSimulation = false;
+    startAngle;
+    populationSize = 100;
+    selectorPos = [window.innerWidth - window.innerWidth / 7.6, window.innerHeight / 3 + window.innerHeight / 50];
+    populationSizePercentage = 1;
+    triggered = false;
+    constructor(track, radius) {
         super();
-        this.width = window.innerHeight / 40;
-        this.height = window.innerHeight / 25;
-        this.alive = true;
-        [this.posX, this.posY] = [midPoint[0], midPoint[1]];
-        this.rotation = startAngle;
-        this.xSpeed = 0;
-        this.ySpeed = 0;
-        this.parentPosition = parentPosition;
-        if (moves.length === 0) {
-            const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT];
-            this.moves = this.generateRandomMoves(amountMoves, possibleMoves);
-        }
-        else {
-            this.moves = moves;
-        }
+        this.track = track;
+        this.radius = radius;
+        const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
+        this.startAngle = startAngle;
+        this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
     }
-    generateRandomMoves(amountMoves, possibleMoves) {
-        const moves = [];
-        for (let i = 0; i < amountMoves; i++) {
-            const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-            moves.push(randomMove);
-        }
-        return moves;
-    }
-    processMoves(moveNumber, elapsed) {
-        const move = this.moves[moveNumber];
-        if (moveNumber >= this.moves.length - 1) {
-            this.checkAlive -= elapsed;
-        }
-        if (this.checkAlive <= 0) {
-            this.alive = false;
-        }
-        switch (move) {
-            case 0:
-                this.accelerate();
-                break;
-            case 1:
-                this.brake();
-                break;
-            case 2:
-                this.rotateLeft();
-                break;
-            case 3:
-                this.rotateRight();
-                break;
-            case 4:
-                this.rotateSharpLeft();
-                break;
-            case 5:
-                this.rotateSharpRight();
-                break;
-            default:
-                break;
-        }
-    }
-    mutateMoves(moves) {
-        const newMoves = [...moves];
-        const mutationCount = Math.ceil(newMoves.length * 0.06);
-        for (let i = 0; i < mutationCount; i++) {
-            const moveIndex = Math.floor(Math.random() * newMoves.length);
-            const currentMutationRate = 0.01 + ((moveIndex / newMoves.length) ** 2);
-            if (Math.random() < currentMutationRate) {
-                newMoves[moveIndex] = this.generateRandomMove();
+    processInput(keyListener) {
+        if (MouseListener.isButtonDown(0)) {
+            if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
+                this.selectorPos[0] = MouseListener.mouseCoordinates.x;
+                const max = window.innerWidth / 7;
+                const chosen = this.selectorPos[0] - (window.innerWidth - window.innerWidth / 7);
+                this.populationSizePercentage = (chosen / max) * 10;
+            }
+            if (!this.startSimulation) {
+                if (MouseListener.mouseHover(window.innerWidth - window.innerWidth / 7.8, window.innerHeight / 2, window.innerWidth / 10, window.innerHeight / 20)) {
+                    this.startSimulation = true;
+                }
             }
         }
-        return newMoves;
-    }
-    generateRandomMove() {
-        const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT];
-        return possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-    }
-    addMoves(amount) {
-        const newMoves = this.generateRandomMoves(amount, [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT]);
-        newMoves.forEach((newMove) => {
-            this.moves.push(newMove);
-        });
-    }
-    rotateLeft() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 13;
-        this.ySpeed -= deltaY / 13;
-        if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation -= 1.2;
-            this.updateSpeedWithRotation();
-        }
-    }
-    rotateRight() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 13;
-        this.ySpeed -= deltaY / 13;
-        if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation += 1.2;
-            this.updateSpeedWithRotation();
-        }
-    }
-    rotateSharpLeft() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 20;
-        this.ySpeed -= deltaY / 20;
-        if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation -= 2;
-            this.updateSpeedWithRotation();
-        }
-    }
-    rotateSharpRight() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 20;
-        this.ySpeed -= deltaY / 20;
-        if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation += 2;
-            this.updateSpeedWithRotation();
-        }
-    }
-    updateSpeedWithRotation() {
-        const radians = ((this.rotation - 90) * Math.PI) / 180;
-        const speedMagnitude = Math.sqrt(this.xSpeed * this.xSpeed + this.ySpeed * this.ySpeed);
-        this.xSpeed = speedMagnitude * Math.cos(radians);
-        this.ySpeed = speedMagnitude * Math.sin(radians);
-    }
-    accelerate() {
-        const deltaRotation = (this.rotation * Math.PI) / 180;
-        const deltaX = Math.sin(deltaRotation);
-        const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 7;
-        this.ySpeed -= deltaY / 7;
-    }
-    brake() {
-        const brakeFactor = 1 - (1 - 0.6) / 13;
-        this.xSpeed *= brakeFactor;
-        this.ySpeed *= brakeFactor;
-    }
-    updateDistance() {
-        const distance = Math.abs(this.xSpeed) + Math.abs(this.ySpeed);
-        this.distance += distance;
     }
     update(elapsed) {
-        this.xSpeed *= 0.96;
-        this.ySpeed *= 0.96;
-        if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
-            this.checkAlive -= elapsed;
+        this.populationSize = (this.populationSizePercentage ** 2 + 10) ** 1.9;
+        if (this.startSimulation) {
+            if (!this.triggered) {
+                this.triggered = true;
+                this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+            }
+            this.population.update(elapsed);
         }
-        if (this.checkAlive <= 0) {
-            this.alive = false;
+        return this;
+    }
+    render(canvas) {
+        canvas.style.cursor = "default";
+        CanvasUtil.fillCanvas(canvas, 'white');
+        this.track.render(canvas);
+        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);
+        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 50, 120, 200);
+        CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 50, 120, 200);
+        CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 50, 120, 200);
+        CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2);
+        if (this.startSimulation) {
+            if (!this.population.extinct) {
+                this.population.render(canvas);
+            }
         }
-        this.posX += this.xSpeed / 5 * (elapsed);
-        this.posY += this.ySpeed / 5 * (elapsed);
+        if (!this.startSimulation) {
+            CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7, canvas.height / 3, canvas.width / 8, canvas.height / 25, 200, 200, 200, 0.9, canvas.height / 50);
+            CanvasUtil.fillCircle(canvas, this.selectorPos[0], this.selectorPos[1], canvas.height / 70, 20, 50, 100, 1);
+            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, "center", "arial", 20, "white");
+            CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 2, canvas.width / 10, canvas.height / 20, 20, 190, 80, 1, 10);
+            CanvasUtil.writeText(canvas, "Start simulation", canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, "center", "arial", 20, "white");
+        }
     }
 }
 //# sourceMappingURL=NeatAlgoritm.js.map
