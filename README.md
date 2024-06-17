@@ -3,7 +3,9 @@
 ## Description
 
 RacerAI is a racing game that introduces a unique twist to the genre by integrating machine learning algorithms to enable AI-driven cars to learn and adapt to user-designed tracks. RacerAI offers players the ability to witness AI cars evolve and improve their racing skills over time.
-![image](https://github.com/erjbroek/RacerAI/assets/112830052/6965d95b-4909-4ee3-9903-a3d7aeb49dc1)
+![image](https://github.com/erjbroek/RacerAI/assets/112830052/e571b5d3-8fdf-4735-b5e9-75f8536efd34)
+
+
 
 
 ## Features
