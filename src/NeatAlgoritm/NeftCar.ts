@@ -2,7 +2,7 @@ import Car from '../Car.js';
 import Track from '../Track.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 
-export default class NeatCar extends Car {
+export default class NeftCar extends Car {
   public fitness: number = 0;
 
   private checkAlive: number = 800;
@@ -17,15 +17,22 @@ export default class NeatCar extends Car {
 
   public finished: boolean = false;
 
-  private rayLength: number = 100; // Length of each ray
+  private rayLength: number = 100;
 
-  private numRays: number = 5; // Number of rays
+  public numRays: number = 5;
 
-  private raySpread: number = 180; // Angle spread of rays in degrees
+  private raySpread: number = 180;
 
-  public rayLengths: number[]; // Array to store lengths of each ray
+  public rayLengths: number[];
 
-  public constructor(startPoint: number[], startAngle: number, parentPosition: number = null) {
+  public genome: number[][] = [];
+
+  public laps: number = 0;
+
+  public crossingFinishLine: boolean = false;
+
+
+  public constructor(startPoint: number[], startAngle: number, genome: number[][]) {
     super();
     this.width = window.innerHeight / 40;
     this.height = window.innerHeight / 25;
@@ -34,14 +41,14 @@ export default class NeatCar extends Car {
     this.rotation = startAngle;
     this.xSpeed = 0;
     this.ySpeed = 0;
-    this.parentPosition = parentPosition;
     this.rayLengths = Array(this.numRays).fill(this.rayLength);
+    this.genome = genome;
   }
 
   /**
    * Cast rays and get distances to the track boundary
    *
-   * @param track
+   * @param track is the track where the rays are cast on
    * @returns Array of distances to the track boundary
    */
   public castRays(track: Track): number[] {
@@ -67,8 +74,9 @@ export default class NeatCar extends Car {
   /**
    * Cast a single ray and return the distance to the nearest track boundary
    *
-   * @param angle
-   * @param track
+   * @param angle is the angle of the ray
+   * @param track is the track where the ray is cast on
+   * @returns distance representing ray length travelled before collision
    */
   private castRay(angle: number, track: Track): number {
     const radianAngle = (angle * Math.PI) / 180;
@@ -108,6 +116,54 @@ export default class NeatCar extends Car {
     }
 
     return this.rayLength;
+  }
+
+  /**
+   *
+   */
+  public feedForward(inputs: number[]): void {
+    const outputLayer = [0, 0, 0, 0];
+
+    // multiplies each input by the weight of the connection and adds it to the output layer
+    this.genome.forEach((connection) => {
+      const [inputIndex, outputIndex, weight] = connection;
+      if (inputIndex < inputs.length && outputIndex < outputLayer.length) {
+        outputLayer[outputIndex] += (inputs[inputIndex] / 100) * weight;
+      }
+    });
+
+    // activates the output layer
+    const activatedOutputLayer = outputLayer.map((neuron) => this.sigmoid(neuron));
+
+    // based on the activated output layer, the car will perform actions
+    const [moveLeft, moveRight, accelerate, brake] = activatedOutputLayer;
+    if (moveLeft > 0.75) this.rotateLeft();
+    if (moveRight > 0.75) this.rotateRight();
+    if (accelerate > 0.75) this.accelerate();
+    if (brake > 0.75) this.brake();
+  }
+
+  private sigmoid(x: number): number {
+    return 1 / (1 + Math.exp(-x));
+  }
+
+  /**
+   * updates the car's position, speeds and alive status
+   *
+   * @param elapsed is the elapsed time that has passed since each frame
+   */
+  public override update(elapsed: number): void {
+    this.feedForward(this.rayLengths);
+    this.xSpeed *= 0.96;
+    this.ySpeed *= 0.96;
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
+      this.checkAlive -= elapsed;
+    }
+    if (this.checkAlive <= 0) {
+      this.alive = false;
+    }
+    this.posX += (this.xSpeed / 5) * elapsed;
+    this.posY += (this.ySpeed / 5) * elapsed;
   }
 
   /**
@@ -176,28 +232,11 @@ export default class NeatCar extends Car {
     this.distance += distance;
   }
 
-  /**
-   * updates the car's position
-   *
-   * @param elapsed is the elapsed time that has passed since each frame
-   */
-  public override update(elapsed: number): void {
-    this.xSpeed *= 0.96;
-    this.ySpeed *= 0.96;
-    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
-      this.checkAlive -= elapsed;
-    }
-    if (this.checkAlive <= 0) {
-      this.alive = false;
-    }
-    this.posX += this.xSpeed / 5 * (elapsed);
-    this.posY += this.ySpeed / 5 * (elapsed);
-  }
 
   /**
    *
    * @param canvas is the selected canvas the items are drawn on
-   * @param track
+   * @param track is the track the car is drawn on
    */
   public render(canvas: HTMLCanvasElement, track: Track) {
     this.castRays(track); // Ensure rayLengths are updated
@@ -207,7 +246,7 @@ export default class NeatCar extends Car {
       const radianAngle = (angle * Math.PI) / 180;
       const endX = this.posX + distance * Math.cos(radianAngle);
       const endY = this.posY + distance * Math.sin(radianAngle);
-      CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 1);
+      CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.3);
     });
   }
 }

@@ -1,9 +1,8 @@
-import CanvasUtil from '../utilities/CanvasUtil.js';
-import Scene from '../scenes/Scene.js';
-import GeneticPopulation from './GeneticPopulation.js';
-import MouseListener from '../utilities/MouseListener.js';
-import GeneticRace from './GeneticRace.js';
-export default class GeneticAlgorithm extends Scene {
+import CanvasUtil from './utilities/CanvasUtil.js';
+import Scene from './scenes/Scene.js';
+import MouseListener from './utilities/MouseListener.js';
+import NeatPopulation from './NeatAlgoritm/NeatPopulation.js';
+export default class NeatAlgorithm extends Scene {
     track;
     radius;
     population;
@@ -13,23 +12,15 @@ export default class GeneticAlgorithm extends Scene {
     selectorPos = [window.innerWidth - window.innerWidth / 7.6, window.innerHeight / 3 + window.innerHeight / 50];
     populationSizePercentage = 1;
     triggered = false;
-    startRace = false;
     constructor(track, radius) {
         super();
         this.track = track;
         this.radius = radius;
         const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
         this.startAngle = startAngle;
-        this.population = new GeneticPopulation(this.populationSize, this.track.midPoint, startAngle, this.track);
+        this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
     }
     processInput() {
-        if (this.population.beaten) {
-            if (MouseListener.mouseHover(window.innerWidth - window.innerWidth / 7.8, window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 10)) {
-                if (MouseListener.isButtonDown(0)) {
-                    this.startRace = true;
-                }
-            }
-        }
         if (MouseListener.isButtonDown(0)) {
             if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
                 this.selectorPos[0] = MouseListener.mouseCoordinates.x;
@@ -49,12 +40,9 @@ export default class GeneticAlgorithm extends Scene {
         if (this.startSimulation) {
             if (!this.triggered) {
                 this.triggered = true;
-                this.population = new GeneticPopulation(this.populationSize, this.track.midPoint, this.startAngle, this.track);
+                this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
             }
             this.population.update(elapsed);
-        }
-        if (this.startRace) {
-            return new GeneticRace(this.track, this.population.cars[0], this.population.startingPoint, this.population.startingRotation);
         }
         return this;
     }
@@ -79,10 +67,6 @@ export default class GeneticAlgorithm extends Scene {
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 2, canvas.width / 10, canvas.height / 20, 20, 190, 80, 1, 10);
             CanvasUtil.writeText(canvas, 'Start simulation', canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, 'center', 'arial', 20, 'white');
         }
-        if (this.population.beaten) {
-            CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 1.4, canvas.width / 10, canvas.height / 10, 20, 210, 100, 1, 10);
-            CanvasUtil.writeText(canvas, 'Race the AI!', canvas.width - canvas.width / 6 + canvas.width / 10, canvas.height / 1.4 + canvas.height / 20, 'center', 'arial', 30, 'white');
-        }
     }
 }
-//# sourceMappingURL=GeneticAlgorithm.js.map
+//# sourceMappingURL=NeatAlgoritm.js.map

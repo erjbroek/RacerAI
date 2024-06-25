@@ -1,7 +1,6 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import KeyListener from '../utilities/KeyListener.js';
-import NeatCar from "./NeatCar.js";
-export default class NeatPopulation {
+import NeftCar from './NeftCar.js';
+export default class NeftPopulation {
     cars = [];
     generation = 1;
     size;
@@ -9,51 +8,42 @@ export default class NeatPopulation {
     extinct = false;
     track;
     startingPoint;
-    startingRotation;
+    startingAngle;
+    species;
     constructor(size, track, startingPoint, startingAngle) {
-        this.size = 1;
+        this.size = size;
         this.track = track;
         this.startingPoint = startingPoint;
-        this.startingRotation = startingAngle;
-        for (let i = 0; i < this.size; i++) {
-            this.cars.push(new NeatCar(this.startingPoint, this.startingRotation));
+        this.startingAngle = startingAngle;
+        this.extinct = false;
+        this.species = [];
+        this.cars.push();
+        for (let i = 0; i < this.size - 1; i++) {
+            const genome = this.createInitialGenome();
+            this.cars.push(new NeftCar(startingPoint, startingAngle, genome));
         }
         this.track.road.forEach((road) => {
             road[2] = 1;
         });
     }
-    update(elapsed) {
-        if (KeyListener.isKeyDown('KeyW')) {
-            this.cars.forEach((car) => {
-                car.accelerate();
-            });
+    createInitialGenome() {
+        const genome = [];
+        for (let input = 0; input < this.cars[0].numRays; input++) {
+            for (let output = 0; output < 4; output++) {
+                genome.push([input, output, Math.random()]);
+            }
         }
-        else if (KeyListener.isKeyDown('KeyS')) {
-            this.cars.forEach((car) => {
-                car.brake();
-            });
-        }
-        if (KeyListener.isKeyDown('KeyD')) {
-            this.cars.forEach((car) => {
-                car.rotateRight();
-            });
-        }
-        else if (KeyListener.isKeyDown('KeyA')) {
-            this.cars.forEach((car) => {
-                car.rotateLeft();
-            });
-        }
-        if (this.extinct) {
-            this.calculateFitness();
-            this.sortPlayersByFitness();
-            this.generateNextGen();
-            this.generation += 1;
-        }
-        else {
-            this.cars.forEach((car) => {
-                car.update(elapsed);
-            });
-        }
+        return genome;
+    }
+    evolve() {
+        this.speciate();
+        this.calculateFitness();
+        this.selection();
+        this.reproduce();
+        this.mutate();
+        this.generation += 1;
+    }
+    speciate() {
     }
     calculateFitness() {
         let highestDistanceCar = 0;
@@ -71,12 +61,26 @@ export default class NeatPopulation {
                 car.fitness *= 3;
             }
         });
+        this.highScore = Math.max(this.highScore, ...this.cars.map((car) => car.fitness));
     }
-    sortPlayersByFitness() {
-        this.cars.sort((a, b) => b.fitness - a.fitness);
+    selection() {
     }
-    generateNextGen() {
-        const playerPool = [];
+    reproduce() {
+    }
+    mutate() {
+    }
+    update(elapsed) {
+        let allCarsDead = true;
+        this.cars.forEach((car) => {
+            if (car.alive) {
+                car.update(elapsed);
+                allCarsDead = false;
+            }
+        });
+        if (allCarsDead) {
+            this.extinct = true;
+            this.evolve();
+        }
     }
     render(canvas) {
         this.cars.forEach((car) => {

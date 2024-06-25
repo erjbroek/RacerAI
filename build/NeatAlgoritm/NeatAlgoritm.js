@@ -1,6 +1,6 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import Scene from "../scenes/Scene.js";
-import MouseListener from "../utilities/MouseListener.js";
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import Scene from '../scenes/Scene.js';
+import MouseListener from '../utilities/MouseListener.js';
 import NeatPopulation from './NeatPopulation.js';
 export default class NeatAlgorithm extends Scene {
     track;
@@ -20,7 +20,7 @@ export default class NeatAlgorithm extends Scene {
         this.startAngle = startAngle;
         this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
     }
-    processInput(keyListener) {
+    processInput() {
         if (MouseListener.isButtonDown(0)) {
             if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
                 this.selectorPos[0] = MouseListener.mouseCoordinates.x;
@@ -47,7 +47,7 @@ export default class NeatAlgorithm extends Scene {
         return this;
     }
     render(canvas) {
-        canvas.style.cursor = "default";
+        canvas.style.cursor = 'default';
         CanvasUtil.fillCanvas(canvas, 'white');
         this.track.render(canvas);
         CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);
@@ -63,9 +63,9 @@ export default class NeatAlgorithm extends Scene {
         if (!this.startSimulation) {
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7, canvas.height / 3, canvas.width / 8, canvas.height / 25, 200, 200, 200, 0.9, canvas.height / 50);
             CanvasUtil.fillCircle(canvas, this.selectorPos[0], this.selectorPos[1], canvas.height / 70, 20, 50, 100, 1);
-            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, "center", "arial", 20, "white");
+            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, 'center', 'arial', 20, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 2, canvas.width / 10, canvas.height / 20, 20, 190, 80, 1, 10);
-            CanvasUtil.writeText(canvas, "Start simulation", canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, "center", "arial", 20, "white");
+            CanvasUtil.writeText(canvas, 'Start simulation', canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, 'center', 'arial', 20, 'white');
         }
     }
 }

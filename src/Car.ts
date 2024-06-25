@@ -1,3 +1,5 @@
+import Track from './Track.js';
+
 export default abstract class Car {
   public posX: number;
 
@@ -15,5 +17,5 @@ export default abstract class Car {
 
   public alive: boolean;
 
-  public abstract update(elapsed: number): void;
+  public abstract update(elapsed: number, track: Track): void;
 }

@@ -2,7 +2,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
 import Track from '../Track.js';
-import NeatAlgorithm from '../NeatAlgoritm/NeatAlgoritm.js';
+import NeftAlgorithm from '../NeatAlgoritm/NeftAlgoritm.js';
 export default class SelectStart extends Scene {
     track;
     radius;
@@ -95,7 +95,7 @@ export default class SelectStart extends Scene {
             }
         });
         if (this.finished) {
-            return new NeatAlgorithm(this.track, this.radius);
+            return new NeftAlgorithm(this.track, this.radius);
         }
         return this;
     }

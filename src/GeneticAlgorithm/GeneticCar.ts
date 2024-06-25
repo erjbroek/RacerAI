@@ -57,7 +57,7 @@ export default class GeneticCar extends Car {
 
   /**
    * @param moveNumber is the index of the moves list that should be triggered
-   * @param elapsed
+   * @param elapsed the elapsed time since each frame
    */
   public processMoves(moveNumber: number, elapsed: number) {
     const move = this.moves[moveNumber];
@@ -88,11 +88,16 @@ export default class GeneticCar extends Car {
         this.rotateSharpRight();
         break;
       default:
-        // console.error('Invalid move:', move);
         break;
     }
   }
 
+  /**
+   * Mutates the moves of the player
+   *
+   * @param moves the list of moves to mutate
+   * @returns the new list of moves after mutation
+   */
   public mutateMoves(moves: number[]): number[] {
     const newMoves = [...moves]; // Clone the array to avoid modifying the original moves
     const mutationCount = Math.ceil(newMoves.length * 0.06); // Mutate 5% of the moves, for example
@@ -108,11 +113,18 @@ export default class GeneticCar extends Car {
     return newMoves;
   }
 
+  /**
+   * @returns a random number, representing the move of the player
+   */
   public generateRandomMove(): number {
     const possibleMoves = [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT];
     return possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
   }
 
+  /**
+   *
+   * @param amount is the amount of moves to be added
+   */
   public addMoves(amount: number) {
     const newMoves = this.generateRandomMoves(amount, [ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT]);
     newMoves.forEach((newMove) => {

@@ -1,17 +1,15 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import KeyListener from "../utilities/KeyListener.js";
-import Scene from "../scenes/Scene.js";
-import Track from "../Track.js";
-import MouseListener from "../utilities/MouseListener.js";
-import Calculations from "../utilities/Calculations.js";
-import NeatPopulation from './NeatPopulation.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import Scene from '../scenes/Scene.js';
+import Track from '../Track.js';
+import MouseListener from '../utilities/MouseListener.js';
+import NeftPopulation from './NeftPopulation.js';
 
-export default class NeatAlgorithm extends Scene {
+export default class NeftAlgorithm extends Scene {
   private track: Track;
 
   private radius: number;
 
-  private population: NeatPopulation;
+  private population: NeftPopulation;
 
   private startSimulation: boolean = false;
 
@@ -31,14 +29,13 @@ export default class NeatAlgorithm extends Scene {
     this.radius = radius;
     const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
     this.startAngle = startAngle;
-    this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
+    this.population = new NeftPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
   }
 
   /**
-   *
-   * @param keyListener
+   * processes player inputs
    */
-  public override processInput(keyListener: KeyListener): void {
+  public override processInput(): void {
     if (MouseListener.isButtonDown(0)) {
       if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
         this.selectorPos[0] = MouseListener.mouseCoordinates.x;
@@ -59,11 +56,12 @@ export default class NeatAlgorithm extends Scene {
    * @returns scene
    */
   public override update(elapsed: number): Scene {
+    // used for the slider to select population size
     this.populationSize = (this.populationSizePercentage ** 2 + 10) ** 1.9;
     if (this.startSimulation) {
       if (!this.triggered) {
         this.triggered = true;
-        this.population = new NeatPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+        this.population = new NeftPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
       }
       this.population.update(elapsed);
     }
@@ -74,7 +72,7 @@ export default class NeatAlgorithm extends Scene {
    * @param canvas is the selected canvas all items are rendered on
    */
   public override render(canvas: HTMLCanvasElement): void {
-    canvas.style.cursor = "default";
+    canvas.style.cursor = 'default';
     CanvasUtil.fillCanvas(canvas, 'white');
     this.track.render(canvas);
 
@@ -92,11 +90,11 @@ export default class NeatAlgorithm extends Scene {
     if (!this.startSimulation) {
       CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7, canvas.height / 3, canvas.width / 8, canvas.height / 25, 200, 200, 200, 0.9, canvas.height / 50);
       CanvasUtil.fillCircle(canvas, this.selectorPos[0], this.selectorPos[1], canvas.height / 70, 20, 50, 100, 1);
-      CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, "center", "arial", 20, "white");
+      CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, 'center', 'arial', 20, 'white');
       // CanvasUtil.drawLine(canvas, 0, canvas.height / 3, window.innerWidth / 8.8, canvas.height / 3, 255, 255, 0, 1, 10);
       // CanvasUtil.drawLine(canvas, 0, canvas.height / 3, this.selectorPos[0] - (window.innerWidth - window.innerWidth / 7), canvas.height / 3, 0, 255, 0, 1, 10);
       CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 2, canvas.width / 10, canvas.height / 20, 20, 190, 80, 1, 10);
-      CanvasUtil.writeText(canvas, "Start simulation", canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, "center", "arial", 20, "white");
+      CanvasUtil.writeText(canvas, 'Start simulation', canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, 'center', 'arial', 20, 'white');
     }
   }
 }

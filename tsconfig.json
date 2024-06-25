@@ -9,11 +9,18 @@
         "noImplicitReturns": true,
         "removeComments": true,
         "outDir": "build/",
-        "noEmitOnError": true
+        "noEmitOnError": true,
+        "moduleResolution": "node",
+        "baseUrl": "./",
+        "paths": {
+          "*": ["node_modules/*"]
+        }
     },
     "include": [
         "src/**/*", 
-        "Ducker/utilities/Drawable.ts"    ],
+        "Ducker/utilities/Drawable.ts",
+        "neataptic.d.ts",
+    ],
     "exclude": [
         "node_modules",
         "**/*.spec.ts"

@@ -2,23 +2,23 @@ export default class CanvasUtil {
     static canvas;
     static ctx;
     static getCanvasContext(canvas) {
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         if (ctx === null)
-            throw new Error("Canvas Rendering Context is null");
+            throw new Error('Canvas Rendering Context is null');
         return ctx;
     }
     static setCanvas(canvas) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext("2d");
+        this.ctx = canvas.getContext('2d');
         if (this.ctx === null)
-            throw new Error("Canvas Rendering Context is null");
+            throw new Error('Canvas Rendering Context is null');
     }
     static getCanvas() {
         if (!this.canvas)
-            throw new Error("Canvas is not set");
+            throw new Error('Canvas is not set');
         return this.canvas;
     }
-    static fillCanvas(canvas, colour = "#FF10F0") {
+    static fillCanvas(canvas, colour = '#FF10F0') {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
@@ -56,7 +56,7 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = "center", fontFamily = "sans-serif", fontSize = 20, color = "red") {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red') {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.font = `${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
@@ -122,7 +122,7 @@ export default class CanvasUtil {
         }
         throw new Error('Unable to get canvas context');
     }
-    static drawCar(canvas, dx, dy, width, height, rotation, opacity, alive) {
+    static drawCar(canvas, dx, dy, width, height, rotation, opacity, alive, isPlayer = false) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
         ctx.translate(dx, dy);
@@ -130,10 +130,16 @@ export default class CanvasUtil {
         ctx.beginPath();
         ctx.rect(-width / 2, -height / 2, width, height);
         ctx.closePath();
-        if (alive) {
+        if (alive && isPlayer === false) {
             ctx.fillStyle = 'green';
         }
         else {
+            ctx.fillStyle = 'red';
+        }
+        if (isPlayer && alive) {
+            ctx.fillStyle = 'blue';
+        }
+        else if (isPlayer) {
             ctx.fillStyle = 'red';
         }
         ctx.globalAlpha = opacity;

@@ -10,6 +10,7 @@ export default class GeneticPopulation {
     extinct = false;
     moveDuration = 200;
     track;
+    beaten = true;
     finished = false;
     startingPoint;
     startingRotation;
@@ -86,6 +87,7 @@ export default class GeneticPopulation {
             }
             if (car.finished) {
                 car.fitness *= 3;
+                this.beaten = true;
             }
         });
     }
@@ -136,7 +138,8 @@ export default class GeneticPopulation {
         });
         CanvasUtil.writeText(canvas, `generation: ${this.generation}`, canvas.width - canvas.width / 10, canvas.height / 10, 'center', 'arial', 20, 'white');
         CanvasUtil.writeText(canvas, `highest fitness: ${Math.round(this.highScore)}`, canvas.width - canvas.width / 10, canvas.height / 8, 'center', 'arial', 20, 'white');
-        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length}`, canvas.width - canvas.width / 10, canvas.height / 7, 'center', 'arial', 20, 'white');
+        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length}`, canvas.width - canvas.width / 10, canvas.height / 6.7, 'center', 'arial', 20, 'white');
+        CanvasUtil.writeText(canvas, `Cars alive: ${Math.floor((this.cars.filter((car) => car.alive).length / this.cars.length) * 100)}%`, canvas.width - canvas.width / 10, canvas.height / 6, 'center', 'arial', 20, 'white');
     }
 }
 //# sourceMappingURL=GeneticPopulation.js.map

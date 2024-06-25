@@ -1,6 +1,7 @@
 import CanvasUtil from './utilities/CanvasUtil.js';
 import GeneticCar from './GeneticAlgorithm/GeneticCar.js';
 import MouseListener from './utilities/MouseListener.js';
+import Car from './Car.js';
 
 export default class Track {
   public road: number[][];
@@ -77,7 +78,7 @@ export default class Track {
    * @param car is the selected car that will be used to check collision with track
    * @returns boolean if car is alive or not (if player isn't on the road, he dies)
    */
-  public checkCollisionWithTrack(car: GeneticCar): boolean {
+  public checkCollisionWithTrack(car: any): boolean {
     const gridX = Math.floor(car.posX / this.gridSize);
     const gridY = Math.floor(car.posY / this.gridSize);
 
@@ -117,22 +118,21 @@ export default class Track {
    * @param car is the selected car that the collision is checked for
    * @returns boolean
    */
-  public checkCrossingFinishLine(car: GeneticCar): boolean {
+  public checkCrossingFinishLine(car: Car): boolean {
     const [x1, y1] = this.lineStart;
     const [x2, y2] = this.lineEnd;
     const [carX, carY] = [car.posX, car.posY];
 
     // Check if the car's position is within the bounds of the finish line segment
-    const isBetweenStartAndEnd = (carX >= Math.min(x1, x2) && carX <= Math.max(x1, x2) &&
-                                  carY >= Math.min(y1, y2) && carY <= Math.max(y1, y2));
+    const isBetweenStartAndEnd = (carX >= Math.min(x1, x2) && carX <= Math.max(x1, x2)
+                               && carY >= Math.min(y1, y2) && carY <= Math.max(y1, y2));
 
     // If the car is between the start and end points, consider it crossing the finish line
     if (isBetweenStartAndEnd) {
-        console.log('yay')
-        return true;
+      return true;
     }
     return false; // Car has not crossed the finish line yet
-}
+  }
 
   /**
    *

@@ -1,5 +1,3 @@
-import GeneticCar from '../GeneticAlgorithm/GeneticCar.js';
-
 /**
  * Helper utlity class for working with the HTML Canvas Element.
  *
@@ -16,19 +14,19 @@ export default class CanvasUtil {
    * @returns the 2D rendering context of the canvas
    */
   private static getCanvasContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-    if (ctx === null) throw new Error("Canvas Rendering Context is null");
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+    if (ctx === null) throw new Error('Canvas Rendering Context is null');
     return ctx;
   }
 
   public static setCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
-    if (this.ctx === null) throw new Error("Canvas Rendering Context is null");
+    this.ctx = canvas.getContext('2d');
+    if (this.ctx === null) throw new Error('Canvas Rendering Context is null');
   }
 
   public static getCanvas(): HTMLCanvasElement {
-    if (!this.canvas) throw new Error("Canvas is not set");
+    if (!this.canvas) throw new Error('Canvas is not set');
     return this.canvas;
   }
 
@@ -38,7 +36,7 @@ export default class CanvasUtil {
    * @param canvas canvas that requires filling
    * @param colour the colour that the canvas will be filled with
    */
-  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = "#FF10F0"): void {
+  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = '#FF10F0'): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.rect(0, 0, canvas.width, canvas.height);
@@ -92,7 +90,7 @@ export default class CanvasUtil {
     ctx.rotate((rotation * Math.PI) / 180);
     ctx.drawImage(image, -width / 2, -height / 2, width, height);
     ctx.restore();
-}
+  }
 
   /**
    * Clear the canvas, preparing for drawing
@@ -115,7 +113,7 @@ export default class CanvasUtil {
    * @param fontSize font size in pixels
    * @param color colour of text to write
    */
-  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = "center", fontFamily: string = "sans-serif", fontSize: number = 20, color: string = "red"): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red'): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
@@ -130,7 +128,10 @@ export default class CanvasUtil {
    * @param centerX the x-coordinate of the center of the circle
    * @param centerY the y-coordinate of the center of the circle
    * @param radius the radius of the circle
-   * @param color the color of the circle outline
+   * @param red red value of color
+   * @param green green value of color
+   * @param blue blue value of volor
+   * @param opacity opacity of the circle
    */
   public static drawCircle(canvas: HTMLCanvasElement, centerX: number, centerY: number, radius: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
@@ -190,6 +191,7 @@ export default class CanvasUtil {
    * @param green the green color value of the line
    * @param blue the blue color value of the line
    * @param opacity the opacity of the line
+   * @param lineWidth the width of the line
    */
   public static drawLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, lineWidth: number = 1): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
@@ -208,7 +210,6 @@ export default class CanvasUtil {
    * @param centerX the x-coordinate of the center of the circle
    * @param centerY the y-coordinate of the center of the circle
    * @param radius the radius of the circle
-   * @param color the color of the circle
    * @param red the red color value
    * @param green the green color value
    * @param blue the blue color value
@@ -258,10 +259,11 @@ export default class CanvasUtil {
     const context = canvas.getContext('2d', { willReadFrequently: true });
     if (context) {
       return context.getImageData(x, y, 1, 1);
-    } throw new Error('Unable to get canvas context');
+    }
+    throw new Error('Unable to get canvas context');
   }
 
-  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, opacity: number, alive: boolean) {
+  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, opacity: number, alive: boolean, isPlayer: boolean = false) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -270,9 +272,14 @@ export default class CanvasUtil {
     ctx.beginPath();
     ctx.rect(-width / 2, -height / 2, width, height);
     ctx.closePath();
-    if (alive) {
+    if (alive && isPlayer === false) {
       ctx.fillStyle = 'green';
     } else {
+      ctx.fillStyle = 'red';
+    }
+    if (isPlayer && alive) {
+      ctx.fillStyle = 'blue';
+    } else if (isPlayer) {
       ctx.fillStyle = 'red';
     }
 

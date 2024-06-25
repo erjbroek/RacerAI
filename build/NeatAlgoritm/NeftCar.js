@@ -1,6 +1,6 @@
 import Car from '../Car.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-export default class NeatCar extends Car {
+export default class NeftCar extends Car {
     fitness = 0;
     checkAlive = 800;
     position = 0;
@@ -12,7 +12,9 @@ export default class NeatCar extends Car {
     numRays = 5;
     raySpread = 180;
     rayLengths;
-    genome;
+    genome = [];
+    laps = 0;
+    crossingFinishLine = false;
     constructor(startPoint, startAngle, genome) {
         super();
         this.width = window.innerHeight / 40;
@@ -70,6 +72,41 @@ export default class NeatCar extends Car {
         }
         return this.rayLength;
     }
+    feedForward(inputs) {
+        const outputLayer = [0, 0, 0, 0];
+        this.genome.forEach((connection) => {
+            const [inputIndex, outputIndex, weight] = connection;
+            if (inputIndex < inputs.length && outputIndex < outputLayer.length) {
+                outputLayer[outputIndex] += (inputs[inputIndex] / 100) * weight;
+            }
+        });
+        const activatedOutputLayer = outputLayer.map((neuron) => this.sigmoid(neuron));
+        const [moveLeft, moveRight, accelerate, brake] = activatedOutputLayer;
+        if (moveLeft > 0.75)
+            this.rotateLeft();
+        if (moveRight > 0.75)
+            this.rotateRight();
+        if (accelerate > 0.75)
+            this.accelerate();
+        if (brake > 0.75)
+            this.brake();
+    }
+    sigmoid(x) {
+        return 1 / (1 + Math.exp(-x));
+    }
+    update(elapsed) {
+        this.feedForward(this.rayLengths);
+        this.xSpeed *= 0.96;
+        this.ySpeed *= 0.96;
+        if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
+            this.checkAlive -= elapsed;
+        }
+        if (this.checkAlive <= 0) {
+            this.alive = false;
+        }
+        this.posX += (this.xSpeed / 5) * elapsed;
+        this.posY += (this.ySpeed / 5) * elapsed;
+    }
     mutate() { }
     rotateLeft() {
         if (this.xSpeed !== 0 || this.ySpeed !== 0) {
@@ -105,18 +142,6 @@ export default class NeatCar extends Car {
         const distance = Math.abs(this.xSpeed) + Math.abs(this.ySpeed);
         this.distance += distance;
     }
-    update(elapsed) {
-        this.xSpeed *= 0.96;
-        this.ySpeed *= 0.96;
-        if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
-            this.checkAlive -= elapsed;
-        }
-        if (this.checkAlive <= 0) {
-            this.alive = false;
-        }
-        this.posX += (this.xSpeed / 5) * elapsed;
-        this.posY += (this.ySpeed / 5) * elapsed;
-    }
     render(canvas, track) {
         this.castRays(track);
         const rayAngles = this.calculateRayAngles();
@@ -125,8 +150,8 @@ export default class NeatCar extends Car {
             const radianAngle = (angle * Math.PI) / 180;
             const endX = this.posX + distance * Math.cos(radianAngle);
             const endY = this.posY + distance * Math.sin(radianAngle);
-            CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 1);
+            CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.3);
         });
     }
 }
-//# sourceMappingURL=NeatCar.js.map
+//# sourceMappingURL=NeftCar.js.map
