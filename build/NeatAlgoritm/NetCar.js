@@ -154,4 +154,4 @@ export default class NetCar extends Car {
         });
     }
 }
-//# sourceMappingURL=NeftCar.js.map
+//# sourceMappingURL=NetCar.js.map

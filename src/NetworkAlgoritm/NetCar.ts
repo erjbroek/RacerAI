@@ -2,7 +2,7 @@ import Car from '../Car.js';
 import Track from '../Track.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 
-export default class NeftCar extends Car {
+export default class NetCar extends Car {
   public fitness: number = 0;
 
   private checkAlive: number = 800;
@@ -31,6 +31,7 @@ export default class NeftCar extends Car {
 
   public crossingFinishLine: boolean = false;
 
+  public totalLapTime: number = 0;
 
   public constructor(startPoint: number[], startAngle: number, genome: number[][]) {
     super();

@@ -15,6 +15,7 @@ export default class NetCar extends Car {
     genome = [];
     laps = 0;
     crossingFinishLine = false;
+    totalLapTime = 0;
     constructor(startPoint, startAngle, genome) {
         super();
         this.width = window.innerHeight / 40;
@@ -154,4 +155,4 @@ export default class NetCar extends Car {
         });
     }
 }
-//# sourceMappingURL=NeftCar.js.map
+//# sourceMappingURL=NetCar.js.map

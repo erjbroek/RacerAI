@@ -2,14 +2,14 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from '../scenes/Scene.js';
 import Track from '../Track.js';
 import MouseListener from '../utilities/MouseListener.js';
-import NeftPopulation from './NeftPopulation.js';
+import NetPopulation from './NetPopulation.js';
 
-export default class NeftAlgorithm extends Scene {
+export default class NetAlgorithm extends Scene {
   private track: Track;
 
   private radius: number;
 
-  private population: NeftPopulation;
+  private population: NetPopulation;
 
   private startSimulation: boolean = false;
 
@@ -29,7 +29,7 @@ export default class NeftAlgorithm extends Scene {
     this.radius = radius;
     const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
     this.startAngle = startAngle;
-    this.population = new NeftPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
+    this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
   }
 
   /**
@@ -61,7 +61,7 @@ export default class NeftAlgorithm extends Scene {
     if (this.startSimulation) {
       if (!this.triggered) {
         this.triggered = true;
-        this.population = new NeftPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+        this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
       }
       this.population.update(elapsed);
     }

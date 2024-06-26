@@ -4,7 +4,7 @@ import MouseListener from '../utilities/MouseListener.js';
 import GeneticAlgorithm from '../GeneticAlgorithm/GeneticAlgorithm.js';
 import Scene from './Scene.js';
 import Track from '../Track.js';
-import NeftAlgorithm from '../NeatAlgoritm/NeftAlgoritm.js';
+import NetAlgorithm from '../NetworkAlgoritm/NetAlgoritm.js';
 
 export default class SelectStart extends Scene {
   private track: Track;
@@ -125,7 +125,7 @@ export default class SelectStart extends Scene {
       }
     });
     if (this.finished) {
-      return new NeftAlgorithm(this.track, this.radius);
+      return new NetAlgorithm(this.track, this.radius);
     }
     return this;
   }

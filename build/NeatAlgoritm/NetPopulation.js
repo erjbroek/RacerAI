@@ -1,5 +1,5 @@
 import CanvasUtil from "../utilities/CanvasUtil.js";
-import NeftCar from "./NeftCar.js";
+import NetCar from "./NetCar.js";
 export default class NetPopulation {
     cars = [];
     generation = 1;
@@ -21,7 +21,7 @@ export default class NetPopulation {
         this.species = [];
         for (let i = 0; i < this.size; i++) {
             const genome = this.createInitialGenome();
-            this.cars.push(new NeftCar(startingPoint, startingAngle, genome));
+            this.cars.push(new NetCar(startingPoint, startingAngle, genome));
         }
         this.track.road.forEach((road) => {
             road[2] = 1;
@@ -149,4 +149,4 @@ export default class NetPopulation {
         this.visualizeNetwork(this.cars[0], canvas);
     }
 }
-//# sourceMappingURL=NeftPopulation.js.map
+//# sourceMappingURL=NetPopulation.js.map

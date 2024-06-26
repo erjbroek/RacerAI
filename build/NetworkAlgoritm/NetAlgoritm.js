@@ -69,4 +69,4 @@ export default class NetAlgorithm extends Scene {
         }
     }
 }
-//# sourceMappingURL=NeftAlgoritm.js.map
+//# sourceMappingURL=NetAlgoritm.js.map
