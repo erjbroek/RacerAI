@@ -177,7 +177,7 @@ export default class NetCar extends Car {
    */
   public rotateLeft() {
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation -= 2.3;
+      this.rotation -= 3;
       this.updateSpeedWithRotation();
     }
   }
@@ -187,7 +187,7 @@ export default class NetCar extends Car {
    */
   public rotateRight() {
     if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation += 2.3;
+      this.rotation += 3;
       this.updateSpeedWithRotation();
     }
   }

@@ -111,13 +111,13 @@ export default class NetCar extends Car {
     mutate() { }
     rotateLeft() {
         if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation -= 2.3;
+            this.rotation -= 3;
             this.updateSpeedWithRotation();
         }
     }
     rotateRight() {
         if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-            this.rotation += 2.3;
+            this.rotation += 3;
             this.updateSpeedWithRotation();
         }
     }

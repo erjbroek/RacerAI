@@ -91,6 +91,8 @@ export default class Track {
         this.road.forEach((trackPiece) => {
             CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 0, 0, 1);
         });
+        CanvasUtil.fillCircle(canvas, this.lineStart[0], this.lineStart[1], 10, 255, 0, 0, 1);
+        CanvasUtil.fillCircle(canvas, this.lineEnd[0], this.lineEnd[1], 10, 255, 0, 0, 1);
         CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], 0, 255, 180, 1, 3);
     }
 }

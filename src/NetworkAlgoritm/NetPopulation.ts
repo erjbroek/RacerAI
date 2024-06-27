@@ -26,6 +26,8 @@ export default class NetPopulation {
 
   public generationTime: number = 0;
 
+  private triggered: boolean = false;
+
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = 50;
     this.track = track;
@@ -62,11 +64,14 @@ export default class NetPopulation {
    *
    */
   public evolve() {
-    this.speciate();
-    this.calculateFitness();
-    this.sortPlayers();
-    console.log(this.species);
-    this.generation += 1;
+    if (!this.triggered) {
+      this.triggered = true;
+      this.speciate();
+      this.calculateFitness();
+      this.sortPlayers();
+      this.crossover()
+      this.generation += 1;
+    }
   }
 
   /**
@@ -121,20 +126,12 @@ export default class NetPopulation {
     return Math.sqrt(sumSquaredDifference);
   }
 
-  /**
-   *
-   */
-  private sortPlayers() {
-    this.species.forEach((species) => {
-      species.sort((car1, car2) => car2.fitness - car1.fitness);
-    });
-  }
 
   /**
    *
-   */
-  public calculateFitness() {
-    let highestDistanceCar: number = 0;
+  */
+ public calculateFitness() {
+   let highestDistanceCar: number = 0;
     let bestLapTime: number = Number.MAX_VALUE;
 
     this.cars.forEach((car) => {
@@ -169,15 +166,60 @@ export default class NetPopulation {
       }
     });
 
-    this.species.forEach((specie) => {
-      let total = 0;
-      for (let i = 0; i < specie.entries.length; i++) {
-        total += specie[0].fitness;
-      }
-      total /= specie.length;
-      console.log(total);
-    });
+    // this.species.forEach((specie) => {
+    //   let total = 0;
+    //   for (let i = 0; i < specie.entries.length; i++) {
+    //     total += specie[0].fitness;
+    //   }
+    //   total /= specie.length;
+    //   console.log(total);
+    // });
     this.highScore = Math.max(this.highScore, ...this.cars.map((car) => car.fitness));
+  }
+
+  /**
+   *
+   */
+  private sortPlayers() {
+    this.species.forEach((species) => {
+      species.sort((car1, car2) => car2.fitness - car1.fitness);
+    });
+  }
+
+  private crossover(): void {
+    // first, the selection of the best performing players of each species is selected for actual crossover
+    const survived: NetCar[] = [];
+    const selectedCars: NetCar[] = [];
+    const selectionPercentage = 0.5; // Top 50% of each species survives
+
+    this.species.forEach((species) => {
+      const numToSelect = Math.ceil(species.length * selectionPercentage);
+      const topCars = species.slice(0, numToSelect);
+      survived.push(...topCars);
+    });
+
+    // creates the array, with probability of selection based on fitness
+    survived.forEach((car) => {
+      for (let i = 0; i <= Math.ceil(car.fitness); i++) {
+        selectedCars.push(car);
+      }
+    });
+    const nextGen: NetCar[] = [];
+
+    // makes the new generation
+    for (let i = 0; i < this.size; i++) {
+      const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
+      const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
+      const babyGenes: number[][] = [];
+      for (let i = 0; i < 20; i++) {
+        const weight1: any = parent1.genome[i][2];
+        const weight2: any = parent2.genome[i][2];
+        const newGene: number = Math.random() > 0.5 ? weight1 : weight2;
+        babyGenes.push([Math.floor(i / 4), i % 4, newGene]);
+      }
+      nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
+    }
+    // console.log(nextGen);
   }
 
   /**
@@ -195,7 +237,6 @@ export default class NetPopulation {
       }
       if (car.alive) {
         car.totalLapTime += elapsed;
-        if (this.generationTime >= 3000) {
           if (this.track.checkCrossingFinishLine(car)) {
             if (!car.crossingFinishLine) {
               car.laps += 1;
@@ -204,7 +245,6 @@ export default class NetPopulation {
           } else {
             car.crossingFinishLine = false;
           }
-        }
         car.update(elapsed);
         car.updateDistance();
         if (car.distance > this.maxDistance) {
