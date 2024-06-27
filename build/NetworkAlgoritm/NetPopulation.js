@@ -2,6 +2,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import NetCar from './NetCar.js';
 export default class NetPopulation {
     cars = [];
+    nextGen = [];
     generation = 1;
     size;
     highScore = 0;
@@ -12,7 +13,6 @@ export default class NetPopulation {
     species = [];
     maxDistance = 0;
     generationTime = 0;
-    triggered = false;
     constructor(size, track, startingPoint, startingAngle) {
         this.size = 50;
         this.track = track;
@@ -38,14 +38,11 @@ export default class NetPopulation {
         return genome;
     }
     evolve() {
-        if (!this.triggered) {
-            this.triggered = true;
-            this.speciate();
-            this.calculateFitness();
-            this.sortPlayers();
-            this.crossover();
-            this.generation += 1;
-        }
+        this.speciate();
+        this.calculateFitness();
+        this.sortPlayers();
+        this.crossover();
+        this.mutate();
     }
     speciate() {
         this.species = [];
@@ -63,7 +60,6 @@ export default class NetPopulation {
                 this.species.push([car]);
             }
         }
-        console.log(this.species);
     }
     genomeDistance(genome1, genome2) {
         let sumSquaredDifference = 0;
@@ -110,6 +106,10 @@ export default class NetPopulation {
         this.species.forEach((species) => {
             species.sort((car1, car2) => car2.fitness - car1.fitness);
         });
+        this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
+        this.cars.forEach((car, index) => {
+            car.rank = index + 1;
+        });
     }
     crossover() {
         const survived = [];
@@ -121,23 +121,44 @@ export default class NetPopulation {
             survived.push(...topCars);
         });
         survived.forEach((car) => {
-            for (let i = 0; i <= Math.ceil(car.fitness); i++) {
+            for (let i = 0; i <= Math.ceil(car.fitness * 100); i++) {
                 selectedCars.push(car);
             }
         });
-        const nextGen = [];
+        this.nextGen = [];
         for (let i = 0; i < this.size; i++) {
             const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
             const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
             const babyGenes = [];
-            for (let i = 0; i < 20; i++) {
-                const weight1 = parent1.genome[i][2];
-                const weight2 = parent2.genome[i][2];
+            for (let j = 0; j < 20; j++) {
+                const weight1 = parent1.genome[j][2];
+                const weight2 = parent2.genome[j][2];
                 const newGene = Math.random() > 0.5 ? weight1 : weight2;
-                babyGenes.push([Math.floor(i / 4), i % 4, newGene]);
+                babyGenes.push([Math.floor(j / 4), j % 4, newGene]);
             }
-            nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
+            this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
         }
+    }
+    mutate() {
+        const slightMutationRate = 0.1;
+        const bigMutationRate = 0.02;
+        this.nextGen.forEach((car) => {
+            car.genome.forEach((gene) => {
+                if (Math.random() < slightMutationRate) {
+                    gene[2] += Math.random() * 0.3 - 0.15;
+                }
+                else if (Math.random() < bigMutationRate) {
+                    gene[2] = Math.random();
+                }
+                if (gene[2] > 1) {
+                    gene[2] = 1;
+                }
+                if (gene[2] < 0) {
+                    gene[2] = 0;
+                }
+            });
+        });
+        this.cars = this.nextGen;
     }
     update(elapsed) {
         this.generationTime += elapsed;
@@ -148,15 +169,16 @@ export default class NetPopulation {
             }
             if (car.alive) {
                 car.totalLapTime += elapsed;
-                if (this.track.checkCrossingFinishLine(car)) {
-                    if (!car.crossingFinishLine) {
-                        car.laps += 1;
-                        car.crossingFinishLine = true;
-                        console.log(car.laps);
+                if (car.totalLapTime >= 1700) {
+                    if (this.track.checkCrossingFinishLine(car)) {
+                        if (!car.crossingFinishLine) {
+                            car.laps += 1;
+                            car.crossingFinishLine = true;
+                        }
                     }
-                }
-                else {
-                    car.crossingFinishLine = false;
+                    else {
+                        car.crossingFinishLine = false;
+                    }
                 }
                 car.update(elapsed);
                 car.updateDistance();

@@ -17,7 +17,7 @@ export default class NetCar extends Car {
 
   public finished: boolean = false;
 
-  private rayLength: number = 100;
+  private rayLength: number = 120;
 
   public numRays: number = 5;
 
@@ -32,6 +32,8 @@ export default class NetCar extends Car {
   public crossingFinishLine: boolean = false;
 
   public totalLapTime: number = 0;
+
+  public rank: number = 0;
 
   public constructor(startPoint: number[], startAngle: number, genome: number[][]) {
     super();
@@ -129,7 +131,7 @@ export default class NetCar extends Car {
     this.genome.forEach((connection) => {
       const [inputIndex, outputIndex, weight] = connection;
       if (inputIndex < inputs.length && outputIndex < outputLayer.length) {
-        outputLayer[outputIndex] += (inputs[inputIndex] / 100) * weight;
+        outputLayer[outputIndex] += (inputs[inputIndex] / this.rayLength) * weight;
       }
     });
 
@@ -155,9 +157,9 @@ export default class NetCar extends Car {
    */
   public override update(elapsed: number): void {
     this.feedForward(this.rayLengths);
-    this.xSpeed *= 0.96;
-    this.ySpeed *= 0.96;
-    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {
+    // this.xSpeed *= 0.99;
+    // this.ySpeed *= 0.99;
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.4) {
       this.checkAlive -= elapsed;
     }
     if (this.checkAlive <= 0) {
@@ -168,17 +170,16 @@ export default class NetCar extends Car {
   }
 
   /**
-   *
-   */
-  public mutate(): void {}
-
-  /**
    * rotates the car left
    */
   public rotateLeft() {
-    if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation -= 3;
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
+      this.rotation -= 3.8;
       this.updateSpeedWithRotation();
+    }
+    if (this.alive) {
+
+      console.log(Math.abs(this.xSpeed) + Math.abs(this.ySpeed))
     }
   }
 
@@ -186,8 +187,8 @@ export default class NetCar extends Car {
    * rotates the car right
    */
   public rotateRight() {
-    if (this.xSpeed !== 0 || this.ySpeed !== 0) {
-      this.rotation += 3;
+    if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
+      this.rotation += 3.8;
       this.updateSpeedWithRotation();
     }
   }
@@ -212,15 +213,15 @@ export default class NetCar extends Car {
     const deltaX = Math.sin(deltaRotation);
     const deltaY = Math.cos(deltaRotation);
 
-    this.xSpeed += deltaX / 7;
-    this.ySpeed -= deltaY / 7;
+    this.xSpeed += deltaX / 17;
+    this.ySpeed -= deltaY / 17;
   }
 
   /**
    *
    */
   public brake() {
-    const brakeFactor = 1 - (1 - 0.6) / 13;
+    const brakeFactor = 1 - (1 - 0.6) / 15;
     this.xSpeed *= brakeFactor;
     this.ySpeed *= brakeFactor;
   }

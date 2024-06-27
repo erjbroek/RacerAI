@@ -6,6 +6,8 @@ import NetCar from './NetCar.js';
 export default class NetPopulation {
   public cars: NetCar[] = [];
 
+  private nextGen: NetCar[] = [];
+
   private generation: number = 1;
 
   private size: number;
@@ -25,8 +27,6 @@ export default class NetPopulation {
   private maxDistance: number = 0;
 
   public generationTime: number = 0;
-
-  private triggered: boolean = false;
 
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = 50;
@@ -64,14 +64,11 @@ export default class NetPopulation {
    *
    */
   public evolve() {
-    if (!this.triggered) {
-      this.triggered = true;
       this.speciate();
       this.calculateFitness();
       this.sortPlayers();
-      this.crossover()
-      this.generation += 1;
-    }
+      this.crossover();
+      this.mutate();
   }
 
   /**
@@ -99,7 +96,6 @@ export default class NetPopulation {
         this.species.push([car]);
       }
     }
-    console.log(this.species);
   }
 
   /**
@@ -126,12 +122,11 @@ export default class NetPopulation {
     return Math.sqrt(sumSquaredDifference);
   }
 
-
   /**
    *
-  */
- public calculateFitness() {
-   let highestDistanceCar: number = 0;
+   */
+  public calculateFitness() {
+    let highestDistanceCar: number = 0;
     let bestLapTime: number = Number.MAX_VALUE;
 
     this.cars.forEach((car) => {
@@ -166,14 +161,6 @@ export default class NetPopulation {
       }
     });
 
-    // this.species.forEach((specie) => {
-    //   let total = 0;
-    //   for (let i = 0; i < specie.entries.length; i++) {
-    //     total += specie[0].fitness;
-    //   }
-    //   total /= specie.length;
-    //   console.log(total);
-    // });
     this.highScore = Math.max(this.highScore, ...this.cars.map((car) => car.fitness));
   }
 
@@ -184,8 +171,15 @@ export default class NetPopulation {
     this.species.forEach((species) => {
       species.sort((car1, car2) => car2.fitness - car1.fitness);
     });
+    this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
+    this.cars.forEach((car, index) => {
+      car.rank = index + 1;
+    });
   }
 
+  /**
+   *
+   */
   private crossover(): void {
     // first, the selection of the best performing players of each species is selected for actual crossover
     const survived: NetCar[] = [];
@@ -200,26 +194,57 @@ export default class NetPopulation {
 
     // creates the array, with probability of selection based on fitness
     survived.forEach((car) => {
-      for (let i = 0; i <= Math.ceil(car.fitness); i++) {
+      for (let i = 0; i <= Math.ceil(car.fitness * 100); i++) {
         selectedCars.push(car);
       }
     });
-    const nextGen: NetCar[] = [];
+    this.nextGen = [];
 
     // makes the new generation
     for (let i = 0; i < this.size; i++) {
       const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
       const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
       const babyGenes: number[][] = [];
-      for (let i = 0; i < 20; i++) {
-        const weight1: any = parent1.genome[i][2];
-        const weight2: any = parent2.genome[i][2];
+      for (let j = 0; j < 20; j++) {
+        const weight1: any = parent1.genome[j][2];
+        const weight2: any = parent2.genome[j][2];
         const newGene: number = Math.random() > 0.5 ? weight1 : weight2;
-        babyGenes.push([Math.floor(i / 4), i % 4, newGene]);
+        babyGenes.push([Math.floor(j / 4), j % 4, newGene]);
       }
-      nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
+      this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
     }
-    // console.log(nextGen);
+  }
+
+  /**
+   * mutates the network of the player
+   */
+  private mutate(): void {
+    // the chance for each gene to mutate by 10%
+    const slightMutationRate = 0.1;
+
+    // the chance for each gene to get randomized
+    const bigMutationRate = 0.02;
+
+    this.nextGen.forEach((car) => {
+      car.genome.forEach((gene) => {
+        if (Math.random() < slightMutationRate) {
+          gene[2] += Math.random() * 0.3 - 0.15;
+        }
+        else if (Math.random() < bigMutationRate) {
+          gene[2] = Math.random();
+        }
+
+        // making sure the weights are between 0 and 1
+        if (gene[2] > 1) {
+          gene[2] = 1;
+        }
+        if (gene[2] < 0) {
+          gene[2] = 0;
+        }
+      });
+    });
+
+    this.cars = this.nextGen;
   }
 
   /**
@@ -237,14 +262,17 @@ export default class NetPopulation {
       }
       if (car.alive) {
         car.totalLapTime += elapsed;
+        if (car.totalLapTime >= 1700) {
+
           if (this.track.checkCrossingFinishLine(car)) {
             if (!car.crossingFinishLine) {
               car.laps += 1;
               car.crossingFinishLine = true;
-            }
-          } else {
-            car.crossingFinishLine = false;
           }
+        } else {
+          car.crossingFinishLine = false;
+        }
+      }
         car.update(elapsed);
         car.updateDistance();
         if (car.distance > this.maxDistance) {
