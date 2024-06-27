@@ -2,27 +2,30 @@ import Car from '../Car.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class NetCar extends Car {
     fitness = 0;
-    checkAlive = 800;
+    checkAlive = 500;
     position = 0;
     parentPosition;
     distance = 0;
     collided = false;
     finished = false;
-    rayLength = 120;
+    rayLength = 150;
     numRays = 5;
     raySpread = 180;
     rayLengths;
     genome = [];
     laps = 0;
     crossingFinishLine = false;
+    leftStartLine = false;
     totalLapTime = 0;
     rank = 0;
+    startingPoint = [0, 0];
     constructor(startPoint, startAngle, genome) {
         super();
         this.width = window.innerHeight / 40;
         this.height = window.innerHeight / 25;
         this.alive = true;
         [this.posX, this.posY] = [startPoint[0], startPoint[1]];
+        this.startingPoint = startPoint;
         this.rotation = startAngle;
         this.xSpeed = 0;
         this.ySpeed = 0;
@@ -98,6 +101,13 @@ export default class NetCar extends Car {
     }
     update(elapsed) {
         this.feedForward(this.rayLengths);
+        this.xSpeed *= 0.995;
+        this.ySpeed *= 0.995;
+        const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 +
+            (this.posY - this.startingPoint[1]) ** 2);
+        if (distanceFromStart > 40) {
+            this.leftStartLine = true;
+        }
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.4) {
             this.checkAlive -= elapsed;
         }

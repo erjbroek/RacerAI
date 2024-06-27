@@ -5,7 +5,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class NetCar extends Car {
   public fitness: number = 0;
 
-  private checkAlive: number = 800;
+  private checkAlive: number = 500;
 
   public position: number = 0;
 
@@ -17,7 +17,7 @@ export default class NetCar extends Car {
 
   public finished: boolean = false;
 
-  private rayLength: number = 120;
+  private rayLength: number = 150;
 
   public numRays: number = 5;
 
@@ -31,9 +31,13 @@ export default class NetCar extends Car {
 
   public crossingFinishLine: boolean = false;
 
+  public leftStartLine: boolean = false;
+
   public totalLapTime: number = 0;
 
   public rank: number = 0;
+
+  public startingPoint: number[] = [0, 0];
 
   public constructor(startPoint: number[], startAngle: number, genome: number[][]) {
     super();
@@ -41,6 +45,7 @@ export default class NetCar extends Car {
     this.height = window.innerHeight / 25;
     this.alive = true;
     [this.posX, this.posY] = [startPoint[0], startPoint[1]];
+    this.startingPoint = startPoint;
     this.rotation = startAngle;
     this.xSpeed = 0;
     this.ySpeed = 0;
@@ -157,8 +162,18 @@ export default class NetCar extends Car {
    */
   public override update(elapsed: number): void {
     this.feedForward(this.rayLengths);
-    // this.xSpeed *= 0.99;
-    // this.ySpeed *= 0.99;
+    this.xSpeed *= 0.995;
+    this.ySpeed *= 0.995;
+
+    // used to punish cars that havent left the finish line
+    const distanceFromStart = Math.sqrt(
+      (this.posX - this.startingPoint[0]) ** 2 +
+      (this.posY - this.startingPoint[1]) ** 2
+    );
+    if (distanceFromStart > 40) { // Adjust the distance threshold as needed
+      this.leftStartLine = true;
+    }
+
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.4) {
       this.checkAlive -= elapsed;
     }
