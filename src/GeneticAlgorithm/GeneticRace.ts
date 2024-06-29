@@ -84,9 +84,9 @@ export default class GeneticRace extends Scene {
    */
   public override render(canvas: HTMLCanvasElement): void {
     this.track.render(canvas);
-    CanvasUtil.drawCar(canvas, this.champion.posX, this.champion.posY, this.champion.width, this.champion.height, this.champion.rotation, 1, this.champion.alive);
+    CanvasUtil.drawCar(canvas, this.champion.posX, this.champion.posY, this.champion.width, this.champion.height, this.champion.rotation, 255, 0, 0, 1, false);
     // CanvasUtil.fillRectangle(canvas, this.player.posX, this.player.posY, this.player.width, this.player.height, 0, 200, 230, 1, 0)
-    CanvasUtil.drawCar(canvas, this.player.posX, this.player.posY, this.player.width, this.player.height, this.player.rotation, 1, this.player.alive, true);
+    CanvasUtil.drawCar(canvas, this.player.posX, this.player.posY, this.player.width, this.player.height, this.player.rotation, 0, 0, 255, 1, true);
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 50, 120, 200);
     CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 50, 120, 200);

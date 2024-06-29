@@ -109,10 +109,6 @@ export default class NetPopulation {
         this.species.forEach((species) => {
             species.sort((car1, car2) => car2.fitness - car1.fitness);
         });
-        this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
-        this.cars.forEach((car, index) => {
-            car.rank = index + 1;
-        });
     }
     crossover() {
         const survived = [];
@@ -167,17 +163,22 @@ export default class NetPopulation {
         this.generationTime += elapsed;
         this.cars.forEach((car) => {
             car.alive = this.track.checkCollisionWithTrack(car);
+            if (car.timeSinceLastLap >= 20000) {
+                car.alive = false;
+            }
             if (car.laps >= 5) {
                 car.alive = false;
                 this.record = Math.min(this.record, car.totalLapTime);
             }
             if (car.alive) {
                 car.totalLapTime += elapsed;
+                car.timeSinceLastLap += elapsed;
                 if (car.totalLapTime >= 1700) {
                     if (this.track.checkCrossingFinishLine(car)) {
                         if (!car.crossingFinishLine) {
                             car.laps += 1;
                             car.crossingFinishLine = true;
+                            car.timeSinceLastLap = 0;
                         }
                     }
                     else {
@@ -227,8 +228,10 @@ export default class NetPopulation {
     }
     render(canvas) {
         this.cars.forEach((car) => {
-            car.render(canvas, this.track);
-            CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, 0.6, car.alive);
+            if (car.alive) {
+                car.renderRays(canvas, this.track);
+                CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, car.red, car.green, car.blue, 0.8);
+            }
         });
         CanvasUtil.writeText(canvas, `generation: ${this.generation}`, canvas.width - canvas.width / 10, canvas.height / 10, "center", "arial", 20, "white");
         CanvasUtil.writeText(canvas, `highest fitness: ${Math.round(this.highScore)}`, canvas.width - canvas.width / 10, canvas.height / 8, "center", "arial", 20, "white");
@@ -241,7 +244,7 @@ export default class NetPopulation {
             CanvasUtil.writeText(canvas, `Record: N/A`, canvas.width - canvas.width / 10, canvas.height / 6, "center", "arial", 20, "white");
         }
         CanvasUtil.writeText(canvas, `current time: ${Math.round(this.generationTime)} ms`, canvas.width - canvas.width / 10, canvas.height / 5, "center", "arial", 20, "white");
-        CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 40, 255, 0, 0, 1);
+        CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 60, 255, 0, 0, 1);
     }
 }
 //# sourceMappingURL=NetPopulation.js.map

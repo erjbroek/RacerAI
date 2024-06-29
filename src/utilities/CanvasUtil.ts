@@ -263,7 +263,7 @@ export default class CanvasUtil {
     throw new Error('Unable to get canvas context');
   }
 
-  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, opacity: number, alive: boolean, isPlayer: boolean = false) {
+  public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, red: number, green: number, blue: number, opacity: number, isPlayer: boolean = false) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -272,17 +272,7 @@ export default class CanvasUtil {
     ctx.beginPath();
     ctx.rect(-width / 2, -height / 2, width, height);
     ctx.closePath();
-    if (alive && isPlayer === false) {
-      ctx.fillStyle = 'green';
-    } else {
-      ctx.fillStyle = 'red';
-    }
-    if (isPlayer && alive) {
-      ctx.fillStyle = 'blue';
-    } else if (isPlayer) {
-      ctx.fillStyle = 'red';
-    }
-
+    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.globalAlpha = opacity;
     ctx.fill();
 

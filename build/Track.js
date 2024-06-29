@@ -7,6 +7,8 @@ export default class Track {
     midPoint = [];
     gridSize;
     grid;
+    finishLineWidth = 7;
+    red = 0;
     constructor(track, radius) {
         this.road = track;
         this.radius = radius;
@@ -79,13 +81,22 @@ export default class Track {
     checkCrossingFinishLine(car) {
         const [x1, y1] = this.lineStart;
         const [x2, y2] = this.lineEnd;
+        const [prevCarX, prevCarY] = [car.prevPosX, car.prevPosY];
         const [carX, carY] = [car.posX, car.posY];
-        const isBetweenStartAndEnd = (carX >= Math.min(x1, x2) && carX <= Math.max(x1, x2)
-            && carY >= Math.min(y1, y2) && carY <= Math.max(y1, y2));
-        if (isBetweenStartAndEnd) {
+        if (this.doLineSegmentsIntersect(x1, y1, x2, y2, prevCarX, prevCarY, carX, carY)) {
+            this.red = 255;
             return true;
         }
+        this.red = 0;
         return false;
+    }
+    doLineSegmentsIntersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+        const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+        if (denom === 0)
+            return false;
+        const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+        const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+        return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
     }
     render(canvas) {
         this.road.forEach((trackPiece) => {
@@ -93,7 +104,7 @@ export default class Track {
         });
         CanvasUtil.fillCircle(canvas, this.lineStart[0], this.lineStart[1], 10, 255, 0, 0, 1);
         CanvasUtil.fillCircle(canvas, this.lineEnd[0], this.lineEnd[1], 10, 255, 0, 0, 1);
-        CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], 0, 255, 180, 1, 3);
+        CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], this.red, 255, 180, 1, this.finishLineWidth);
     }
 }
 //# sourceMappingURL=Track.js.map

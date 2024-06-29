@@ -18,6 +18,10 @@ export default class Track {
 
   public grid: Map<string, number[]>;
 
+  public finishLineWidth: number = 7;
+
+  public red: number = 0;
+
   public constructor(track: number[][], radius: number) {
     this.road = track;
     this.radius = radius;
@@ -109,11 +113,12 @@ export default class Track {
     if (!collisionOccured) {
       car.collided = true;
       return false;
-    } return true;
+    }
+    return true;
   }
 
   /**
-   * checks if player finished the track
+   * checks if player collides with the finish
    *
    * @param car is the selected car that the collision is checked for
    * @returns boolean
@@ -121,17 +126,42 @@ export default class Track {
   public checkCrossingFinishLine(car: Car): boolean {
     const [x1, y1] = this.lineStart;
     const [x2, y2] = this.lineEnd;
+
+    // Previous and current position of the car
+    const [prevCarX, prevCarY] = [car.prevPosX, car.prevPosY];
     const [carX, carY] = [car.posX, car.posY];
 
-    // Check if the car's position is within the bounds of the finish line segment
-    const isBetweenStartAndEnd = (carX >= Math.min(x1, x2) && carX <= Math.max(x1, x2)
-                               && carY >= Math.min(y1, y2) && carY <= Math.max(y1, y2));
-
-    // If the car is between the start and end points, consider it crossing the finish line
-    if (isBetweenStartAndEnd) {
+    // Check if the car crosses the line segment
+    if (this.doLineSegmentsIntersect(x1, y1, x2, y2, prevCarX, prevCarY, carX, carY)) {
+      this.red = 255;
       return true;
     }
+
+    this.red = 0;
     return false; // Car has not crossed the finish line yet
+  }
+
+  /**
+   * Check if two line segments intersect (line 1 being the finish, and line 2 being the line between the cars current and previous position)
+   *
+   * @param x1 x1 - start point of the first line segment
+   * @param x2 x2 - end point of the first line segment
+   * @param x3 x3 - start point of the second line segment
+   * @param x4 x4 - end point of the second line segment
+   * @param y1 y1 - start point of the first line segment
+   * @param y2 y2 - end point of the first line segment
+   * @param y3 y3 - start point of the second line segment
+   * @param y4 y4 - start point of the second line segment
+   * @returns boolean
+   */
+  private doLineSegmentsIntersect(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number): boolean {
+    const denom = (y4 - y3) * (x2 - x1) - (x4 - x3) * (y2 - y1);
+    if (denom === 0) return false; // Lines are parallel
+
+    const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denom;
+    const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denom;
+
+    return ua >= 0 && ua <= 1 && ub >= 0 && ub <= 1;
   }
 
   /**
@@ -144,6 +174,6 @@ export default class Track {
     });
     CanvasUtil.fillCircle(canvas, this.lineStart[0], this.lineStart[1], 10, 255, 0, 0, 1);
     CanvasUtil.fillCircle(canvas, this.lineEnd[0], this.lineEnd[1], 10, 255, 0, 0, 1);
-    CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], 0, 255, 180, 1, 3);
+    CanvasUtil.drawLine(canvas, this.lineStart[0], this.lineStart[1], this.lineEnd[0], this.lineEnd[1], this.red, 255, 180, 1, this.finishLineWidth);
   }
 }

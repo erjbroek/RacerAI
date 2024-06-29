@@ -15,6 +15,8 @@ export default class GeneticCar extends Car {
         this.height = window.innerHeight / 25;
         this.alive = true;
         [this.posX, this.posY] = [midPoint[0], midPoint[1]];
+        this.prevPosX = 0;
+        this.prevPosY = 0;
         this.rotation = startAngle;
         this.xSpeed = 0;
         this.ySpeed = 0;

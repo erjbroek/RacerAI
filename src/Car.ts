@@ -17,5 +17,11 @@ export default abstract class Car {
 
   public alive: boolean;
 
+  public onFinishLine: boolean;
+
+  public prevPosX: number;
+
+  public prevPosY: number;
+
   public abstract update(elapsed: number, track: Track): void;
 }

@@ -7,5 +7,8 @@ export default class Car {
     xSpeed;
     ySpeed;
     alive;
+    onFinishLine;
+    prevPosX;
+    prevPosY;
 }
 //# sourceMappingURL=Car.js.map
