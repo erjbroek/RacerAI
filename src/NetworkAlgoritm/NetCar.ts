@@ -199,8 +199,7 @@ export default class NetCar extends Car {
 
     // used to punish cars that havent left the finish line
     const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-    if (distanceFromStart > 75) {
-      // Adjust the distance threshold as needed
+    if (distanceFromStart > 85) {
       this.leftStartLine = true;
     }
 
@@ -254,8 +253,8 @@ export default class NetCar extends Car {
     const deltaX = Math.sin(deltaRotation);
     const deltaY = Math.cos(deltaRotation);
 
-    this.xSpeed += deltaX / 19;
-    this.ySpeed -= deltaY / 19;
+    this.xSpeed += deltaX / 17;
+    this.ySpeed -= deltaY / 17;
   }
 
   /**

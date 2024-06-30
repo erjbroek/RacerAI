@@ -401,6 +401,6 @@ export default class NetPopulation {
       }
     }
     CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
-    CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 75, 255, 0, 0, 1);
+    CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 85, 255, 0, 0, 1);
   }
 }

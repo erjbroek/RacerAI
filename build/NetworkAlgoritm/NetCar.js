@@ -127,7 +127,7 @@ export default class NetCar extends Car {
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
         const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-        if (distanceFromStart > 75) {
+        if (distanceFromStart > 85) {
             this.leftStartLine = true;
         }
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.55) {
@@ -161,8 +161,8 @@ export default class NetCar extends Car {
         const deltaRotation = (this.rotation * Math.PI) / 180;
         const deltaX = Math.sin(deltaRotation);
         const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 19;
-        this.ySpeed -= deltaY / 19;
+        this.xSpeed += deltaX / 17;
+        this.ySpeed -= deltaY / 17;
     }
     brake() {
         const brakeFactor = 1 - (1 - 0.6) / 20;
