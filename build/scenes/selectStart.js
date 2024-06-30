@@ -102,30 +102,30 @@ export default class SelectStart extends Scene {
     render(canvas) {
         canvas.style.cursor = 'none';
         this.track.render(canvas);
-        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);
-        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 50, 120, 200);
-        CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 50, 120, 200);
-        CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 50, 120, 200);
+        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);
+        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 30, 30, 30);
+        CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 30, 30, 30);
+        CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 30, 30, 30);
         CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2);
         CanvasUtil.fillCircle(canvas, canvas.width / 2.4, canvas.height / 2, 5, 255, 0, 0, 0.4);
         CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 12, canvas.width / 10, canvas.height / 20, 200, 50, 50, 1, 5);
-        CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'arial', 25, 'white');
+        CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'system-ui', 25, 'white');
         CanvasUtil.drawImage(canvas, this.flag, MouseListener.mouseCoordinates.x - this.flag.width / 20, MouseListener.mouseCoordinates.y - this.flag.height / 20, this.flag.width / 10, this.flag.height / 10, 0, 0.6);
         if (this.draw) {
             CanvasUtil.drawImage(canvas, this.flag, this.track.midPoint[0] - this.flag.width / 20, this.track.midPoint[1] - this.flag.height / 20, this.flag.width / 10, this.flag.height / 10, 0);
         }
         else {
             CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width - canvas.width / 6.5 - canvas.width / 21.7, canvas.height / 1.11, 0, 0, 0, 0.2);
-            CanvasUtil.writeText(canvas, 'Select a valid starting line', canvas.width / 2.4, canvas.height / 2, 'center', 'arial', 60, 'White');
+            CanvasUtil.writeText(canvas, 'Select a valid starting line', canvas.width / 2.4, canvas.height / 2, 'center', 'system-ui', 60, 'White');
             CanvasUtil.drawImage(canvas, this.flag, this.track.midPoint[0] - this.flag.width / 20, this.track.midPoint[1] - this.flag.height / 20, this.flag.width / 10, this.flag.height / 10, 0);
         }
         if (this.warning && this.startScene) {
             CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width - canvas.width / 6.5 - canvas.width / 21.7, canvas.height / 1.11, 100, 0, 0, 0.2);
-            CanvasUtil.writeText(canvas, 'Not a valid position', canvas.width / 2.4, canvas.height / 2, 'center', 'arial', 60, 'White');
+            CanvasUtil.writeText(canvas, 'Not a valid position', canvas.width / 2.4, canvas.height / 2, 'center', 'system-ui', 60, 'White');
         }
         if (this.track.lineStart.length > 0) {
             CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 1.2, canvas.width / 10, canvas.height / 12, 40, 200, 100, 1, 5);
-            CanvasUtil.writeText(canvas, 'Finish track', canvas.width / 1.09, canvas.height / 1.13, 'center', 'arial', 25, 'white');
+            CanvasUtil.writeText(canvas, 'Finish track', canvas.width / 1.09, canvas.height / 1.13, 'center', 'system-ui', 25, 'white');
         }
         CanvasUtil.fillCircle(canvas, MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, 5, 0, 255, 0);
     }

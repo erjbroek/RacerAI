@@ -75,13 +75,13 @@ export default class GeneticAlgorithm extends Scene {
         if (!this.startSimulation) {
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7, canvas.height / 3, canvas.width / 8, canvas.height / 25, 200, 200, 200, 0.9, canvas.height / 50);
             CanvasUtil.fillCircle(canvas, this.selectorPos[0], this.selectorPos[1], canvas.height / 70, 20, 50, 100, 1);
-            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, 'center', 'arial', 20, 'white');
+            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, 'center', 'system-ui', 20, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 2, canvas.width / 10, canvas.height / 20, 20, 190, 80, 1, 10);
-            CanvasUtil.writeText(canvas, 'Start simulation', canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, 'center', 'arial', 20, 'white');
+            CanvasUtil.writeText(canvas, 'Start simulation', canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, 'center', 'system-ui', 20, 'white');
         }
         if (this.population.beaten) {
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 1.4, canvas.width / 10, canvas.height / 10, 20, 210, 100, 1, 10);
-            CanvasUtil.writeText(canvas, 'Race the AI!', canvas.width - canvas.width / 6 + canvas.width / 10, canvas.height / 1.4 + canvas.height / 20, 'center', 'arial', 30, 'white');
+            CanvasUtil.writeText(canvas, 'Race the AI!', canvas.width - canvas.width / 6 + canvas.width / 10, canvas.height / 1.4 + canvas.height / 20, 'center', 'system-ui', 30, 'white');
         }
     }
 }

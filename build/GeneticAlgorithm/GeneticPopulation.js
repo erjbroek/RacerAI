@@ -138,10 +138,10 @@ export default class GeneticPopulation {
                 CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, 0, 255, 0, 0.1, false);
             }
         });
-        CanvasUtil.writeText(canvas, `generation: ${this.generation}`, canvas.width - canvas.width / 10, canvas.height / 10, 'center', 'arial', 20, 'white');
-        CanvasUtil.writeText(canvas, `highest fitness: ${Math.round(this.highScore)}`, canvas.width - canvas.width / 10, canvas.height / 8, 'center', 'arial', 20, 'white');
-        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length}`, canvas.width - canvas.width / 10, canvas.height / 6.7, 'center', 'arial', 20, 'white');
-        CanvasUtil.writeText(canvas, `Cars alive: ${Math.floor((this.cars.filter((car) => car.alive).length / this.cars.length) * 100)}%`, canvas.width - canvas.width / 10, canvas.height / 6, 'center', 'arial', 20, 'white');
+        CanvasUtil.writeText(canvas, `generation: ${this.generation}`, canvas.width - canvas.width / 10, canvas.height / 10, 'center', 'system-ui', 20, 'white');
+        CanvasUtil.writeText(canvas, `highest fitness: ${Math.round(this.highScore)}`, canvas.width - canvas.width / 10, canvas.height / 8, 'center', 'system-ui', 20, 'white');
+        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length}`, canvas.width - canvas.width / 10, canvas.height / 6.7, 'center', 'system-ui', 20, 'white');
+        CanvasUtil.writeText(canvas, `Cars alive: ${Math.floor((this.cars.filter((car) => car.alive).length / this.cars.length) * 100)}%`, canvas.width - canvas.width / 10, canvas.height / 6, 'center', 'system-ui', 20, 'white');
     }
 }
 //# sourceMappingURL=GeneticPopulation.js.map

@@ -56,9 +56,9 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red') {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red', fontWeight = 10) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
-        ctx.font = `${fontSize}px ${fontFamily}`;
+        ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
         ctx.fillText(text, xCoordinate, yCoordinate);

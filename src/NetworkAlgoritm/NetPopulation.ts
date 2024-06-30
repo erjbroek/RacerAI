@@ -16,6 +16,8 @@ export default class NetPopulation {
 
   public extinct: boolean = false;
 
+  private finished: boolean = false;
+
   private track: Track;
 
   private startingPoint: number[];
@@ -24,9 +26,17 @@ export default class NetPopulation {
 
   private species: NetCar[][] = [];
 
-  public generationTime: number = 0;
+  public trackTime: number = 0;
 
   public record: number = Infinity;
+
+  public recordHistory: number[][] = [];
+
+  public bestGen: number = 1;
+
+  public currentHighestLaps: number = 0;
+
+  public visualizeBestNetwork: boolean = false;
 
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = 50;
@@ -69,6 +79,7 @@ export default class NetPopulation {
     this.sortPlayers();
     this.crossover();
     this.mutate();
+    this.generation += 1;
   }
 
   /**
@@ -221,10 +232,10 @@ export default class NetPopulation {
    */
   private mutate(): void {
     // the chance for each gene to mutate by 10%
-    const slightMutationRate = 0.1;
+    const slightMutationRate = 0.15;
 
     // the chance for each gene to get randomized
-    const bigMutationRate = 0.02;
+    const bigMutationRate = 0.03;
 
     this.nextGen.forEach((car) => {
       car.genome.forEach((gene) => {
@@ -253,20 +264,28 @@ export default class NetPopulation {
    * @param elapsed is the elapsed time since last frame
    */
   public update(elapsed: number) {
-    this.generationTime += elapsed;
-
+    if (!this.finished) {
+      this.trackTime += elapsed;
+    }
     this.cars.forEach((car) => {
       car.alive = this.track.checkCollisionWithTrack(car);
 
       // makes sure car doesnt get stuck in loop
-      if (car.timeSinceLastLap >= 20000) {
+      if (car.timeSinceLastLap >= 15000) {
         car.alive = false;
       }
+
+      // if car finishes, update record
       if (car.laps >= 5) {
         car.alive = false;
-        this.record = Math.min(this.record, car.totalLapTime);
+        if (car.totalLapTime < this.record && car.leftStartLine) {
+          this.record = car.totalLapTime;
+          this.bestGen = this.generation;
+          this.recordHistory.push([this.record, this.bestGen]);
+        }
+        this.finished = true;
       }
-  
+
       if (car.alive) {
         car.totalLapTime += elapsed;
         car.timeSinceLastLap += elapsed;
@@ -278,6 +297,7 @@ export default class NetPopulation {
               car.laps += 1;
               car.crossingFinishLine = true;
               car.timeSinceLastLap = 0;
+              this.currentHighestLaps = Math.max(this.currentHighestLaps, car.laps);
             }
           } else {
             car.crossingFinishLine = false;
@@ -295,7 +315,9 @@ export default class NetPopulation {
 
     if (this.extinct) {
       this.extinct = true;
-      this.generationTime = 0;
+      this.trackTime = 0;
+      this.currentHighestLaps = 0;
+      this.finished = false;
       this.evolve();
     }
   }
@@ -307,7 +329,7 @@ export default class NetPopulation {
    */
   public visualizeNetwork(car: NetCar, canvas: HTMLCanvasElement) {
     CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width / 4, canvas.height / 3.5, 0, 0, 0, 0.3, 5);
-    CanvasUtil.writeText(canvas, "neural network of best car", canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, "center", "arial", 20, "black");
+    CanvasUtil.writeText(canvas, "neural network of best car", canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, "center", "system-ui", 20, "black");
     const radius = canvas.height / 60;
 
     car.genome.forEach((network) => {
@@ -332,11 +354,11 @@ export default class NetPopulation {
 
     for (let input = 0; input < 5; input++) {
       CanvasUtil.fillCircle(canvas, canvas.width / 14, canvas.height / 14 + input * radius * 3, radius, 255, 255, 255, 0.8);
-      CanvasUtil.writeText(canvas, `${input}`, canvas.width / 14, canvas.height / 12.5 + input * radius * 3, "center", "arial", 20, "black");
+      CanvasUtil.writeText(canvas, `${input}`, canvas.width / 14, canvas.height / 12.5 + input * radius * 3, "center", "system-ui", 20, "black");
     }
     for (let output = 0; output < 4; output++) {
       CanvasUtil.fillCircle(canvas, canvas.width / 4, canvas.height / 14 + radius + output * radius * 3, radius, 255, 255, 255, 0.8);
-      CanvasUtil.writeText(canvas, `${output}`, canvas.width / 4, canvas.height / 12.5 + radius + output * radius * 3, "center", "arial", 20, "black");
+      CanvasUtil.writeText(canvas, `${output}`, canvas.width / 4, canvas.height / 12.5 + radius + output * radius * 3, "center", "system-ui", 20, "black");
     }
   }
 
@@ -352,16 +374,33 @@ export default class NetPopulation {
         CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, car.red, car.green, car.blue, 0.8);
       }
     });
-    CanvasUtil.writeText(canvas, `generation: ${this.generation}`, canvas.width - canvas.width / 10, canvas.height / 10, "center", "arial", 20, "white");
-    CanvasUtil.writeText(canvas, `highest fitness: ${Math.round(this.highScore)}`, canvas.width - canvas.width / 10, canvas.height / 8, "center", "arial", 20, "white");
-    CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length}`, canvas.width - canvas.width / 10, canvas.height / 7, "center", "arial", 20, "white");
-    this.visualizeNetwork(this.cars[0], canvas);
-    if (this.record !== Infinity) {
-      CanvasUtil.writeText(canvas, `Record: ${this.record.toFixed(2)}`, canvas.width - canvas.width / 10, canvas.height / 6, "center", "arial", 20, "white");
-    } else {
-      CanvasUtil.writeText(canvas, `Record: N/A`, canvas.width - canvas.width / 10, canvas.height / 6, "center", "arial", 20, "white");
+    CanvasUtil.writeText(canvas, `lap ${this.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 15, 'center', 'system-ui', 30, 'black')
+    CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
+    CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
+    if (this.visualizeBestNetwork) {
+      this.visualizeNetwork(this.cars[0], canvas);
     }
-    CanvasUtil.writeText(canvas, `current time: ${Math.round(this.generationTime)} ms`, canvas.width - canvas.width / 10, canvas.height / 5, "center", "arial", 20, "white");
-    CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 60, 255, 0, 0, 1);
+
+    if (this.record !== Infinity) {
+      CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.record / 1000)}.${Math.floor((this.record % 1000) / 10)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+      CanvasUtil.writeText(canvas, `Gen: ${this.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
+    } else {
+      CanvasUtil.writeText(canvas, `Record: N/A`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+      CanvasUtil.writeText(canvas, `Gen: N/A`, canvas.width - canvas.width / 15, canvas.height / 4, "left", "system-ui", 20, "grey");
+    }
+
+    // renders record history
+    if (this.recordHistory.length > 0) {
+      CanvasUtil.writeText(canvas, `Generations that beat record`, canvas.width - canvas.width / 8, canvas.height / 3.1, "left", "system-ui", 15, "grey");
+      CanvasUtil.drawLine(canvas, canvas.width - canvas.width / 6.5, canvas.height / 3, canvas.width - canvas.width / 6.5 + canvas.width / 7, canvas.height / 3, 255, 255, 255, 0.2, 2);
+
+      const start = canvas.height / 2.6;
+      for (let i = 0; i < this.recordHistory.length; i++) {
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.recordHistory[i][0] / 1000)}.${Math.floor((this.recordHistory[i][0] % 1000))} s`, canvas.width - canvas.width / 7.5, start + i * 40, "left", "system-ui", 20, "grey");
+        CanvasUtil.writeText(canvas, `Gen: ${this.recordHistory[i][1]}`, canvas.width - canvas.width / 17, start + i * 40, "left", "system-ui", 20, "grey");
+      }
+    }
+    CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
+    CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 75, 255, 0, 0, 1);
   }
 }

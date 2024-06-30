@@ -113,9 +113,9 @@ export default class CanvasUtil {
    * @param fontSize font size in pixels
    * @param color colour of text to write
    */
-  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red'): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red', fontWeight: number = 10): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
-    ctx.font = `${fontSize}px ${fontFamily}`;
+    ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
     ctx.textAlign = alignment;
     ctx.fillText(text, xCoordinate, yCoordinate);

@@ -166,46 +166,46 @@ export default class DrawTrack extends Scene {
       this.track.push([MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, 0]);
     }
     CanvasUtil.fillCircle(canvas, MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, this.radius, 0, 0, 30, 0.3);
-    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 50, 120, 200);
-    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 50, 120, 200);
-    CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 50, 120, 200);
-    CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 50, 120, 200);
+    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);
+    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 30, 30, 30);
+    CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 30, 30, 30);
+    CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 30, 30, 30);
     CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2);
 
     CanvasUtil.fillCircle(canvas, canvas.width / 2.4, canvas.height / 2, 5, 255, 0, 0, 0.4);
 
     CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 12, canvas.width / 10, canvas.height / 20, 200, 50, 50, 1, 5);
-    CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'arial', 25, 'white');
+    CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'system-ui', 25, 'white');
 
     if (this.track.length > 2 && this.drawWarning) {
       if (!this.longEnough && !this.allValid && !this.closed) {
         CanvasUtil.fillRectangle(canvas, canvas.width / 19, canvas.height / 12, canvas.width / 1.31, canvas.height / 12, 170, 0, 0, 0.4, 5);
-        CanvasUtil.writeText(canvas, 'track too short & please connect all track pieces', canvas.width / 2.2, canvas.height / 7.8, 'center', 'arial', 30, 'red');
+        CanvasUtil.writeText(canvas, 'track too short & please connect all track pieces', canvas.width / 2.2, canvas.height / 7.8, 'center', 'system-ui', 30, 'red');
       } else if (!this.longEnough) {
         CanvasUtil.fillRectangle(canvas, canvas.width / 19, canvas.height / 12, canvas.width / 1.31, canvas.height / 12, 170, 0, 0, 0.4, 5);
-        CanvasUtil.writeText(canvas, 'Track is too short', canvas.width / 2.2, canvas.height / 7.8, 'center', 'arial', 30, 'red');
+        CanvasUtil.writeText(canvas, 'Track is too short', canvas.width / 2.2, canvas.height / 7.8, 'center', 'system-ui', 30, 'red');
       } else if (!this.allValid) {
         CanvasUtil.fillRectangle(canvas, canvas.width / 19, canvas.height / 12, canvas.width / 1.31, canvas.height / 12, 170, 0, 0, 0.4, 5);
-        CanvasUtil.writeText(canvas, 'Please connect all track pieces', canvas.width / 2.2, canvas.height / 7.8, 'center', 'arial', 30, 'red');
+        CanvasUtil.writeText(canvas, 'Please connect all track pieces', canvas.width / 2.2, canvas.height / 7.8, 'center', 'system-ui', 30, 'red');
       } else if (!this.closed) {
         this.track[0][2] = 0;
         this.track[this.track.length - 1][2] = 0;
         CanvasUtil.fillRectangle(canvas, canvas.width / 19, canvas.height / 12, canvas.width / 1.31, canvas.height / 12, 170, 0, 0, 0.4, 5);
-        CanvasUtil.writeText(canvas, 'Track start and finish must be connected', canvas.width / 2.2, canvas.height / 7.8, 'center', 'arial', 30, 'red');
+        CanvasUtil.writeText(canvas, 'Track start and finish must be connected', canvas.width / 2.2, canvas.height / 7.8, 'center', 'system-ui', 30, 'red');
       } else if (!this.straightPiece) {
         this.track[0][2] = 0;
         this.track[this.track.length - 1][2] = 0;
         CanvasUtil.fillRectangle(canvas, canvas.width / 19, canvas.height / 12, canvas.width / 1.31, canvas.height / 12, 170, 0, 0, 0.4, 5);
-        CanvasUtil.writeText(canvas, "come on, that doesn't look like a racetrack does it", canvas.width / 2.2, canvas.height / 7.8, 'center', 'arial', 30, 'red');
+        CanvasUtil.writeText(canvas, "come on, that doesn't look like a racetrack does it", canvas.width / 2.2, canvas.height / 7.8, 'center', 'system-ui', 30, 'red');
       }
     }
     if (this.track.length === 0) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width - canvas.width / 6.5 - canvas.width / 21.7, canvas.height / 1.11, 0, 0, 0, 0.2);
-      CanvasUtil.writeText(canvas, 'Draw your racing track here', canvas.width / 2.4, canvas.height / 2, 'center', 'arial', 60, 'White');
+      CanvasUtil.writeText(canvas, 'Draw your racing track here', canvas.width / 2.4, canvas.height / 2, 'center', 'system-ui', 60, 'White');
     }
     if (this.valid) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 1.2, canvas.width / 10, canvas.height / 12, 40, 200, 100, 1, 5);
-      CanvasUtil.writeText(canvas, 'Finish track', canvas.width / 1.09, canvas.height / 1.13, 'center', 'arial', 25, 'white');
+      CanvasUtil.writeText(canvas, 'Finish track', canvas.width / 1.09, canvas.height / 1.13, 'center', 'system-ui', 25, 'white');
     }
   }
 }
