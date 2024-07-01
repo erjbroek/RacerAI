@@ -135,12 +135,14 @@ export default class SelectStart extends Scene {
    */
   public render(canvas: HTMLCanvasElement): void {
     canvas.style.cursor = 'none';
+    CanvasUtil.fillCanvas(canvas, 'black')
+    CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width - canvas.width / 5, canvas.height - canvas.height / 10, 255, 255, 255, 1, 20);
     this.track.render(canvas);
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);
     CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 20, 30, 30, 30);
     CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 30, 30, 30);
     CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 30, 30, 30);
-    CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2);
+    CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2, 20);
 
     CanvasUtil.fillCircle(canvas, canvas.width / 2.4, canvas.height / 2, 5, 255, 0, 0, 0.4);
 
