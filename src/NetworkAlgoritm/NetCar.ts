@@ -27,6 +27,8 @@ export default class NetCar extends Car {
 
   public genome: number[][] = [];
 
+  public biases: number[] = [];
+
   public laps: number = 0;
 
   public crossingFinishLine: boolean = false;
@@ -45,7 +47,7 @@ export default class NetCar extends Car {
 
   public blue: number = 0;
 
-  public constructor(startPoint: number[], startAngle: number, genome: number[][]) {
+  public constructor(startPoint: number[], startAngle: number, genome: number[][], biases: number[]) {
     super();
     this.onFinishLine = false;
     this.width = window.innerHeight / 40;
@@ -60,6 +62,7 @@ export default class NetCar extends Car {
     this.ySpeed = 0;
     this.rayLengths = Array(this.numRays).fill(this.rayLength);
     this.genome = genome;
+    this.biases = biases;
   }
 
   /**
@@ -143,10 +146,15 @@ export default class NetCar extends Car {
 
     // multiplies each input by the weight of the connection and adds it to the output layer
     this.genome.forEach((connection) => {
-      const [inputIndex, outputIndex, weight] = connection;
+      const [inputIndex, outputIndex, weight, bias] = connection;
       if (inputIndex < inputs.length && outputIndex < outputLayer.length) {
         outputLayer[outputIndex] += (inputs[inputIndex] / this.rayLength) * weight;
       }
+    });
+
+    // adding biases of each output node
+    outputLayer.forEach((value, index) => {
+      outputLayer[index] += this.biases[index];
     });
 
     // activates the output layer

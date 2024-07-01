@@ -13,6 +13,7 @@ export default class NetCar extends Car {
     raySpread = 180;
     rayLengths;
     genome = [];
+    biases = [];
     laps = 0;
     crossingFinishLine = false;
     leftStartLine = false;
@@ -22,7 +23,7 @@ export default class NetCar extends Car {
     red = 0;
     green = 255;
     blue = 0;
-    constructor(startPoint, startAngle, genome) {
+    constructor(startPoint, startAngle, genome, biases) {
         super();
         this.onFinishLine = false;
         this.width = window.innerHeight / 40;
@@ -37,6 +38,7 @@ export default class NetCar extends Car {
         this.ySpeed = 0;
         this.rayLengths = Array(this.numRays).fill(this.rayLength);
         this.genome = genome;
+        this.biases = biases;
     }
     castRays(track) {
         const rayAngles = this.calculateRayAngles();
@@ -86,10 +88,13 @@ export default class NetCar extends Car {
     feedForward(inputs) {
         const outputLayer = [0, 0, 0, 0];
         this.genome.forEach((connection) => {
-            const [inputIndex, outputIndex, weight] = connection;
+            const [inputIndex, outputIndex, weight, bias] = connection;
             if (inputIndex < inputs.length && outputIndex < outputLayer.length) {
                 outputLayer[outputIndex] += (inputs[inputIndex] / this.rayLength) * weight;
             }
+        });
+        outputLayer.forEach((value, index) => {
+            outputLayer[index] += this.biases[index];
         });
         const activatedOutputLayer = outputLayer.map((neuron) => this.sigmoid(neuron));
         const turnActions = activatedOutputLayer.slice(0, 2);

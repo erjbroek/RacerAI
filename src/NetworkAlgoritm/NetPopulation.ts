@@ -47,8 +47,8 @@ export default class NetPopulation {
     this.species = [];
 
     for (let i = 0; i < this.size; i++) {
-      const genome = this.createInitialGenome();
-      this.cars.push(new NetCar(startingPoint, startingAngle, genome));
+      const [genome, biases]: [number[][], number[]] = [this.createInitialGenome()[0], this.createInitialGenome()[1]];
+      this.cars.push(new NetCar(startingPoint, startingAngle, genome, biases));
     }
 
     this.track.road.forEach((road) => {
@@ -57,21 +57,28 @@ export default class NetPopulation {
   }
 
   /**
+   * creates the first network for each car
    *
+   * @returns array with the initial genome and biases
    */
-  public createInitialGenome(): number[][] {
+  public createInitialGenome(): [number[][], number[]] {
     const genome: number[][] = [];
+    const biases: number[] = [];
     // creates network of 5 inputs (the rays) and 4 outputs (directions, like left or accelerating)
     for (let input = 0; input < 5; input++) {
       for (let output = 0; output < 4; output++) {
         genome.push([input, output, Math.random()]);
       }
     }
-    return genome;
+
+    for (let outputBias = 0; outputBias < 4; outputBias++) {
+      biases.push(0);
+    }
+    return [genome, biases];
   }
 
   /**
-   *
+   * after a population is extinct, these functions are called to choose the cars for the next generation (which will be mutated so that improvement is possible)
    */
   public evolve() {
     this.speciate();
@@ -217,13 +224,24 @@ export default class NetPopulation {
       const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
       const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
       const babyGenes: number[][] = [];
+
+      // crossover of weights of connections
       for (let j = 0; j < 20; j++) {
         const weight1: any = parent1.genome[j][2];
         const weight2: any = parent2.genome[j][2];
         const newGene: number = Math.random() > 0.5 ? weight1 : weight2;
         babyGenes.push([Math.floor(j / 4), j % 4, newGene]);
       }
-      this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
+
+      // crossover of biases of output nodes
+      const babyBiases: number[] = [];
+      for (let k = 0; k < parent1.biases.length; k++) {
+        const bias1 = parent1.biases[k];
+        const bias2 = parent2.biases[k];
+        const newBias = Math.random() > 0.5 ? bias1 : bias2;
+        babyBiases.push(newBias);
+      }
+      this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes, babyBiases));
     }
   }
 
@@ -252,6 +270,16 @@ export default class NetPopulation {
         if (gene[2] < 0) {
           gene[2] = 0;
         }
+      });
+      car.biases.forEach((bias, index) => {
+        if (Math.random() < slightMutationRate) {
+          car.biases[index] += Math.random() * 0.3 - 0.15; // Slight mutation
+        } else if (Math.random() < bigMutationRate) {
+          car.biases[index] = Math.random() * 2 - 1; // Big mutation, re-randomize bias in the range -1 to 1
+        }
+
+        // Ensure biases are within a reasonable range, e.g., -1 to 1
+        car.biases[index] = Math.max(-1, Math.min(car.biases[index], 1));
       });
     });
 

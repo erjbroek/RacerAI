@@ -26,8 +26,8 @@ export default class NetPopulation {
         this.extinct = false;
         this.species = [];
         for (let i = 0; i < this.size; i++) {
-            const genome = this.createInitialGenome();
-            this.cars.push(new NetCar(startingPoint, startingAngle, genome));
+            const [genome, biases] = [this.createInitialGenome()[0], this.createInitialGenome()[1]];
+            this.cars.push(new NetCar(startingPoint, startingAngle, genome, biases));
         }
         this.track.road.forEach((road) => {
             road[2] = 1;
@@ -35,12 +35,16 @@ export default class NetPopulation {
     }
     createInitialGenome() {
         const genome = [];
+        const biases = [];
         for (let input = 0; input < 5; input++) {
             for (let output = 0; output < 4; output++) {
                 genome.push([input, output, Math.random()]);
             }
         }
-        return genome;
+        for (let outputBias = 0; outputBias < 4; outputBias++) {
+            biases.push(0);
+        }
+        return [genome, biases];
     }
     evolve() {
         this.speciate();
@@ -141,7 +145,14 @@ export default class NetPopulation {
                 const newGene = Math.random() > 0.5 ? weight1 : weight2;
                 babyGenes.push([Math.floor(j / 4), j % 4, newGene]);
             }
-            this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes));
+            const babyBiases = [];
+            for (let k = 0; k < parent1.biases.length; k++) {
+                const bias1 = parent1.biases[k];
+                const bias2 = parent2.biases[k];
+                const newBias = Math.random() > 0.5 ? bias1 : bias2;
+                babyBiases.push(newBias);
+            }
+            this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes, babyBiases));
         }
     }
     mutate() {
@@ -161,6 +172,15 @@ export default class NetPopulation {
                 if (gene[2] < 0) {
                     gene[2] = 0;
                 }
+            });
+            car.biases.forEach((bias, index) => {
+                if (Math.random() < slightMutationRate) {
+                    car.biases[index] += Math.random() * 0.3 - 0.15;
+                }
+                else if (Math.random() < bigMutationRate) {
+                    car.biases[index] = Math.random() * 2 - 1;
+                }
+                car.biases[index] = Math.max(-1, Math.min(car.biases[index], 1));
             });
         });
         this.cars = this.nextGen;
