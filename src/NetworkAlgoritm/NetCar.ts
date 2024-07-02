@@ -207,7 +207,7 @@ export default class NetCar extends Car {
 
     // used to punish cars that havent left the finish line
     const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-    if (distanceFromStart > 100) {
+    if (distanceFromStart > 120) {
       this.leftStartLine = true;
     }
 

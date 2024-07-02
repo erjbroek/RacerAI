@@ -3,6 +3,7 @@ import NetCar from "./NetCar.js";
 export default class NetPopulation {
     cars = [];
     nextGen = [];
+    champions = [];
     generation = 1;
     size;
     highScore = 0;
@@ -21,7 +22,7 @@ export default class NetPopulation {
     currentHighestLaps = 0;
     visualizeBestNetwork = true;
     constructor(size, track, startingPoint, startingAngle) {
-        this.size = 20;
+        this.size = 25;
         this.track = track;
         this.startingPoint = startingPoint;
         this.startingAngle = startingAngle;
@@ -121,11 +122,15 @@ export default class NetPopulation {
         this.species.forEach((species) => {
             species.sort((car1, car2) => car2.fitness - car1.fitness);
         });
+        this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
     }
     crossover() {
         const survived = [];
         const selectedCars = [];
         const selectionPercentage = 0.5;
+        this.champions = [];
+        this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases));
+        this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[1].genome, this.cars[1].biases));
         this.species.forEach((species) => {
             const numToSelect = Math.ceil(species.length * selectionPercentage);
             const topCars = species.slice(0, numToSelect);
@@ -137,7 +142,7 @@ export default class NetPopulation {
             }
         });
         this.nextGen = [];
-        for (let i = 0; i < this.size; i++) {
+        for (let i = 0; i < this.size - 2; i++) {
             const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
             const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
             const babyGenes = [];
@@ -185,6 +190,7 @@ export default class NetPopulation {
                 car.biases[index] = Math.max(-1, Math.min(car.biases[index], 1));
             });
         });
+        this.nextGen.push(...this.champions);
         this.cars = this.nextGen;
     }
     update(elapsed) {
@@ -244,16 +250,17 @@ export default class NetPopulation {
         }
     }
     visualizeNetwork(car, canvas) {
-        CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width / 4, canvas.height / 3.5, 0, 0, 0, 0.3, 5);
-        CanvasUtil.writeText(canvas, "neural network of best car", canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, "center", "system-ui", 20, "black");
-        const radius = canvas.height / 60;
+        const xPosition = canvas.width / 1.73;
+        CanvasUtil.fillRectangle(canvas, xPosition + canvas.width / 30, canvas.height / 20, canvas.width / 4.5, canvas.height / 3.5, 0, 0, 0, 0.3, 5);
+        CanvasUtil.writeText(canvas, "neural network of best car", xPosition + canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, "center", "system-ui", 20, "black");
+        const radius = canvas.height / 90;
         const biases = car.biases;
         car.genome.forEach((network) => {
             const [input, output, weight] = network;
-            const startX = canvas.width / 14;
-            const startY = canvas.height / 14 + input * radius * 3;
-            const endX = canvas.width / 4;
-            const endY = canvas.height / 14 + radius + output * radius * 3;
+            const startX = xPosition + canvas.width / 14;
+            const startY = canvas.height / 14 + input * radius * 4;
+            const endX = xPosition + canvas.width / 4.5;
+            const endY = canvas.height / 14 + radius + output * radius * 4;
             const lineWidth = weight * 10;
             const rayLength = car.rayLengths[input];
             const ratio = rayLength / 100;
@@ -262,13 +269,13 @@ export default class NetPopulation {
             CanvasUtil.drawLine(canvas, startX, startY, endX, endY, red, green, 0, 0.8, lineWidth);
         });
         for (let input = 0; input < 5; input++) {
-            CanvasUtil.fillCircle(canvas, canvas.width / 14, canvas.height / 14 + input * radius * 3, radius, 255, 255, 255, 0.8);
-            CanvasUtil.writeText(canvas, `${input}`, canvas.width / 14, canvas.height / 12.5 + input * radius * 3, "center", "system-ui", 20, "black");
+            CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 14, canvas.height / 14 + input * radius * 4, radius, 255, 255, 255, 0.8);
+            CanvasUtil.writeText(canvas, `ray ${input + 1}`, xPosition + canvas.width / 27, canvas.height / 12.5 + input * radius * 4, "left", "system-ui", 20, "white");
         }
+        const moves = ['left', 'right', 'gas', 'brake'];
         for (let output = 0; output < 4; output++) {
-            CanvasUtil.fillCircle(canvas, canvas.width / 4, canvas.height / 14 + radius + output * radius * 3, radius, 255, 255, 255, 0.8);
-            CanvasUtil.writeText(canvas, `${output}`, canvas.width / 4, canvas.height / 12.5 + radius + output * radius * 3, "center", "system-ui", 20, "black");
-            CanvasUtil.writeText(canvas, `${Math.round(biases[output] * 100) / 100}`, canvas.width / 3.7, canvas.height / 12.5 + radius + output * radius * 3, "left", "system-ui", 20, "black");
+            CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 4.5, canvas.height / 14 + radius + output * radius * 4, radius, 255, 255, 255, 0.8);
+            CanvasUtil.writeText(canvas, `${moves[output]}`, xPosition + canvas.width / 4.3, canvas.height / 12.5 + radius + output * radius * 4, "left", "system-ui", 20, "white");
         }
     }
     render(canvas) {
@@ -318,15 +325,22 @@ export default class NetPopulation {
         else {
             CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
         }
-        CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 100, 255, 0, 0, 1);
-        if (this.performanceHistory.length > 1) {
+        CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);
+        if (this.performanceHistory.length > 0) {
             const top = canvas.height / 1.4;
             const height = canvas.height / 5;
             const width = canvas.width / 8;
             const bottom = top + height;
             const left = canvas.width - canvas.width / 7;
-            const highest = Math.max(...this.performanceHistory);
-            const lowest = Math.min(...this.performanceHistory);
+            let highest = 0;
+            let lowest = 0;
+            if (this.performanceHistory.length === 1) {
+                [highest, lowest] = [this.performanceHistory[0] * 1.01, this.performanceHistory[0] / 1.01];
+            }
+            else {
+                highest = Math.max(...this.performanceHistory);
+                lowest = Math.min(...this.performanceHistory);
+            }
             CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
             const numGridLines = 5;
             for (let i = 0; i < numGridLines; i++) {
@@ -341,7 +355,14 @@ export default class NetPopulation {
                 const yNormalized = (time - lowest) / (highest - lowest);
                 const x = left + width * 0.1 + ((width * 0.8) / this.performanceHistory.length) * i;
                 const y = bottom - height * 0.1 - height * 0.8 * yNormalized;
-                CanvasUtil.fillCircle(canvas, x, y, 4, 255, 255, 255, 1);
+                if (this.performanceHistory[i] > 0) {
+                    const lastTime = this.performanceHistory[i - 1];
+                    const lastYNormalized = (lastTime - lowest) / (highest - lowest);
+                    const lastX = left + width * 0.1 + ((width * 0.8) / this.performanceHistory.length) * (i - 1);
+                    const lastY = bottom - height * 0.1 - height * 0.8 * lastYNormalized;
+                    CanvasUtil.drawLine(canvas, lastX, lastY, x, y, 255, 255, 255, 0.5, 1);
+                }
+                CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
                 if (this.performanceHistory.length <= 7 || time === highest || time === lowest) {
                     const timeText = `${Math.floor(time / 1000)}.${('00' + Math.floor(time % 1000)).slice(-3)} s`;
                     CanvasUtil.writeText(canvas, timeText, x, y - 10, "center", "system-ui", 10, "white");
