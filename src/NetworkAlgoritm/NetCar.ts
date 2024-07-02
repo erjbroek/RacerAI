@@ -153,9 +153,9 @@ export default class NetCar extends Car {
     });
 
     // adding biases of each output node
-    outputLayer.forEach((value, index) => {
-      outputLayer[index] += this.biases[index];
-    });
+    // outputLayer.forEach((value, index) => {
+    //   outputLayer[index] += this.biases[index];
+    // });
 
     // activates the output layer
     const activatedOutputLayer = outputLayer.map((neuron) => this.sigmoid(neuron));
@@ -207,7 +207,7 @@ export default class NetCar extends Car {
 
     // used to punish cars that havent left the finish line
     const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-    if (distanceFromStart > 85) {
+    if (distanceFromStart > 100) {
       this.leftStartLine = true;
     }
 

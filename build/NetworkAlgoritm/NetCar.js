@@ -93,9 +93,6 @@ export default class NetCar extends Car {
                 outputLayer[outputIndex] += (inputs[inputIndex] / this.rayLength) * weight;
             }
         });
-        outputLayer.forEach((value, index) => {
-            outputLayer[index] += this.biases[index];
-        });
         const activatedOutputLayer = outputLayer.map((neuron) => this.sigmoid(neuron));
         const turnActions = activatedOutputLayer.slice(0, 2);
         const speedActions = activatedOutputLayer.slice(2, 4);
@@ -132,7 +129,7 @@ export default class NetCar extends Car {
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
         const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-        if (distanceFromStart > 85) {
+        if (distanceFromStart > 100) {
             this.leftStartLine = true;
         }
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.55) {
