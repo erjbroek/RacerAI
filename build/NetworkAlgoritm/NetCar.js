@@ -23,6 +23,7 @@ export default class NetCar extends Car {
     red = 0;
     green = 255;
     blue = 0;
+    locationHistory = [];
     constructor(startPoint, startAngle, genome, biases) {
         super();
         this.onFinishLine = false;

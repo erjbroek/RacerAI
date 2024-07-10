@@ -163,10 +163,8 @@ export class GameLoop {
   private renderFPS() {
     const context = this.canvas.getContext('2d');
     if (context) {
-      context.fillStyle = 'black';
-      context.clearRect(0, 0, 100, 50); // Clear the area where the FPS will be rendered
       context.font = '20px Arial';
-      context.fillText(`FPS: ${this.fps}`, 10, 30);
+      context.fillText(`FPS: ${this.fps}`, 100, 30);
     }
   }
 }

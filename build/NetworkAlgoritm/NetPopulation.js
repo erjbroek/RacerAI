@@ -1,5 +1,6 @@
 import CanvasUtil from "../utilities/CanvasUtil.js";
 import NetCar from "./NetCar.js";
+import Statistics from "./Statistics.js";
 export default class NetPopulation {
     cars = [];
     nextGen = [];
@@ -14,15 +15,10 @@ export default class NetPopulation {
     startingAngle;
     species = [];
     trackTime = 0;
-    record = Infinity;
-    recordHistory = [];
-    performanceHistory = [];
-    addedToHistory = false;
-    bestGen = 1;
-    currentHighestLaps = 0;
-    visualizeBestNetwork = true;
+    addLocationTimer = 50;
+    statistics = new Statistics();
     constructor(size, track, startingPoint, startingAngle) {
-        this.size = 25;
+        this.size = size;
         this.track = track;
         this.startingPoint = startingPoint;
         this.startingAngle = startingAngle;
@@ -204,15 +200,15 @@ export default class NetPopulation {
             }
             if (car.laps >= 5) {
                 car.alive = false;
-                if (car.totalLapTime < this.record && car.leftStartLine) {
-                    this.record = car.totalLapTime;
-                    this.bestGen = this.generation;
-                    this.recordHistory.push([this.record, this.bestGen]);
+                if (car.totalLapTime < this.statistics.record && car.leftStartLine) {
+                    this.statistics.record = car.totalLapTime;
+                    this.statistics.bestGen = this.generation;
+                    this.statistics.recordHistory.push([this.statistics.record, this.statistics.bestGen]);
                 }
-                if (!this.addedToHistory && car.leftStartLine) {
+                if (!this.statistics.addedToHistory && car.leftStartLine) {
                     this.finished = true;
-                    this.performanceHistory.push(this.trackTime);
-                    this.addedToHistory = true;
+                    this.statistics.performanceHistory.push(this.trackTime);
+                    this.statistics.addedToHistory = true;
                 }
             }
             if (car.alive) {
@@ -224,7 +220,7 @@ export default class NetPopulation {
                             car.laps += 1;
                             car.crossingFinishLine = true;
                             car.timeSinceLastLap = 0;
-                            this.currentHighestLaps = Math.max(this.currentHighestLaps, car.laps);
+                            this.statistics.currentHighestLaps = Math.max(this.statistics.currentHighestLaps, car.laps);
                         }
                     }
                     else {
@@ -239,84 +235,79 @@ export default class NetPopulation {
                 car.ySpeed = 0;
             }
         });
+        this.handleCarLines(elapsed);
         this.extinct = !this.cars.some((car) => car.alive);
         if (this.extinct) {
             this.extinct = true;
             this.trackTime = 0;
-            this.currentHighestLaps = 0;
+            this.statistics.currentHighestLaps = 0;
             this.finished = false;
-            this.addedToHistory = false;
+            this.statistics.addedToHistory = false;
             this.evolve();
         }
     }
-    visualizeNetwork(car, canvas) {
-        const xPosition = canvas.width / 1.73;
-        CanvasUtil.fillRectangle(canvas, xPosition + canvas.width / 30, canvas.height / 20, canvas.width / 4.5, canvas.height / 3.5, 0, 0, 0, 0.3, 5);
-        CanvasUtil.writeText(canvas, "neural network of best car", xPosition + canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, "center", "system-ui", 20, "black");
-        const radius = canvas.height / 90;
-        const biases = car.biases;
-        car.genome.forEach((network) => {
-            const [input, output, weight] = network;
-            const startX = xPosition + canvas.width / 14;
-            const startY = canvas.height / 14 + input * radius * 4;
-            const endX = xPosition + canvas.width / 4.5;
-            const endY = canvas.height / 14 + radius + output * radius * 4;
-            const lineWidth = weight * 10;
-            const rayLength = car.rayLengths[input];
-            const ratio = rayLength / 100;
-            const red = Math.floor(255 * (1 - ratio));
-            const green = Math.floor(255 * ratio);
-            CanvasUtil.drawLine(canvas, startX, startY, endX, endY, red, green, 0, 0.8, lineWidth);
-        });
-        for (let input = 0; input < 5; input++) {
-            CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 14, canvas.height / 14 + input * radius * 4, radius, 255, 255, 255, 0.8);
-            CanvasUtil.writeText(canvas, `ray ${input + 1}`, xPosition + canvas.width / 27, canvas.height / 12.5 + input * radius * 4, "left", "system-ui", 20, "white");
-        }
-        const moves = ['left', 'right', 'gas', 'brake'];
-        for (let output = 0; output < 4; output++) {
-            CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 4.5, canvas.height / 14 + radius + output * radius * 4, radius, 255, 255, 255, 0.8);
-            CanvasUtil.writeText(canvas, `${moves[output]}`, xPosition + canvas.width / 4.3, canvas.height / 12.5 + radius + output * radius * 4, "left", "system-ui", 20, "white");
+    handleCarLines(elapsed) {
+        this.addLocationTimer -= elapsed;
+        if (this.addLocationTimer <= 0) {
+            this.addLocationTimer = 50;
+            this.cars.forEach((car) => {
+                car.locationHistory.push([car.posX, car.posY]);
+            });
         }
     }
+    renderCarLines(canvas) {
+        this.cars.forEach((car) => {
+            if (car.locationHistory.length >= 2) {
+                if (car.locationHistory.length >= 40) {
+                    car.locationHistory.splice(0, 1);
+                }
+                for (let i = 1; i < car.locationHistory.length - 1; i++) {
+                    const opacity = (i / 41) * 0.3;
+                    CanvasUtil.drawLine(canvas, car.posX, car.posY, car.locationHistory[car.locationHistory.length - 1][0], car.locationHistory[car.locationHistory.length - 1][1], 255, 255, 255, 0.3, 1);
+                    CanvasUtil.drawLine(canvas, car.locationHistory[i][0], car.locationHistory[i][1], car.locationHistory[i - 1][0], car.locationHistory[i - 1][1], 255, 255, 255, opacity, 1);
+                }
+            }
+        });
+    }
     render(canvas) {
+        this.renderCarLines(canvas);
         this.cars.forEach((car) => {
             if (car.alive) {
                 car.renderRays(canvas, this.track);
                 CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, car.red, car.green, car.blue, 0.8);
             }
         });
-        CanvasUtil.writeText(canvas, `lap ${this.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 15, "center", "system-ui", 30, "black");
+        CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 10, "center", "system-ui", 30, "black");
         CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
         CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
         CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
-        if (this.visualizeBestNetwork) {
-            this.visualizeNetwork(this.cars[0], canvas);
-        }
-        if (this.record !== Infinity) {
-            if (Math.floor(this.record % 1000) < 100) {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.record / 1000)}.0${Math.floor(this.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+        this.statistics.renderButtons(canvas);
+        this.statistics.renderNetwork(this.cars[0], canvas);
+        if (this.statistics.record !== Infinity) {
+            if (Math.floor(this.statistics.record % 1000) < 100) {
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
             }
             else {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.record / 1000)}.${Math.floor(this.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
             }
-            CanvasUtil.writeText(canvas, `Gen: ${this.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
+            CanvasUtil.writeText(canvas, `Gen: ${this.statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
         }
         else {
             CanvasUtil.writeText(canvas, `Record: N/A`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
             CanvasUtil.writeText(canvas, `Gen: N/A`, canvas.width - canvas.width / 15, canvas.height / 4, "left", "system-ui", 20, "grey");
         }
-        if (this.recordHistory.length > 0) {
+        if (this.statistics.recordHistory.length > 0) {
             CanvasUtil.writeText(canvas, `Generations that beat record`, canvas.width - canvas.width / 8, canvas.height / 3.1, "left", "system-ui", 15, "grey");
             CanvasUtil.drawLine(canvas, canvas.width - canvas.width / 6.5, canvas.height / 3, canvas.width - canvas.width / 6.5 + canvas.width / 7, canvas.height / 3, 255, 255, 255, 0.2, 2);
             const start = canvas.height / 2.6;
-            for (let i = 0; i < this.recordHistory.length; i++) {
-                if (Math.floor(this.recordHistory[i][0] % 1000) < 100) {
-                    CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.recordHistory[i][0] / 1000)}.0${Math.floor(this.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
+            for (let i = 0; i < this.statistics.recordHistory.length; i++) {
+                if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
+                    CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
                 }
                 else {
-                    CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.recordHistory[i][0] / 1000)}.${Math.floor(this.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
+                    CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
                 }
-                CanvasUtil.writeText(canvas, `Gen: ${this.recordHistory[i][1]}`, canvas.width - canvas.width / 17, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
+                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}`, canvas.width - canvas.width / 17, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
             }
         }
         if (this.trackTime % 1000 < 100) {
@@ -325,49 +316,8 @@ export default class NetPopulation {
         else {
             CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
         }
-        CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);
-        if (this.performanceHistory.length > 0) {
-            const top = canvas.height / 1.4;
-            const height = canvas.height / 5;
-            const width = canvas.width / 8;
-            const bottom = top + height;
-            const left = canvas.width - canvas.width / 7;
-            let highest = 0;
-            let lowest = 0;
-            if (this.performanceHistory.length === 1) {
-                [highest, lowest] = [this.performanceHistory[0] * 1.01, this.performanceHistory[0] / 1.01];
-            }
-            else {
-                highest = Math.max(...this.performanceHistory);
-                lowest = Math.min(...this.performanceHistory);
-            }
-            CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
-            const numGridLines = 5;
-            for (let i = 0; i < numGridLines; i++) {
-                const value = lowest + (i * (highest - lowest)) / (numGridLines - 1);
-                const y = bottom - height * 0.1 - height * 0.8 * ((value - lowest) / (highest - lowest));
-                CanvasUtil.drawLine(canvas, left + width * 0.05, y, left + width * 0.95, y, 255, 255, 255, 0.5, 1);
-                const labelText = `${Math.floor(value / 1000)}.${("00" + Math.floor(value % 1000)).slice(-3)} s`;
-                CanvasUtil.writeText(canvas, labelText, left - 10, y, "right", "system-ui", 10, "white");
-            }
-            for (let i = 0; i < this.performanceHistory.length; i++) {
-                const time = this.performanceHistory[i];
-                const yNormalized = (time - lowest) / (highest - lowest);
-                const x = left + width * 0.1 + ((width * 0.8) / this.performanceHistory.length) * i;
-                const y = bottom - height * 0.1 - height * 0.8 * yNormalized;
-                if (this.performanceHistory[i] > 0) {
-                    const lastTime = this.performanceHistory[i - 1];
-                    const lastYNormalized = (lastTime - lowest) / (highest - lowest);
-                    const lastX = left + width * 0.1 + ((width * 0.8) / this.performanceHistory.length) * (i - 1);
-                    const lastY = bottom - height * 0.1 - height * 0.8 * lastYNormalized;
-                    CanvasUtil.drawLine(canvas, lastX, lastY, x, y, 255, 255, 255, 0.5, 1);
-                }
-                CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
-                if (this.performanceHistory.length <= 7 || time === highest || time === lowest) {
-                    const timeText = `${Math.floor(time / 1000)}.${('00' + Math.floor(time % 1000)).slice(-3)} s`;
-                    CanvasUtil.writeText(canvas, timeText, x, y - 10, "center", "system-ui", 10, "white");
-                }
-            }
+        if (this.statistics.performanceHistory.length > 0) {
+            this.statistics.renderGraph(canvas);
         }
     }
 }

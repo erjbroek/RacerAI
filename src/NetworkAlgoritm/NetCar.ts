@@ -47,6 +47,9 @@ export default class NetCar extends Car {
 
   public blue: number = 0;
 
+  // used to render the lines behind the cars
+  public locationHistory: number[][] = [];
+
   public constructor(startPoint: number[], startAngle: number, genome: number[][], biases: number[]) {
     super();
     this.onFinishLine = false;
