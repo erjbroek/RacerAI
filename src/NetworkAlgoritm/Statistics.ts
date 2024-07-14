@@ -29,8 +29,23 @@ export default class Statistics {
   public renderSettings(canvas: HTMLCanvasElement) {}
 
   public renderButtons(canvas: HTMLCanvasElement) {
-    // CanvasUtil.fillRectangle(canvas, canvas.width / 1.15, canvas.height / 3, canvas.height / 50, canvas.height / 50, 150, 150, 150, 1, canvas.height / 200);
-    // CanvasUtil.drawRectangle(canvas, canvas.width / 1.15, canvas.height / 3, canvas.height / 50, canvas.height / 50, 30, 30, 30, 1, 1, canvas.height / 200);
+    CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 75, canvas.width / 2, canvas.height / 18, 50, 50, 50, 1, canvas.height / 100);
+
+    CanvasUtil.fillRectangle(canvas, canvas.width / 9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
+    CanvasUtil.drawRectangle(canvas, canvas.width / 9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
+    CanvasUtil.writeText(canvas, 'render neural network', canvas.width / 8, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+
+    CanvasUtil.fillRectangle(canvas, canvas.width / 4.2, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
+    CanvasUtil.drawRectangle(canvas, canvas.width / 4.2, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
+    CanvasUtil.writeText(canvas, 'render performance graph', canvas.width / 3.95, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+
+    CanvasUtil.fillRectangle(canvas, canvas.width / 2.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
+    CanvasUtil.drawRectangle(canvas, canvas.width / 2.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
+    CanvasUtil.writeText(canvas, 'show advanced stats', canvas.width / 2.5, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+
+    CanvasUtil.fillRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
+    CanvasUtil.drawRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
+    CanvasUtil.writeText(canvas, 'render racing lines', canvas.width / 1.9, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
   }
 
   public renderGraph(canvas: HTMLCanvasElement) {
@@ -41,7 +56,6 @@ export default class Statistics {
     const left: number = canvas.width - canvas.width / 7;
     let highest: number = 0;
     let lowest: number = 0;
-    console.log('in function')
     if (this.performanceHistory.length === 1) {
       [highest, lowest] = [this.performanceHistory[0] * 1.01, this.performanceHistory[0] / 1.01];
     } else {

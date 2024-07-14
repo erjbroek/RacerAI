@@ -377,8 +377,8 @@ export default class NetPopulation {
           car.locationHistory.splice(0, 1);
         }
         for (let i = 1; i < car.locationHistory.length - 1; i++) {
-          const opacity = (i / 41) * 0.3;
-          CanvasUtil.drawLine(canvas, car.posX, car.posY, car.locationHistory[car.locationHistory.length - 1][0], car.locationHistory[car.locationHistory.length - 1][1], 255, 255, 255, 0.3, 1)
+          const opacity = (i / 41) * 0.45;
+          CanvasUtil.drawLine(canvas, car.posX, car.posY, car.locationHistory[car.locationHistory.length - 1][0], car.locationHistory[car.locationHistory.length - 1][1], 255, 255, 255, 0.45, 1)
           CanvasUtil.drawLine(canvas, car.locationHistory[i][0], car.locationHistory[i][1], car.locationHistory[i - 1][0], car.locationHistory[i - 1][1], 255, 255, 255, opacity, 1)
         }
       }
@@ -398,7 +398,7 @@ export default class NetPopulation {
         CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, car.red, car.green, car.blue, 0.8);
       }
     });
-    CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 10, "center", "system-ui", 30, "black");
+    CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
     CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
     CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
     CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
