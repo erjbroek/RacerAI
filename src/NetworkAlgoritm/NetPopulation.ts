@@ -391,7 +391,9 @@ export default class NetPopulation {
    * @param canvas is the selected canvas the items are drawn on
    */
   public render(canvas: HTMLCanvasElement) {
-    this.renderCarLines(canvas)
+    if (this.statistics.renderRacingLines) {
+      this.renderCarLines(canvas)
+    }
     this.cars.forEach((car) => {
       if (car.alive) {
         car.renderRays(canvas, this.track);
@@ -404,7 +406,10 @@ export default class NetPopulation {
     CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
 
     this.statistics.renderButtons(canvas);
-    this.statistics.renderNetwork(this.cars[0], canvas);
+
+    if (this.statistics.showNetwork) {
+      this.statistics.renderNetwork(this.cars[0], canvas);
+    }
 
     if (this.statistics.record !== Infinity) {
       if (Math.floor(this.statistics.record % 1000) < 100) {
@@ -441,8 +446,10 @@ export default class NetPopulation {
     }
 
     // CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);
-    if (this.statistics.performanceHistory.length > 0) {
-      this.statistics.renderGraph(canvas);
+    if (this.statistics.showGraph) {
+      if (this.statistics.performanceHistory.length > 0) {
+        this.statistics.renderGraph(canvas);
+      }
     }
   }
 }

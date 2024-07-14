@@ -1,8 +1,10 @@
+import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from "../utilities/CanvasUtil.js";
 export default class Statistics {
     showAdvancedStats = false;
     showNetwork = false;
     showGraph = true;
+    renderRacingLines = true;
     performanceHistory = [];
     record = Infinity;
     recordHistory = [];
@@ -11,22 +13,49 @@ export default class Statistics {
     currentHighestLaps = 0;
     constuctor() {
     }
-    processInput() { }
+    processInput() {
+        if (MouseListener.buttonPressed(0)) {
+            if (MouseListener.mouseCoordinates.x >= window.innerWidth / 9 && MouseListener.mouseCoordinates.y >= window.innerHeight / 33 && MouseListener.mouseCoordinates.x <= window.innerWidth / 9 + window.innerWidth / 22.5 && MouseListener.mouseCoordinates.y <= window.innerHeight / 33 + window.innerHeight / 22.5) {
+                this.showNetwork = !this.showNetwork;
+            }
+            if (MouseListener.mouseCoordinates.x >= window.innerWidth / 4.2 && MouseListener.mouseCoordinates.y >= window.innerHeight / 33 && MouseListener.mouseCoordinates.x <= window.innerWidth / 4.2 + window.innerWidth / 22.5 && MouseListener.mouseCoordinates.y <= window.innerHeight / 33 + window.innerHeight / 22.5) {
+                this.showGraph = !this.showGraph;
+            }
+            if (MouseListener.mouseCoordinates.x >= window.innerWidth / 2.6 && MouseListener.mouseCoordinates.y >= window.innerHeight / 33 && MouseListener.mouseCoordinates.x <= window.innerWidth / 2.6 + window.innerWidth / 22.5 && MouseListener.mouseCoordinates.y <= window.innerHeight / 33 + window.innerHeight / 22.5) {
+                this.showAdvancedStats = !this.showAdvancedStats;
+            }
+            if (MouseListener.mouseCoordinates.x >= window.innerWidth / 1.95 && MouseListener.mouseCoordinates.y >= window.innerHeight / 33 && MouseListener.mouseCoordinates.x <= window.innerWidth / 1.95 + window.innerWidth / 22.5 && MouseListener.mouseCoordinates.y <= window.innerHeight / 33 + window.innerHeight / 22.5) {
+                this.renderRacingLines = !this.renderRacingLines;
+            }
+        }
+    }
     renderSettings(canvas) { }
     renderButtons(canvas) {
         CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 75, canvas.width / 2, canvas.height / 18, 50, 50, 50, 1, canvas.height / 100);
         CanvasUtil.fillRectangle(canvas, canvas.width / 9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
         CanvasUtil.drawRectangle(canvas, canvas.width / 9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
         CanvasUtil.writeText(canvas, 'render neural network', canvas.width / 8, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+        if (this.showNetwork) {
+            CanvasUtil.fillCircle(canvas, canvas.width / 9 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
+        }
         CanvasUtil.fillRectangle(canvas, canvas.width / 4.2, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
         CanvasUtil.drawRectangle(canvas, canvas.width / 4.2, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
         CanvasUtil.writeText(canvas, 'render performance graph', canvas.width / 3.95, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+        if (this.showGraph) {
+            CanvasUtil.fillCircle(canvas, canvas.width / 4.2 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
+        }
         CanvasUtil.fillRectangle(canvas, canvas.width / 2.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
         CanvasUtil.drawRectangle(canvas, canvas.width / 2.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
         CanvasUtil.writeText(canvas, 'show advanced stats', canvas.width / 2.5, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+        if (this.showAdvancedStats) {
+            CanvasUtil.fillCircle(canvas, canvas.width / 2.6 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
+        }
         CanvasUtil.fillRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
         CanvasUtil.drawRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
         CanvasUtil.writeText(canvas, 'render racing lines', canvas.width / 1.9, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+        if (this.renderRacingLines) {
+            CanvasUtil.fillCircle(canvas, canvas.width / 1.95 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
+        }
     }
     renderGraph(canvas) {
         const top = canvas.height / 1.4;

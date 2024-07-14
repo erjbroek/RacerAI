@@ -21,6 +21,7 @@ export default class NetAlgorithm extends Scene {
         this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
     }
     processInput() {
+        this.population.statistics.processInput();
         if (MouseListener.isButtonDown(0)) {
             if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
                 this.selectorPos[0] = MouseListener.mouseCoordinates.x;

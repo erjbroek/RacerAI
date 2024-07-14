@@ -270,7 +270,9 @@ export default class NetPopulation {
         });
     }
     render(canvas) {
-        this.renderCarLines(canvas);
+        if (this.statistics.renderRacingLines) {
+            this.renderCarLines(canvas);
+        }
         this.cars.forEach((car) => {
             if (car.alive) {
                 car.renderRays(canvas, this.track);
@@ -282,7 +284,9 @@ export default class NetPopulation {
         CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
         CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
         this.statistics.renderButtons(canvas);
-        this.statistics.renderNetwork(this.cars[0], canvas);
+        if (this.statistics.showNetwork) {
+            this.statistics.renderNetwork(this.cars[0], canvas);
+        }
         if (this.statistics.record !== Infinity) {
             if (Math.floor(this.statistics.record % 1000) < 100) {
                 CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
@@ -316,8 +320,10 @@ export default class NetPopulation {
         else {
             CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
         }
-        if (this.statistics.performanceHistory.length > 0) {
-            this.statistics.renderGraph(canvas);
+        if (this.statistics.showGraph) {
+            if (this.statistics.performanceHistory.length > 0) {
+                this.statistics.renderGraph(canvas);
+            }
         }
     }
 }
