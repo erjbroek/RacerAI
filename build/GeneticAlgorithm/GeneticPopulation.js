@@ -10,7 +10,7 @@ export default class GeneticPopulation {
     extinct = false;
     moveDuration = 200;
     track;
-    beaten = true;
+    beaten = false;
     finished = false;
     startingPoint;
     startingRotation;
@@ -135,7 +135,7 @@ export default class GeneticPopulation {
     render(canvas) {
         this.cars.forEach((car) => {
             if (car.alive) {
-                CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, 0, 255, 0, 0.1, false);
+                CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, 0, 255, 0, 0.5, false);
             }
         });
         CanvasUtil.writeText(canvas, `generation: ${this.generation}`, canvas.width - canvas.width / 10, canvas.height / 10, 'center', 'system-ui', 20, 'white');

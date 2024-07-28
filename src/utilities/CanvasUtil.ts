@@ -14,19 +14,19 @@ export default class CanvasUtil {
    * @returns the 2D rendering context of the canvas
    */
   private static getCanvasContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
-    if (ctx === null) throw new Error('Canvas Rendering Context is null');
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+    if (ctx === null) throw new Error("Canvas Rendering Context is null");
     return ctx;
   }
 
   public static setCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    if (this.ctx === null) throw new Error('Canvas Rendering Context is null');
+    this.ctx = canvas.getContext("2d");
+    if (this.ctx === null) throw new Error("Canvas Rendering Context is null");
   }
 
   public static getCanvas(): HTMLCanvasElement {
-    if (!this.canvas) throw new Error('Canvas is not set');
+    if (!this.canvas) throw new Error("Canvas is not set");
     return this.canvas;
   }
 
@@ -36,7 +36,7 @@ export default class CanvasUtil {
    * @param canvas canvas that requires filling
    * @param colour the colour that the canvas will be filled with
    */
-  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = '#FF10F0'): void {
+  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = "#FF10F0"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.rect(0, 0, canvas.width, canvas.height);
@@ -103,6 +103,7 @@ export default class CanvasUtil {
   }
 
   /**
+   * Write text to the canvas, with line breaks for each occurrence of "<br>"
    *
    * @param canvas Canvas to write to
    * @param text Text to write
@@ -113,12 +114,20 @@ export default class CanvasUtil {
    * @param fontSize font size in pixels
    * @param color colour of text to write
    */
-  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red', fontWeight: number = 10): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = "center", fontFamily: string = "sans-serif", fontSize: number = 20, color: string = "red", fontWeight: number = 10): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
     ctx.textAlign = alignment;
-    ctx.fillText(text, xCoordinate, yCoordinate);
+
+    // each time <br> is found in the text, a line break is made
+    const lines = text.split("<br>");
+    let currentY = yCoordinate;
+
+    for (const line of lines) {
+      ctx.fillText(line, xCoordinate, currentY);
+      currentY += fontSize;
+    }
   }
 
   /**
@@ -255,12 +264,57 @@ export default class CanvasUtil {
     ctx.fill();
   }
 
+  /**
+   * Draw a filled rectangle with a gradient to the canvas
+   *
+   * @param canvas the canvas to draw to
+   * @param dx the x-coordinate of the rectangle's left left corner
+   * @param dy the y-coordinate of the rectangle's left left corner
+   * @param width the width of the rectangle from x to the right
+   * @param height the height of the rectrangle from y downwards
+   * @param colors an array of color stops for the gradient, each color stop is an object with properties `color` and `stop`
+   * @param angle the angle of the gradient in degrees (0 is top to bottom, 180 is bottom to top, etc.)
+   * @param borderRadius the border radius of the rectangle
+   */
+  public static fillRectangleWithGradient(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, colors: { red: number; green: number; blue: number; opacity: number; stop: number }[], angle: number = 0, borderRadius: number = 0): void {
+    const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
+    ctx.beginPath();
+
+    ctx.moveTo(dx + borderRadius, dy);
+    ctx.lineTo(dx + width - borderRadius, dy);
+    ctx.arcTo(dx + width, dy, dx + width, dy + borderRadius, borderRadius);
+    ctx.lineTo(dx + width, dy + height - borderRadius);
+    ctx.arcTo(dx + width, dy + height, dx + width - borderRadius, dy + height, borderRadius);
+    ctx.lineTo(dx + borderRadius, dy + height);
+    ctx.arcTo(dx, dy + height, dx, dy + height - borderRadius, borderRadius);
+    ctx.lineTo(dx, dy + borderRadius);
+    ctx.arcTo(dx, dy, dx + borderRadius, dy, borderRadius);
+    ctx.closePath();
+
+    // Calculate gradient start and end points based on angle
+    const radians = angle * (Math.PI / 180);
+    const x0 = dx + width / 2 + (width / 2) * Math.cos(radians);
+    const y0 = dy + height / 2 - (height / 2) * Math.sin(radians);
+    const x1 = dx + width / 2 - (width / 2) * Math.cos(radians);
+    const y1 = dy + height / 2 + (height / 2) * Math.sin(radians);
+
+    const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
+
+    colors.forEach(({ red, green, blue, opacity, stop }) => {
+      const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+      gradient.addColorStop(stop, color);
+    })
+
+    ctx.fillStyle = gradient;
+    ctx.fill();
+  }
+
   public static getPixelColor(canvas: HTMLCanvasElement, x: number, y: number): ImageData {
-    const context = canvas.getContext('2d', { willReadFrequently: true });
+    const context = canvas.getContext("2d", { willReadFrequently: true });
     if (context) {
       return context.getImageData(x, y, 1, 1);
     }
-    throw new Error('Unable to get canvas context');
+    throw new Error("Unable to get canvas context");
   }
 
   public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, red: number, green: number, blue: number, opacity: number, isPlayer: boolean = false) {

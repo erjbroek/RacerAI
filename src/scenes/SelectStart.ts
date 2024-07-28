@@ -5,6 +5,7 @@ import GeneticAlgorithm from '../GeneticAlgorithm/GeneticAlgorithm.js';
 import Scene from './Scene.js';
 import Track from '../Track.js';
 import NetAlgorithm from '../NetworkAlgoritm/NetAlgoritm.js';
+import ChooseAlgoritm from './ChooseAlgoritm.js';
 
 export default class SelectStart extends Scene {
   private track: Track;
@@ -125,7 +126,7 @@ export default class SelectStart extends Scene {
       }
     });
     if (this.finished) {
-      return new NetAlgorithm(this.track, this.radius);
+      return new ChooseAlgoritm(this.track, this.radius);
     }
     return this;
   }

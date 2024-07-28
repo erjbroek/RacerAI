@@ -3,6 +3,8 @@ import KeyListener from '../utilities/KeyListener.js';
 import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import SelectStart from './SelectStart.js';
+import ChooseAlgoritm from './ChooseAlgoritm.js';
+import RenderUI from './RenderUI.js';
 
 export default class DrawTrack extends Scene {
   private radius: number = window.innerWidth / 28;
@@ -28,6 +30,8 @@ export default class DrawTrack extends Scene {
   private valid: boolean = false;
 
   private checked: boolean = false;
+
+  private renderUI: RenderUI = new RenderUI();
 
   public constructor() {
     super();
@@ -159,23 +163,13 @@ export default class DrawTrack extends Scene {
    * @param canvas is the canvas the element are rendered to
    */
   public render(canvas: HTMLCanvasElement): void {
-    CanvasUtil.fillCanvas(canvas, 'black')
-    CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 1, 20);
+    RenderUI.renderTrack(canvas, this.track, this.radius)
+    RenderUI.renderUI(canvas);
 
-    this.track.forEach((trackPiece) => {
-      CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 255 * Number(this.valid), 0);
-    });
     if (this.draw) {
       this.track.push([MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, 0]);
     }
     CanvasUtil.fillCircle(canvas, MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, this.radius, 0, 0, 30, 0.3);
-    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);
-    CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 12, 30, 30, 30);
-    CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 30, 30, 30);
-    CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 30, 30, 30);
-    CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2, 20);
-
-    CanvasUtil.fillCircle(canvas, canvas.width / 2.4, canvas.height / 2, 5, 255, 0, 0, 0.4);
 
     CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 12, canvas.width / 10, canvas.height / 20, 200, 50, 50, 1, 5);
     CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'system-ui', 25, 'white');
@@ -202,13 +196,18 @@ export default class DrawTrack extends Scene {
         CanvasUtil.writeText(canvas, "come on, that doesn't look like a racetrack does it", canvas.width / 2.2, canvas.height / 7.8, 'center', 'system-ui', 30, 'red');
       }
     }
+
     if (this.track.length === 0) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 20, canvas.width - canvas.width / 6.5 - canvas.width / 21.7, canvas.height / 1.11, 0, 0, 0, 0.2);
       CanvasUtil.writeText(canvas, 'Draw your racing track here', canvas.width / 2.4, canvas.height / 2, 'center', 'system-ui', 60, 'White');
     }
+
     if (this.valid) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 1.2, canvas.width / 10, canvas.height / 12, 40, 200, 100, 1, 5);
       CanvasUtil.writeText(canvas, 'Finish track', canvas.width / 1.09, canvas.height / 1.13, 'center', 'system-ui', 25, 'white');
+    } else {
+      CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 1.2, canvas.width / 10, canvas.height / 12, 40, 200, 100, 0.2, 5);
+      CanvasUtil.writeText(canvas, 'Finish track first', canvas.width / 1.09, canvas.height / 1.13, 'center', 'system-ui', 25, 'white');
     }
   }
 }

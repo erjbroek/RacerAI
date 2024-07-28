@@ -2,23 +2,23 @@ export default class CanvasUtil {
     static canvas;
     static ctx;
     static getCanvasContext(canvas) {
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx === null)
-            throw new Error('Canvas Rendering Context is null');
+            throw new Error("Canvas Rendering Context is null");
         return ctx;
     }
     static setCanvas(canvas) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext("2d");
         if (this.ctx === null)
-            throw new Error('Canvas Rendering Context is null');
+            throw new Error("Canvas Rendering Context is null");
     }
     static getCanvas() {
         if (!this.canvas)
-            throw new Error('Canvas is not set');
+            throw new Error("Canvas is not set");
         return this.canvas;
     }
-    static fillCanvas(canvas, colour = '#FF10F0') {
+    static fillCanvas(canvas, colour = "#FF10F0") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
@@ -56,12 +56,17 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red', fontWeight = 10) {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = "center", fontFamily = "sans-serif", fontSize = 20, color = "red", fontWeight = 10) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
-        ctx.fillText(text, xCoordinate, yCoordinate);
+        const lines = text.split("<br>");
+        let currentY = yCoordinate;
+        for (const line of lines) {
+            ctx.fillText(line, xCoordinate, currentY);
+            currentY += fontSize;
+        }
     }
     static drawCircle(canvas, centerX, centerY, radius, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
@@ -115,12 +120,38 @@ export default class CanvasUtil {
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.fill();
     }
+    static fillRectangleWithGradient(canvas, dx, dy, width, height, colors, angle = 0, borderRadius = 0) {
+        const ctx = CanvasUtil.getCanvasContext(canvas);
+        ctx.beginPath();
+        ctx.moveTo(dx + borderRadius, dy);
+        ctx.lineTo(dx + width - borderRadius, dy);
+        ctx.arcTo(dx + width, dy, dx + width, dy + borderRadius, borderRadius);
+        ctx.lineTo(dx + width, dy + height - borderRadius);
+        ctx.arcTo(dx + width, dy + height, dx + width - borderRadius, dy + height, borderRadius);
+        ctx.lineTo(dx + borderRadius, dy + height);
+        ctx.arcTo(dx, dy + height, dx, dy + height - borderRadius, borderRadius);
+        ctx.lineTo(dx, dy + borderRadius);
+        ctx.arcTo(dx, dy, dx + borderRadius, dy, borderRadius);
+        ctx.closePath();
+        const radians = angle * (Math.PI / 180);
+        const x0 = dx + width / 2 + (width / 2) * Math.cos(radians);
+        const y0 = dy + height / 2 - (height / 2) * Math.sin(radians);
+        const x1 = dx + width / 2 - (width / 2) * Math.cos(radians);
+        const y1 = dy + height / 2 + (height / 2) * Math.sin(radians);
+        const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
+        colors.forEach(({ red, green, blue, opacity, stop }) => {
+            const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+            gradient.addColorStop(stop, color);
+        });
+        ctx.fillStyle = gradient;
+        ctx.fill();
+    }
     static getPixelColor(canvas, x, y) {
-        const context = canvas.getContext('2d', { willReadFrequently: true });
+        const context = canvas.getContext("2d", { willReadFrequently: true });
         if (context) {
             return context.getImageData(x, y, 1, 1);
         }
-        throw new Error('Unable to get canvas context');
+        throw new Error("Unable to get canvas context");
     }
     static drawCar(canvas, dx, dy, width, height, rotation, red, green, blue, opacity, isPlayer = false) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
