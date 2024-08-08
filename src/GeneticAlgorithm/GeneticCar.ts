@@ -95,20 +95,19 @@ export default class GeneticCar extends Car {
   }
 
   /**
-   * Mutates the moves of the player
+   * Mutates the last 50% of moves of the player
    *
    * @param moves the list of moves to mutate
    * @returns the new list of moves after mutation
    */
   public mutateMoves(moves: number[]): number[] {
     const newMoves = [...moves]; // Clone the array to avoid modifying the original moves
-    const mutationCount = Math.ceil(newMoves.length * 0.06); // Mutate 5% of the moves, for example
+    const startIndex = Math.floor(newMoves.length / 1.5); // Start mutating from the middle index
 
-    for (let i = 0; i < mutationCount; i++) {
-      const moveIndex = Math.floor(Math.random() * newMoves.length);
-      const currentMutationRate = 0.01 + ((moveIndex / newMoves.length) ** 2); // Base rate with exponential growth
+    for (let i = startIndex; i < newMoves.length; i++) {
+      const currentMutationRate = 0.01 + ((i - startIndex) / (newMoves.length - startIndex)) ** 2;
       if (Math.random() < currentMutationRate) {
-        newMoves[moveIndex] = this.generateRandomMove(); // Generate a new random move
+        newMoves[i] = this.generateRandomMove(); // Generate a new random move
       }
     }
 

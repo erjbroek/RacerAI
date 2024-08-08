@@ -70,12 +70,11 @@ export default class GeneticCar extends Car {
     }
     mutateMoves(moves) {
         const newMoves = [...moves];
-        const mutationCount = Math.ceil(newMoves.length * 0.06);
-        for (let i = 0; i < mutationCount; i++) {
-            const moveIndex = Math.floor(Math.random() * newMoves.length);
-            const currentMutationRate = 0.01 + ((moveIndex / newMoves.length) ** 2);
+        const startIndex = Math.floor(newMoves.length / 1.5);
+        for (let i = startIndex; i < newMoves.length; i++) {
+            const currentMutationRate = 0.01 + ((i - startIndex) / (newMoves.length - startIndex)) ** 2;
             if (Math.random() < currentMutationRate) {
-                newMoves[moveIndex] = this.generateRandomMove();
+                newMoves[i] = this.generateRandomMove();
             }
         }
         return newMoves;

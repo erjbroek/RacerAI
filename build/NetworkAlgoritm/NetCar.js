@@ -97,28 +97,21 @@ export default class NetCar extends Car {
         const activatedOutputLayer = outputLayer.map((neuron) => this.sigmoid(neuron));
         const turnActions = activatedOutputLayer.slice(0, 2);
         const speedActions = activatedOutputLayer.slice(2, 4);
-        let red = 255;
-        let green = 255;
-        let blue = 255;
         if (turnActions[0] > turnActions[1]) {
             this.rotateLeft();
-            blue -= 150;
         }
         else if (turnActions[1] > turnActions[0]) {
             this.rotateRight();
-            red -= 150;
         }
         if (speedActions[0] > speedActions[1]) {
             this.accelerate();
         }
         else if (speedActions[1] > speedActions[0]) {
             this.brake();
-            green -= 255;
-            blue -= 255;
         }
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
+        this.red = (this.genome[0][2] + this.genome[1][2]) / 2 * 255;
+        this.green = (this.genome[4][2] + this.genome[5][2]) / 2 * 255;
+        this.blue = (this.genome[8][2] + this.genome[9][2]) / 2 * 255;
     }
     sigmoid(x) {
         return 1 / (1 + Math.exp(-x));

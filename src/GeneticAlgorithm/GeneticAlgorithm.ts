@@ -42,7 +42,6 @@ export default class GeneticAlgorithm extends Scene {
     if (this.population.beaten) {
       if (MouseListener.mouseHover(window.innerWidth - window.innerWidth / 7.8, window.innerHeight / 1.4, window.innerWidth / 10, window.innerHeight / 10)) {
         if (MouseListener.isButtonDown(0)) {
-          // CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 1.4, canvas.width / 10, canvas.height / 10, 20, 210, 100, 1, 10);
           this.startRace = true;
         }
       }
