@@ -1,5 +1,5 @@
 import MouseListener from '../utilities/MouseListener.js';
-import CanvasUtil from "../utilities/CanvasUtil.js";
+import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Statistics {
     showAdvancedStats = false;
     showNetwork = false;
@@ -80,8 +80,8 @@ export default class Statistics {
             const value = lowest + (i * (highest - lowest)) / (numGridLines - 1);
             const y = bottom - height * 0.1 - height * 0.8 * ((value - lowest) / (highest - lowest));
             CanvasUtil.drawLine(canvas, left + width * 0.05, y, left + width * 0.95, y, 255, 255, 255, 0.2, 1);
-            const labelText = `${Math.floor(value / 1000)}.${("00" + Math.floor(value % 1000)).slice(-3)} s`;
-            CanvasUtil.writeText(canvas, labelText, left - 10, y, "right", "system-ui", 10, "white");
+            const labelText = `${Math.floor(value / 1000)}.${(`00${Math.floor(value % 1000)}`).slice(-3)} s`;
+            CanvasUtil.writeText(canvas, labelText, left - 10, y, 'right', 'system-ui', 10, 'white');
         }
         for (let i = 0; i < this.performanceHistory.length; i++) {
             const time = this.performanceHistory[i];
@@ -97,17 +97,17 @@ export default class Statistics {
             }
             CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
             if (this.performanceHistory.length <= 7 || time === highest || time === lowest) {
-                const timeText = `${Math.floor(time / 1000)}.${("00" + Math.floor(time % 1000)).slice(-3)} s`;
-                CanvasUtil.writeText(canvas, timeText, x, y - 10, "center", "system-ui", 10, "white");
+                const timeText = `${Math.floor(time / 1000)}.${(`00${Math.floor(time % 1000)}`).slice(-3)} s`;
+                CanvasUtil.writeText(canvas, timeText, x, y - 10, 'center', 'system-ui', 10, 'white');
             }
         }
     }
     renderNetwork(car, canvas) {
         const xPosition = canvas.width / 1.73;
         CanvasUtil.fillRectangle(canvas, xPosition + canvas.width / 30, canvas.height / 20, canvas.width / 4.5, canvas.height / 3.5, 0, 0, 0, 0.3, 5);
-        CanvasUtil.writeText(canvas, "neural network of best car", xPosition + canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, "center", "system-ui", 20, "black");
+        CanvasUtil.writeText(canvas, 'neural network of best car', xPosition + canvas.width / 30 + canvas.width / 8, canvas.height / 20 + canvas.height / 3.8, 'center', 'system-ui', 20, 'black');
         const radius = canvas.height / 90;
-        const biases = car.biases;
+        const { biases } = car;
         car.genome.forEach((network) => {
             const [input, output, weight] = network;
             const startX = xPosition + canvas.width / 14;
@@ -123,12 +123,12 @@ export default class Statistics {
         });
         for (let input = 0; input < 5; input++) {
             CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 14, canvas.height / 14 + input * radius * 4, radius, 255, 255, 255, 0.8);
-            CanvasUtil.writeText(canvas, `ray ${input + 1}`, xPosition + canvas.width / 27, canvas.height / 12.5 + input * radius * 4, "left", "system-ui", 20, "white");
+            CanvasUtil.writeText(canvas, `ray ${input + 1}`, xPosition + canvas.width / 27, canvas.height / 12.5 + input * radius * 4, 'left', 'system-ui', 20, 'white');
         }
-        const moves = ["left", "right", "gas", "brake"];
+        const moves = ['left', 'right', 'gas', 'brake'];
         for (let output = 0; output < 4; output++) {
             CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 4.5, canvas.height / 14 + radius + output * radius * 4, radius, 255, 255, 255, 0.8);
-            CanvasUtil.writeText(canvas, `${moves[output]}`, xPosition + canvas.width / 4.3, canvas.height / 12.5 + radius + output * radius * 4, "left", "system-ui", 20, "white");
+            CanvasUtil.writeText(canvas, `${moves[output]}`, xPosition + canvas.width / 4.3, canvas.height / 12.5 + radius + output * radius * 4, 'left', 'system-ui', 20, 'white');
         }
     }
 }

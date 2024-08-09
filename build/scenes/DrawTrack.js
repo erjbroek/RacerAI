@@ -104,7 +104,7 @@ export default class DrawTrack extends Scene {
                             let closedAmount = 0;
                             for (let i = 0; i < 7; i++) {
                                 if (Math.sqrt(((this.track[index2 - i][0] - this.track[index2 - 1 - i][0]) ** 2) + ((this.track[index2 - i][1] - this.track[index2 - 1 - i][1]) ** 2)) <= this.radius * 1.4) {
-                                    closedAmount++;
+                                    closedAmount += 1;
                                 }
                             }
                             if (closedAmount <= 3) {
@@ -117,7 +117,7 @@ export default class DrawTrack extends Scene {
                     this.allValid = false;
                 }
                 if (found.length <= 5) {
-                    totalFound++;
+                    totalFound += 1;
                     this.straightPiece = true;
                 }
             });

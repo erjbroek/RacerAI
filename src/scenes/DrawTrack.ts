@@ -94,7 +94,8 @@ export default class DrawTrack extends Scene {
 
   /**
    *
-   * @param elapsed
+   * @param elapsed is the elapsed time since the last frame
+   * @returns next scene
    */
   public update(elapsed: number): Scene {
     this.longEnough = this.track.length >= 20;
@@ -133,7 +134,7 @@ export default class DrawTrack extends Scene {
               let closedAmount = 0;
               for (let i = 0; i < 7; i++) {
                 if (Math.sqrt(((this.track[index2 - i][0] - this.track[index2 - 1 - i][0]) ** 2) + ((this.track[index2 - i][1] - this.track[index2 - 1 - i][1]) ** 2)) <= this.radius * 1.4) {
-                  closedAmount++;
+                  closedAmount += 1;
                 }
               }
               if (closedAmount <= 3) {
@@ -147,7 +148,7 @@ export default class DrawTrack extends Scene {
         }
 
         if (found.length <= 5) {
-          totalFound++;
+          totalFound += 1;
           this.straightPiece = true;
         }
       });

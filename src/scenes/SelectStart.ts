@@ -71,7 +71,7 @@ export default class SelectStart extends Scene {
             const found2Index = this.track.road.indexOf(found[i + 1]);
             if (Math.abs(found2Index - found1Index) >= 3) {
               found.splice(i + 1, 1);
-              i--;
+              i -= 1;
             }
           }
           if (found.length > 1) {

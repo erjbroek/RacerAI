@@ -36,7 +36,7 @@ export default class NetAlgorithm extends Scene {
    * processes player inputs
    */
   public override processInput(): void {
-    this.population.statistics.processInput()
+    this.population.statistics.processInput();
     if (MouseListener.isButtonDown(0)) {
       if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
         this.selectorPos[0] = MouseListener.mouseCoordinates.x;
@@ -74,7 +74,7 @@ export default class NetAlgorithm extends Scene {
    */
   public override render(canvas: HTMLCanvasElement): void {
     canvas.style.cursor = 'default';
-    CanvasUtil.fillCanvas(canvas, 'black')
+    CanvasUtil.fillCanvas(canvas, 'black');
     CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 1, 20);
     this.track.render(canvas);
 

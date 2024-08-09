@@ -1,8 +1,8 @@
-import Track from "../Track.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import KeyListener from "../utilities/KeyListener.js";
-import NetCar from "./NetCar.js";
-import Statistics from "./Statistics.js";
+import Track from '../Track.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import KeyListener from '../utilities/KeyListener.js';
+import NetCar from './NetCar.js';
+import Statistics from './Statistics.js';
 
 export default class NetPopulation {
   public cars: NetCar[] = [];
@@ -151,7 +151,7 @@ export default class NetPopulation {
       if (car.laps > 0) {
         car.fitness = (((1 / (car.raceDuration / 1000)) * 100) ** car.laps);
       } else {
-        car.fitness += car.distance / 1000
+        car.fitness += car.distance / 1000;
       }
 
       // Penalize cars that haven't left the starting line
@@ -343,6 +343,10 @@ export default class NetPopulation {
     }
   }
 
+  /**
+   *
+   * @param elapsed
+   */
   public handleCarLines(elapsed: number) {
     this.addLocationTimer -= elapsed;
     if (this.addLocationTimer <= 0) {
@@ -353,6 +357,10 @@ export default class NetPopulation {
     }
   }
 
+  /**
+   *
+   * @param canvas is the canvas the element are rendered to
+   */
   public renderCarLines(canvas: HTMLCanvasElement) {
     this.cars.forEach((car) => {
       if (car.locationHistory.length >= 2) {
@@ -383,10 +391,10 @@ export default class NetPopulation {
         CanvasUtil.drawNetCar(canvas, car);
       }
     });
-    CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
-    CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
-    CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
-    CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
+    CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, 'center', 'system-ui', 30, 'black');
+    CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, 'center', 'system-ui', 30, 'white');
+    CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, 'center', 'system-ui', 20, 'white');
+    CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, 'center', 'system-ui', 20, 'white');
 
     this.statistics.renderButtons(canvas);
 
@@ -396,36 +404,36 @@ export default class NetPopulation {
 
     if (this.statistics.record !== Infinity) {
       if (Math.floor(this.statistics.record % 1000) < 100) {
-        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
       } else {
-        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
       }
-      CanvasUtil.writeText(canvas, `Gen: ${this.statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
+      CanvasUtil.writeText(canvas, `Gen: ${this.statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, 'left', 'system-ui', 20, 'grey');
     } else {
-      CanvasUtil.writeText(canvas, `Record: N/A`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
-      CanvasUtil.writeText(canvas, `Gen: N/A`, canvas.width - canvas.width / 15, canvas.height / 4, "left", "system-ui", 20, "grey");
+      CanvasUtil.writeText(canvas, 'Record: N/A', canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
+      CanvasUtil.writeText(canvas, 'Gen: N/A', canvas.width - canvas.width / 15, canvas.height / 4, 'left', 'system-ui', 20, 'grey');
     }
 
     // renders record history
     if (this.statistics.recordHistory.length > 0) {
-      CanvasUtil.writeText(canvas, `Generations that beat record`, canvas.width - canvas.width / 8, canvas.height / 3.1, "left", "system-ui", 15, "grey");
+      CanvasUtil.writeText(canvas, 'Generations that beat record', canvas.width - canvas.width / 8, canvas.height / 3.1, 'left', 'system-ui', 15, 'grey');
       CanvasUtil.drawLine(canvas, canvas.width - canvas.width / 6.5, canvas.height / 3, canvas.width - canvas.width / 6.5 + canvas.width / 7, canvas.height / 3, 255, 255, 255, 0.2, 2);
 
       const start = canvas.height / 2.6;
       for (let i = 0; i < this.statistics.recordHistory.length; i++) {
         if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
-          CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
+          CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), 'left', 'system-ui', 20, 'grey');
         } else {
-          CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
+          CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), 'left', 'system-ui', 20, 'grey');
         }
-        CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}`, canvas.width - canvas.width / 17, start + i * (canvas.height / 45), "left", "system-ui", 20, "grey");
+        CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}`, canvas.width - canvas.width / 17, start + i * (canvas.height / 45), 'left', 'system-ui', 20, 'grey');
       }
     }
 
     if (this.trackTime % 1000 < 100) {
-      CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.0${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
+      CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.0${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, 'center', 'system-ui', 20, 'grey');
     } else {
-      CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
+      CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, 'center', 'system-ui', 20, 'grey');
     }
 
     CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);

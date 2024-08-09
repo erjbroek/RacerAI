@@ -1,5 +1,5 @@
-import Car from "../Car.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
+import Car from '../Car.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class NetCar extends Car {
     fitness = 0;
     checkAlive = 500;
@@ -109,9 +109,9 @@ export default class NetCar extends Car {
         else if (speedActions[1] > speedActions[0]) {
             this.brake();
         }
-        this.red = (this.genome[0][2] + this.genome[1][2]) / 2 * 255;
-        this.green = (this.genome[4][2] + this.genome[5][2]) / 2 * 255;
-        this.blue = (this.genome[8][2] + this.genome[9][2]) / 2 * 255;
+        this.red = ((this.genome[0][2] + this.genome[1][2]) / 2) * 255;
+        this.green = ((this.genome[4][2] + this.genome[5][2]) / 2) * 255;
+        this.blue = ((this.genome[8][2] + this.genome[9][2]) / 2) * 255;
     }
     sigmoid(x) {
         return 1 / (1 + Math.exp(-x));

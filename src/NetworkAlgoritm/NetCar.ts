@@ -1,6 +1,6 @@
-import Car from "../Car.js";
-import Track from "../Track.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
+import Car from '../Car.js';
+import Track from '../Track.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
 
 export default class NetCar extends Car {
   public fitness: number = 0;
@@ -143,6 +143,7 @@ export default class NetCar extends Car {
 
   /**
    *
+   * @param inputs are the distances the player is from the track boundaries
    */
   public feedForward(inputs: number[]): void {
     const outputLayer = [0, 0, 0, 0];
@@ -187,11 +188,16 @@ export default class NetCar extends Car {
       // green -= 255;
       // blue -= 255;
     }
-    this.red = (this.genome[0][2] + this.genome[1][2]) / 2 * 255;
-    this.green = (this.genome[4][2] + this.genome[5][2]) / 2 * 255;
-    this.blue = (this.genome[8][2] + this.genome[9][2]) / 2 * 255;
+    this.red = ((this.genome[0][2] + this.genome[1][2]) / 2) * 255;
+    this.green = ((this.genome[4][2] + this.genome[5][2]) / 2) * 255;
+    this.blue = ((this.genome[8][2] + this.genome[9][2]) / 2) * 255;
   }
 
+  /**
+   *
+   * @param x is the input value
+   * @returns the sigmoid value of the input
+   */
   private sigmoid(x: number): number {
     return 1 / (1 + Math.exp(-x));
   }

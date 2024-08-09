@@ -16,19 +16,19 @@ export default class CanvasUtil {
    * @returns the 2D rendering context of the canvas
    */
   private static getCanvasContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-    if (ctx === null) throw new Error("Canvas Rendering Context is null");
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+    if (ctx === null) throw new Error('Canvas Rendering Context is null');
     return ctx;
   }
 
   public static setCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
-    if (this.ctx === null) throw new Error("Canvas Rendering Context is null");
+    this.ctx = canvas.getContext('2d');
+    if (this.ctx === null) throw new Error('Canvas Rendering Context is null');
   }
 
   public static getCanvas(): HTMLCanvasElement {
-    if (!this.canvas) throw new Error("Canvas is not set");
+    if (!this.canvas) throw new Error('Canvas is not set');
     return this.canvas;
   }
 
@@ -38,7 +38,7 @@ export default class CanvasUtil {
    * @param canvas canvas that requires filling
    * @param colour the colour that the canvas will be filled with
    */
-  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = "#FF10F0"): void {
+  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = '#FF10F0'): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.rect(0, 0, canvas.width, canvas.height);
@@ -115,15 +115,16 @@ export default class CanvasUtil {
    * @param fontFamily font family to use when writing text
    * @param fontSize font size in pixels
    * @param color colour of text to write
+   * @param fontWeight
    */
-  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = "center", fontFamily: string = "sans-serif", fontSize: number = 20, color: string = "red", fontWeight: number = 10): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red', fontWeight: number = 10): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
     ctx.textAlign = alignment;
 
     // each time <br> is found in the text, a line break is made
-    const lines = text.split("<br>");
+    const lines = text.split('<br>');
     let currentY = yCoordinate;
 
     for (const line of lines) {
@@ -302,21 +303,23 @@ export default class CanvasUtil {
 
     const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
 
-    colors.forEach(({ red, green, blue, opacity, stop }) => {
+    colors.forEach(({
+      red, green, blue, opacity, stop,
+    }) => {
       const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
       gradient.addColorStop(stop, color);
-    })
+    });
 
     ctx.fillStyle = gradient;
     ctx.fill();
   }
 
   public static getPixelColor(canvas: HTMLCanvasElement, x: number, y: number): ImageData {
-    const context = canvas.getContext("2d", { willReadFrequently: true });
+    const context = canvas.getContext('2d', { willReadFrequently: true });
     if (context) {
       return context.getImageData(x, y, 1, 1);
     }
-    throw new Error("Unable to get canvas context");
+    throw new Error('Unable to get canvas context');
   }
 
   public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, red: number, green: number, blue: number, opacity: number, isPlayer: boolean = false) {
