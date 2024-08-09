@@ -348,15 +348,17 @@ export default class CanvasUtil {
     ctx.globalAlpha = 0.9;
     ctx.fill();
 
-    // Draw laps in the middle of the car
-    const lapsText = car.laps.toString();
-    const textWidth = ctx.measureText(lapsText).width;
-    const textHeight = 22; // Adjust the height as needed
-    const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`; // Darker color for better readability
+    if (car.laps !== 0) {
+      // Draw laps in the middle of the car
+      const lapsText = car.laps.toString();
+      const textWidth = ctx.measureText(lapsText).width;
+      const textHeight = 22; // Adjust the height as needed
+      const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`; // Darker color for better readability
 
-    ctx.fillStyle = textColor;
-    ctx.font = `${textHeight}px Arial`;
-    ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
+      ctx.fillStyle = textColor;
+      ctx.font = `${textHeight}px Arial`;
+      ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
+    }
 
     ctx.restore();
   }

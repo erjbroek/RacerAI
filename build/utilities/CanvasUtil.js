@@ -177,13 +177,15 @@ export default class CanvasUtil {
         ctx.fillStyle = `rgba(${car.red}, ${car.green}, ${car.blue}, ${0.9})`;
         ctx.globalAlpha = 0.9;
         ctx.fill();
-        const lapsText = car.laps.toString();
-        const textWidth = ctx.measureText(lapsText).width;
-        const textHeight = 22;
-        const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`;
-        ctx.fillStyle = textColor;
-        ctx.font = `${textHeight}px Arial`;
-        ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
+        if (car.laps !== 0) {
+            const lapsText = car.laps.toString();
+            const textWidth = ctx.measureText(lapsText).width;
+            const textHeight = 22;
+            const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`;
+            ctx.fillStyle = textColor;
+            ctx.font = `${textHeight}px Arial`;
+            ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
+        }
         ctx.restore();
     }
     static rotateImage(canvas, image, degrees) {

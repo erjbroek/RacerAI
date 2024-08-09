@@ -141,12 +141,12 @@ export default class NetPopulation {
         }
     }
     mutate() {
-        const slightMutationRate = 0.1;
+        const slightMutationRate = 0.15;
         const bigMutationRate = 0.025;
         this.nextGen.forEach((car) => {
             car.genome.forEach((gene) => {
                 if (Math.random() < slightMutationRate) {
-                    gene[2] += Math.random() * 0.2 - 0.1;
+                    gene[2] += Math.random() * 0.25 - 0.125;
                 }
                 else if (Math.random() < bigMutationRate) {
                     gene[2] = Math.random();
