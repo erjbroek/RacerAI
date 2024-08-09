@@ -18,7 +18,7 @@ export default class NetCar extends Car {
     crossingFinishLine = false;
     leftStartLine = false;
     timeSinceLastLap = 0;
-    totalLapTime = 0;
+    raceDuration = 0;
     startingPoint = [0, 0];
     red = 0;
     green = 255;
@@ -137,13 +137,13 @@ export default class NetCar extends Car {
     }
     rotateLeft() {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-            this.rotation -= 4.2;
+            this.rotation -= 5;
             this.updateSpeedWithRotation();
         }
     }
     rotateRight() {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-            this.rotation += 4.2;
+            this.rotation += 5;
             this.updateSpeedWithRotation();
         }
     }

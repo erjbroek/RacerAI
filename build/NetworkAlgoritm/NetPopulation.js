@@ -83,33 +83,15 @@ export default class NetPopulation {
         return Math.sqrt(sumSquaredDifference);
     }
     calculateFitness() {
-        let highestDistanceCar = 0;
-        let bestLapTime = Number.MAX_VALUE;
         this.cars.forEach((car) => {
-            if (car.distance > highestDistanceCar) {
-                highestDistanceCar = car.distance;
-            }
             if (car.laps > 0) {
-                const averageLapTime = car.totalLapTime / car.laps;
-                if (averageLapTime < bestLapTime) {
-                    bestLapTime = averageLapTime;
-                }
-            }
-        });
-        this.cars.forEach((car) => {
-            car.fitness = car.laps > 0 ? 1 + car.laps / 2 : 0.1;
-            if (car.laps >= 5) {
-                car.fitness *= 2;
-            }
-            if (car.laps > 0) {
-                const relativeLapTime = car.totalLapTime / car.laps / bestLapTime;
-                car.fitness *= 1 / relativeLapTime;
+                car.fitness = (((1 / (car.raceDuration / 1000)) * 100) ** car.laps);
             }
             else {
-                car.fitness += car.distance / highestDistanceCar;
+                car.fitness += car.distance / 1000;
             }
             if (!car.leftStartLine) {
-                car.fitness *= 0.1;
+                car.fitness = 0;
             }
         });
         this.highScore = Math.max(this.highScore, ...this.cars.map((car) => car.fitness));
@@ -118,7 +100,7 @@ export default class NetPopulation {
         this.species.forEach((species) => {
             species.sort((car1, car2) => car2.fitness - car1.fitness);
         });
-        this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
+        this.cars = this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
     }
     crossover() {
         const survived = [];
@@ -199,9 +181,10 @@ export default class NetPopulation {
                 car.alive = false;
             }
             if (car.laps >= 5) {
+                car.finished = true;
                 car.alive = false;
-                if (car.totalLapTime < this.statistics.record && car.leftStartLine) {
-                    this.statistics.record = car.totalLapTime;
+                if (car.raceDuration < this.statistics.record && car.leftStartLine) {
+                    this.statistics.record = car.raceDuration;
                     this.statistics.bestGen = this.generation;
                     this.statistics.recordHistory.push([this.statistics.record, this.statistics.bestGen]);
                 }
@@ -212,11 +195,11 @@ export default class NetPopulation {
                 }
             }
             if (car.alive) {
-                car.totalLapTime += elapsed;
+                car.raceDuration += elapsed;
                 car.timeSinceLastLap += elapsed;
-                if (car.totalLapTime >= 1700) {
+                if (car.raceDuration >= 1700) {
                     if (this.track.checkCrossingFinishLine(car)) {
-                        if (!car.crossingFinishLine) {
+                        if (!car.crossingFinishLine && car.leftStartLine) {
                             car.laps += 1;
                             car.crossingFinishLine = true;
                             car.timeSinceLastLap = 0;
@@ -240,9 +223,9 @@ export default class NetPopulation {
         if (this.extinct) {
             this.extinct = true;
             this.trackTime = 0;
-            this.statistics.currentHighestLaps = 0;
             this.finished = false;
             this.statistics.addedToHistory = false;
+            this.statistics.currentHighestLaps = 0;
             this.evolve();
         }
     }
@@ -276,7 +259,7 @@ export default class NetPopulation {
         this.cars.forEach((car) => {
             if (car.alive) {
                 car.renderRays(canvas, this.track);
-                CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, car.red, car.green, car.blue, 0.8);
+                CanvasUtil.drawNetCar(canvas, car);
             }
         });
         CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
@@ -320,6 +303,7 @@ export default class NetPopulation {
         else {
             CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
         }
+        CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);
         if (this.statistics.showGraph) {
             if (this.statistics.performanceHistory.length > 0) {
                 this.statistics.renderGraph(canvas);

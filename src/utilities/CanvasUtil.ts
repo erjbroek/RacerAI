@@ -1,3 +1,5 @@
+import NetCar from '../NetworkAlgoritm/NetCar.js';
+
 /**
  * Helper utlity class for working with the HTML Canvas Element.
  *
@@ -329,6 +331,32 @@ export default class CanvasUtil {
     ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.globalAlpha = opacity;
     ctx.fill();
+
+    ctx.restore();
+  }
+
+  public static drawNetCar(canvas: HTMLCanvasElement, car: NetCar) {
+    const ctx = CanvasUtil.getCanvasContext(canvas);
+    ctx.save();
+
+    ctx.translate(car.posX, car.posY); // Render at dx, dy without adjusting for the center
+    ctx.rotate((car.rotation * Math.PI) / 180);
+    ctx.beginPath();
+    ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
+    ctx.closePath();
+    ctx.fillStyle = `rgba(${car.red}, ${car.green}, ${car.blue}, ${0.9})`;
+    ctx.globalAlpha = 0.9;
+    ctx.fill();
+
+    // Draw laps in the middle of the car
+    const lapsText = car.laps.toString();
+    const textWidth = ctx.measureText(lapsText).width;
+    const textHeight = 22; // Adjust the height as needed
+    const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`; // Darker color for better readability
+
+    ctx.fillStyle = textColor;
+    ctx.font = `${textHeight}px Arial`;
+    ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
 
     ctx.restore();
   }

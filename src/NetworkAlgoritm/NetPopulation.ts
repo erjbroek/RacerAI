@@ -138,49 +138,29 @@ export default class NetPopulation {
   }
 
   /**
+   * calculates the fitness of each car based on:
+   * - amount of laps completed
+   * - completion time
+   * - distance travelled
    *
+   * more & faster laps = higher fitness
+   * distance is used if no laps have been completed
    */
   public calculateFitness() {
-    let highestDistanceCar: number = 0;
-    let bestLapTime: number = Number.MAX_VALUE;
-
     this.cars.forEach((car) => {
-      if (car.distance > highestDistanceCar) {
-        highestDistanceCar = car.distance;
-      }
       if (car.laps > 0) {
-        const averageLapTime = car.totalLapTime / car.laps;
-        if (averageLapTime < bestLapTime) {
-          bestLapTime = averageLapTime;
-        }
-      }
-    });
-
-    // actual fitness function
-    this.cars.forEach((car) => {
-      // Base fitness on laps completed and penalize incomplete laps
-      car.fitness = car.laps > 0 ? 1 + car.laps / 2 : 0.1;
-
-      // Reward if race completed
-      if (car.laps >= 5) {
-        car.fitness *= 2;
-      }
-
-      // Reward based on average lap time
-      if (car.laps > 0) {
-        const relativeLapTime = car.totalLapTime / car.laps / bestLapTime;
-        car.fitness *= 1 / relativeLapTime;
+        car.fitness = (((1 / (car.raceDuration / 1000)) * 100) ** car.laps);
       } else {
-        // Penalize cars that haven't completed a lap by using distance as a secondary metric
-        car.fitness += car.distance / highestDistanceCar;
+        car.fitness += car.distance / 1000
       }
 
-      // cars that havent left the starting line are penalized
+      // Penalize cars that haven't left the starting line
       if (!car.leftStartLine) {
-        car.fitness *= 0.1;
+        car.fitness = 0;
       }
     });
 
+    // Update high score with the maximum fitness value
     this.highScore = Math.max(this.highScore, ...this.cars.map((car) => car.fitness));
   }
 
@@ -191,7 +171,11 @@ export default class NetPopulation {
     this.species.forEach((species) => {
       species.sort((car1, car2) => car2.fitness - car1.fitness);
     });
-    this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
+    this.cars = this.cars.sort((car1, car2) => car2.fitness - car1.fitness);
+    // this.cars.forEach((car) => {
+    //   console.log(`fitness: ${car.fitness} | laps: ${car.laps} | time: ${car.raceDuration}`);
+    // });
+    // console.log("____________________");
   }
 
   /**
@@ -252,10 +236,7 @@ export default class NetPopulation {
    * mutates the network of the player
    */
   private mutate(): void {
-    // the chance for each gene to mutate by 20%
     const slightMutationRate = 0.1;
-
-    // the chance for each gene to get randomized
     const bigMutationRate = 0.025;
 
     this.nextGen.forEach((car) => {
@@ -274,6 +255,7 @@ export default class NetPopulation {
           gene[2] = 0;
         }
       });
+
       car.biases.forEach((bias, index) => {
         if (Math.random() < slightMutationRate) {
           car.biases[index] += Math.random() * 0.35 - 0.175; // Slight mutation
@@ -281,7 +263,7 @@ export default class NetPopulation {
           car.biases[index] = Math.random() * 2 - 1; // Big mutation, re-randomize bias in the range -1 to 1
         }
 
-        // Ensure biases are within a reasonable range, e.g., -1 to 1
+        // Ensure biases are within -1 and 1
         car.biases[index] = Math.max(-1, Math.min(car.biases[index], 1));
       });
     });
@@ -309,9 +291,10 @@ export default class NetPopulation {
 
       // if car finishes, update record
       if (car.laps >= 5) {
+        car.finished = true;
         car.alive = false;
-        if (car.totalLapTime < this.statistics.record && car.leftStartLine) {
-          this.statistics.record = car.totalLapTime;
+        if (car.raceDuration < this.statistics.record && car.leftStartLine) {
+          this.statistics.record = car.raceDuration;
           this.statistics.bestGen = this.generation;
           this.statistics.recordHistory.push([this.statistics.record, this.statistics.bestGen]);
         }
@@ -323,13 +306,13 @@ export default class NetPopulation {
       }
 
       if (car.alive) {
-        car.totalLapTime += elapsed;
+        car.raceDuration += elapsed;
         car.timeSinceLastLap += elapsed;
 
         // makes sure lap doesnt count if car waits at finish line
-        if (car.totalLapTime >= 1700) {
+        if (car.raceDuration >= 1700) {
           if (this.track.checkCrossingFinishLine(car)) {
-            if (!car.crossingFinishLine) {
+            if (!car.crossingFinishLine && car.leftStartLine) {
               car.laps += 1;
               car.crossingFinishLine = true;
               car.timeSinceLastLap = 0;
@@ -353,9 +336,9 @@ export default class NetPopulation {
     if (this.extinct) {
       this.extinct = true;
       this.trackTime = 0;
-      this.statistics.currentHighestLaps = 0;
       this.finished = false;
       this.statistics.addedToHistory = false;
+      this.statistics.currentHighestLaps = 0;
       this.evolve();
     }
   }
@@ -378,8 +361,8 @@ export default class NetPopulation {
         }
         for (let i = 1; i < car.locationHistory.length - 1; i++) {
           const opacity = (i / 41) * 0.45;
-          CanvasUtil.drawLine(canvas, car.posX, car.posY, car.locationHistory[car.locationHistory.length - 1][0], car.locationHistory[car.locationHistory.length - 1][1], 255, 255, 255, 0.45, 1)
-          CanvasUtil.drawLine(canvas, car.locationHistory[i][0], car.locationHistory[i][1], car.locationHistory[i - 1][0], car.locationHistory[i - 1][1], 255, 255, 255, opacity, 1)
+          CanvasUtil.drawLine(canvas, car.posX, car.posY, car.locationHistory[car.locationHistory.length - 1][0], car.locationHistory[car.locationHistory.length - 1][1], 255, 255, 255, 0.45, 1);
+          CanvasUtil.drawLine(canvas, car.locationHistory[i][0], car.locationHistory[i][1], car.locationHistory[i - 1][0], car.locationHistory[i - 1][1], 255, 255, 255, opacity, 1);
         }
       }
     });
@@ -392,12 +375,12 @@ export default class NetPopulation {
    */
   public render(canvas: HTMLCanvasElement) {
     if (this.statistics.renderRacingLines) {
-      this.renderCarLines(canvas)
+      this.renderCarLines(canvas);
     }
     this.cars.forEach((car) => {
       if (car.alive) {
         car.renderRays(canvas, this.track);
-        CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, car.red, car.green, car.blue, 0.8);
+        CanvasUtil.drawNetCar(canvas, car);
       }
     });
     CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
@@ -445,7 +428,7 @@ export default class NetPopulation {
       CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
     }
 
-    // CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);
+    CanvasUtil.drawCircle(canvas, this.startingPoint[0], this.startingPoint[1], 120, 255, 0, 0, 1);
     if (this.statistics.showGraph) {
       if (this.statistics.performanceHistory.length > 0) {
         this.statistics.renderGraph(canvas);

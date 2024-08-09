@@ -37,7 +37,7 @@ export default class NetCar extends Car {
 
   public timeSinceLastLap: number = 0;
 
-  public totalLapTime: number = 0;
+  public raceDuration: number = 0;
 
   public startingPoint: number[] = [0, 0];
 
@@ -229,7 +229,7 @@ export default class NetCar extends Car {
    */
   public rotateLeft() {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-      this.rotation -= 4.2;
+      this.rotation -= 5;
       this.updateSpeedWithRotation();
     }
   }
@@ -239,7 +239,7 @@ export default class NetCar extends Car {
    */
   public rotateRight() {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-      this.rotation += 4.2;
+      this.rotation += 5;
       this.updateSpeedWithRotation();
     }
   }

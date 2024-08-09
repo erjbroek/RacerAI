@@ -166,6 +166,26 @@ export default class CanvasUtil {
         ctx.fill();
         ctx.restore();
     }
+    static drawNetCar(canvas, car) {
+        const ctx = CanvasUtil.getCanvasContext(canvas);
+        ctx.save();
+        ctx.translate(car.posX, car.posY);
+        ctx.rotate((car.rotation * Math.PI) / 180);
+        ctx.beginPath();
+        ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
+        ctx.closePath();
+        ctx.fillStyle = `rgba(${car.red}, ${car.green}, ${car.blue}, ${0.9})`;
+        ctx.globalAlpha = 0.9;
+        ctx.fill();
+        const lapsText = car.laps.toString();
+        const textWidth = ctx.measureText(lapsText).width;
+        const textHeight = 22;
+        const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`;
+        ctx.fillStyle = textColor;
+        ctx.font = `${textHeight}px Arial`;
+        ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
+        ctx.restore();
+    }
     static rotateImage(canvas, image, degrees) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.translate(canvas.width / 2, canvas.height / 2);
