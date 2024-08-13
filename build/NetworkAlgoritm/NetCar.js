@@ -1,5 +1,4 @@
 import Car from '../Car.js';
-import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class NetCar extends Car {
     fitness = 0;
     checkAlive = 500;
@@ -20,9 +19,6 @@ export default class NetCar extends Car {
     timeSinceLastLap = 0;
     raceDuration = 0;
     startingPoint = [0, 0];
-    red = 0;
-    green = 255;
-    blue = 0;
     locationHistory = [];
     constructor(startPoint, startAngle, genome, biases) {
         super();
@@ -109,9 +105,6 @@ export default class NetCar extends Car {
         else if (speedActions[1] > speedActions[0]) {
             this.brake();
         }
-        this.red = ((this.genome[0][2] + this.genome[1][2]) / 2) * 255;
-        this.green = ((this.genome[4][2] + this.genome[5][2]) / 2) * 255;
-        this.blue = ((this.genome[8][2] + this.genome[9][2]) / 2) * 255;
     }
     sigmoid(x) {
         return 1 / (1 + Math.exp(-x));
@@ -177,7 +170,6 @@ export default class NetCar extends Car {
             const radianAngle = (angle * Math.PI) / 180;
             const endX = this.posX + distance * Math.cos(radianAngle);
             const endY = this.posY + distance * Math.sin(radianAngle);
-            CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.3);
         });
     }
 }

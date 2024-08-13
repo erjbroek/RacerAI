@@ -41,12 +41,6 @@ export default class NetCar extends Car {
 
   public startingPoint: number[] = [0, 0];
 
-  public red: number = 0;
-
-  public green: number = 255;
-
-  public blue: number = 0;
-
   // used to render the lines behind the cars
   public locationHistory: number[][] = [];
 
@@ -168,16 +162,12 @@ export default class NetCar extends Car {
     const turnActions = activatedOutputLayer.slice(0, 2); // steering left or right
     const speedActions = activatedOutputLayer.slice(2, 4); // giving gas or braking
 
-    // let red = 255;
-    // let green = 255;
-    // let blue = 255;
+
     // Determine if the car should move left or right
     if (turnActions[0] > turnActions[1]) {
       this.rotateLeft();
-      // blue -= 150;
     } else if (turnActions[1] > turnActions[0]) {
       this.rotateRight();
-      // red -= 150;
     }
 
     // Determine speed control action
@@ -185,12 +175,7 @@ export default class NetCar extends Car {
       this.accelerate();
     } else if (speedActions[1] > speedActions[0]) {
       this.brake();
-      // green -= 255;
-      // blue -= 255;
     }
-    this.red = ((this.genome[0][2] + this.genome[1][2]) / 2) * 255;
-    this.green = ((this.genome[4][2] + this.genome[5][2]) / 2) * 255;
-    this.blue = ((this.genome[8][2] + this.genome[9][2]) / 2) * 255;
   }
 
   /**
@@ -304,7 +289,7 @@ export default class NetCar extends Car {
       const radianAngle = (angle * Math.PI) / 180;
       const endX = this.posX + distance * Math.cos(radianAngle);
       const endY = this.posY + distance * Math.sin(radianAngle);
-      CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.3);
+      // CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.3);
     });
   }
 }

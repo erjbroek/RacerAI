@@ -1,7 +1,7 @@
 import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
-import RenderUI from './RenderUI.js';
+import UI from '../utilities/UI.js';
 import Scene from './Scene.js';
 import NetAlgorithm from '../NetworkAlgoritm/NetAlgoritm.js';
 import Track from '../Track.js';
@@ -92,8 +92,8 @@ export default class ChooseAlgoritm extends Scene {
    */
   public override render(canvas: HTMLCanvasElement): void {
     canvas.style.cursor = 'auto';
-    RenderUI.renderTrack(canvas, this.track.road, this.radius);
-    RenderUI.renderUI(canvas);
+    UI.renderTrack(canvas, this.track.road, this.radius);
+    UI.renderUI(canvas);
 
     if (this.chosenGenetic) {
       CanvasUtil.writeText(canvas, 'Genetic Algoritm', canvas.width / 1.09, canvas.height / 10, 'center', 'system-ui', 30, 'white');

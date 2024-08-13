@@ -1,4 +1,4 @@
-import NetCar from '../NetworkAlgoritm/NetCar.js';
+import NetCar from "../NetworkAlgoritm/NetCar.js";
 
 /**
  * Helper utlity class for working with the HTML Canvas Element.
@@ -16,19 +16,19 @@ export default class CanvasUtil {
    * @returns the 2D rendering context of the canvas
    */
   private static getCanvasContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
-    if (ctx === null) throw new Error('Canvas Rendering Context is null');
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
+    if (ctx === null) throw new Error("Canvas Rendering Context is null");
     return ctx;
   }
 
   public static setCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d');
-    if (this.ctx === null) throw new Error('Canvas Rendering Context is null');
+    this.ctx = canvas.getContext("2d");
+    if (this.ctx === null) throw new Error("Canvas Rendering Context is null");
   }
 
   public static getCanvas(): HTMLCanvasElement {
-    if (!this.canvas) throw new Error('Canvas is not set');
+    if (!this.canvas) throw new Error("Canvas is not set");
     return this.canvas;
   }
 
@@ -38,7 +38,7 @@ export default class CanvasUtil {
    * @param canvas canvas that requires filling
    * @param colour the colour that the canvas will be filled with
    */
-  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = '#FF10F0'): void {
+  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = "#FF10F0"): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.rect(0, 0, canvas.width, canvas.height);
@@ -117,14 +117,14 @@ export default class CanvasUtil {
    * @param color colour of text to write
    * @param fontWeight
    */
-  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red', fontWeight: number = 10): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = "center", fontFamily: string = "sans-serif", fontSize: number = 20, color: string = "red", fontWeight: number = 10): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
     ctx.textAlign = alignment;
 
     // each time <br> is found in the text, a line break is made
-    const lines = text.split('<br>');
+    const lines = text.split("<br>");
     let currentY = yCoordinate;
 
     for (const line of lines) {
@@ -303,9 +303,7 @@ export default class CanvasUtil {
 
     const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
 
-    colors.forEach(({
-      red, green, blue, opacity, stop,
-    }) => {
+    colors.forEach(({ red, green, blue, opacity, stop }) => {
       const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
       gradient.addColorStop(stop, color);
     });
@@ -315,11 +313,11 @@ export default class CanvasUtil {
   }
 
   public static getPixelColor(canvas: HTMLCanvasElement, x: number, y: number): ImageData {
-    const context = canvas.getContext('2d', { willReadFrequently: true });
+    const context = canvas.getContext("2d", { willReadFrequently: true });
     if (context) {
       return context.getImageData(x, y, 1, 1);
     }
-    throw new Error('Unable to get canvas context');
+    throw new Error("Unable to get canvas context");
   }
 
   public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, red: number, green: number, blue: number, opacity: number, isPlayer: boolean = false) {
@@ -339,6 +337,10 @@ export default class CanvasUtil {
   }
 
   public static drawNetCar(canvas: HTMLCanvasElement, car: NetCar) {
+    const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 255;
+    const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 255;
+    const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 255;
+
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -347,7 +349,7 @@ export default class CanvasUtil {
     ctx.beginPath();
     ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
     ctx.closePath();
-    ctx.fillStyle = `rgba(${car.red}, ${car.green}, ${car.blue}, ${0.9})`;
+    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.9})`;
     ctx.globalAlpha = 0.9;
     ctx.fill();
 
@@ -356,13 +358,72 @@ export default class CanvasUtil {
       const lapsText = car.laps.toString();
       const textWidth = ctx.measureText(lapsText).width;
       const textHeight = 22; // Adjust the height as needed
-      const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`; // Darker color for better readability
+      const textColor = `rgba(${Math.max(red + 80, 0)}, ${Math.max(green + 80, 0)}, ${Math.max(blue + 80, 0)}, ${1})`; // Darker color for better readability
 
       ctx.fillStyle = textColor;
       ctx.font = `${textHeight}px Arial`;
       ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
     }
 
+    ctx.restore();
+  }
+
+  public static drawNetCarCustomize(canvas: HTMLCanvasElement, car: NetCar) {
+    const ctx = CanvasUtil.getCanvasContext(canvas);
+    ctx.save();
+
+    // genes left: 2, 3, 6, 7, 10, 11, 13, 14, 16, 17, 18, 19
+    // color genes 0, 1, 4, 5, 8, 9
+    const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 255;
+    const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 255;
+    const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 255;
+
+    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.9})`;
+    ctx.globalAlpha = 0.9;
+
+    // shape gene 12 and 15
+    const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
+    ctx.translate(car.posX, car.posY);
+    ctx.rotate((car.rotation * Math.PI) / 180);
+
+    ctx.beginPath();
+    switch (shapeType) {
+      case 0: // Triangle
+        ctx.moveTo(-car.width / 2, car.height / 2);
+        ctx.lineTo(car.width / 2, car.height / 2);
+        ctx.lineTo(0, -car.height / 2);
+        ctx.closePath();
+        break;
+      case 1: // Trapezoid / half triangle or whatever its called
+        const topWidth = car.width / 1.8;
+        const bottomWidth = car.width * 1.2;
+        const height = car.height;
+
+        ctx.moveTo(-topWidth / 2, -height / 2);
+        ctx.lineTo(topWidth / 2, -height / 2);
+        ctx.lineTo(bottomWidth / 2, height / 2);
+        ctx.lineTo(-bottomWidth / 2, height / 2);
+        ctx.closePath();
+        break;
+      case 2: // Square
+        ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
+        ctx.closePath();
+        break;
+      case 3: // Diamond
+        ctx.moveTo(0, -car.height / 1.45);
+        ctx.lineTo(car.width / 1.45, 0);
+        ctx.lineTo(0, car.height / 1.45);
+        ctx.lineTo(-car.width / 1.45, 0);
+        ctx.closePath();
+        break;
+      default: // another triangle
+        ctx.moveTo(-car.width / 2, car.height / 2);
+        ctx.lineTo(car.width / 2, car.height / 2);
+        ctx.lineTo(0, -car.height / 2);
+        ctx.closePath();
+    }
+
+    ctx.fill();
     ctx.restore();
   }
 

@@ -369,7 +369,6 @@ export default class NetPopulation {
         }
         for (let i = 1; i < car.locationHistory.length - 1; i++) {
           const opacity = (i / 41) * 0.45;
-          CanvasUtil.drawLine(canvas, car.posX, car.posY, car.locationHistory[car.locationHistory.length - 1][0], car.locationHistory[car.locationHistory.length - 1][1], 255, 255, 255, 0.45, 1);
           CanvasUtil.drawLine(canvas, car.locationHistory[i][0], car.locationHistory[i][1], car.locationHistory[i - 1][0], car.locationHistory[i - 1][1], 255, 255, 255, opacity, 1);
         }
       }
@@ -388,7 +387,8 @@ export default class NetPopulation {
     this.cars.forEach((car) => {
       if (car.alive) {
         car.renderRays(canvas, this.track);
-        CanvasUtil.drawNetCar(canvas, car);
+        CanvasUtil.drawNetCarCustomize(canvas, car);
+        // CanvasUtil.drawNetCar(canvas, car);
       }
     });
     CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, 'center', 'system-ui', 30, 'black');

@@ -2,23 +2,23 @@ export default class CanvasUtil {
     static canvas;
     static ctx;
     static getCanvasContext(canvas) {
-        const ctx = canvas.getContext('2d');
+        const ctx = canvas.getContext("2d");
         if (ctx === null)
-            throw new Error('Canvas Rendering Context is null');
+            throw new Error("Canvas Rendering Context is null");
         return ctx;
     }
     static setCanvas(canvas) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext('2d');
+        this.ctx = canvas.getContext("2d");
         if (this.ctx === null)
-            throw new Error('Canvas Rendering Context is null');
+            throw new Error("Canvas Rendering Context is null");
     }
     static getCanvas() {
         if (!this.canvas)
-            throw new Error('Canvas is not set');
+            throw new Error("Canvas is not set");
         return this.canvas;
     }
-    static fillCanvas(canvas, colour = '#FF10F0') {
+    static fillCanvas(canvas, colour = "#FF10F0") {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
@@ -56,12 +56,12 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red', fontWeight = 10) {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = "center", fontFamily = "sans-serif", fontSize = 20, color = "red", fontWeight = 10) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
-        const lines = text.split('<br>');
+        const lines = text.split("<br>");
         let currentY = yCoordinate;
         for (const line of lines) {
             ctx.fillText(line, xCoordinate, currentY);
@@ -139,7 +139,7 @@ export default class CanvasUtil {
         const x1 = dx + width / 2 - (width / 2) * Math.cos(radians);
         const y1 = dy + height / 2 + (height / 2) * Math.sin(radians);
         const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-        colors.forEach(({ red, green, blue, opacity, stop, }) => {
+        colors.forEach(({ red, green, blue, opacity, stop }) => {
             const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
             gradient.addColorStop(stop, color);
         });
@@ -147,11 +147,11 @@ export default class CanvasUtil {
         ctx.fill();
     }
     static getPixelColor(canvas, x, y) {
-        const context = canvas.getContext('2d', { willReadFrequently: true });
+        const context = canvas.getContext("2d", { willReadFrequently: true });
         if (context) {
             return context.getImageData(x, y, 1, 1);
         }
-        throw new Error('Unable to get canvas context');
+        throw new Error("Unable to get canvas context");
     }
     static drawCar(canvas, dx, dy, width, height, rotation, red, green, blue, opacity, isPlayer = false) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
@@ -167,6 +167,9 @@ export default class CanvasUtil {
         ctx.restore();
     }
     static drawNetCar(canvas, car) {
+        const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 255;
+        const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 255;
+        const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 255;
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
         ctx.translate(car.posX, car.posY);
@@ -174,18 +177,67 @@ export default class CanvasUtil {
         ctx.beginPath();
         ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
         ctx.closePath();
-        ctx.fillStyle = `rgba(${car.red}, ${car.green}, ${car.blue}, ${0.9})`;
+        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.9})`;
         ctx.globalAlpha = 0.9;
         ctx.fill();
         if (car.laps !== 0) {
             const lapsText = car.laps.toString();
             const textWidth = ctx.measureText(lapsText).width;
             const textHeight = 22;
-            const textColor = `rgba(${Math.max(car.red + 80, 0)}, ${Math.max(car.green + 80, 0)}, ${Math.max(car.blue + 80, 0)}, ${1})`;
+            const textColor = `rgba(${Math.max(red + 80, 0)}, ${Math.max(green + 80, 0)}, ${Math.max(blue + 80, 0)}, ${1})`;
             ctx.fillStyle = textColor;
             ctx.font = `${textHeight}px Arial`;
             ctx.fillText(lapsText, -textWidth / 20, textHeight / 2);
         }
+        ctx.restore();
+    }
+    static drawNetCarCustomize(canvas, car) {
+        const ctx = CanvasUtil.getCanvasContext(canvas);
+        ctx.save();
+        const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 255;
+        const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 255;
+        const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 255;
+        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.9})`;
+        ctx.globalAlpha = 0.9;
+        const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
+        ctx.translate(car.posX, car.posY);
+        ctx.rotate((car.rotation * Math.PI) / 180);
+        ctx.beginPath();
+        switch (shapeType) {
+            case 0:
+                ctx.moveTo(-car.width / 2, car.height / 2);
+                ctx.lineTo(car.width / 2, car.height / 2);
+                ctx.lineTo(0, -car.height / 2);
+                ctx.closePath();
+                break;
+            case 1:
+                const topWidth = car.width / 1.8;
+                const bottomWidth = car.width * 1.2;
+                const height = car.height;
+                ctx.moveTo(-topWidth / 2, -height / 2);
+                ctx.lineTo(topWidth / 2, -height / 2);
+                ctx.lineTo(bottomWidth / 2, height / 2);
+                ctx.lineTo(-bottomWidth / 2, height / 2);
+                ctx.closePath();
+                break;
+            case 2:
+                ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
+                ctx.closePath();
+                break;
+            case 3:
+                ctx.moveTo(0, -car.height / 1.45);
+                ctx.lineTo(car.width / 1.45, 0);
+                ctx.lineTo(0, car.height / 1.45);
+                ctx.lineTo(-car.width / 1.45, 0);
+                ctx.closePath();
+                break;
+            default:
+                ctx.moveTo(-car.width / 2, car.height / 2);
+                ctx.lineTo(car.width / 2, car.height / 2);
+                ctx.lineTo(0, -car.height / 2);
+                ctx.closePath();
+        }
+        ctx.fill();
         ctx.restore();
     }
     static rotateImage(canvas, image, degrees) {

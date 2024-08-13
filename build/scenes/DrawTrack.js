@@ -2,9 +2,9 @@ import Scene from './Scene.js';
 import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import SelectStart from './SelectStart.js';
-import RenderUI from './RenderUI.js';
+import UI from '../utilities/UI.js';
 export default class DrawTrack extends Scene {
-    radius = window.innerWidth / 28;
+    radius = window.innerHeight / 15;
     allValid = false;
     closed = false;
     straightPiece = false;
@@ -16,7 +16,7 @@ export default class DrawTrack extends Scene {
     track = [];
     valid = false;
     checked = false;
-    renderUI = new RenderUI();
+    renderUI = new UI();
     constructor() {
         super();
     }
@@ -129,8 +129,8 @@ export default class DrawTrack extends Scene {
         this.checked = true;
     }
     render(canvas) {
-        RenderUI.renderTrack(canvas, this.track, this.radius);
-        RenderUI.renderUI(canvas);
+        UI.renderTrack(canvas, this.track, this.radius);
+        UI.renderUI(canvas);
         if (this.draw) {
             this.track.push([MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, 0]);
         }

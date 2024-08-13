@@ -1,4 +1,4 @@
-import { GameLoop } from './utilities/GameLoop.js';
+import { GameLoop } from './GameLoop.js';
 import Racer from './utilities/Racer.js';
 
 const gameCanvas = document.getElementById('game') as HTMLCanvasElement;

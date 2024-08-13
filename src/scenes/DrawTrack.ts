@@ -4,10 +4,10 @@ import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import SelectStart from './SelectStart.js';
 import ChooseAlgoritm from './ChooseAlgoritm.js';
-import RenderUI from './RenderUI.js';
+import UI from '../utilities/UI.js';
 
 export default class DrawTrack extends Scene {
-  private radius: number = window.innerWidth / 28;
+  private radius: number = window.innerHeight / 15;
 
   private allValid: boolean = false;
 
@@ -31,7 +31,7 @@ export default class DrawTrack extends Scene {
 
   private checked: boolean = false;
 
-  private renderUI: RenderUI = new RenderUI();
+  private renderUI: UI = new UI();
 
   public constructor() {
     super();
@@ -164,8 +164,8 @@ export default class DrawTrack extends Scene {
    * @param canvas is the canvas the element are rendered to
    */
   public render(canvas: HTMLCanvasElement): void {
-    RenderUI.renderTrack(canvas, this.track, this.radius)
-    RenderUI.renderUI(canvas);
+    UI.renderTrack(canvas, this.track, this.radius)
+    UI.renderUI(canvas);
 
     if (this.draw) {
       this.track.push([MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, 0]);

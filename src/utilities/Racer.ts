@@ -1,4 +1,4 @@
-import { Game } from './GameLoop.js';
+import { Game } from '../GameLoop.js';
 import CanvasUtil from './CanvasUtil.js';
 import KeyListener from './KeyListener.js';
 import Scene from '../scenes/Scene.js';

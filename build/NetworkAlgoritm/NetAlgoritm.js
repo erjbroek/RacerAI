@@ -2,6 +2,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import Scene from '../scenes/Scene.js';
 import MouseListener from '../utilities/MouseListener.js';
 import NetPopulation from './NetPopulation.js';
+import UI from '../utilities/UI.js';
 export default class NetAlgorithm extends Scene {
     track;
     radius;
@@ -22,12 +23,13 @@ export default class NetAlgorithm extends Scene {
     }
     processInput() {
         this.population.statistics.processInput();
+        UI.processInput();
         if (MouseListener.isButtonDown(0)) {
             if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
                 this.selectorPos[0] = MouseListener.mouseCoordinates.x;
-                const max = window.innerWidth / 7;
+                const max = window.innerWidth / 5;
                 const chosen = this.selectorPos[0] - (window.innerWidth - window.innerWidth / 7);
-                this.populationSizePercentage = (chosen / max) * 10;
+                this.populationSizePercentage = (chosen / max) * 8;
             }
             if (!this.startSimulation) {
                 if (MouseListener.mouseHover(window.innerWidth - window.innerWidth / 7.8, window.innerHeight / 2, window.innerWidth / 10, window.innerHeight / 20)) {
@@ -38,12 +40,14 @@ export default class NetAlgorithm extends Scene {
     }
     update(elapsed) {
         this.populationSize = Math.floor(this.populationSizePercentage * 5) + 15;
-        if (this.startSimulation) {
-            if (!this.triggered) {
-                this.triggered = true;
-                this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+        if (!UI.pauzeGame) {
+            if (this.startSimulation) {
+                if (!this.triggered) {
+                    this.triggered = true;
+                    this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+                }
+                this.population.update(elapsed);
             }
-            this.population.update(elapsed);
         }
         return this;
     }
@@ -51,13 +55,10 @@ export default class NetAlgorithm extends Scene {
         canvas.style.cursor = 'default';
         CanvasUtil.fillCanvas(canvas, 'black');
         CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 1, 20);
+        UI.renderUI(canvas);
         this.track.render(canvas);
-        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);
-        CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width, canvas.height / 12, 30, 30, 30);
-        CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6, 0, canvas.width / 6, canvas.height, 30, 30, 30);
-        CanvasUtil.fillRectangle(canvas, 0, canvas.height - canvas.height / 20, canvas.width, canvas.height / 20, 30, 30, 30);
-        CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 6.5, canvas.height / 20, canvas.width / 5 - canvas.width / 18, canvas.height / 1.111, 255, 255, 255, 0.2, 20);
         if (this.startSimulation) {
+            UI.renderPauze(canvas);
             if (!this.population.extinct) {
                 this.population.render(canvas);
             }
