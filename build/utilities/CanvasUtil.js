@@ -194,10 +194,17 @@ export default class CanvasUtil {
     static drawNetCarCustomize(canvas, car) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
-        const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 255;
-        const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 255;
-        const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 255;
-        ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.9})`;
+        const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 300;
+        const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 300;
+        const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 300;
+        const red2 = ((car.genome[18][2] + car.genome[19][2]) / 2) * 300;
+        const green2 = ((car.genome[13][2] + car.genome[14][2]) / 2) * 300;
+        const blue2 = ((car.genome[10][2] + car.genome[11][2]) / 2) * 300;
+        const gradientRotation = Math.floor(car.genome[7][2] * 3) * 360;
+        const gradient = ctx.createLinearGradient(-car.width / 2 * Math.cos(gradientRotation * Math.PI / 180), -car.height / 2 * Math.sin(gradientRotation * Math.PI / 180), car.width / 2 * Math.cos(gradientRotation * Math.PI / 180), car.height / 2 * Math.sin(gradientRotation * Math.PI / 180));
+        gradient.addColorStop(0, `rgba(${red}, ${green}, ${blue}, 0.9)`);
+        gradient.addColorStop(1, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
+        ctx.fillStyle = gradient;
         ctx.globalAlpha = 0.9;
         const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
         ctx.translate(car.posX, car.posY);

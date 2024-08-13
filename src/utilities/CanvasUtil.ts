@@ -372,13 +372,33 @@ export default class CanvasUtil {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
-    // genes left: 2, 3, 6, 7, 10, 11, 13, 14, 16, 17, 18, 19
+    // genes left: 2, 3, 6, 7, 16, 17
     // color genes 0, 1, 4, 5, 8, 9
-    const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 255;
-    const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 255;
-    const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 255;
+    const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 300;
+    const green = ((car.genome[4][2] + car.genome[5][2]) / 2) * 300;
+    const blue = ((car.genome[8][2] + car.genome[9][2]) / 2) * 300;
 
-    ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${0.9})`;
+    // color genes 2: 10, 11, 13, 14, 18, 19
+    const red2 = ((car.genome[18][2] + car.genome[19][2]) / 2) * 300;
+    const green2 = ((car.genome[13][2] + car.genome[14][2]) / 2) * 300;
+    const blue2 = ((car.genome[10][2] + car.genome[11][2]) / 2) * 300;
+
+    // Gradient direction based on a gene
+    const gradientRotation = Math.floor(car.genome[7][2] * 3) * 360;
+
+    // Create the gradient
+    const gradient = ctx.createLinearGradient(
+        -car.width / 2 * Math.cos(gradientRotation * Math.PI / 180),
+        -car.height / 2 * Math.sin(gradientRotation * Math.PI / 180),
+        car.width / 2 * Math.cos(gradientRotation * Math.PI / 180),
+        car.height / 2 * Math.sin(gradientRotation * Math.PI / 180)
+    );
+
+    // Add the two colors to the gradient
+    gradient.addColorStop(0, `rgba(${red}, ${green}, ${blue}, 0.9)`);
+    gradient.addColorStop(1, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
+
+    ctx.fillStyle = gradient;
     ctx.globalAlpha = 0.9;
 
     // shape gene 12 and 15
