@@ -6,21 +6,21 @@ export default class MouseListener {
     static buttonDown = {};
     static buttonQueried = {};
     constructor(canvas, disableContextMenu = false) {
-        canvas.addEventListener("mousemove", (ev) => {
+        canvas.addEventListener('mousemove', (ev) => {
             MouseListener.mouseCoordinates = {
                 x: ev.offsetX,
                 y: ev.offsetY,
             };
         });
-        canvas.addEventListener("mousedown", (ev) => {
+        canvas.addEventListener('mousedown', (ev) => {
             MouseListener.buttonDown[ev.button] = true;
         });
-        canvas.addEventListener("mouseup", (ev) => {
+        canvas.addEventListener('mouseup', (ev) => {
             MouseListener.buttonDown[ev.button] = false;
             MouseListener.buttonQueried[ev.button] = false;
         });
         if (disableContextMenu) {
-            canvas.addEventListener("contextmenu", (ev) => {
+            canvas.addEventListener('contextmenu', (ev) => {
                 ev.preventDefault();
             });
         }

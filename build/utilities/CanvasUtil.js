@@ -2,23 +2,23 @@ export default class CanvasUtil {
     static canvas;
     static ctx;
     static getCanvasContext(canvas) {
-        const ctx = canvas.getContext("2d");
+        const ctx = canvas.getContext('2d');
         if (ctx === null)
-            throw new Error("Canvas Rendering Context is null");
+            throw new Error('Canvas Rendering Context is null');
         return ctx;
     }
     static setCanvas(canvas) {
         this.canvas = canvas;
-        this.ctx = canvas.getContext("2d");
+        this.ctx = canvas.getContext('2d');
         if (this.ctx === null)
-            throw new Error("Canvas Rendering Context is null");
+            throw new Error('Canvas Rendering Context is null');
     }
     static getCanvas() {
         if (!this.canvas)
-            throw new Error("Canvas is not set");
+            throw new Error('Canvas is not set');
         return this.canvas;
     }
-    static fillCanvas(canvas, colour = "#FF10F0") {
+    static fillCanvas(canvas, colour = '#FF10F0') {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
         ctx.rect(0, 0, canvas.width, canvas.height);
@@ -56,12 +56,12 @@ export default class CanvasUtil {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
-    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = "center", fontFamily = "sans-serif", fontSize = 20, color = "red", fontWeight = 10) {
+    static writeText(canvas, text, xCoordinate, yCoordinate, alignment = 'center', fontFamily = 'sans-serif', fontSize = 20, color = 'red', fontWeight = 10) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
         ctx.fillStyle = color;
         ctx.textAlign = alignment;
-        const lines = text.split("<br>");
+        const lines = text.split('<br>');
         let currentY = yCoordinate;
         for (const line of lines) {
             ctx.fillText(line, xCoordinate, currentY);
@@ -139,7 +139,7 @@ export default class CanvasUtil {
         const x1 = dx + width / 2 - (width / 2) * Math.cos(radians);
         const y1 = dy + height / 2 + (height / 2) * Math.sin(radians);
         const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-        colors.forEach(({ red, green, blue, opacity, stop }) => {
+        colors.forEach(({ red, green, blue, opacity, stop, }) => {
             const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
             gradient.addColorStop(stop, color);
         });
@@ -147,11 +147,11 @@ export default class CanvasUtil {
         ctx.fill();
     }
     static getPixelColor(canvas, x, y) {
-        const context = canvas.getContext("2d", { willReadFrequently: true });
+        const context = canvas.getContext('2d', { willReadFrequently: true });
         if (context) {
             return context.getImageData(x, y, 1, 1);
         }
-        throw new Error("Unable to get canvas context");
+        throw new Error('Unable to get canvas context');
     }
     static drawCar(canvas, dx, dy, width, height, rotation, red, green, blue, opacity, isPlayer = false) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
@@ -201,9 +201,9 @@ export default class CanvasUtil {
         const green2 = ((car.genome[13][2] + car.genome[14][2]) / 2) * 300;
         const blue2 = ((car.genome[10][2] + car.genome[11][2]) / 2) * 300;
         const gradientRotation = Math.floor(car.genome[7][2] * 3) * 360;
-        const gradient = ctx.createLinearGradient(-car.width / 2 * Math.cos(gradientRotation * Math.PI / 180), -car.height / 2 * Math.sin(gradientRotation * Math.PI / 180), car.width / 2 * Math.cos(gradientRotation * Math.PI / 180), car.height / 2 * Math.sin(gradientRotation * Math.PI / 180));
-        gradient.addColorStop(0, `rgba(${red}, ${green}, ${blue}, 0.9)`);
-        gradient.addColorStop(1, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
+        const gradient = ctx.createLinearGradient((-car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)), (-car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)), (car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)), (car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)));
+        gradient.addColorStop(0.2, `rgba(${red}, ${green}, ${blue}, 0.9)`);
+        gradient.addColorStop(0.8, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
         ctx.fillStyle = gradient;
         ctx.globalAlpha = 0.9;
         const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
@@ -220,7 +220,7 @@ export default class CanvasUtil {
             case 1:
                 const topWidth = car.width / 1.8;
                 const bottomWidth = car.width * 1.2;
-                const height = car.height;
+                const { height } = car;
                 ctx.moveTo(-topWidth / 2, -height / 2);
                 ctx.lineTo(topWidth / 2, -height / 2);
                 ctx.lineTo(bottomWidth / 2, height / 2);

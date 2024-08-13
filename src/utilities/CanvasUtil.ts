@@ -1,4 +1,4 @@
-import NetCar from "../NetworkAlgoritm/NetCar.js";
+import NetCar from '../NetworkAlgoritm/NetCar.js';
 
 /**
  * Helper utlity class for working with the HTML Canvas Element.
@@ -16,19 +16,19 @@ export default class CanvasUtil {
    * @returns the 2D rendering context of the canvas
    */
   private static getCanvasContext(canvas: HTMLCanvasElement): CanvasRenderingContext2D {
-    const ctx: CanvasRenderingContext2D | null = canvas.getContext("2d");
-    if (ctx === null) throw new Error("Canvas Rendering Context is null");
+    const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+    if (ctx === null) throw new Error('Canvas Rendering Context is null');
     return ctx;
   }
 
   public static setCanvas(canvas: HTMLCanvasElement): void {
     this.canvas = canvas;
-    this.ctx = canvas.getContext("2d");
-    if (this.ctx === null) throw new Error("Canvas Rendering Context is null");
+    this.ctx = canvas.getContext('2d');
+    if (this.ctx === null) throw new Error('Canvas Rendering Context is null');
   }
 
   public static getCanvas(): HTMLCanvasElement {
-    if (!this.canvas) throw new Error("Canvas is not set");
+    if (!this.canvas) throw new Error('Canvas is not set');
     return this.canvas;
   }
 
@@ -38,7 +38,7 @@ export default class CanvasUtil {
    * @param canvas canvas that requires filling
    * @param colour the colour that the canvas will be filled with
    */
-  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = "#FF10F0"): void {
+  public static fillCanvas(canvas: HTMLCanvasElement, colour: string = '#FF10F0'): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.beginPath();
     ctx.rect(0, 0, canvas.width, canvas.height);
@@ -117,14 +117,14 @@ export default class CanvasUtil {
    * @param color colour of text to write
    * @param fontWeight
    */
-  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = "center", fontFamily: string = "sans-serif", fontSize: number = 20, color: string = "red", fontWeight: number = 10): void {
+  public static writeText(canvas: HTMLCanvasElement, text: string, xCoordinate: number, yCoordinate: number, alignment: CanvasTextAlign = 'center', fontFamily: string = 'sans-serif', fontSize: number = 20, color: string = 'red', fontWeight: number = 10): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
     ctx.font = `${fontWeight} ${fontSize}px ${fontFamily}`;
     ctx.fillStyle = color;
     ctx.textAlign = alignment;
 
     // each time <br> is found in the text, a line break is made
-    const lines = text.split("<br>");
+    const lines = text.split('<br>');
     let currentY = yCoordinate;
 
     for (const line of lines) {
@@ -303,7 +303,9 @@ export default class CanvasUtil {
 
     const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
 
-    colors.forEach(({ red, green, blue, opacity, stop }) => {
+    colors.forEach(({
+      red, green, blue, opacity, stop,
+    }) => {
       const color = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
       gradient.addColorStop(stop, color);
     });
@@ -313,11 +315,11 @@ export default class CanvasUtil {
   }
 
   public static getPixelColor(canvas: HTMLCanvasElement, x: number, y: number): ImageData {
-    const context = canvas.getContext("2d", { willReadFrequently: true });
+    const context = canvas.getContext('2d', { willReadFrequently: true });
     if (context) {
       return context.getImageData(x, y, 1, 1);
     }
-    throw new Error("Unable to get canvas context");
+    throw new Error('Unable to get canvas context');
   }
 
   public static drawCar(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, rotation: number, red: number, green: number, blue: number, opacity: number, isPlayer: boolean = false) {
@@ -388,15 +390,15 @@ export default class CanvasUtil {
 
     // Create the gradient
     const gradient = ctx.createLinearGradient(
-        -car.width / 2 * Math.cos(gradientRotation * Math.PI / 180),
-        -car.height / 2 * Math.sin(gradientRotation * Math.PI / 180),
-        car.width / 2 * Math.cos(gradientRotation * Math.PI / 180),
-        car.height / 2 * Math.sin(gradientRotation * Math.PI / 180)
+      (-car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)),
+      (-car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)),
+      (car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)),
+      (car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)),
     );
 
     // Add the two colors to the gradient
-    gradient.addColorStop(0, `rgba(${red}, ${green}, ${blue}, 0.9)`);
-    gradient.addColorStop(1, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
+    gradient.addColorStop(0.2, `rgba(${red}, ${green}, ${blue}, 0.9)`);
+    gradient.addColorStop(0.8, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
 
     ctx.fillStyle = gradient;
     ctx.globalAlpha = 0.9;
@@ -417,7 +419,7 @@ export default class CanvasUtil {
       case 1: // Trapezoid / half triangle or whatever its called
         const topWidth = car.width / 1.8;
         const bottomWidth = car.width * 1.2;
-        const height = car.height;
+        const { height } = car;
 
         ctx.moveTo(-topWidth / 2, -height / 2);
         ctx.lineTo(topWidth / 2, -height / 2);
