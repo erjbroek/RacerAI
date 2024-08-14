@@ -1,12 +1,12 @@
 export default class Car {
-    posX;
-    posY;
-    width;
-    height;
-    rotation;
-    xSpeed;
-    ySpeed;
-    alive;
+    posX = 0;
+    posY = 0;
+    width = 0;
+    height = 0;
+    rotation = 0;
+    xSpeed = 0;
+    ySpeed = 0;
+    alive = true;
     onFinishLine;
     prevPosX;
     prevPosY;

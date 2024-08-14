@@ -1,4 +1,5 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
+import DisplayCar from './DisplayCar.js';
 import NetCar from './NetCar.js';
 import Statistics from './Statistics.js';
 export default class NetPopulation {
@@ -186,13 +187,14 @@ export default class NetPopulation {
                 if (car.raceDuration < this.statistics.record && car.leftStartLine) {
                     this.statistics.record = car.raceDuration;
                     this.statistics.bestGen = this.generation;
-                    this.statistics.recordHistory.push([this.statistics.record, this.statistics.bestGen]);
+                    this.statistics.recordHistory.push([this.statistics.record, this.statistics.bestGen, new DisplayCar(car.genome)]);
                 }
                 if (!this.statistics.addedToHistory && car.leftStartLine) {
                     this.finished = true;
                     this.statistics.performanceHistory.push(this.trackTime);
                     this.statistics.addedToHistory = true;
                 }
+                console.log(this.statistics.recordHistory);
             }
             if (car.alive) {
                 car.raceDuration += elapsed;
@@ -286,14 +288,16 @@ export default class NetPopulation {
             CanvasUtil.writeText(canvas, 'Generations that beat record', canvas.width - canvas.width / 8, canvas.height / 3.1, 'left', 'system-ui', 15, 'grey');
             CanvasUtil.drawLine(canvas, canvas.width - canvas.width / 6.5, canvas.height / 3, canvas.width - canvas.width / 6.5 + canvas.width / 7, canvas.height / 3, 255, 255, 255, 0.2, 2);
             const start = canvas.height / 2.6;
+            const rowHeight = canvas.height / 35;
             for (let i = 0; i < this.statistics.recordHistory.length; i++) {
                 if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
-                    CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), 'left', 'system-ui', 20, 'grey');
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 10, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
                 }
                 else {
-                    CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 7.5, start + i * (canvas.height / 45), 'left', 'system-ui', 20, 'grey');
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 10, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
                 }
-                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}`, canvas.width - canvas.width / 17, start + i * (canvas.height / 45), 'left', 'system-ui', 20, 'grey');
+                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
+                CanvasUtil.drawNetCarCustomize(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 20, start + i * rowHeight - canvas.height / 100, 90);
             }
         }
         if (this.trackTime % 1000 < 100) {

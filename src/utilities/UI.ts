@@ -1,5 +1,6 @@
 import MouseListener from './MouseListener.js';
 import CanvasUtil from './CanvasUtil.js';
+import DisplayCar from '../NetworkAlgoritm/DisplayCar.js';
 
 export default class UI {
   public static hoverPauze: boolean = false;
@@ -9,6 +10,8 @@ export default class UI {
   public static pauzeGame: boolean = false;
 
   private static readyClick: boolean = false;
+
+  private static cars: DisplayCar[];
 
   /**
    * processes user input

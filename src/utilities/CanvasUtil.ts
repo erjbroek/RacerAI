@@ -1,3 +1,5 @@
+import DisplayCar from '../NetworkAlgoritm/DisplayCar.js';
+import Car from '../Car.js';
 import NetCar from '../NetworkAlgoritm/NetCar.js';
 
 /**
@@ -370,7 +372,7 @@ export default class CanvasUtil {
     ctx.restore();
   }
 
-  public static drawNetCarCustomize(canvas: HTMLCanvasElement, car: NetCar) {
+  public static drawNetCarCustomize(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, rotation: number = car.rotation) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -405,8 +407,8 @@ export default class CanvasUtil {
 
     // shape gene 12 and 15
     const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
-    ctx.translate(car.posX, car.posY);
-    ctx.rotate((car.rotation * Math.PI) / 180);
+    ctx.translate(posX, posY);
+    ctx.rotate((rotation * Math.PI) / 180);
 
     ctx.beginPath();
     switch (shapeType) {

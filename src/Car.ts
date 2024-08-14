@@ -1,21 +1,21 @@
 import Track from './Track.js';
 
 export default abstract class Car {
-  public posX: number;
+  public posX: number = 0;
 
-  public posY: number;
+  public posY: number = 0;
 
-  public width: number;
+  public width: number = 0;
 
-  public height: number;
+  public height: number = 0;
 
-  public rotation: number;
+  public rotation: number = 0;
 
-  public xSpeed: number;
+  public xSpeed: number = 0;
 
-  public ySpeed: number;
+  public ySpeed: number = 0;
 
-  public alive: boolean;
+  public alive: boolean = true;
 
   public onFinishLine: boolean;
 

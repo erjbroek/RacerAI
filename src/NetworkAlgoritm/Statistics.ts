@@ -2,6 +2,7 @@ import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import NetCar from './NetCar.js';
 import NetPopulation from './NetPopulation.js';
+import DisplayCar from './DisplayCar.js';
 
 export default class Statistics {
   public showAdvancedStats: boolean = false;
@@ -16,7 +17,7 @@ export default class Statistics {
 
   public record: number = Infinity;
 
-  public recordHistory: number[][] = [];
+  public recordHistory: Array<[number, number, DisplayCar]> = [];
 
   public addedToHistory: boolean = false;
 

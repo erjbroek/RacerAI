@@ -5,6 +5,7 @@ export default class UI {
     static holdingPauze = false;
     static pauzeGame = false;
     static readyClick = false;
+    static cars;
     static processInput() {
         if (MouseListener.mouseHover(window.innerWidth / 30 + window.innerWidth - window.innerWidth / 5 - window.innerWidth / 22, window.innerHeight / 12 + window.innerHeight / 70, window.innerHeight / 13, window.innerHeight / 13)) {
             UI.hoverPauze = true;

@@ -191,7 +191,7 @@ export default class CanvasUtil {
         }
         ctx.restore();
     }
-    static drawNetCarCustomize(canvas, car) {
+    static drawNetCarCustomize(canvas, car, posX = car.posX, posY = car.posY, rotation = car.rotation) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
         const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 300;
@@ -207,8 +207,8 @@ export default class CanvasUtil {
         ctx.fillStyle = gradient;
         ctx.globalAlpha = 0.9;
         const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
-        ctx.translate(car.posX, car.posY);
-        ctx.rotate((car.rotation * Math.PI) / 180);
+        ctx.translate(posX, posY);
+        ctx.rotate((rotation * Math.PI) / 180);
         ctx.beginPath();
         switch (shapeType) {
             case 0:
