@@ -13,7 +13,7 @@ export default class DisplayCar extends Car {
     update(elapsed) {
     }
     render(canvas) {
-        CanvasUtil.drawNetCarCustomize(canvas, this);
+        CanvasUtil.createNetCar(canvas, this);
     }
 }
 //# sourceMappingURL=DisplayCar.js.map

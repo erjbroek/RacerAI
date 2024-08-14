@@ -1,5 +1,6 @@
 import MouseListener from '../utilities/MouseListener.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
+import UI from '../utilities/UI.js';
 export default class Statistics {
     showAdvancedStats = false;
     showNetwork = false;
@@ -23,10 +24,17 @@ export default class Statistics {
             }
             if (MouseListener.mouseCoordinates.x >= window.innerWidth / 4.6 && MouseListener.mouseCoordinates.y >= window.innerHeight / 33 && MouseListener.mouseCoordinates.x <= window.innerWidth / 4.6 + window.innerWidth / 22.5 && MouseListener.mouseCoordinates.y <= window.innerHeight / 33 + window.innerHeight / 22.5) {
                 this.showAdvancedStats = !this.showAdvancedStats;
+                UI.pauzeGame = !UI.pauzeGame;
             }
         }
     }
-    renderSettings(canvas) { }
+    update(elapsed) {
+    }
+    renderSettings(canvas) {
+        UI.pauzeGame = true;
+        CanvasUtil.fillRectangleWithGradient(canvas, canvas.width / 10, canvas.height / 10, canvas.width - canvas.width / 5, canvas.height - canvas.height / 5, [{ red: 10, green: 10, blue: 0, opacity: 0.75, stop: 1 }, { red: 0, green: 10, blue: 10, opacity: 0.75, stop: 0 }], 90, 10);
+        CanvasUtil.drawRectangle(canvas, canvas.width / 10, canvas.height / 10, canvas.width - canvas.width / 5, canvas.height - canvas.height / 5, 50, 15, 255, 1, 5, 10);
+    }
     renderButtons(canvas) {
         CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 75, canvas.width / 1.85, canvas.height / 18, 50, 50, 50, 1, canvas.height / 100);
         CanvasUtil.fillRectangle(canvas, canvas.width / 8.9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);

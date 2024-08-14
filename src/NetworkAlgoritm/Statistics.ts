@@ -3,6 +3,7 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import NetCar from './NetCar.js';
 import NetPopulation from './NetPopulation.js';
 import DisplayCar from './DisplayCar.js';
+import UI from '../utilities/UI.js';
 
 export default class Statistics {
   public showAdvancedStats: boolean = false;
@@ -44,14 +45,23 @@ export default class Statistics {
       }
       if (MouseListener.mouseCoordinates.x >= window.innerWidth / 4.6 && MouseListener.mouseCoordinates.y >= window.innerHeight / 33 && MouseListener.mouseCoordinates.x <= window.innerWidth / 4.6 + window.innerWidth / 22.5 && MouseListener.mouseCoordinates.y <= window.innerHeight / 33 + window.innerHeight / 22.5) {
         this.showAdvancedStats = !this.showAdvancedStats;
+        UI.pauzeGame = !UI.pauzeGame;
       }
     }
+  }
+
+  public update(elapsed: number) {
+
   }
 
   /**
    * @param canvas is the canvas to render on
    */
-  public renderSettings(canvas: HTMLCanvasElement) {}
+  public renderSettings(canvas: HTMLCanvasElement) {
+    UI.pauzeGame = true;
+    CanvasUtil.fillRectangleWithGradient(canvas, canvas.width / 10, canvas.height / 10, canvas.width - canvas.width / 5, canvas.height - canvas.height / 5, [{red: 10, green: 10, blue: 0, opacity: 0.75, stop: 1}, {red: 0, green: 10, blue: 10, opacity: 0.75, stop: 0}], 90, 10);
+    CanvasUtil.drawRectangle(canvas, canvas.width / 10, canvas.height / 10, canvas.width - canvas.width / 5, canvas.height - canvas.height / 5, 50, 15, 255, 1, 5, 10)
+  }
 
   /**
    *

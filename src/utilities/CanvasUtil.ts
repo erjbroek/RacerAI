@@ -372,7 +372,7 @@ export default class CanvasUtil {
     ctx.restore();
   }
 
-  public static drawNetCarCustomize(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, rotation: number = car.rotation) {
+  public static createNetCar(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, rotation: number = car.rotation) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -388,7 +388,7 @@ export default class CanvasUtil {
     const blue2 = ((car.genome[10][2] + car.genome[11][2]) / 2) * 300;
 
     // Gradient direction based on a gene
-    const gradientRotation = Math.floor(car.genome[7][2] * 3) * 360;
+    const gradientRotation = car.genome[7][2] * 360;
 
     // Create the gradient
     const gradient = ctx.createLinearGradient(

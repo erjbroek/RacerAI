@@ -23,7 +23,9 @@ export default class NetAlgorithm extends Scene {
     }
     processInput() {
         this.population.statistics.processInput();
-        UI.processInput();
+        if (!this.population.statistics.showAdvancedStats) {
+            UI.processInput();
+        }
         if (MouseListener.isButtonDown(0)) {
             if (MouseListener.mouseCoordinates.x >= window.innerWidth - window.innerWidth / 7.6 && MouseListener.mouseCoordinates.x <= window.innerWidth - window.innerWidth / 7 + window.innerWidth / 8.8 && MouseListener.mouseCoordinates.y >= window.innerHeight / 3 && MouseListener.mouseCoordinates.y <= window.innerHeight / 3 + window.innerHeight / 25) {
                 this.selectorPos[0] = MouseListener.mouseCoordinates.x;
@@ -58,7 +60,9 @@ export default class NetAlgorithm extends Scene {
         UI.renderUI(canvas);
         this.track.render(canvas);
         if (this.startSimulation) {
-            UI.renderPauze(canvas);
+            if (!this.population.statistics.showAdvancedStats) {
+                UI.renderPauze(canvas);
+            }
             if (!this.population.extinct) {
                 this.population.render(canvas);
             }

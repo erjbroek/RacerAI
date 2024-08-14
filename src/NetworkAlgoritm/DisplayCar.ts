@@ -18,6 +18,6 @@ export default class DisplayCar extends Car {
   }
 
   public render(canvas: HTMLCanvasElement) {
-    CanvasUtil.drawNetCarCustomize(canvas, this);
+    CanvasUtil.createNetCar(canvas, this);
   }
 }

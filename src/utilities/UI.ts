@@ -9,7 +9,7 @@ export default class UI {
 
   public static pauzeGame: boolean = false;
 
-  private static readyClick: boolean = false;
+  public static readyClick: boolean = false;
 
   private static cars: DisplayCar[];
 

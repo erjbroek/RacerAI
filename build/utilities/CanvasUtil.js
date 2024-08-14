@@ -191,7 +191,7 @@ export default class CanvasUtil {
         }
         ctx.restore();
     }
-    static drawNetCarCustomize(canvas, car, posX = car.posX, posY = car.posY, rotation = car.rotation) {
+    static createNetCar(canvas, car, posX = car.posX, posY = car.posY, rotation = car.rotation) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
         const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 300;
@@ -200,7 +200,7 @@ export default class CanvasUtil {
         const red2 = ((car.genome[18][2] + car.genome[19][2]) / 2) * 300;
         const green2 = ((car.genome[13][2] + car.genome[14][2]) / 2) * 300;
         const blue2 = ((car.genome[10][2] + car.genome[11][2]) / 2) * 300;
-        const gradientRotation = Math.floor(car.genome[7][2] * 3) * 360;
+        const gradientRotation = car.genome[7][2] * 360;
         const gradient = ctx.createLinearGradient((-car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)), (-car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)), (car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)), (car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)));
         gradient.addColorStop(0.2, `rgba(${red}, ${green}, ${blue}, 0.9)`);
         gradient.addColorStop(0.8, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
