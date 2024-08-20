@@ -104,8 +104,14 @@ export default class CanvasUtil {
         ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
         ctx.fill();
     }
-    static fillRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1, borderRadius = 0) {
+    static fillRectangle(canvas, dx, dy, width, height, red = 255, green = 255, blue = 255, opacity = 1, borderRadius = 0, rotation = 0) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
+        ctx.save();
+        const centerX = dx + width / 2;
+        const centerY = dy + height / 2;
+        ctx.translate(centerX, centerY);
+        ctx.rotate(rotation * (Math.PI / 180));
+        ctx.translate(-centerX, -centerY);
         ctx.beginPath();
         ctx.moveTo(dx + borderRadius, dy);
         ctx.lineTo(dx + width - borderRadius, dy);
@@ -119,6 +125,7 @@ export default class CanvasUtil {
         ctx.closePath();
         ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
         ctx.fill();
+        ctx.restore();
     }
     static fillRectangleWithGradient(canvas, dx, dy, width, height, colors, angle = 0, borderRadius = 0) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
@@ -245,6 +252,7 @@ export default class CanvasUtil {
                 ctx.closePath();
         }
         ctx.fill();
+        ctx.stroke();
         ctx.restore();
     }
     static rotateImage(canvas, image, degrees) {

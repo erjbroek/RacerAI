@@ -251,10 +251,17 @@ export default class CanvasUtil {
    * @param opacity is the opacity of the rectangle
    * @param borderRadius is the border radius of the rectangle
    */
-  public static fillRectangle(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, borderRadius: number = 0): void {
+  public static fillRectangle(canvas: HTMLCanvasElement, dx: number, dy: number, width: number, height: number, red: number = 255, green: number = 255, blue: number = 255, opacity: number = 1, borderRadius: number = 0, rotation: number = 0): void {
     const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
-    ctx.beginPath();
 
+    ctx.save();
+    const centerX = dx + width / 2;
+    const centerY = dy + height / 2;
+    ctx.translate(centerX, centerY);
+    ctx.rotate(rotation * (Math.PI / 180));
+    ctx.translate(-centerX, -centerY);
+
+    ctx.beginPath();
     ctx.moveTo(dx + borderRadius, dy);
     ctx.lineTo(dx + width - borderRadius, dy);
     ctx.arcTo(dx + width, dy, dx + width, dy + borderRadius, borderRadius);
@@ -267,6 +274,9 @@ export default class CanvasUtil {
     ctx.closePath();
     ctx.fillStyle = `rgba(${red}, ${green}, ${blue}, ${opacity})`;
     ctx.fill();
+
+    // Restore the original context state
+    ctx.restore();
   }
 
   /**
@@ -448,6 +458,7 @@ export default class CanvasUtil {
     }
 
     ctx.fill();
+    ctx.stroke();
     ctx.restore();
   }
 

@@ -1,5 +1,6 @@
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import Car from '../Car.js';
+import NetCar from './NetCar.js';
 
 export default class DisplayCar extends Car {
   public genome: number[][];

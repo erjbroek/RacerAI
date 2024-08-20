@@ -1,7 +1,8 @@
-import CanvasUtil from '../utilities/CanvasUtil.js';
-import DisplayCar from './DisplayCar.js';
-import NetCar from './NetCar.js';
-import Statistics from './Statistics.js';
+import UI from "../utilities/UI.js";
+import CanvasUtil from "../utilities/CanvasUtil.js";
+import DisplayCar from "./DisplayCar.js";
+import NetCar from "./NetCar.js";
+import Statistics from "./Statistics.js";
 export default class NetPopulation {
     cars = [];
     nextGen = [];
@@ -86,7 +87,7 @@ export default class NetPopulation {
     calculateFitness() {
         this.cars.forEach((car) => {
             if (car.laps > 0) {
-                car.fitness = (((1 / (car.raceDuration / 1000)) * 100) ** car.laps);
+                car.fitness = ((1 / (car.raceDuration / 1000)) * 100) ** car.laps;
             }
             else {
                 car.fitness += car.distance / 1000;
@@ -263,56 +264,64 @@ export default class NetPopulation {
                 CanvasUtil.createNetCar(canvas, car);
             }
         });
-        CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, 'center', 'system-ui', 30, 'black');
-        CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, 'center', 'system-ui', 30, 'white');
-        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, 'center', 'system-ui', 20, 'white');
-        CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, 'center', 'system-ui', 20, 'white');
+        if (!UI.openSettings) {
+            CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
+        }
+        CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
+        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
+        CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
         this.statistics.renderButtons(canvas);
-        if (this.statistics.showNetwork) {
-            this.statistics.renderNetwork(this.cars[0], canvas);
-        }
-        if (this.statistics.showAdvancedStats) {
-            this.statistics.renderSettings(canvas);
-        }
         if (this.statistics.record !== Infinity) {
             if (Math.floor(this.statistics.record % 1000) < 100) {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
             }
             else {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
             }
-            CanvasUtil.writeText(canvas, `Gen: ${this.statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, 'left', 'system-ui', 20, 'grey');
+            CanvasUtil.writeText(canvas, `Gen: ${this.statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
         }
         else {
-            CanvasUtil.writeText(canvas, 'Record: N/A', canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
-            CanvasUtil.writeText(canvas, 'Gen: N/A', canvas.width - canvas.width / 15, canvas.height / 4, 'left', 'system-ui', 20, 'grey');
+            CanvasUtil.writeText(canvas, "Record: N/A", canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+            CanvasUtil.writeText(canvas, "Gen: N/A", canvas.width - canvas.width / 15, canvas.height / 4, "left", "system-ui", 20, "grey");
         }
         if (this.statistics.recordHistory.length > 0) {
-            CanvasUtil.writeText(canvas, 'Generations that beat record', canvas.width - canvas.width / 8, canvas.height / 3.1, 'left', 'system-ui', 15, 'grey');
+            CanvasUtil.writeText(canvas, "Generations that beat record", canvas.width - canvas.width / 8, canvas.height / 3.1, "left", "system-ui", 15, "grey");
             CanvasUtil.drawLine(canvas, canvas.width - canvas.width / 6.5, canvas.height / 3, canvas.width - canvas.width / 6.5 + canvas.width / 7, canvas.height / 3, 255, 255, 255, 0.2, 2);
             const start = canvas.height / 2.6;
             const rowHeight = canvas.height / 35;
             for (let i = 0; i < this.statistics.recordHistory.length; i++) {
                 if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
-                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
                 }
                 else {
-                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
                 }
-                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
+                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "grey");
                 CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 30, start + i * rowHeight - canvas.height / 100, 90);
             }
         }
         if (this.trackTime % 1000 < 100) {
-            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.0${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, 'center', 'system-ui', 20, 'grey');
+            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.0${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
         }
         else {
-            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, 'center', 'system-ui', 20, 'grey');
+            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
         }
         if (this.statistics.showGraph) {
             if (this.statistics.performanceHistory.length > 0) {
                 this.statistics.renderGraph(canvas);
             }
+        }
+        if (UI.openSettings) {
+            UI.renderSettings(canvas, this.generation);
+            const sortedCars = this.cars
+                .filter((car) => car.alive)
+                .sort((car1, car2) => {
+                if (car1.laps === car2.laps) {
+                    return car2.distance - car1.distance;
+                }
+                return car2.laps - car1.laps;
+            });
+            this.statistics.renderNetwork(sortedCars[0], canvas);
         }
     }
 }
