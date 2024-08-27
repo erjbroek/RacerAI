@@ -381,7 +381,7 @@ export default class CanvasUtil {
     ctx.restore();
   }
 
-  public static createNetCar(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, rotation: number = car.rotation) {
+  public static createNetCar(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, sizeMultiplier: number = 1, rotation: number = car.rotation) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -400,7 +400,7 @@ export default class CanvasUtil {
     const gradientRotation = car.genome[7][2] * 360;
 
     // Create the gradient
-    const gradient = ctx.createLinearGradient((-car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)), (-car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)), (car.width / 2) * Math.cos(gradientRotation * (Math.PI / 180)), (car.height / 2) * Math.sin(gradientRotation * (Math.PI / 180)));
+    const gradient = ctx.createLinearGradient((-car.width / 2 * sizeMultiplier) * Math.cos(gradientRotation * (Math.PI / 180)), (-car.height / 2 * sizeMultiplier) * Math.sin(gradientRotation * (Math.PI / 180)), (car.width / 2 * sizeMultiplier) * Math.cos(gradientRotation * (Math.PI / 180)), (car.height / 2  * sizeMultiplier) * Math.sin(gradientRotation * (Math.PI / 180)));
 
     // Add the two colors to the gradient
     gradient.addColorStop(0.2, `rgba(${red}, ${green}, ${blue}, 0.9)`);
@@ -417,14 +417,14 @@ export default class CanvasUtil {
     ctx.beginPath();
     switch (shapeType) {
       case 0: // Triangle
-        ctx.moveTo(-car.width / 2, car.height / 2);
-        ctx.lineTo(car.width / 2, car.height / 2);
-        ctx.lineTo(0, -car.height / 2);
+        ctx.moveTo(-car.width / 2 * sizeMultiplier, car.height / 2 * sizeMultiplier);
+        ctx.lineTo(car.width / 2 * sizeMultiplier, car.height / 2 * sizeMultiplier);
+        ctx.lineTo(0, -car.height / 2 * sizeMultiplier);
         ctx.closePath();
         break;
       case 1: // Trapezoid / half triangle or whatever its called
-        const topWidth = car.width / 1.8;
-        const bottomWidth = car.width * 1.2;
+        const topWidth = car.width * sizeMultiplier / 1.8 ;
+        const bottomWidth = car.width * sizeMultiplier * 1.2;
         const { height } = car;
 
         ctx.moveTo(-topWidth / 2, -height / 2);
@@ -434,20 +434,20 @@ export default class CanvasUtil {
         ctx.closePath();
         break;
       case 2: // Square
-        ctx.rect(-car.width / 2, -car.height / 2, car.width, car.height);
+        ctx.rect(-car.width * sizeMultiplier / 2, -car.height / 2  * sizeMultiplier, car.width * sizeMultiplier, car.height * sizeMultiplier);
         ctx.closePath();
         break;
       case 3: // Diamond
-        ctx.moveTo(0, -car.height / 1.45);
-        ctx.lineTo(car.width / 1.45, 0);
-        ctx.lineTo(0, car.height / 1.45);
-        ctx.lineTo(-car.width / 1.45, 0);
+        ctx.moveTo(0, -car.height / 1.45 * sizeMultiplier);
+        ctx.lineTo(car.width * sizeMultiplier / 1.45, 0);
+        ctx.lineTo(0, car.height / 1.45 * sizeMultiplier);
+        ctx.lineTo(-car.width * sizeMultiplier / 1.45, 0);
         ctx.closePath();
         break;
       default: // another triangle
-        ctx.moveTo(-car.width / 2, car.height / 2);
-        ctx.lineTo(car.width / 2, car.height / 2);
-        ctx.lineTo(0, -car.height / 2);
+        ctx.moveTo(-car.width * sizeMultiplier / 2, car.height / 2 * sizeMultiplier);
+        ctx.lineTo(car.width * sizeMultiplier / 2, car.height / 2 * sizeMultiplier);
+        ctx.lineTo(0, -car.height / 2 * sizeMultiplier);
         ctx.closePath();
     }
 

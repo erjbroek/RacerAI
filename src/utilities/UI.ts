@@ -94,6 +94,28 @@ export default class UI {
     // container for settings, just need to update x and y values
     CanvasUtil.fillRectangle(canvas, canvas.width / 19.4, canvas.height / 9.5, canvas.width / 3.2, canvas.height / 2, 0, 0, 0, 0.3, 10);
     CanvasUtil.writeText(canvas, `Generation ${generation}`, canvas.width * 0.2, canvas.height * 0.152, 'center', 'system-ui', 30, 'white');
+    CanvasUtil.writeText(canvas, `laps: ${Statistics.currentHighestLaps} / 5`, canvas.width * 0.2, canvas.height * 0.18, 'center', 'system-ui', 20, 'lightgray');
+
+    CanvasUtil.writeText(canvas, `Gene mutation chance: ${Statistics.slightMutationRate * 100}%`, canvas.width * 0.07, canvas.height * 0.27, 'left', 'system-ui', 17, 'lightgray');
+    CanvasUtil.writeText(canvas, `Gene randomizing chance: ${Math.floor(Statistics.bigMutationRate * 1000) / 10}%`, canvas.width * 0.07, canvas.height * 0.3, 'left', 'system-ui', 17, 'lightgray');
+    CanvasUtil.writeText(canvas, `% of top cars surviving: ${Math.floor(Statistics.selectionPercentage * 100)}%`, canvas.width * 0.07, canvas.height * 0.33, 'left', 'system-ui', 17, 'lightgray');
+
+
+    CanvasUtil.writeText(canvas, `Cars alive: ${Statistics.carsAlive}`, canvas.width * 0.23, canvas.height * 0.27, 'left', 'system-ui', 17, 'lightgray');
+    CanvasUtil.writeText(canvas, `Species: ${Statistics.species}`, canvas.width * 0.23, canvas.height * 0.3, 'left', 'system-ui', 17, 'lightgray');
+    CanvasUtil.writeText(canvas, `Best generation: ${Math.floor(Statistics.bestGen)}`, canvas.width * 0.23, canvas.height * 0.33, 'left', 'system-ui', 17, 'lightgray');
+    if (Statistics.record != Infinity) {
+      if (Math.floor(Statistics.record % 1000) < 100) {
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.0${Math.floor(Statistics.record % 1000)} s`, canvas.width * 0.23, canvas.height * 0.36, "left", "system-ui", 17, "lightgray");
+      } else {
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.${Math.floor(Statistics.record % 1000)} s`, canvas.width * 0.23, canvas.height * 0.36, "left", "system-ui", 17, "lightgray");
+      }
+      CanvasUtil.fillRectangle(canvas, canvas.width * 0.2 - canvas.width * 0.08, canvas.height * 0.423, canvas.width * 0.16, canvas.height * 0.154, 0, 0, 0, 0.2, 10)
+      CanvasUtil.createNetCar(canvas, Statistics.recordCar, canvas.width * 0.2, canvas.height * 0.5, 3, 90)
+    } else {
+      CanvasUtil.writeText(canvas, `Track not beaten yet ):`, canvas.width * 0.23, canvas.height * 0.36, "left", "system-ui", 17, "lightgrey");
+    }
+
 
 
     // the track and heatmap
@@ -101,19 +123,16 @@ export default class UI {
     const startY: number = canvas.height * 0.108;
     const width: number = canvas.width * 0.35;
     const height: number = canvas.height * 0.35;
-
     CanvasUtil.fillRectangle(canvas, startX, startY, width, height, 255, 255, 255, 0.5, 20, 0);
-    console.log(track.deathPositions.length)
-    // 0.424 0.113
     track.road.forEach((trackPiece) => {
       const updatedPosX: number = trackPiece[0] * 0.35 + startX;
       const updatedPosY: number = trackPiece[1] * 0.35 + startY;
       CanvasUtil.fillCircle(canvas, updatedPosX, updatedPosY, track.radius * 0.35, 0, 0, 0, 1);
     });
-
     for(let i = 0; i < track.deathPositions.length - 1; i++) {
       CanvasUtil.fillCircle(canvas, startX + track.deathPositions[i][0] * 0.35, startY + track.deathPositions[i][1] * 0.35, track.radius * 0.35, 255, 0, 0, 0.3);
     }
+    CanvasUtil.writeText(canvas, 'Heatmap car deaths', startX + width / 2, startY + height / 10, 'center', 'system-ui', 20, 'grey')
 
     // the 2 containers for the settings/ customisation
     CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10)

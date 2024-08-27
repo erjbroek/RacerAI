@@ -14,17 +14,31 @@ export default class Statistics {
 
   public renderRacingLines: boolean = true;
 
-  public performanceHistory: number[] = [];
+  public static performanceHistory: number[] = [];
 
-  public record: number = Infinity;
+  public static record: number = Infinity;
 
   public recordHistory: Array<[number, number, DisplayCar]> = [];
 
   public addedToHistory: boolean = false;
 
-  public bestGen: number = 1;
+  public static bestGen: number = 1;
 
-  public currentHighestLaps: number = 0;
+  public static currentHighestLaps: number = 0;
+
+  public static carsAlive: number = 0;
+
+  public static species: number = 0;
+
+  public static slightMutationRate: number = 0.2;
+
+  public static bigMutationRate: number = 0.035;
+
+  public static selectionPercentage: number = 0.5;
+
+  public static size: number = 0;
+
+  public static recordCar: DisplayCar = new DisplayCar([]);
 
   /**
    *
@@ -45,7 +59,9 @@ export default class Statistics {
     }
   }
 
-  public update(elapsed: number) {}
+  public update(elapsed: number) {
+
+  }
 
   /**
    *
@@ -68,7 +84,7 @@ export default class Statistics {
       CanvasUtil.fillCircle(canvas, canvas.width / 4.6 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
     }
 
-    if (this.performanceHistory.length > 0) {
+    if (Statistics.performanceHistory.length > 0) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
       CanvasUtil.drawRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
       CanvasUtil.writeText(canvas, "render performance graph", canvas.width / 1.9, canvas.height / 21.5, "left", "system-ui", 15, "white");
@@ -90,11 +106,11 @@ export default class Statistics {
     const left: number = canvas.width - canvas.width / 7;
     let highest: number = 0;
     let lowest: number = 0;
-    if (this.performanceHistory.length === 1) {
-      [highest, lowest] = [this.performanceHistory[0] * 1.01, this.performanceHistory[0] / 1.01];
+    if (Statistics.performanceHistory.length === 1) {
+      [highest, lowest] = [Statistics.performanceHistory[0] * 1.01, Statistics.performanceHistory[0] / 1.01];
     } else {
-      highest = Math.max(...this.performanceHistory);
-      lowest = Math.min(...this.performanceHistory);
+      highest = Math.max(...Statistics.performanceHistory);
+      lowest = Math.min(...Statistics.performanceHistory);
     }
     CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
 
@@ -108,22 +124,22 @@ export default class Statistics {
       CanvasUtil.writeText(canvas, labelText, left - 10, y, "right", "system-ui", 10, "white");
     }
 
-    for (let i = 0; i < this.performanceHistory.length; i++) {
-      const time = this.performanceHistory[i];
+    for (let i = 0; i < Statistics.performanceHistory.length; i++) {
+      const time = Statistics.performanceHistory[i];
       const yNormalized = (time - lowest) / (highest - lowest);
-      const x = left + width * 0.1 + ((width * 0.8) / this.performanceHistory.length) * i;
+      const x = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * i;
       const y = bottom - height * 0.1 - height * 0.8 * yNormalized;
 
-      if (this.performanceHistory[i] > 0) {
-        const lastTime = this.performanceHistory[i - 1];
+      if (Statistics.performanceHistory[i] > 0) {
+        const lastTime = Statistics.performanceHistory[i - 1];
         const lastYNormalized = (lastTime - lowest) / (highest - lowest);
-        const lastX = left + width * 0.1 + ((width * 0.8) / this.performanceHistory.length) * (i - 1);
+        const lastX = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * (i - 1);
         const lastY = bottom - height * 0.1 - height * 0.8 * lastYNormalized;
         CanvasUtil.drawLine(canvas, lastX, lastY, x, y, 255, 255, 255, 0.5, 1);
       }
 
       CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
-      if (this.performanceHistory.length <= 7 || time === highest || time === lowest) {
+      if (Statistics.performanceHistory.length <= 7 || time === highest || time === lowest) {
         const timeText = `${Math.floor(time / 1000)}.${`00${Math.floor(time % 1000)}`.slice(-3)} s`;
         CanvasUtil.writeText(canvas, timeText, x, y - 10, "center", "system-ui", 10, "white");
       }

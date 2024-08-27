@@ -183,7 +183,7 @@ export default class NetPopulation {
     // first, the selection of the best performing players of each species is selected for actual crossover
     const survived: NetCar[] = [];
     const selectedCars: NetCar[] = [];
-    const selectionPercentage = 0.5; // Top 50% of each species survives
+    const selectionPercentage = Statistics.selectionPercentage; // Top 50% of each species survives
 
     // best 2 players survive without mutation
     this.champions = [];
@@ -234,8 +234,8 @@ export default class NetPopulation {
    * mutates the network of the player
    */
   private mutate(): void {
-    const slightMutationRate = 0.2;
-    const bigMutationRate = 0.035;
+    const slightMutationRate = Statistics.slightMutationRate;
+    const bigMutationRate = Statistics.bigMutationRate;
 
     this.nextGen.forEach((car) => {
       car.genome.forEach((gene) => {
@@ -254,11 +254,12 @@ export default class NetPopulation {
         }
       });
 
+      // mutating biasses (currently not used in feedforward though)
       car.biases.forEach((bias, index) => {
         if (Math.random() < slightMutationRate) {
           car.biases[index] += Math.random() * 0.35 - 0.175; // Slight mutation
         } else if (Math.random() < bigMutationRate) {
-          car.biases[index] = Math.random() * 2 - 1; // Big mutation, re-randomize bias in the range -1 to 1
+          car.biases[index] = Math.random() * 2 - 1; // Big mutation, randomize bias in the range -1 to 1
         }
 
         // Ensure biases are within -1 and 1
@@ -291,14 +292,15 @@ export default class NetPopulation {
       if (car.laps >= 5) {
         car.finished = true;
         car.alive = false;
-        if (car.raceDuration < this.statistics.record && car.leftStartLine) {
-          this.statistics.record = car.raceDuration;
-          this.statistics.bestGen = this.generation;
-          this.statistics.recordHistory.push([this.statistics.record, this.statistics.bestGen, new DisplayCar(car.genome)]);
+        if (car.raceDuration < Statistics.record && car.leftStartLine) {
+          Statistics.record = car.raceDuration;
+          Statistics.bestGen = this.generation;
+          Statistics.recordCar.genome = car.genome;
+          this.statistics.recordHistory.push([Statistics.record, Statistics.bestGen, new DisplayCar(car.genome)]);
         }
         if (!this.statistics.addedToHistory && car.leftStartLine) {
           this.finished = true;
-          this.statistics.performanceHistory.push(this.trackTime);
+          Statistics.performanceHistory.push(this.trackTime);
           this.statistics.addedToHistory = true;
         }
       }
@@ -314,7 +316,7 @@ export default class NetPopulation {
               car.laps += 1;
               car.crossingFinishLine = true;
               car.timeSinceLastLap = 0;
-              this.statistics.currentHighestLaps = Math.max(this.statistics.currentHighestLaps, car.laps);
+              Statistics.currentHighestLaps = Math.max(Statistics.currentHighestLaps, car.laps);
             }
           } else {
             car.crossingFinishLine = false;
@@ -337,9 +339,12 @@ export default class NetPopulation {
       this.finished = false;
       this.statistics.addedToHistory = false;
       this.track.deathPositions = [];
-      this.statistics.currentHighestLaps = 0;
+      Statistics.currentHighestLaps = 0;
       this.evolve();
     }
+    Statistics.carsAlive = this.cars.filter((car) => car.alive).length;
+    Statistics.species = this.species.length;
+    Statistics.size = this.size;
   }
 
   /**
@@ -391,7 +396,7 @@ export default class NetPopulation {
       }
     });
     if (!UI.openSettings) {
-      CanvasUtil.writeText(canvas, `lap ${this.statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
+      CanvasUtil.writeText(canvas, `lap ${Statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
     }
     CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
     CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
@@ -399,13 +404,13 @@ export default class NetPopulation {
 
     this.statistics.renderButtons(canvas);
 
-    if (this.statistics.record !== Infinity) {
-      if (Math.floor(this.statistics.record % 1000) < 100) {
-        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.0${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+    if (Statistics.record !== Infinity) {
+      if (Math.floor(Statistics.record % 1000) < 100) {
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.0${Math.floor(Statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
       } else {
-        CanvasUtil.writeText(canvas, `Record: ${Math.floor(this.statistics.record / 1000)}.${Math.floor(this.statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+        CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.${Math.floor(Statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
       }
-      CanvasUtil.writeText(canvas, `Gen: ${this.statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
+      CanvasUtil.writeText(canvas, `Gen: ${Statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
     } else {
       CanvasUtil.writeText(canvas, "Record: N/A", canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
       CanvasUtil.writeText(canvas, "Gen: N/A", canvas.width - canvas.width / 15, canvas.height / 4, "left", "system-ui", 20, "grey");
@@ -425,7 +430,7 @@ export default class NetPopulation {
           CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
         }
         CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "grey");
-        CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 30, start + i * rowHeight - canvas.height / 100, 90);
+        CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 30, start + i * rowHeight - canvas.height / 100, 1, 90);
       }
     }
 
@@ -436,7 +441,7 @@ export default class NetPopulation {
     }
 
     if (this.statistics.showGraph) {
-      if (this.statistics.performanceHistory.length > 0) {
+      if (Statistics.performanceHistory.length > 0) {
         this.statistics.renderGraph(canvas);
       }
     }
