@@ -381,7 +381,7 @@ export default class CanvasUtil {
     ctx.restore();
   }
 
-  public static createNetCar(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, sizeMultiplier: number = 1, rotation: number = car.rotation) {
+  public static createNetCar(canvas: HTMLCanvasElement, car: NetCar | DisplayCar, posX: number = car.posX, posY: number = car.posY, sizeMultiplier: number = 1, rotation: number = car.rotation, opacity: number = 0.9) {
     const ctx = CanvasUtil.getCanvasContext(canvas);
     ctx.save();
 
@@ -407,7 +407,7 @@ export default class CanvasUtil {
     gradient.addColorStop(0.8, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
 
     ctx.fillStyle = gradient;
-    ctx.globalAlpha = 0.9;
+    ctx.globalAlpha = opacity;
 
     // shape gene 12 and 15
     const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
@@ -427,10 +427,10 @@ export default class CanvasUtil {
         const bottomWidth = car.width * sizeMultiplier * 1.2;
         const { height } = car;
 
-        ctx.moveTo(-topWidth / 2, -height / 2);
-        ctx.lineTo(topWidth / 2, -height / 2);
-        ctx.lineTo(bottomWidth / 2, height / 2);
-        ctx.lineTo(-bottomWidth / 2, height / 2);
+        ctx.moveTo(-topWidth / 2, -height * sizeMultiplier / 2);
+        ctx.lineTo(topWidth / 2, -height * sizeMultiplier / 2);
+        ctx.lineTo(bottomWidth / 2, height * sizeMultiplier / 2);
+        ctx.lineTo(-bottomWidth / 2, height * sizeMultiplier / 2);
         ctx.closePath();
         break;
       case 2: // Square

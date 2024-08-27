@@ -196,36 +196,61 @@ export default class NetPopulation {
       survived.push(...topCars);
     });
 
-    // creates the array, with probability of selection based on fitness
-    survived.forEach((car) => {
-      for (let i = 0; i <= Math.ceil(car.fitness * 100); i++) {
-        selectedCars.push(car);
+
+    // Adds all fitness together
+    const totalFitness = survived.reduce((sum, car) => sum + car.fitness, 0);
+
+    // The total fitness is used to select a random car
+
+    // uses roulette wheel selection to select the next cars proportionate to fitness of the car
+    // It checks a random point in totalFitness, and if the
+    // fitness of the car is below that random point, the car gets added.
+    // - example:
+    // - if the total fitness is 100, and 1 car has a fitness of 50%
+    // - there would be a 50% chance that car gets added
+    // - if the random point is 30, it would get added
+    // - if the random point is 80, the cars fitness (50) will get subtracked until a car with higher fitness gets selected
+    // to summarize, a higher fitness means higher chance to get picked
+    function selectCar(survived: NetCar[]) {
+      let random = Math.random() * totalFitness;
+      for (const car of survived) {
+        if (random < car.fitness) {
+          return car;
+        }
+        random -= car.fitness;
       }
-    });
+
+      // should always find a car, but in the edge case that it doesn't
+      // it returns the last car
+      return survived[survived.length - 1];
+    }
+
+    // the NextGen array is the array used to save the next generation of cars
     this.nextGen = [];
-
-    // makes the new generation
     for (let i = 0; i < this.size - 2; i++) {
-      const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
-      const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
-      const babyGenes: number[][] = [];
+      // selects 2 random cars used as parent for the new car
+      const parent1 = selectCar(survived);
+      const parent2 = selectCar(survived);
+      const babyGenes = [];
 
-      // crossover of weights of connections
+      // Crossover of weights of connections
       for (let j = 0; j < 20; j++) {
-        const weight1: any = parent1.genome[j][2];
-        const weight2: any = parent2.genome[j][2];
-        const newGene: number = Math.random() > 0.5 ? weight1 : weight2;
+        const weight1 = parent1.genome[j][2];
+        const weight2 = parent2.genome[j][2];
+        const newGene = Math.random() > 0.5 ? weight1 : weight2;
         babyGenes.push([Math.floor(j / 4), j % 4, newGene]);
       }
 
-      // crossover of biases of output nodes
-      const babyBiases: number[] = [];
+      // Crossover of biases of output nodes
+      const babyBiases = [];
       for (let k = 0; k < parent1.biases.length; k++) {
         const bias1 = parent1.biases[k];
         const bias2 = parent2.biases[k];
         const newBias = Math.random() > 0.5 ? bias1 : bias2;
         babyBiases.push(newBias);
       }
+
+      // Adds car to next generation
       this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes, babyBiases));
     }
   }
@@ -300,8 +325,9 @@ export default class NetPopulation {
         }
         if (!this.statistics.addedToHistory && car.leftStartLine) {
           this.finished = true;
-          Statistics.performanceHistory.push(this.trackTime);
+          Statistics.performanceHistory.push([this.trackTime, this.generation, new DisplayCar(car.genome)]);
           this.statistics.addedToHistory = true;
+          console.log(Statistics.performanceHistory);
         }
       }
 
@@ -425,12 +451,12 @@ export default class NetPopulation {
       const rowHeight = canvas.height / 35;
       for (let i = 0; i < this.statistics.recordHistory.length; i++) {
         if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
-          CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
+          CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
         } else {
-          CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
+          CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
         }
-        CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "grey");
-        CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 30, start + i * rowHeight - canvas.height / 100, 1, 90);
+        CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "white");
+        CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 28, start + i * rowHeight - canvas.height / 100, 0.8, 90);
       }
     }
 

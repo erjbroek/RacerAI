@@ -116,15 +116,21 @@ export default class NetPopulation {
             const topCars = species.slice(0, numToSelect);
             survived.push(...topCars);
         });
-        survived.forEach((car) => {
-            for (let i = 0; i <= Math.ceil(car.fitness * 100); i++) {
-                selectedCars.push(car);
+        const totalFitness = survived.reduce((sum, car) => sum + car.fitness, 0);
+        function selectCar(survived) {
+            let random = Math.random() * totalFitness;
+            for (const car of survived) {
+                if (random < car.fitness) {
+                    return car;
+                }
+                random -= car.fitness;
             }
-        });
+            return survived[survived.length - 1];
+        }
         this.nextGen = [];
         for (let i = 0; i < this.size - 2; i++) {
-            const parent1 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
-            const parent2 = selectedCars[Math.floor(Math.random() * selectedCars.length)];
+            const parent1 = selectCar(survived);
+            const parent2 = selectCar(survived);
             const babyGenes = [];
             for (let j = 0; j < 20; j++) {
                 const weight1 = parent1.genome[j][2];
@@ -193,8 +199,9 @@ export default class NetPopulation {
                 }
                 if (!this.statistics.addedToHistory && car.leftStartLine) {
                     this.finished = true;
-                    Statistics.performanceHistory.push(this.trackTime);
+                    Statistics.performanceHistory.push([this.trackTime, this.generation, new DisplayCar(car.genome)]);
                     this.statistics.addedToHistory = true;
+                    console.log(Statistics.performanceHistory);
                 }
             }
             if (car.alive) {
@@ -295,13 +302,13 @@ export default class NetPopulation {
             const rowHeight = canvas.height / 35;
             for (let i = 0; i < this.statistics.recordHistory.length; i++) {
                 if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
-                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
                 }
                 else {
-                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 12, start + i * rowHeight, "left", "system-ui", 20, "grey");
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
                 }
-                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "grey");
-                CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 30, start + i * rowHeight - canvas.height / 100, 1, 90);
+                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "white");
+                CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 28, start + i * rowHeight - canvas.height / 100, 0.8, 90);
             }
         }
         if (this.trackTime % 1000 < 100) {

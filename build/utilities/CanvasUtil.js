@@ -198,7 +198,7 @@ export default class CanvasUtil {
         }
         ctx.restore();
     }
-    static createNetCar(canvas, car, posX = car.posX, posY = car.posY, sizeMultiplier = 1, rotation = car.rotation) {
+    static createNetCar(canvas, car, posX = car.posX, posY = car.posY, sizeMultiplier = 1, rotation = car.rotation, opacity = 0.9) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.save();
         const red = ((car.genome[0][2] + car.genome[1][2]) / 2) * 300;
@@ -212,7 +212,7 @@ export default class CanvasUtil {
         gradient.addColorStop(0.2, `rgba(${red}, ${green}, ${blue}, 0.9)`);
         gradient.addColorStop(0.8, `rgba(${red2}, ${green2}, ${blue2}, 0.9)`);
         ctx.fillStyle = gradient;
-        ctx.globalAlpha = 0.9;
+        ctx.globalAlpha = opacity;
         const shapeType = Math.floor(car.genome[12][2] * 5) + Math.floor(car.genome[15][2] * 5) / 2;
         ctx.translate(posX, posY);
         ctx.rotate((rotation * Math.PI) / 180);
@@ -228,10 +228,10 @@ export default class CanvasUtil {
                 const topWidth = car.width * sizeMultiplier / 1.8;
                 const bottomWidth = car.width * sizeMultiplier * 1.2;
                 const { height } = car;
-                ctx.moveTo(-topWidth / 2, -height / 2);
-                ctx.lineTo(topWidth / 2, -height / 2);
-                ctx.lineTo(bottomWidth / 2, height / 2);
-                ctx.lineTo(-bottomWidth / 2, height / 2);
+                ctx.moveTo(-topWidth / 2, -height * sizeMultiplier / 2);
+                ctx.lineTo(topWidth / 2, -height * sizeMultiplier / 2);
+                ctx.lineTo(bottomWidth / 2, height * sizeMultiplier / 2);
+                ctx.lineTo(-bottomWidth / 2, height * sizeMultiplier / 2);
                 ctx.closePath();
                 break;
             case 2:
