@@ -3,6 +3,7 @@ import CanvasUtil from './CanvasUtil.js';
 import DisplayCar from '../NetworkAlgoritm/DisplayCar.js';
 import Statistics from '../NetworkAlgoritm/Statistics.js';
 import Track from '../Track.js';
+import Slider from './Slider.js';
 
 export default class UI {
   public static hoverPauze: boolean = false;
@@ -24,6 +25,12 @@ export default class UI {
   private static settings: HTMLImageElement = CanvasUtil.loadNewImage('./assets/settings.png');
 
   private static cars: DisplayCar[];
+
+  private static sliders: Slider[] = []
+
+  public static loadSliders() {
+    UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, 100, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%'))
+  }
 
   /**
    * processes user input
@@ -141,11 +148,15 @@ export default class UI {
 
     // the 2 containers for the settings/ customisation
     CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10)
+    CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white')
+    UI.sliders.forEach((slider) => {
+      slider.render(canvas)
+    })
     CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10)
-
     for (let i = 0; i < Statistics.performanceHistory.length - 1; i++) {
 
     }
+
   }
 
   /**

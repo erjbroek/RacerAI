@@ -1,6 +1,7 @@
 import MouseListener from './MouseListener.js';
 import CanvasUtil from './CanvasUtil.js';
 import Statistics from '../NetworkAlgoritm/Statistics.js';
+import Slider from './Slider.js';
 export default class UI {
     static hoverPauze = false;
     static holdingPauze = false;
@@ -12,6 +13,10 @@ export default class UI {
     static readyClickSettings = false;
     static settings = CanvasUtil.loadNewImage('./assets/settings.png');
     static cars;
+    static sliders = [];
+    static loadSliders() {
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, 100, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%'));
+    }
     static processInput() {
         if (MouseListener.mouseHover(window.innerWidth / 30 + window.innerWidth - window.innerWidth / 5 - window.innerWidth / 22, window.innerHeight / 12 + window.innerHeight / 70, window.innerHeight / 13, window.innerHeight / 13)) {
             UI.hoverSettings = true;
@@ -107,6 +112,10 @@ export default class UI {
         }
         CanvasUtil.writeText(canvas, 'Heatmap car deaths', startX + width / 2, startY + height / 10, 'center', 'system-ui', 20, 'grey');
         CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
+        CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
+        UI.sliders.forEach((slider) => {
+            slider.render(canvas);
+        });
         CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
         for (let i = 0; i < Statistics.performanceHistory.length - 1; i++) {
         }

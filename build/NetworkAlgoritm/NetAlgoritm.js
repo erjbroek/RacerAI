@@ -20,6 +20,7 @@ export default class NetAlgorithm extends Scene {
         const startAngle = (Math.atan((this.track.lineStart[1] - this.track.lineEnd[1]) / (this.track.lineStart[0] - this.track.lineEnd[0])) * 180) / Math.PI;
         this.startAngle = startAngle;
         this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, startAngle);
+        UI.loadSliders();
     }
     processInput() {
         this.population.statistics.processInput();
