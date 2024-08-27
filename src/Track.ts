@@ -6,6 +6,8 @@ import Car from './Car.js';
 export default class Track {
   public road: number[][];
 
+  public deathPositions: number[][] = [];
+
   public radius: number;
 
   public lineStart: number[] = [];
@@ -112,6 +114,10 @@ export default class Track {
 
     if (!collisionOccured) {
       car.collided = true;
+      // only adds positions of car to array if car isn't in there already
+      if (!this.deathPositions.some(([x, y]) => x === car.posX && y === car.posY)) {
+        this.deathPositions.push([car.posX, car.posY]);
+      }
       return false;
     }
     return true;

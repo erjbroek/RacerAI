@@ -195,7 +195,6 @@ export default class NetPopulation {
                     this.statistics.performanceHistory.push(this.trackTime);
                     this.statistics.addedToHistory = true;
                 }
-                console.log(this.statistics.recordHistory);
             }
             if (car.alive) {
                 car.raceDuration += elapsed;
@@ -228,6 +227,7 @@ export default class NetPopulation {
             this.trackTime = 0;
             this.finished = false;
             this.statistics.addedToHistory = false;
+            this.track.deathPositions = [];
             this.statistics.currentHighestLaps = 0;
             this.evolve();
         }
@@ -312,16 +312,8 @@ export default class NetPopulation {
             }
         }
         if (UI.openSettings) {
-            UI.renderSettings(canvas, this.generation);
-            const sortedCars = this.cars
-                .filter((car) => car.alive)
-                .sort((car1, car2) => {
-                if (car1.laps === car2.laps) {
-                    return car2.distance - car1.distance;
-                }
-                return car2.laps - car1.laps;
-            });
-            this.statistics.renderNetwork(sortedCars[0], canvas);
+            UI.renderSettings(canvas, this.generation, this.track);
+            this.statistics.renderNetwork(this.cars, canvas);
         }
     }
 }

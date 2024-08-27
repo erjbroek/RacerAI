@@ -1,9 +1,9 @@
-import MouseListener from '../utilities/MouseListener.js';
-import CanvasUtil from '../utilities/CanvasUtil.js';
-import NetCar from './NetCar.js';
-import NetPopulation from './NetPopulation.js';
-import DisplayCar from './DisplayCar.js';
-import UI from '../utilities/UI.js';
+import MouseListener from "../utilities/MouseListener.js";
+import CanvasUtil from "../utilities/CanvasUtil.js";
+import NetCar from "./NetCar.js";
+import NetPopulation from "./NetPopulation.js";
+import DisplayCar from "./DisplayCar.js";
+import UI from "../utilities/UI.js";
 
 export default class Statistics {
   public showAdvancedStats: boolean = false;
@@ -29,8 +29,7 @@ export default class Statistics {
   /**
    *
    */
-  public constuctor() {
-  }
+  public constuctor() {}
 
   /**
    *
@@ -46,9 +45,7 @@ export default class Statistics {
     }
   }
 
-  public update(elapsed: number) {
-
-  }
+  public update(elapsed: number) {}
 
   /**
    *
@@ -59,14 +56,14 @@ export default class Statistics {
 
     CanvasUtil.fillRectangle(canvas, canvas.width / 8.9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
     CanvasUtil.drawRectangle(canvas, canvas.width / 8.9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
-    CanvasUtil.writeText(canvas, 'render racing lines', canvas.width / 7.9, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+    CanvasUtil.writeText(canvas, "render racing lines", canvas.width / 7.9, canvas.height / 21.5, "left", "system-ui", 15, "white");
     if (this.renderRacingLines) {
       CanvasUtil.fillCircle(canvas, canvas.width / 8.9 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
     }
 
     CanvasUtil.fillRectangle(canvas, canvas.width / 4.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
     CanvasUtil.drawRectangle(canvas, canvas.width / 4.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
-    CanvasUtil.writeText(canvas, 'show advanced stats', canvas.width / 4.3, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+    CanvasUtil.writeText(canvas, "show advanced stats", canvas.width / 4.3, canvas.height / 21.5, "left", "system-ui", 15, "white");
     if (this.showAdvancedStats) {
       CanvasUtil.fillCircle(canvas, canvas.width / 4.6 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
     }
@@ -74,7 +71,7 @@ export default class Statistics {
     if (this.performanceHistory.length > 0) {
       CanvasUtil.fillRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
       CanvasUtil.drawRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
-      CanvasUtil.writeText(canvas, 'render performance graph', canvas.width / 1.9, canvas.height / 21.5, 'left', 'system-ui', 15, 'white');
+      CanvasUtil.writeText(canvas, "render performance graph", canvas.width / 1.9, canvas.height / 21.5, "left", "system-ui", 15, "white");
       if (this.showGraph) {
         CanvasUtil.fillCircle(canvas, canvas.width / 1.95 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
       }
@@ -107,8 +104,8 @@ export default class Statistics {
       const value = lowest + (i * (highest - lowest)) / (numGridLines - 1);
       const y = bottom - height * 0.1 - height * 0.8 * ((value - lowest) / (highest - lowest));
       CanvasUtil.drawLine(canvas, left + width * 0.05, y, left + width * 0.95, y, 255, 255, 255, 0.2, 1);
-      const labelText = `${Math.floor(value / 1000)}.${(`00${Math.floor(value % 1000)}`).slice(-3)} s`;
-      CanvasUtil.writeText(canvas, labelText, left - 10, y, 'right', 'system-ui', 10, 'white');
+      const labelText = `${Math.floor(value / 1000)}.${`00${Math.floor(value % 1000)}`.slice(-3)} s`;
+      CanvasUtil.writeText(canvas, labelText, left - 10, y, "right", "system-ui", 10, "white");
     }
 
     for (let i = 0; i < this.performanceHistory.length; i++) {
@@ -127,8 +124,8 @@ export default class Statistics {
 
       CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
       if (this.performanceHistory.length <= 7 || time === highest || time === lowest) {
-        const timeText = `${Math.floor(time / 1000)}.${(`00${Math.floor(time % 1000)}`).slice(-3)} s`;
-        CanvasUtil.writeText(canvas, timeText, x, y - 10, 'center', 'system-ui', 10, 'white');
+        const timeText = `${Math.floor(time / 1000)}.${`00${Math.floor(time % 1000)}`.slice(-3)} s`;
+        CanvasUtil.writeText(canvas, timeText, x, y - 10, "center", "system-ui", 10, "white");
       }
     }
   }
@@ -138,36 +135,44 @@ export default class Statistics {
    * @param car
    * @param canvas
    */
-  public renderNetwork(car: NetCar, canvas: HTMLCanvasElement) {
+  public renderNetwork(cars: NetCar[], canvas: HTMLCanvasElement) {
+    const sortedCars = cars
+      .filter((car) => car.alive)
+      .sort((car1, car2) => {
+        if (car1.laps === car2.laps) {
+          return car2.distance - car1.distance;
+        }
+        return car2.laps - car1.laps;
+      });
     const xPosition: number = canvas.width / 50;
-    const yPosition: number = canvas.height / 1.55;
-    CanvasUtil.fillRectangle(canvas, xPosition + canvas.width / 30, yPosition, canvas.width / 4.3, canvas.height / 3.5, 0, 0, 0, 0.3, 5);
-    if (!car.alive) {
-      CanvasUtil.writeText(canvas, 'neural network of best car (died)', xPosition + canvas.width / 30 + canvas.width / 8, yPosition + canvas.height / 3.8, 'center', 'system-ui', 20, 'white');
+    const yPosition: number = canvas.height / 1.6;
+    CanvasUtil.fillRectangle(canvas, xPosition + canvas.width / 30, yPosition, canvas.width / 3.22, canvas.height / 3.5, 0, 0, 0, 0.3, 10);
+    if (!sortedCars[0].alive) {
+      CanvasUtil.writeText(canvas, "neural network of best car (died)", xPosition + canvas.width / 30 + canvas.width / 8, yPosition + canvas.height / 3.8, "center", "system-ui", 20, "white");
     } else {
-      CanvasUtil.writeText(canvas, 'neural network of best car', xPosition + canvas.width / 30 + canvas.width / 8, yPosition + canvas.height / 3.8, 'center', 'system-ui', 20, 'white');
+      CanvasUtil.writeText(canvas, "neural network of best car", xPosition + canvas.width / 30 + canvas.width / 8, yPosition + canvas.height / 3.8, "center", "system-ui", 20, "white");
     }
     const radius = canvas.height / 90;
-    const { biases } = car;
+    const { biases } = sortedCars[0];
 
-    car.genome.forEach((network) => {
+    sortedCars[0].genome.forEach((network) => {
       const [input, output, weight] = network;
 
       // positions for the connections and nodes
-      const startX = xPosition + canvas.width / 14;
+      const startX = xPosition + canvas.width / 12;
       const startY = yPosition + canvas.height / 30 + input * radius * 4;
-      const endX = xPosition + canvas.width / 4.5;
+      const endX = xPosition + canvas.width / 3.5;
       const endY = yPosition + canvas.height / 30 + radius + output * radius * 4;
 
       // displaying color using input value of corresponding node (input values being the ray lengths)
       // displaying thickness of line using weight of connection
       const lineWidth = weight * 10;
-      const rayLength = car.rayLengths[input];
+      const rayLength = sortedCars[0].rayLengths[input];
       const ratio = rayLength / 100;
       const red = Math.floor(255 * (1 - ratio));
       const green = Math.floor(255 * ratio);
 
-      if (!car.alive) {
+      if (!sortedCars[0].alive) {
         CanvasUtil.drawLine(canvas, startX, startY, endX, endY, red / 2, green / 2, 0, 0.8, lineWidth);
       } else {
         CanvasUtil.drawLine(canvas, startX, startY, endX, endY, red, green, 0, 0.8, lineWidth);
@@ -175,14 +180,14 @@ export default class Statistics {
     });
 
     for (let input = 0; input < 5; input++) {
-      CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 14, yPosition + canvas.height / 30 + input * radius * 4, radius, 255, 255, 255, 0.8);
-      CanvasUtil.writeText(canvas, `ray ${input + 1}`, xPosition + canvas.width / 27, yPosition + canvas.height / 20 + input * radius * 4, 'left', 'system-ui', 20, 'white');
+      CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 12, yPosition + canvas.height / 30 + input * radius * 4, radius, 255, 255, 255, 0.8);
+      CanvasUtil.writeText(canvas, `ray ${input + 1}`, xPosition + canvas.width / 22, yPosition + canvas.height / 25 + input * radius * 4, "left", "system-ui", 20, "white");
     }
-    const moves = ['left', 'right', 'gas', 'brake'];
+    const moves = ["left", "right", "gas", "brake"];
 
     for (let output = 0; output < 4; output++) {
-      CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 4.5, yPosition + canvas.height / 30 + radius + output * radius * 4, radius, 255, 255, 255, 0.8);
-      CanvasUtil.writeText(canvas, `${moves[output]}`, xPosition + canvas.width / 4.3, yPosition + canvas.height / 20 + radius + output * radius * 4, 'left', 'system-ui', 20, 'white');
+      CanvasUtil.fillCircle(canvas, xPosition + canvas.width / 3.5, yPosition + canvas.height / 30 + radius + output * radius * 4, radius, 255, 255, 255, 0.8);
+      CanvasUtil.writeText(canvas, `${moves[output]}`, xPosition + canvas.width / 3.35, yPosition + canvas.height / 23 + radius + output * radius * 4, "left", "system-ui", 20, "white");
     }
   }
 }

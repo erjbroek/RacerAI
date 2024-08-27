@@ -1,6 +1,7 @@
 import CanvasUtil from './utilities/CanvasUtil.js';
 export default class Track {
     road;
+    deathPositions = [];
     radius;
     lineStart = [];
     lineEnd = [];
@@ -74,6 +75,9 @@ export default class Track {
         }
         if (!collisionOccured) {
             car.collided = true;
+            if (!this.deathPositions.some(([x, y]) => x === car.posX && y === car.posY)) {
+                this.deathPositions.push([car.posX, car.posY]);
+            }
             return false;
         }
         return true;
