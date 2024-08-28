@@ -15,7 +15,7 @@ export default class UI {
     static cars;
     static sliders = [];
     static loadSliders() {
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, 100, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%'));
     }
     static processInput() {
         if (MouseListener.mouseHover(window.innerWidth / 30 + window.innerWidth - window.innerWidth / 5 - window.innerWidth / 22, window.innerHeight / 12 + window.innerHeight / 70, window.innerHeight / 13, window.innerHeight / 13)) {
@@ -114,6 +114,7 @@ export default class UI {
         CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
         CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
         UI.sliders.forEach((slider) => {
+            slider.processInput();
             slider.render(canvas);
         });
         CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
