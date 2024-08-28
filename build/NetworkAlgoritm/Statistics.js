@@ -19,6 +19,7 @@ export default class Statistics {
     static selectionPercentage = 0.5;
     static size = 0;
     static recordCar = new DisplayCar([]);
+    static championsSurvive = false;
     highest = 0;
     lowest = Infinity;
     constuctor() { }

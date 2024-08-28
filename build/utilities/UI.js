@@ -16,8 +16,9 @@ export default class UI {
     static sliders = [];
     static loadSliders() {
         UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 0, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%', '%'));
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.66, window.innerWidth * 0.127, Statistics.bigMutationRate, 0, 0.4, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.73, window.innerWidth * 0.127, Statistics.selectionPercentage, 0.1, 1, 'Selection percentage', 'The percentage of best cars each generation that survive to the next generation', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.66, window.innerWidth * 0.127, Statistics.bigMutationRate, 0, 1, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.73, window.innerWidth * 0.127, Statistics.selectionPercentage, 0.01, 1, 'Selection percentage', 'The percentage of best cars each generation that survive to the next generation', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.8, window.innerWidth * 0.127, 25, 20, 40, 'Population size', 'The amount of cars that spawn at the beginning of the generation', ' cars'));
     }
     static processInput() {
         if (MouseListener.mouseHover(window.innerWidth / 30 + window.innerWidth - window.innerWidth / 5 - window.innerWidth / 22, window.innerHeight / 12 + window.innerHeight / 70, window.innerHeight / 13, window.innerHeight / 13)) {
@@ -28,6 +29,12 @@ export default class UI {
             }
             if (UI.readyClickSettings && !MouseListener.isButtonDown(0)) {
                 UI.openSettings = !UI.openSettings;
+                if (!UI.openSettings) {
+                    UI.sliders[0].sliderValue = Statistics.slightMutationRate;
+                    UI.sliders[1].sliderValue = Statistics.bigMutationRate;
+                    UI.sliders[2].sliderValue = Statistics.selectionPercentage;
+                    UI.sliders[3].sliderValue = Statistics.size;
+                }
                 UI.holdingSettings = false;
                 UI.readyClickSettings = false;
             }
@@ -87,17 +94,17 @@ export default class UI {
         CanvasUtil.writeText(canvas, `Best generation: ${Math.floor(Statistics.bestGen)}`, canvas.width * 0.23, canvas.height * 0.33, 'left', 'system-ui', 17, 'lightgray');
         if (Statistics.record != Infinity) {
             if (Math.floor(Statistics.record % 1000) < 100) {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.0${Math.floor(Statistics.record % 1000)} s`, canvas.width * 0.23, canvas.height * 0.36, "left", "system-ui", 17, "lightgray");
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.0${Math.floor(Statistics.record % 1000)} s`, canvas.width * 0.23, canvas.height * 0.36, 'left', 'system-ui', 17, 'lightgray');
             }
             else {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.${Math.floor(Statistics.record % 1000)} s`, canvas.width * 0.23, canvas.height * 0.36, "left", "system-ui", 17, "lightgray");
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.${Math.floor(Statistics.record % 1000)} s`, canvas.width * 0.23, canvas.height * 0.36, 'left', 'system-ui', 17, 'lightgray');
             }
             CanvasUtil.fillRectangle(canvas, canvas.width * 0.2 - canvas.width * 0.08, canvas.height * 0.41, canvas.width * 0.16, canvas.height * 0.154, 0, 0, 0, 0.2, 10);
             CanvasUtil.createNetCar(canvas, Statistics.recordCar, canvas.width * 0.2, canvas.height * 0.485, 3, 90, 1);
             CanvasUtil.writeText(canvas, 'Fastest car from all generations', canvas.width * 0.2, canvas.height * 0.59, 'center', 'system-ui', 20, 'white');
         }
         else {
-            CanvasUtil.writeText(canvas, `Track not beaten yet ):`, canvas.width * 0.23, canvas.height * 0.36, "left", "system-ui", 17, "lightgrey");
+            CanvasUtil.writeText(canvas, 'Track not beaten yet ):', canvas.width * 0.23, canvas.height * 0.36, 'left', 'system-ui', 17, 'lightgrey');
         }
         const startX = canvas.width * 0.4;
         const startY = canvas.height * 0.108;
@@ -117,11 +124,25 @@ export default class UI {
         CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
         UI.sliders.forEach((slider) => {
             slider.processInput();
-            slider.render(canvas);
+            slider.renderSlider(canvas);
         });
-        CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
-        for (let i = 0; i < Statistics.performanceHistory.length - 1; i++) {
+        CanvasUtil.drawRectangle(canvas, startX + width / 4 - width / 12, startY + height * 2.13, width / 6, canvas.height * 0.035, 255, 255, 255, 0.4, 3, 10);
+        CanvasUtil.writeText(canvas, 'Apply settings', startX + width / 4, startY + height * 2.2, 'center', 'system-ui', 15, 'white');
+        if (MouseListener.mouseHover(startX + width / 4 - width / 12, startY + height * 2.13, width / 6, canvas.height * 0.035)) {
+            CanvasUtil.fillRectangle(canvas, startX + width / 4 - width / 12, startY + height * 2.13, width / 6, canvas.height * 0.035, 255, 255, 255, 0.1, 10);
+            if (MouseListener.isButtonDown(0)) {
+                Statistics.slightMutationRate = UI.sliders[0].sliderValue;
+                Statistics.bigMutationRate = UI.sliders[1].sliderValue;
+                Statistics.selectionPercentage = UI.sliders[2].sliderValue;
+                Statistics.size = Math.floor(UI.sliders[3].sliderValue);
+                this.openSettings = !this.openSettings;
+            }
         }
+        if (MouseListener.mouseHover(startX + width / 20, startY + height * 2.13, canvas.height / 30, canvas.height / 30)) {
+            CanvasUtil.fillRectangle(canvas, startX + width / 20, startY + height * 2.13, canvas.height / 30, canvas.height / 30, 255, 255, 255, 0.1, 10);
+        }
+        CanvasUtil.drawRectangle(canvas, startX + width / 20, startY + height * 2.13, canvas.height / 30, canvas.height / 30, 255, 255, 255, 0.4, 3, 10);
+        CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
     }
     static renderUI(canvas) {
         CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);

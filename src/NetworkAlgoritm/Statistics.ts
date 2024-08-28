@@ -40,6 +40,8 @@ export default class Statistics {
 
   public static recordCar: DisplayCar = new DisplayCar([]);
 
+  public static championsSurvive: boolean = false;
+
   private highest: number = 0;
 
   private lowest: number = Infinity

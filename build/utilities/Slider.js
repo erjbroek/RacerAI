@@ -2,6 +2,7 @@ import CanvasUtil from './CanvasUtil.js';
 import MouseListener from './MouseListener.js';
 export default class Slider {
     sliderValue = 0;
+    originalValue;
     posX = 0;
     posY = 0;
     width = 0;
@@ -11,7 +12,6 @@ export default class Slider {
     description = '';
     holding = false;
     circleRadius = window.innerHeight * 0.01;
-    originalValue;
     unit;
     constructor(posX, posY, width, startValue, minValue, maxValue, title, description, unit = '') {
         this.posX = posX;
@@ -47,8 +47,13 @@ export default class Slider {
             this.holding = false;
         }
     }
-    render(canvas) {
-        CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue * 1000) / 10}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.008, 'center', 'system-ui', 14, 'lightgrey');
+    renderSlider(canvas) {
+        if (this.unit === '%') {
+            CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue * 1000) / 10}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.008, 'center', 'system-ui', 14, 'lightgrey');
+        }
+        else {
+            CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue)}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.008, 'center', 'system-ui', 14, 'lightgrey');
+        }
         CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.width, canvas.height * 0.03, 200, 200, 200, 0.5, canvas.height * 0.015);
         CanvasUtil.fillRectangle(canvas, this.posX + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY, this.circleRadius * 3.5, canvas.height * 0.03, 0, 200, 0, 0.3);
         CanvasUtil.drawRectangle(canvas, this.posX + 1 + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY + 1, this.circleRadius * 3.5 - 2, canvas.height * 0.03 - 2, 0, 255, 30, 0.3, 1);

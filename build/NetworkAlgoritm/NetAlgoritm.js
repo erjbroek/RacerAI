@@ -40,7 +40,7 @@ export default class NetAlgorithm extends Scene {
         }
     }
     update(elapsed) {
-        this.populationSize = Math.floor(this.populationSizePercentage * 5) + 15;
+        this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
         if (!UI.pauzeGame) {
             if (this.startSimulation) {
                 if (!this.triggered) {

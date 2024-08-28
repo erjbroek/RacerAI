@@ -39,6 +39,7 @@ export default class NetPopulation {
 
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = size;
+    Statistics.size = size;
     this.track = track;
     this.startingPoint = startingPoint;
     this.startingAngle = startingAngle;
@@ -184,11 +185,14 @@ export default class NetPopulation {
     const survived: NetCar[] = [];
     const selectedCars: NetCar[] = [];
     const selectionPercentage = Statistics.selectionPercentage; // Top 50% of each species survives
+    console.log(`selectionPercentage: ${selectionPercentage}`);
 
-    // best 2 players survive without mutation
-    this.champions = [];
-    this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases));
-    this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[1].genome, this.cars[1].biases));
+    if (Statistics.championsSurvive) {
+      // best 2 players survive without mutation
+      this.champions = [];
+      this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases));
+      this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[1].genome, this.cars[1].biases));
+    }
 
     this.species.forEach((species) => {
       const numToSelect = Math.ceil(species.length * selectionPercentage);
@@ -261,12 +265,14 @@ export default class NetPopulation {
   private mutate(): void {
     const slightMutationRate = Statistics.slightMutationRate;
     const bigMutationRate = Statistics.bigMutationRate;
+    console.log(`slightMutationRate: ${slightMutationRate}, bigMutationRate: ${bigMutationRate}`);
 
     this.nextGen.forEach((car) => {
       car.genome.forEach((gene) => {
         if (Math.random() < slightMutationRate) {
           gene[2] += Math.random() * 0.25 - 0.125;
-        } else if (Math.random() < bigMutationRate) {
+        }
+        if (Math.random() < bigMutationRate) {
           gene[2] = Math.random();
         }
 
@@ -292,7 +298,9 @@ export default class NetPopulation {
       });
     });
 
-    this.nextGen.push(...this.champions);
+    if (Statistics.championsSurvive) {
+      this.nextGen.push(...this.champions);
+    }
     this.cars = this.nextGen;
   }
 
@@ -327,7 +335,6 @@ export default class NetPopulation {
           this.finished = true;
           Statistics.performanceHistory.push([this.trackTime, this.generation, new DisplayCar(car.genome)]);
           this.statistics.addedToHistory = true;
-          console.log(Statistics.performanceHistory);
         }
       }
 
@@ -366,11 +373,11 @@ export default class NetPopulation {
       this.statistics.addedToHistory = false;
       this.track.deathPositions = [];
       Statistics.currentHighestLaps = 0;
+      this.size = Statistics.size;
       this.evolve();
     }
     Statistics.carsAlive = this.cars.filter((car) => car.alive).length;
     Statistics.species = this.species.length;
-    Statistics.size = this.size;
   }
 
   /**
@@ -453,7 +460,7 @@ export default class NetPopulation {
       if (this.statistics.recordHistory.length > 12) {
         this.statistics.recordHistory.shift();
       }
-      
+
       for (let i = 0; i < this.statistics.recordHistory.length; i++) {
         if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
           CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");

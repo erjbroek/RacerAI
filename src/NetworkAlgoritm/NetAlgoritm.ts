@@ -62,7 +62,7 @@ export default class NetAlgorithm extends Scene {
    */
   public override update(elapsed: number): Scene {
     // used for the slider to select population size
-    this.populationSize = Math.floor(this.populationSizePercentage * 5) + 15;
+    this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
     if (!UI.pauzeGame) {
       if (this.startSimulation) {
         if (!this.triggered) {
