@@ -15,7 +15,8 @@ export default class UI {
     static cars;
     static sliders = [];
     static loadSliders() {
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.66, window.innerWidth * 0.127, Statistics.bigMutationRate, 0.4, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
     }
     static processInput() {
         if (MouseListener.mouseHover(window.innerWidth / 30 + window.innerWidth - window.innerWidth / 5 - window.innerWidth / 22, window.innerHeight / 12 + window.innerHeight / 70, window.innerHeight / 13, window.innerHeight / 13)) {
