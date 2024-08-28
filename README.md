@@ -1,5 +1,8 @@
 
-# RacerAI   ![Static Badge](https://img.shields.io/badge/npm-v9.6.7-blue)
+# RacerAI   ![Static Badge](https://img.shields.io/badge/npm-v9.6.7-blue) ![GitHub last commit](https://img.shields.io/github/last-commit/erjbroek/RacerAI)
+
+
+
 
 RacerAI is a game where AI-driven cars learn to race on user-designed tracks through evolving machine learning algorithms.
 
