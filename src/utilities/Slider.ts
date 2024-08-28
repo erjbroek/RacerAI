@@ -5,7 +5,7 @@ export default class Slider {
   public sliderValue: number = 0;
 
   public originalValue: number;
-  
+
   private posX: number = 0;
 
   private posY: number = 0;
@@ -72,9 +72,9 @@ export default class Slider {
    */
   public renderSlider(canvas: HTMLCanvasElement) {
     if (this.unit === '%') {
-      CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue * 1000) / 10}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.008, 'center', 'system-ui', 14, 'lightgrey');
+      CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue * 1000) / 10}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.006, 'center', 'system-ui', 14, 'lightgrey');
     } else {
-      CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue)}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.008, 'center', 'system-ui', 14, 'lightgrey');
+      CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue)}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.006, 'center', 'system-ui', 14, 'lightgrey');
     }
     CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.width, canvas.height * 0.03, 200, 200, 200, 0.5, canvas.height * 0.015);
     CanvasUtil.fillRectangle(canvas, this.posX + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY, this.circleRadius * 3.5, canvas.height * 0.03, 0, 200, 0, 0.3);

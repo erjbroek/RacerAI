@@ -185,7 +185,6 @@ export default class NetPopulation {
     const survived: NetCar[] = [];
     const selectedCars: NetCar[] = [];
     const selectionPercentage = Statistics.selectionPercentage; // Top 50% of each species survives
-    console.log(`selectionPercentage: ${selectionPercentage}`);
 
     if (Statistics.championsSurvive) {
       // best 2 players survive without mutation

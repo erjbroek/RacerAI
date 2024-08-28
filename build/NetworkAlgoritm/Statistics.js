@@ -19,8 +19,8 @@ export default class Statistics {
     static selectionPercentage = 0.5;
     static size = 0;
     static recordCar = new DisplayCar([]);
-    static championsSurvive = false;
-    highest = 0;
+    static championsSurvive = true;
+    highest = -Infinity;
     lowest = Infinity;
     constuctor() { }
     processInput() {
@@ -33,8 +33,7 @@ export default class Statistics {
             }
         }
     }
-    update(elapsed) {
-    }
+    update(elapsed) { }
     renderButtons(canvas) {
         CanvasUtil.fillRectangle(canvas, canvas.width / 10, canvas.height / 75, canvas.width / 1.85, canvas.height / 18, 50, 50, 50, 1, canvas.height / 100);
         CanvasUtil.fillRectangle(canvas, canvas.width / 8.9, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
@@ -68,9 +67,12 @@ export default class Statistics {
             [this.highest, this.lowest] = [Statistics.performanceHistory[0][0] * 1.01, Statistics.performanceHistory[0][0] / 1.01];
         }
         else {
-            Statistics.performanceHistory.forEach((index) => {
-                this.highest = Math.max(index[0], this.highest);
-                this.lowest = Math.min(index[0], this.lowest);
+            this.highest = -Infinity;
+            this.lowest = Infinity;
+            Statistics.performanceHistory.forEach((entry) => {
+                const time = entry[0];
+                this.highest = Math.max(time, this.highest);
+                this.lowest = Math.min(time, this.lowest);
             });
         }
         CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
@@ -87,7 +89,7 @@ export default class Statistics {
             const yNormalized = (time - this.lowest) / (this.highest - this.lowest);
             const x = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * i;
             const y = bottom - height * 0.1 - height * 0.8 * yNormalized;
-            if (Statistics.performanceHistory.indexOf(Statistics.performanceHistory[i]) > 0) {
+            if (i > 0) {
                 const lastTime = Statistics.performanceHistory[i - 1][0];
                 const lastYNormalized = (lastTime - this.lowest) / (this.highest - this.lowest);
                 const lastX = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * (i - 1);

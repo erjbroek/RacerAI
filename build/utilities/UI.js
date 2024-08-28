@@ -14,11 +14,13 @@ export default class UI {
     static settings = CanvasUtil.loadNewImage('./assets/settings.png');
     static cars;
     static sliders = [];
+    static readyClick = true;
+    static letChampionSurvive = true;
     static loadSliders() {
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 0, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%', '%'));
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.66, window.innerWidth * 0.127, Statistics.bigMutationRate, 0, 1, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.73, window.innerWidth * 0.127, Statistics.selectionPercentage, 0.01, 1, 'Selection percentage', 'The percentage of best cars each generation that survive to the next generation', '%'));
-        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.8, window.innerWidth * 0.127, 25, 20, 40, 'Population size', 'The amount of cars that spawn at the beginning of the generation', ' cars'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.57, window.innerWidth * 0.127, Statistics.slightMutationRate, 0, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.63, window.innerWidth * 0.127, Statistics.bigMutationRate, 0, 1, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.69, window.innerWidth * 0.127, Statistics.selectionPercentage, 0.01, 1, 'Selection percentage', 'The percentage of best cars each generation that survive to the next generation', '%'));
+        UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.75, window.innerWidth * 0.127, 25, 20, 40, 'Population size', 'The amount of cars that spawn at the beginning of the generation', ' cars'));
     }
     static processInput() {
         if (MouseListener.mouseHover(window.innerWidth / 30 + window.innerWidth - window.innerWidth / 5 - window.innerWidth / 22, window.innerHeight / 12 + window.innerHeight / 70, window.innerHeight / 13, window.innerHeight / 13)) {
@@ -34,6 +36,7 @@ export default class UI {
                     UI.sliders[1].sliderValue = Statistics.bigMutationRate;
                     UI.sliders[2].sliderValue = Statistics.selectionPercentage;
                     UI.sliders[3].sliderValue = Statistics.size;
+                    UI.letChampionSurvive = Statistics.championsSurvive;
                 }
                 UI.holdingSettings = false;
                 UI.readyClickSettings = false;
@@ -86,7 +89,7 @@ export default class UI {
         CanvasUtil.fillRectangle(canvas, canvas.width / 19.4, canvas.height / 9.5, canvas.width / 3.2, canvas.height / 2, 0, 0, 0, 0.3, 10);
         CanvasUtil.writeText(canvas, `Generation ${generation}`, canvas.width * 0.2, canvas.height * 0.152, 'center', 'system-ui', 30, 'white');
         CanvasUtil.writeText(canvas, `laps: ${Statistics.currentHighestLaps} / 5`, canvas.width * 0.2, canvas.height * 0.18, 'center', 'system-ui', 20, 'lightgray');
-        CanvasUtil.writeText(canvas, `Gene mutation chance: ${Statistics.slightMutationRate * 100}%`, canvas.width * 0.07, canvas.height * 0.27, 'left', 'system-ui', 17, 'lightgray');
+        CanvasUtil.writeText(canvas, `Gene mutation chance: ${Math.round(Statistics.slightMutationRate * 10000) / 100}%`, canvas.width * 0.07, canvas.height * 0.27, 'left', 'system-ui', 17, 'lightgray');
         CanvasUtil.writeText(canvas, `Gene randomizing chance: ${Math.floor(Statistics.bigMutationRate * 1000) / 10}%`, canvas.width * 0.07, canvas.height * 0.3, 'left', 'system-ui', 17, 'lightgray');
         CanvasUtil.writeText(canvas, `% of top cars surviving: ${Math.floor(Statistics.selectionPercentage * 100)}%`, canvas.width * 0.07, canvas.height * 0.33, 'left', 'system-ui', 17, 'lightgray');
         CanvasUtil.writeText(canvas, `Cars alive: ${Statistics.carsAlive}`, canvas.width * 0.23, canvas.height * 0.27, 'left', 'system-ui', 17, 'lightgray');
@@ -135,13 +138,27 @@ export default class UI {
                 Statistics.bigMutationRate = UI.sliders[1].sliderValue;
                 Statistics.selectionPercentage = UI.sliders[2].sliderValue;
                 Statistics.size = Math.floor(UI.sliders[3].sliderValue);
+                Statistics.championsSurvive = UI.letChampionSurvive;
                 this.openSettings = !this.openSettings;
             }
         }
-        if (MouseListener.mouseHover(startX + width / 20, startY + height * 2.13, canvas.height / 30, canvas.height / 30)) {
-            CanvasUtil.fillRectangle(canvas, startX + width / 20, startY + height * 2.13, canvas.height / 30, canvas.height / 30, 255, 255, 255, 0.1, 10);
+        if (MouseListener.mouseHover(startX + width / 15, window.innerHeight * 0.81, canvas.height / 40, canvas.height / 40)) {
+            CanvasUtil.fillRectangle(canvas, startX + width / 15, window.innerHeight * 0.81, canvas.height / 40, canvas.height / 40, 255, 255, 255, 0.4, 5);
+            if (MouseListener.isButtonDown(0)) {
+                if (this.readyClick) {
+                    UI.letChampionSurvive = !UI.letChampionSurvive;
+                    this.readyClick = false;
+                }
+            }
+            else {
+                this.readyClick = true;
+            }
         }
-        CanvasUtil.drawRectangle(canvas, startX + width / 20, startY + height * 2.13, canvas.height / 30, canvas.height / 30, 255, 255, 255, 0.4, 3, 10);
+        if (UI.letChampionSurvive) {
+            CanvasUtil.fillCircle(canvas, canvas.width * 0.43, canvas.height * 0.81 + canvas.height / 80, 7, 255, 255, 255, 0.7);
+        }
+        CanvasUtil.drawRectangle(canvas, startX + width / 15, window.innerHeight * 0.81, canvas.height / 40, canvas.height / 40, 255, 255, 255, 0.4, 2, 5);
+        CanvasUtil.writeText(canvas, 'Guarantees best car to <br>survive to next generation', startX + width / 24 + canvas.height / 20, window.innerHeight * 0.81 + canvas.height / 80, 'left', 'system-ui', 15, 'white');
         CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
     }
     static renderUI(canvas) {

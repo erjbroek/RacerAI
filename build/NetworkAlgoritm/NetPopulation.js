@@ -109,7 +109,6 @@ export default class NetPopulation {
         const survived = [];
         const selectedCars = [];
         const selectionPercentage = Statistics.selectionPercentage;
-        console.log(`selectionPercentage: ${selectionPercentage}`);
         if (Statistics.championsSurvive) {
             this.champions = [];
             this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases));
