@@ -1,4 +1,3 @@
-<br>
 
 # RacerAI   ![Static Badge](https://img.shields.io/badge/npm-v9.6.7-blue)
 
