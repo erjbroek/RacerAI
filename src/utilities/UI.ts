@@ -29,8 +29,9 @@ export default class UI {
   private static sliders: Slider[] = []
 
   public static loadSliders() {
-    UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%', '%'));
-    UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.66, window.innerWidth * 0.127, Statistics.bigMutationRate, 0.4, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
+    UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.59, window.innerWidth * 0.127, Statistics.slightMutationRate, 0, 1, 'Small mutation rate', 'The chance in % that a gene mutates, and randomly gets increased or decreased by 12.5%', '%'));
+    UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.66, window.innerWidth * 0.127, Statistics.bigMutationRate, 0, 0.4, 'Big mutation rate', 'The chance in % that a gene gets completely randomized', '%'));
+    UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.73, window.innerWidth * 0.127, Statistics.selectionPercentage, 0.1, 1, 'Selection percentage', 'The percentage of best cars each generation that survive to the next generation', '%'));
   }
 
   /**

@@ -10,6 +10,8 @@ export default class Slider {
 
   private width: number = 0;
 
+  private minValue: number = 0;
+
   private maxValue: number = 0;
 
   private title: string = '';
@@ -24,10 +26,11 @@ export default class Slider {
 
   private unit: string;
 
-  public constructor(posX: number, posY: number, width: number, startValue: number, maxValue: number, title: string, description: string, unit: string = '') {
+  public constructor(posX: number, posY: number, width: number, startValue: number, minValue: number, maxValue: number, title: string, description: string, unit: string = '') {
     this.posX = posX;
     this.posY = posY;
     this.width = width;
+    this.minValue = minValue;
     this.maxValue = maxValue;
     this.title = title;
     this.description = description;
@@ -36,15 +39,22 @@ export default class Slider {
     this.unit = unit;
   }
 
+  /**
+   * procceses input for the sliders, and ipdates values accordingly
+   */
   public processInput() {
     if (MouseListener.isButtonDown(0)) {
-      if (MouseListener.circleCollision(this.posX + this.circleRadius * 2 + this.sliderValue * this.width / this.maxValue / 1.2, this.posY + window.innerHeight * 0.015, this.circleRadius)) {
+      const circlePositionX = this.posX + this.circleRadius * 2 + ((this.sliderValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue);
+      if (MouseListener.circleCollision(circlePositionX, this.posY + window.innerHeight * 0.015, this.circleRadius)) {
         this.holding = true;
       }
+
       if (this.holding) {
-        this.sliderValue = (MouseListener.mouseCoordinates.x - this.posX - this.circleRadius * 2) / this.width * this.maxValue * 1.2;
-        if (this.sliderValue < 0) {
-          this.sliderValue = 0;
+        const mousePosition = MouseListener.mouseCoordinates.x - this.posX - this.circleRadius * 2;
+        const normalizedPosition = mousePosition / (this.width / 1.1 - this.circleRadius * 2);
+        this.sliderValue = this.minValue + normalizedPosition * (this.maxValue - this.minValue);
+        if (this.sliderValue < this.minValue) {
+          this.sliderValue = this.minValue;
         }
         if (this.sliderValue > this.maxValue) {
           this.sliderValue = this.maxValue;
@@ -55,11 +65,15 @@ export default class Slider {
     }
   }
 
+  /**
+   *
+   * @param canvas the canvas to render the sliders and their parts on
+   */
   public render(canvas: HTMLCanvasElement) {
     CanvasUtil.writeText(canvas, `${this.title}: ${Math.round(this.sliderValue * 1000) / 10}${this.unit}`, this.posX + this.width / 2, this.posY - canvas.height * 0.008, 'center', 'system-ui', 14, 'lightgrey');
     CanvasUtil.fillRectangle(canvas, this.posX, this.posY, this.width, canvas.height * 0.03, 200, 200, 200, 0.5, canvas.height * 0.015);
-    CanvasUtil.fillRectangle(canvas, this.posX + this.circleRadius / 4 + this.originalValue / this.maxValue * this.width / 1.2, this.posY, this.circleRadius * 3.5, canvas.height * 0.03, 0, 200, 0, 0.3);
-    CanvasUtil.drawRectangle(canvas, this.posX + 1 + this.circleRadius / 4 + this.originalValue / this.maxValue * this.width / 1.2, this.posY + 1, this.circleRadius * 3.5 - 2, canvas.height * 0.03 - 2, 0, 255, 30, 0.3, 1);
-    CanvasUtil.fillCircle(canvas, this.posX + this.circleRadius * 2 + this.sliderValue * this.width / this.maxValue / 1.2, this.posY + canvas.height * 0.015, this.circleRadius, 200, 200, 200, 1);
-}
+    CanvasUtil.fillRectangle(canvas, this.posX + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY, this.circleRadius * 3.5, canvas.height * 0.03, 0, 200, 0, 0.3);
+    CanvasUtil.drawRectangle(canvas, this.posX + 1 + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY + 1, this.circleRadius * 3.5 - 2, canvas.height * 0.03 - 2, 0, 255, 30, 0.3, 1);
+    CanvasUtil.fillCircle(canvas, this.posX + this.circleRadius * 2 + ((this.sliderValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY + canvas.height * 0.015, this.circleRadius, 200, 200, 200, 1);
+  }
 }
