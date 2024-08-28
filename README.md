@@ -30,7 +30,7 @@ This project that merges playing games with machine learning, allowing users to 
   - **Genetic algorithm using neural network**: Here, each car has a neural network that mutates and becomes better over time. 
     When the brain (neural network) of the cars evolve, the appearance will also change. When cars look similar, their strategies will also be similar. This makes for alot of different combinations of cars that race around the track at the same time.
     <br>
-    <img src="https://github.com/user-attachments/assets/84286750-ef33-4035-afaf-76aabd26c723" width=400></img>
+    <img src="https://github.com/user-attachments/assets/84286750-ef33-4035-afaf-76aabd26c723" width=370></img>
     <img src="https://github.com/user-attachments/assets/64959bb4-71c1-41ba-b536-f1469cdd2022" width=400></img>
     <img src="https://github.com/user-attachments/assets/7fc4873f-1703-4386-a128-f90532dff8c1" width=800></img>
     <br><br><br><br>
