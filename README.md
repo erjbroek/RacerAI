@@ -23,15 +23,15 @@ This project that merges playing games with machine learning, allowing users to 
 
 -   **Genetic Algorithm**: Inspired by natural selection, evolve a list of instructions the cars use over generations, gradually improving racing skills and distance. Since performance per car is really light, the game can handle thousands of cars at once. Although this might not find the fastest time, it will find the shortest path.
   
-<img src="https://github.com/erjbroek/RacerAI/assets/112830052/e571b5d3-8fdf-4735-b5e9-75f8536efd34" width=500></img>
-<img src="https://github.com/erjbroek/RacerAI/assets/112830052/f65f07c4-0cf4-4df0-a922-a8717ab410a0" width=500></img>
+<img src="https://github.com/erjbroek/RacerAI/assets/112830052/e571b5d3-8fdf-4735-b5e9-75f8536efd34" width=400></img>
+<img src="https://github.com/erjbroek/RacerAI/assets/112830052/f65f07c4-0cf4-4df0-a922-a8717ab410a0" width=400></img>
 
 <br><br><br><br><br>
   - **Genetic algorithm using neural network**: Here, each car has a neural network that mutates and becomes better over time. 
     When the brain (neural network) of the cars evolve, the appearance will also change. When cars look similar, their strategies will also be similar. This makes for alot of different combinations of cars that race around the track at the same time.
     <br>
-    <img src="https://github.com/user-attachments/assets/84286750-ef33-4035-afaf-76aabd26c723" width=470></img>
-    <img src="https://github.com/user-attachments/assets/64959bb4-71c1-41ba-b536-f1469cdd2022" width=470></img>
+    <img src="https://github.com/user-attachments/assets/84286750-ef33-4035-afaf-76aabd26c723" width=370></img>
+    <img src="https://github.com/user-attachments/assets/64959bb4-71c1-41ba-b536-f1469cdd2022" width=400></img>
     <img src="https://github.com/user-attachments/assets/7fc4873f-1703-4386-a128-f90532dff8c1" width=800></img>
     <br><br><br><br>
 
