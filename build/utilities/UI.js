@@ -66,10 +66,18 @@ export default class UI {
     static renderSettings(canvas, generation, track) {
         CanvasUtil.fillRectangleWithGradient(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, [
             {
-                red: 20, green: 10, blue: 0, opacity: 0.65, stop: 1,
+                red: 20,
+                green: 10,
+                blue: 0,
+                opacity: 0.65,
+                stop: 1,
             },
             {
-                red: 0, green: 10, blue: 20, opacity: 0.65, stop: 0,
+                red: 0,
+                green: 10,
+                blue: 20,
+                opacity: 0.65,
+                stop: 0,
             },
         ], 90, 10);
         CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 0.4, 20);
@@ -109,20 +117,11 @@ export default class UI {
         else {
             CanvasUtil.writeText(canvas, 'Track not beaten yet ):', canvas.width * 0.23, canvas.height * 0.36, 'left', 'system-ui', 17, 'lightgrey');
         }
+        UI.renderTrackPreview(canvas, track);
         const startX = canvas.width * 0.4;
         const startY = canvas.height * 0.108;
         const width = canvas.width * 0.35;
         const height = canvas.height * 0.35;
-        CanvasUtil.fillRectangle(canvas, startX, startY, width, height, 255, 255, 255, 0.5, 20, 0);
-        track.road.forEach((trackPiece) => {
-            const updatedPosX = trackPiece[0] * 0.35 + startX;
-            const updatedPosY = trackPiece[1] * 0.35 + startY;
-            CanvasUtil.fillCircle(canvas, updatedPosX, updatedPosY, track.radius * 0.35, 0, 0, 0, 1);
-        });
-        for (let i = 0; i < track.deathPositions.length - 1; i++) {
-            CanvasUtil.fillCircle(canvas, startX + track.deathPositions[i][0] * 0.35, startY + track.deathPositions[i][1] * 0.35, track.radius * 0.35, 255, 0, 0, 0.3);
-        }
-        CanvasUtil.writeText(canvas, 'Heatmap car deaths', startX + width / 2, startY + height / 10, 'center', 'system-ui', 20, 'grey');
         CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
         CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
         UI.sliders.forEach((slider) => {
@@ -160,6 +159,76 @@ export default class UI {
         CanvasUtil.drawRectangle(canvas, startX + width / 15, window.innerHeight * 0.81, canvas.height / 40, canvas.height / 40, 255, 255, 255, 0.4, 2, 5);
         CanvasUtil.writeText(canvas, 'Guarantees best car to <br>survive to next generation', startX + width / 24 + canvas.height / 20, window.innerHeight * 0.81 + canvas.height / 80, 'left', 'system-ui', 15, 'white');
         CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
+        this.renderGraph(canvas);
+    }
+    static renderTrackPreview(canvas, track) {
+        const startX = canvas.width * 0.4;
+        const startY = canvas.height * 0.108;
+        const width = canvas.width * 0.35;
+        const height = canvas.height * 0.35;
+        CanvasUtil.fillRectangle(canvas, startX, startY, width, height, 255, 255, 255, 0.5, 20, 0);
+        track.road.forEach((trackPiece) => {
+            const updatedPosX = trackPiece[0] * 0.35 + startX;
+            const updatedPosY = trackPiece[1] * 0.35 + startY;
+            CanvasUtil.fillCircle(canvas, updatedPosX, updatedPosY, track.radius * 0.35, 0, 0, 0, 1);
+        });
+        for (let i = 0; i < track.deathPositions.length - 1; i++) {
+            CanvasUtil.fillCircle(canvas, startX + track.deathPositions[i][0] * 0.35, startY + track.deathPositions[i][1] * 0.35, track.radius * 0.35, 255, 0, 0, 0.3);
+        }
+        CanvasUtil.writeText(canvas, 'Heatmap car deaths', startX + width / 2, startY + height / 10, 'center', 'system-ui', 20, 'grey');
+    }
+    static renderGraph(canvas) {
+        const top = canvas.height * 0.58;
+        const height = canvas.height * 0.295;
+        const width = canvas.width * 0.135;
+        const bottom = top + height;
+        const left = canvas.width * 0.61;
+        CanvasUtil.writeText(canvas, 'Track completion time', left + width / 2.4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
+        if (Statistics.performanceHistory.length === 0) {
+            CanvasUtil.writeText(canvas, '(No data yet)', left + width / 2.4, canvas.height * 0.56, 'center', 'system-ui', 15, 'lightgray');
+            [Statistics.highest, Statistics.lowest] = [10000, 0];
+        }
+        else if (Statistics.performanceHistory.length === 1) {
+            [Statistics.highest, Statistics.lowest] = [Statistics.performanceHistory[0][0] * 1.4, Statistics.performanceHistory[0][0] / 1.4];
+        }
+        else {
+            Statistics.highest = -Infinity;
+            Statistics.lowest = Infinity;
+            Statistics.performanceHistory.forEach((entry) => {
+                const time = entry[0];
+                Statistics.highest = Math.max(time, Statistics.highest);
+                Statistics.lowest = Math.min(time, Statistics.lowest);
+            });
+        }
+        CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
+        CanvasUtil.drawLine(canvas, left + width * 0.05, top + height * 0.1, left + width * 0.05, bottom - height * 0.08, 255, 255, 255, 0.5, 1);
+        CanvasUtil.drawLine(canvas, left + width * 0.05, bottom - height * 0.08, left + width * 0.95, bottom - height * 0.08, 255, 255, 255, 0.5, 1);
+        const numGridLines = 5;
+        for (let i = 0; i < numGridLines; i++) {
+            const value = Statistics.lowest + (i * (Statistics.highest - Statistics.lowest)) / (numGridLines - 1);
+            const y = bottom - height * 0.1 - height * 0.8 * ((value - Statistics.lowest) / (Statistics.highest - Statistics.lowest));
+            CanvasUtil.drawLine(canvas, left + width * 0.05, y, left + width * 0.95, y, 255, 255, 255, 0.2, 1);
+            const labelText = `${Math.floor(value / 1000)}.${`00${Math.floor(value % 1000)}`.slice(-3)} s`;
+            CanvasUtil.writeText(canvas, labelText, left - 10, y, 'right', 'system-ui', 10, 'white');
+        }
+        for (let i = 0; i < Statistics.performanceHistory.length; i++) {
+            const time = Statistics.performanceHistory[i][0];
+            const yNormalized = (time - Statistics.lowest) / (Statistics.highest - Statistics.lowest);
+            const x = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * i;
+            const y = bottom - height * 0.1 - height * 0.8 * yNormalized;
+            if (i > 0) {
+                const lastTime = Statistics.performanceHistory[i - 1][0];
+                const lastYNormalized = (lastTime - Statistics.lowest) / (Statistics.highest - Statistics.lowest);
+                const lastX = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * (i - 1);
+                const lastY = bottom - height * 0.1 - height * 0.8 * lastYNormalized;
+                CanvasUtil.drawLine(canvas, lastX, lastY, x, y, 255, 255, 255, 0.5, 1);
+            }
+            CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
+            if (Statistics.performanceHistory.length <= 7 || time === Statistics.highest || time === Statistics.lowest) {
+                const timeText = `${Math.floor(time / 1000)}.${`00${Math.floor(time % 1000)}`.slice(-3)} s`;
+                CanvasUtil.writeText(canvas, timeText, x, y - 10, 'center', 'system-ui', 10, 'white');
+            }
+        }
     }
     static renderUI(canvas) {
         CanvasUtil.fillRectangle(canvas, 0, 0, canvas.width / 30, canvas.height, 30, 30, 30);

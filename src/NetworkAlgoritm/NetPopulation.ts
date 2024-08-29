@@ -477,12 +477,6 @@ export default class NetPopulation {
       CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
     }
 
-    if (this.statistics.showGraph) {
-      if (Statistics.performanceHistory.length > 0) {
-        this.statistics.renderGraph(canvas);
-      }
-    }
-
     if (UI.openSettings) {
       UI.renderSettings(canvas, this.generation, this.track);
       this.statistics.renderNetwork(this.cars, canvas);

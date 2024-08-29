@@ -42,9 +42,9 @@ export default class Statistics {
 
   public static championsSurvive: boolean = true;
 
-  private highest: number = -Infinity;
+  public static highest: number = -Infinity;
 
-  private lowest: number = Infinity;
+  public static lowest: number = Infinity;
 
   /**
    *
@@ -94,61 +94,6 @@ export default class Statistics {
       CanvasUtil.writeText(canvas, "render performance graph", canvas.width / 1.9, canvas.height / 21.5, "left", "system-ui", 15, "white");
       if (this.showGraph) {
         CanvasUtil.fillCircle(canvas, canvas.width / 1.95 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
-      }
-    }
-  }
-
-  /**
-   *
-   * @param canvas is the canvas to render on
-   */
-  public renderGraph(canvas: HTMLCanvasElement) {
-    const top: number = canvas.height / 1.4;
-    const height: number = canvas.height / 5;
-    const width: number = canvas.width / 8;
-    const bottom: number = top + height;
-    const left: number = canvas.width - canvas.width / 7;
-
-    if (Statistics.performanceHistory.length === 1) {
-      [this.highest, this.lowest] = [Statistics.performanceHistory[0][0] * 1.01, Statistics.performanceHistory[0][0] / 1.01];
-    } else {
-      this.highest = -Infinity;
-      this.lowest = Infinity;
-
-      Statistics.performanceHistory.forEach((entry) => {
-        const time = entry[0];
-        this.highest = Math.max(time, this.highest);
-        this.lowest = Math.min(time, this.lowest);
-      });
-    }
-
-    CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
-
-    const numGridLines = 5;
-    for (let i = 0; i < numGridLines; i++) {
-      const value = this.lowest + (i * (this.highest - this.lowest)) / (numGridLines - 1);
-      const y = bottom - height * 0.1 - height * 0.8 * ((value - this.lowest) / (this.highest - this.lowest));
-      CanvasUtil.drawLine(canvas, left + width * 0.05, y, left + width * 0.95, y, 255, 255, 255, 0.2, 1);
-      const labelText = `${Math.floor(value / 1000)}.${`00${Math.floor(value % 1000)}`.slice(-3)} s`;
-      CanvasUtil.writeText(canvas, labelText, left - 10, y, "right", "system-ui", 10, "white");
-    }
-
-    for (let i = 0; i < Statistics.performanceHistory.length; i++) {
-      const time = Statistics.performanceHistory[i][0];
-      const yNormalized = (time - this.lowest) / (this.highest - this.lowest);
-      const x = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * i;
-      const y = bottom - height * 0.1 - height * 0.8 * yNormalized;
-      if (i > 0) {
-        const lastTime = Statistics.performanceHistory[i - 1][0];
-        const lastYNormalized = (lastTime - this.lowest) / (this.highest - this.lowest);
-        const lastX = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * (i - 1);
-        const lastY = bottom - height * 0.1 - height * 0.8 * lastYNormalized;
-        CanvasUtil.drawLine(canvas, lastX, lastY, x, y, 255, 255, 255, 0.5, 1);
-      }
-      CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
-      if (Statistics.performanceHistory.length <= 7 || time === this.highest || time === this.lowest) {
-        const timeText = `${Math.floor(time / 1000)}.${`00${Math.floor(time % 1000)}`.slice(-3)} s`;
-        CanvasUtil.writeText(canvas, timeText, x, y - 10, "center", "system-ui", 10, "white");
       }
     }
   }
