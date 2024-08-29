@@ -80,22 +80,6 @@ export default class Statistics {
     if (this.renderRacingLines) {
       CanvasUtil.fillCircle(canvas, canvas.width / 8.9 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
     }
-
-    CanvasUtil.fillRectangle(canvas, canvas.width / 4.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
-    CanvasUtil.drawRectangle(canvas, canvas.width / 4.6, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
-    CanvasUtil.writeText(canvas, "show advanced stats", canvas.width / 4.3, canvas.height / 21.5, "left", "system-ui", 15, "white");
-    if (this.showAdvancedStats) {
-      CanvasUtil.fillCircle(canvas, canvas.width / 4.6 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
-    }
-
-    if (Statistics.performanceHistory.length > 0) {
-      CanvasUtil.fillRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 150, 150, 150, 1, canvas.height / 200);
-      CanvasUtil.drawRectangle(canvas, canvas.width / 1.95, canvas.height / 33, canvas.height / 45, canvas.height / 45, 30, 30, 30, 1, 1, canvas.height / 200);
-      CanvasUtil.writeText(canvas, "render performance graph", canvas.width / 1.9, canvas.height / 21.5, "left", "system-ui", 15, "white");
-      if (this.showGraph) {
-        CanvasUtil.fillCircle(canvas, canvas.width / 1.95 + canvas.width / 180, canvas.height / 33 + canvas.height / 90, canvas.height / 130, 0, 0, 0, 1);
-      }
-    }
   }
 
   /**

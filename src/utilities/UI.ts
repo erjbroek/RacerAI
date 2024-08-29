@@ -291,7 +291,7 @@ export default class UI {
         CanvasUtil.drawLine(canvas, lastX + 10, lastY, x + 10, y, 255, 255, 255, 0.5, 1);
       }
       CanvasUtil.fillCircle(canvas, x + 10, y, 3, 255, 255, 255, 1);
-      CanvasUtil.drawLine(canvas, x + 10, bottom - height * 0.08, x + 10, bottom - height * 0.08 - 5, 255, 255, 255, 1, 1);
+      CanvasUtil.drawLine(canvas, x + 10, bottom - height * 0.06, x + 10, bottom - height * 0.08 - 5, 255, 255, 255, 1, 1);
       if (Statistics.performanceHistory.length <= 7 || time === Statistics.highest || time === Statistics.lowest) {
         const timeText = `${Math.floor(time / 1000)}.${`00${Math.floor(time % 1000)}`.slice(-3)} s`;
         CanvasUtil.writeText(canvas, timeText, x + 10, y - 10, 'center', 'system-ui', 10, 'white');

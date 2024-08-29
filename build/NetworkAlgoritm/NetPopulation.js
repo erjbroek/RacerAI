@@ -1,8 +1,8 @@
-import UI from "../utilities/UI.js";
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import DisplayCar from "./DisplayCar.js";
-import NetCar from "./NetCar.js";
-import Statistics from "./Statistics.js";
+import UI from '../utilities/UI.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import DisplayCar from './DisplayCar.js';
+import NetCar from './NetCar.js';
+import Statistics from './Statistics.js';
 export default class NetPopulation {
     cars = [];
     nextGen = [];
@@ -108,7 +108,7 @@ export default class NetPopulation {
     crossover() {
         const survived = [];
         const selectedCars = [];
-        const selectionPercentage = Statistics.selectionPercentage;
+        const { selectionPercentage } = Statistics;
         if (Statistics.championsSurvive) {
             this.champions = [];
             this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases));
@@ -152,8 +152,8 @@ export default class NetPopulation {
         }
     }
     mutate() {
-        const slightMutationRate = Statistics.slightMutationRate;
-        const bigMutationRate = Statistics.bigMutationRate;
+        const { slightMutationRate } = Statistics;
+        const { bigMutationRate } = Statistics;
         console.log(`slightMutationRate: ${slightMutationRate}, bigMutationRate: ${bigMutationRate}`);
         this.nextGen.forEach((car) => {
             car.genome.forEach((gene) => {
@@ -281,51 +281,52 @@ export default class NetPopulation {
             }
         });
         if (!UI.openSettings) {
-            CanvasUtil.writeText(canvas, `lap ${Statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, "center", "system-ui", 30, "black");
+            CanvasUtil.writeText(canvas, `lap ${Statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, 'center', 'system-ui', 30, 'black');
         }
-        CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
-        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 20, "white");
-        CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
+        CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, 'center', 'system-ui', 30, 'white');
+        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${this.size}`, canvas.width - canvas.width / 12, canvas.height / 8, 'center', 'system-ui', 20, 'white');
+        CanvasUtil.writeText(canvas, `Species: ${this.species.length}`, canvas.width - canvas.width / 12, canvas.height / 6, 'center', 'system-ui', 20, 'white');
         this.statistics.renderButtons(canvas);
         if (Statistics.record !== Infinity) {
             if (Math.floor(Statistics.record % 1000) < 100) {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.0${Math.floor(Statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.0${Math.floor(Statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
             }
             else {
-                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.${Math.floor(Statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
+                CanvasUtil.writeText(canvas, `Record: ${Math.floor(Statistics.record / 1000)}.${Math.floor(Statistics.record % 1000)} s`, canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
             }
-            CanvasUtil.writeText(canvas, `Gen: ${Statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, "left", "system-ui", 20, "grey");
+            CanvasUtil.writeText(canvas, `Gen: ${Statistics.bestGen}`, canvas.width - canvas.width / 17, canvas.height / 4, 'left', 'system-ui', 20, 'grey');
         }
         else {
-            CanvasUtil.writeText(canvas, "Record: N/A", canvas.width - canvas.width / 7.5, canvas.height / 4, "left", "system-ui", 20, "white");
-            CanvasUtil.writeText(canvas, "Gen: N/A", canvas.width - canvas.width / 15, canvas.height / 4, "left", "system-ui", 20, "grey");
+            CanvasUtil.writeText(canvas, 'Record: N/A', canvas.width - canvas.width / 7.5, canvas.height / 4, 'left', 'system-ui', 20, 'white');
+            CanvasUtil.writeText(canvas, 'Gen: N/A', canvas.width - canvas.width / 15, canvas.height / 4, 'left', 'system-ui', 20, 'grey');
         }
         if (this.statistics.recordHistory.length > 0) {
-            CanvasUtil.writeText(canvas, "Generations that beat record", canvas.width - canvas.width / 8, canvas.height / 3.1, "left", "system-ui", 15, "grey");
+            CanvasUtil.writeText(canvas, 'Generations that beat record', canvas.width - canvas.width / 8, canvas.height / 3.1, 'left', 'system-ui', 15, 'grey');
             CanvasUtil.drawLine(canvas, canvas.width - canvas.width / 6.5, canvas.height / 3, canvas.width - canvas.width / 6.5 + canvas.width / 7, canvas.height / 3, 255, 255, 255, 0.2, 2);
             const start = canvas.height / 2.6;
             const rowHeight = canvas.height / 35;
             for (let i = 0; i < this.statistics.recordHistory.length; i++) {
                 if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
-                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
                 }
                 else {
-                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
+                    CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, 'left', 'system-ui', 20, 'grey');
                 }
-                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, "left", "system-ui", 20, "white");
+                CanvasUtil.writeText(canvas, `Gen: ${this.statistics.recordHistory[i][1]}: `, canvas.width - canvas.width / 7.5, start + i * rowHeight, 'left', 'system-ui', 20, 'white');
                 CanvasUtil.createNetCar(canvas, this.statistics.recordHistory[i][2], canvas.width - canvas.width / 28, start + i * rowHeight - canvas.height / 100, 0.8, 90);
             }
         }
         if (this.trackTime % 1000 < 100) {
-            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.0${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
+            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.0${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, 'center', 'system-ui', 20, 'grey');
         }
         else {
-            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, "center", "system-ui", 20, "grey");
+            CanvasUtil.writeText(canvas, `${Math.floor(this.trackTime / 1000)}.${Math.floor(this.trackTime % 1000)} s`, canvas.width - canvas.width / 13, canvas.height / 5, 'center', 'system-ui', 20, 'grey');
         }
         if (UI.openSettings) {
             UI.renderSettings(canvas, this.generation, this.track);
             this.statistics.renderNetwork(this.cars, canvas);
         }
+        CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.14, 'left', 'system-ui', 20, 'lightgray');
     }
 }
 //# sourceMappingURL=NetPopulation.js.map
