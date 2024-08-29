@@ -288,12 +288,13 @@ export default class UI {
         const lastYNormalized = (lastTime - Statistics.lowest) / (Statistics.highest - Statistics.lowest);
         const lastX = left + width * 0.1 + ((width * 0.8) / Statistics.performanceHistory.length) * (i - 1);
         const lastY = bottom - height * 0.1 - height * 0.8 * lastYNormalized;
-        CanvasUtil.drawLine(canvas, lastX, lastY, x, y, 255, 255, 255, 0.5, 1);
+        CanvasUtil.drawLine(canvas, lastX + 10, lastY, x + 10, y, 255, 255, 255, 0.5, 1);
       }
-      CanvasUtil.fillCircle(canvas, x, y, 3, 255, 255, 255, 1);
+      CanvasUtil.fillCircle(canvas, x + 10, y, 3, 255, 255, 255, 1);
+      CanvasUtil.drawLine(canvas, x + 10, bottom - height * 0.08, x + 10, bottom - height * 0.08 - 5, 255, 255, 255, 1, 1);
       if (Statistics.performanceHistory.length <= 7 || time === Statistics.highest || time === Statistics.lowest) {
         const timeText = `${Math.floor(time / 1000)}.${`00${Math.floor(time % 1000)}`.slice(-3)} s`;
-        CanvasUtil.writeText(canvas, timeText, x, y - 10, 'center', 'system-ui', 10, 'white');
+        CanvasUtil.writeText(canvas, timeText, x + 10, y - 10, 'center', 'system-ui', 10, 'white');
       }
     }
   }

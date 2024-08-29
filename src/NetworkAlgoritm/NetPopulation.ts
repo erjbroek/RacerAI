@@ -456,10 +456,6 @@ export default class NetPopulation {
       const start = canvas.height / 2.6;
       const rowHeight = canvas.height / 35;
 
-      if (this.statistics.recordHistory.length > 12) {
-        this.statistics.recordHistory.shift();
-      }
-
       for (let i = 0; i < this.statistics.recordHistory.length; i++) {
         if (Math.floor(this.statistics.recordHistory[i][0] % 1000) < 100) {
           CanvasUtil.writeText(canvas, `${Math.floor(this.statistics.recordHistory[i][0] / 1000)}.0${Math.floor(this.statistics.recordHistory[i][0] % 1000)} s`, canvas.width - canvas.width / 11, start + i * rowHeight, "left", "system-ui", 20, "grey");
