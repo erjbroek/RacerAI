@@ -2,6 +2,7 @@ import Car from '../Car.js';
 import {
   ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT,
 } from '../Actions.js';
+import GeneticPopulation from './GeneticPopulation.js';
 
 export default class GeneticCar extends Car {
   public moves: number[] = [];
@@ -19,6 +20,14 @@ export default class GeneticCar extends Car {
   public collided: boolean = false;
 
   public finished: boolean = false;
+
+  public leftStartLine: boolean = false;
+
+  public raceDuration: number = 0;
+
+  public crossingFinishLine: boolean = false;
+
+  public laps: number = 0;
 
   public constructor(midPoint: number[], startAngle: number, moves: number[], amountMoves: number, parentPosition: number = null) {
     super();
@@ -249,6 +258,10 @@ export default class GeneticCar extends Car {
    * @param elapsed is the elapsed time that has passed since each frame
    */
   public override update(elapsed: number): void {
+    const distanceFromStart = Math.sqrt((this.posX - GeneticPopulation.startingPoint[0]) ** 2 + (this.posY - GeneticPopulation.startingPoint[1]) ** 2);
+    if (distanceFromStart > 120) {
+      this.leftStartLine = true;
+    }
     this.xSpeed *= 0.99;
     this.ySpeed *= 0.99;
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {

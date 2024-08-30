@@ -89,8 +89,10 @@ export default class Track {
         const [carX, carY] = [car.posX, car.posY];
         if (this.doLineSegmentsIntersect(x1, y1, x2, y2, prevCarX, prevCarY, carX, carY)) {
             this.red = 255;
+            console.log("_________");
             return true;
         }
+        console.log("no");
         this.red = 0;
         return false;
     }

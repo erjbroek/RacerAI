@@ -1,5 +1,6 @@
 import Car from '../Car.js';
 import { ACCELERATE, BRAKE, ROTATE_LEFT, ROTATE_RIGHT, ROTATE_SHARP_LEFT, ROTATE_SHARP_RIGHT, } from '../Actions.js';
+import GeneticPopulation from './GeneticPopulation.js';
 export default class GeneticCar extends Car {
     moves = [];
     fitness = 0;
@@ -9,6 +10,10 @@ export default class GeneticCar extends Car {
     distance = 0;
     collided = false;
     finished = false;
+    leftStartLine = false;
+    raceDuration = 0;
+    crossingFinishLine = false;
+    laps = 0;
     constructor(midPoint, startAngle, moves, amountMoves, parentPosition = null) {
         super();
         this.width = window.innerHeight / 40;
@@ -160,6 +165,10 @@ export default class GeneticCar extends Car {
         this.distance += distance;
     }
     update(elapsed) {
+        const distanceFromStart = Math.sqrt((this.posX - GeneticPopulation.startingPoint[0]) ** 2 + (this.posY - GeneticPopulation.startingPoint[1]) ** 2);
+        if (distanceFromStart > 120) {
+            this.leftStartLine = true;
+        }
         this.xSpeed *= 0.99;
         this.ySpeed *= 0.99;
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.01) {

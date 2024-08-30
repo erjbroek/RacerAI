@@ -3,6 +3,7 @@ import Scene from '../scenes/Scene.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 import KeyListener from '../utilities/KeyListener.js';
 import GeneticCar from './GeneticCar.js';
+import GeneticPopulation from './GeneticPopulation.js';
 import Player from './Player.js';
 
 export default class GeneticRace extends Scene {

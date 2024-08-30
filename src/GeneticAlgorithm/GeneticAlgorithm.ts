@@ -76,7 +76,7 @@ export default class GeneticAlgorithm extends Scene {
       this.population.update(elapsed);
     }
     if (this.startRace) {
-      return new GeneticRace(this.track, this.population.cars[0], this.population.startingPoint, this.population.startingRotation);
+      return new GeneticRace(this.track, this.population.cars[0], GeneticPopulation.startingPoint, this.population.startingRotation);
     }
     return this;
   }

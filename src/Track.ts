@@ -2,6 +2,7 @@ import CanvasUtil from './utilities/CanvasUtil.js';
 import GeneticCar from './GeneticAlgorithm/GeneticCar.js';
 import MouseListener from './utilities/MouseListener.js';
 import Car from './Car.js';
+import NetCar from './NetworkAlgoritm/NetCar.js';
 
 export default class Track {
   public road: number[][];
@@ -129,7 +130,7 @@ export default class Track {
    * @param car is the selected car that the collision is checked for
    * @returns boolean
    */
-  public checkCrossingFinishLine(car: Car): boolean {
+  public checkCrossingFinishLine(car: NetCar | GeneticCar): boolean {
     const [x1, y1] = this.lineStart;
     const [x2, y2] = this.lineEnd;
 
@@ -140,9 +141,11 @@ export default class Track {
     // Check if the car crosses the line segment
     if (this.doLineSegmentsIntersect(x1, y1, x2, y2, prevCarX, prevCarY, carX, carY)) {
       this.red = 255;
+      console.log("_________")
       return true;
     }
 
+    console.log("no")
     this.red = 0;
     return false; // Car has not crossed the finish line yet
   }
