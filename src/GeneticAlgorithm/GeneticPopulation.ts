@@ -168,6 +168,13 @@ export default class GeneticPopulation {
   }
 
   /**
+   * calculates the fitness of each car based on:
+   * - distance travelled
+   * - amount of laps completed
+   *
+   * the distance is the base unit of the fitness score. a higher distance = higher fitness
+   * if the car finds the finishline, a big boost to the fitness is given
+   *    so that cars in next generations are more likely to find the finish line
    *
    */
   public calculateFitness() {
