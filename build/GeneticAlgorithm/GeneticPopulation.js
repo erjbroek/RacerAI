@@ -1,5 +1,5 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import GeneticCar from "./GeneticCar.js";
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import GeneticCar from './GeneticCar.js';
 export default class GeneticPopulation {
     cars = [];
     generation = 1;
@@ -169,9 +169,9 @@ export default class GeneticPopulation {
         const width = canvas.width * 0.11;
         const bottom = top + height;
         const left = canvas.width * 0.866;
-        CanvasUtil.writeText(canvas, "Fitness each generation", canvas.width * 0.91, canvas.height * 0.555, "center", "system-ui", 20, "darkwhite");
-        if (this.performanceHistory.length === 0) {
-            CanvasUtil.writeText(canvas, "(No data yet)", left + width / 2.4, canvas.height * 0.56, "center", "system-ui", 15, "lightgray");
+        CanvasUtil.writeText(canvas, 'Fitness each generation', canvas.width * 0.92, canvas.height * 0.57, 'center', 'system-ui', 20, 'white');
+        if (this.performanceHistory.length <= 1) {
+            CanvasUtil.writeText(canvas, '(No data yet)', canvas.width * 0.92, canvas.height * 0.588, 'center', 'system-ui', 15, 'darkgrey');
             [this.highest, this.lowest] = [500, 0];
         }
         else if (this.performanceHistory.length === 1) {
@@ -198,7 +198,7 @@ export default class GeneticPopulation {
             const y = bottom - height * 0.1 - height * 0.8 * ((value - this.lowest) / (this.posYCap - this.lowest));
             CanvasUtil.drawLine(canvas, left + width * 0.05, y, left + width * 0.95, y, 255, 255, 255, 0.2, 1);
             const labelText = `${Math.floor(value)}`;
-            CanvasUtil.writeText(canvas, labelText, left - 10, y, "right", "system-ui", 10, "white");
+            CanvasUtil.writeText(canvas, labelText, left - 10, y, 'right', 'system-ui', 10, 'white');
         }
         for (let i = 0; i < this.performanceHistory.length; i++) {
             const score = this.performanceHistory[i][0];
@@ -215,7 +215,7 @@ export default class GeneticPopulation {
             CanvasUtil.fillCircle(canvas, x + 10, y, 3, 255, 255, 255, 1);
             CanvasUtil.drawLine(canvas, x + 10, bottom - height * 0.06, x + 10, bottom - height * 0.08 - 5, 255, 255, 255, 0.5, 1);
             if (this.performanceHistory.length <= 7 || score === this.highest || score === this.lowest) {
-                CanvasUtil.writeText(canvas, `${Math.round(score)}`, x + 10, y - 10, "center", "system-ui", 10, "white");
+                CanvasUtil.writeText(canvas, `${Math.round(score)}`, x + 10, y - 10, 'center', 'system-ui', 10, 'white');
             }
         }
     }
@@ -225,9 +225,9 @@ export default class GeneticPopulation {
                 CanvasUtil.drawCar(canvas, car.posX, car.posY, car.width, car.height, car.rotation, 0, 255, 0, 0.5, false);
             }
         });
-        CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, "center", "system-ui", 30, "white");
-        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${Math.ceil(this.size)}`, canvas.width - canvas.width / 12, canvas.height / 8, "center", "system-ui", 18, "grey");
-        CanvasUtil.writeText(canvas, `Fitness record: ${Math.round(this.highScore * 10) / 10}`, canvas.width - canvas.width / 12, canvas.height / 6, "center", "system-ui", 20, "white");
+        CanvasUtil.writeText(canvas, `Generation: ${this.generation}`, canvas.width - canvas.width / 12, canvas.height / 10, 'center', 'system-ui', 30, 'white');
+        CanvasUtil.writeText(canvas, `Cars alive: ${this.cars.filter((car) => car.alive).length} / ${Math.ceil(this.size)}`, canvas.width - canvas.width / 12, canvas.height / 8, 'center', 'system-ui', 18, 'grey');
+        CanvasUtil.writeText(canvas, `Fitness record: ${Math.round(this.highScore * 10) / 10}`, canvas.width - canvas.width / 12, canvas.height / 6, 'center', 'system-ui', 20, 'white');
         this.renderGraph(canvas);
         CanvasUtil.drawCircle(canvas, this.track.midPoint[0], this.track.midPoint[1], this.track.radius, 255, 0, 0, 1);
     }
