@@ -92,8 +92,10 @@ export default class Slider {
       CanvasUtil.writeText(canvas, 'i', this.posX + this.width * 0.9, 5 + this.posY * 0.98, 'center', 'arial', 15, 'white', 500);
     } else {
       CanvasUtil.fillRectangle(canvas, this.posX + this.width * 0.9, this.posY * 0.98, canvas.width * 0.1, canvas.height * 0.1, 255, 255, 255, 0.8, 4.5);
+      CanvasUtil.drawRectangle(canvas, this.posX + this.width * 0.9, this.posY * 0.98, canvas.width * 0.1, canvas.height * 0.1, 0, 0, 0, 1, 2, 4.5)
       CanvasUtil.fillCircle(canvas, this.posX + this.width * 0.9, this.posY * 0.98, 9, 0, 0, 0, 0.1);
       CanvasUtil.writeText(canvas, 'i', this.posX + this.width * 0.9, 5 + this.posY * 0.98, 'center', 'arial', 15, 'white', 500);
+      CanvasUtil.writeText(canvas, this.description, this.posX + this.width * 0.92, this.posY * 1.01, 'left', 'system-ui', 15, 'black', 100)
     }
   }
 }
