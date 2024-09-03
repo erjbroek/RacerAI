@@ -1,9 +1,9 @@
-import CanvasUtil from "../utilities/CanvasUtil.js";
-import Scene from "../scenes/Scene.js";
-import GeneticPopulation from "./GeneticPopulation.js";
-import MouseListener from "../utilities/MouseListener.js";
-import GeneticRace from "./GeneticRace.js";
-import UI from "../utilities/UI.js";
+import CanvasUtil from '../utilities/CanvasUtil.js';
+import Scene from '../scenes/Scene.js';
+import GeneticPopulation from './GeneticPopulation.js';
+import MouseListener from '../utilities/MouseListener.js';
+import GeneticRace from './GeneticRace.js';
+import UI from '../utilities/UI.js';
 export default class GeneticAlgorithm extends Scene {
     track;
     radius;
@@ -56,8 +56,8 @@ export default class GeneticAlgorithm extends Scene {
         return this;
     }
     render(canvas) {
-        canvas.style.cursor = "default";
-        CanvasUtil.fillCanvas(canvas, "black");
+        canvas.style.cursor = 'default';
+        CanvasUtil.fillCanvas(canvas, 'black');
         CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 1, 20);
         this.track.render(canvas);
         UI.renderUI(canvas);
@@ -90,9 +90,9 @@ export default class GeneticAlgorithm extends Scene {
         if (!this.startSimulation) {
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7, canvas.height / 3, canvas.width / 8, canvas.height / 25, 200, 200, 200, 0.9, canvas.height / 50);
             CanvasUtil.fillCircle(canvas, this.selectorPos[0], this.selectorPos[1], canvas.height / 70, 20, 50, 100, 1);
-            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, "center", "system-ui", 20, "white");
+            CanvasUtil.writeText(canvas, `population size: ${Math.round(this.populationSize)}`, canvas.width / 1.09, canvas.height / 2.4, 'center', 'system-ui', 20, 'white');
             CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7.8, canvas.height / 2, canvas.width / 10, canvas.height / 20, 20, 190, 80, 1, 10);
-            CanvasUtil.writeText(canvas, "Start simulation", canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, "center", "system-ui", 20, "white");
+            CanvasUtil.writeText(canvas, 'Start simulation', canvas.width - canvas.width / 7.8 + canvas.width / 20, canvas.height / 2 + canvas.height / 35, 'center', 'system-ui', 20, 'white');
         }
     }
 }

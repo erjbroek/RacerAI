@@ -24,6 +24,7 @@ export default class Slider {
 
   private circleRadius: number = window.innerHeight * 0.01;
 
+  private hoverInfo: boolean = false;
 
   private unit: string;
 
@@ -64,6 +65,12 @@ export default class Slider {
     } else {
       this.holding = false;
     }
+
+    if (Math.sqrt(((MouseListener.mouseCoordinates.x - (this.posX + this.width * 0.9)) ** 2) + (MouseListener.mouseCoordinates.y - this.posY * 0.98) ** 2) <= 9) {
+      this.hoverInfo = true;
+    } else {
+      this.hoverInfo = false;
+    }
   }
 
   /**
@@ -80,5 +87,13 @@ export default class Slider {
     CanvasUtil.fillRectangle(canvas, this.posX + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY, this.circleRadius * 3.5, canvas.height * 0.03, 0, 200, 0, 0.3);
     CanvasUtil.drawRectangle(canvas, this.posX + 1 + this.circleRadius / 4 + ((this.originalValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY + 1, this.circleRadius * 3.5 - 2, canvas.height * 0.03 - 2, 0, 255, 30, 0.3, 1);
     CanvasUtil.fillCircle(canvas, this.posX + this.circleRadius * 2 + ((this.sliderValue - this.minValue) * (this.width / 1.1 - this.circleRadius * 2)) / (this.maxValue - this.minValue), this.posY + canvas.height * 0.015, this.circleRadius, 200, 200, 200, 1);
+    if (!this.hoverInfo) {
+      CanvasUtil.fillCircle(canvas, this.posX + this.width * 0.9, this.posY * 0.98, 9, 0, 0, 0, 0.4);
+      CanvasUtil.writeText(canvas, 'i', this.posX + this.width * 0.9, 5 + this.posY * 0.98, 'center', 'arial', 15, 'white', 500);
+    } else {
+      CanvasUtil.fillRectangle(canvas, this.posX + this.width * 0.9, this.posY * 0.98, canvas.width * 0.1, canvas.height * 0.1, 255, 255, 255, 0.8, 4.5);
+      CanvasUtil.fillCircle(canvas, this.posX + this.width * 0.9, this.posY * 0.98, 9, 0, 0, 0, 0.1);
+      CanvasUtil.writeText(canvas, 'i', this.posX + this.width * 0.9, 5 + this.posY * 0.98, 'center', 'arial', 15, 'white', 500);
+    }
   }
 }

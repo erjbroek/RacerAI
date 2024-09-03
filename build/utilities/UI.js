@@ -124,10 +124,6 @@ export default class UI {
         const height = canvas.height * 0.35;
         CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
         CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
-        UI.sliders.forEach((slider) => {
-            slider.processInput();
-            slider.renderSlider(canvas);
-        });
         CanvasUtil.drawRectangle(canvas, startX + width / 4 - width / 12, startY + height * 2.13, width / 6, canvas.height * 0.035, 255, 255, 255, 0.4, 3, 10);
         CanvasUtil.writeText(canvas, 'Apply settings', startX + width / 4, startY + height * 2.2, 'center', 'system-ui', 15, 'white');
         if (MouseListener.mouseHover(startX + width / 4 - width / 12, startY + height * 2.13, width / 6, canvas.height * 0.035)) {
@@ -160,6 +156,10 @@ export default class UI {
         CanvasUtil.writeText(canvas, 'Guarantees best car to <br>survive to next generation', startX + width / 24 + canvas.height / 20, window.innerHeight * 0.81 + canvas.height / 80, 'left', 'system-ui', 15, 'white');
         CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
         this.renderGraph(canvas);
+        UI.sliders.forEach((slider) => {
+            slider.processInput();
+            slider.renderSlider(canvas);
+        });
     }
     static renderTrackPreview(canvas, track) {
         const startX = canvas.width * 0.4;

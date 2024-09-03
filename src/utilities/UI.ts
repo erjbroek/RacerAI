@@ -174,10 +174,6 @@ export default class UI {
     // the 2 containers for the settings/ customisation
     CanvasUtil.fillRectangle(canvas, startX, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
     CanvasUtil.writeText(canvas, 'Customize settings', startX + width / 4, canvas.height * 0.535, 'center', 'system-ui', 20, 'white');
-    UI.sliders.forEach((slider) => {
-      slider.processInput();
-      slider.renderSlider(canvas);
-    });
 
     // save area for settings
     CanvasUtil.drawRectangle(canvas, startX + width / 4 - width / 12, startY + height * 2.13, width / 6, canvas.height * 0.035, 255, 255, 255, 0.4, 3, 10);
@@ -213,6 +209,11 @@ export default class UI {
 
     CanvasUtil.fillRectangle(canvas, startX + width / 1.9, canvas.height * 0.49, width / 2.1, height * 1.2, 0, 0, 0, 0.3, 10);
     this.renderGraph(canvas);
+
+    UI.sliders.forEach((slider) => {
+      slider.processInput();
+      slider.renderSlider(canvas);
+    });
   }
 
   /**
