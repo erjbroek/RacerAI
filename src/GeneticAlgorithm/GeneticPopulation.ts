@@ -234,8 +234,8 @@ export default class GeneticPopulation {
     // Sort cars by fitness
     this.sortPlayersByFitness();
 
-    // Determine the top performers (top 10%)
-    const topPercentage = 0.1;
+    // Determine the top performers (top 50%)
+    const topPercentage = 0.5;
     const topCount = Math.ceil(this.size * topPercentage);
     const topPerformers = this.cars.slice(0, topCount);
 
@@ -258,7 +258,7 @@ export default class GeneticPopulation {
 
     // Generate the rest of the new generation, potentially mutating their moves
     while (this.cars.length < this.size) {
-      const randomCar = playerPool[Math.floor(Math.random() * playerPool.length)];
+      const randomCar = playerPool[Math.floor(Math.random() * (playerPool.length))];
       const newCar = new GeneticCar(this.track.midPoint, this.startingRotation, randomCar.moves, this.amountMoves, randomCar.position);
 
       if (Math.random() < 0.6) {

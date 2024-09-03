@@ -134,7 +134,7 @@ export default class GeneticPopulation {
             });
         }
         this.sortPlayersByFitness();
-        const topPercentage = 0.1;
+        const topPercentage = 0.5;
         const topCount = Math.ceil(this.size * topPercentage);
         const topPerformers = this.cars.slice(0, topCount);
         const maxFitness = this.cars[0].fitness;
@@ -149,7 +149,7 @@ export default class GeneticPopulation {
             this.cars.push(new GeneticCar(this.track.midPoint, this.startingRotation, car.moves, this.amountMoves, car.position));
         });
         while (this.cars.length < this.size) {
-            const randomCar = playerPool[Math.floor(Math.random() * playerPool.length)];
+            const randomCar = playerPool[Math.floor(Math.random() * (playerPool.length))];
             const newCar = new GeneticCar(this.track.midPoint, this.startingRotation, randomCar.moves, this.amountMoves, randomCar.position);
             if (Math.random() < 0.6) {
                 newCar.moves = randomCar.mutateMoves(randomCar.moves);
