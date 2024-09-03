@@ -189,7 +189,7 @@ export default class UI {
             [Statistics.highest, Statistics.lowest] = [10000, 0];
         }
         else if (Statistics.performanceHistory.length === 1) {
-            [Statistics.highest, Statistics.lowest] = [Statistics.performanceHistory[0][0] * 1.4, Statistics.performanceHistory[0][0] / 1.4];
+            [Statistics.highest, Statistics.lowest] = [Statistics.performanceHistory[0][0] * 1.4, 0];
         }
         else {
             Statistics.highest = -Infinity;
@@ -197,7 +197,7 @@ export default class UI {
             Statistics.performanceHistory.forEach((entry) => {
                 const time = entry[0];
                 Statistics.highest = Math.max(time, Statistics.highest);
-                Statistics.lowest = Math.min(time, Statistics.lowest);
+                Statistics.lowest = Math.min(time, 0);
             });
         }
         CanvasUtil.fillRectangle(canvas, left, top, width, height, 0, 0, 0, 1, 5);
