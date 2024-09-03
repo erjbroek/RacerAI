@@ -475,7 +475,8 @@ export default class NetPopulation {
     if (UI.openSettings) {
       UI.renderSettings(canvas, this.generation, this.track);
       this.statistics.renderNetwork(this.cars, canvas);
+    } else {
+      CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.143, 'left', 'system-ui', 20, 'lightgray');
     }
-    CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.143, 'left', 'system-ui', 20, 'lightgray');
   }
 }
