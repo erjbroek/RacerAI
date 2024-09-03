@@ -54,7 +54,8 @@ export default class GeneticAlgorithm extends Scene {
     }
     render(canvas) {
         canvas.style.cursor = 'default';
-        CanvasUtil.fillCanvas(canvas, 'white');
+        CanvasUtil.fillCanvas(canvas, 'black');
+        CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 1, 20);
         this.track.render(canvas);
         UI.renderUI(canvas);
         if (this.startSimulation) {
