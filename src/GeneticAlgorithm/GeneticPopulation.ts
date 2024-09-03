@@ -231,20 +231,26 @@ export default class GeneticPopulation {
       });
     }
 
-    // Sort cars by fitness
-    this.sortPlayersByFitness();
-
     // Determine the top performers (top 50%)
     const topPercentage = 0.5;
     const topCount = Math.ceil(this.size * topPercentage);
     const topPerformers = this.cars.slice(0, topCount);
 
+
     // Normalize fitness and populate the player pool
     const maxFitness = this.cars[0].fitness;
+
     this.cars.forEach((car) => {
-      car.fitness /= maxFitness;
-      for (let i = 0; i < Math.floor((car.fitness * 6) ** 2.5); i++) {
-        playerPool.push(car);
+      if (maxFitness !== 0) {
+        car.fitness /= maxFitness;
+        for (let i = 0; i < Math.floor((car.fitness * 6) ** 2.5); i++) {
+          playerPool.push(car);
+        }
+      } else {
+        // in the case that all cars died
+        for (let i = 0; i < 1; i++) {
+          playerPool.push(car);
+        }
       }
     });
 
@@ -281,7 +287,7 @@ export default class GeneticPopulation {
     const bottom: number = top + height;
     const left: number = canvas.width * 0.866;
 
-    CanvasUtil.writeText(canvas, "Fitness each generation", left + width / 2.4, canvas.height * 0.535, "center", "system-ui", 20, "white");
+    CanvasUtil.writeText(canvas, "Fitness each generation", canvas.width * 0.91, canvas.height * 0.555, "center", "system-ui", 20, "darkwhite");
     if (this.performanceHistory.length === 0) {
       CanvasUtil.writeText(canvas, "(No data yet)", left + width / 2.4, canvas.height * 0.56, "center", "system-ui", 15, "lightgray");
       [this.highest, this.lowest] = [500, 0];
