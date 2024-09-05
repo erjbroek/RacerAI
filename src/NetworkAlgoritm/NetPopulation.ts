@@ -90,7 +90,9 @@ export default class NetPopulation {
   }
 
   /**
-   *
+   * speciates car into species.
+   * similar cars get put into similar species
+   * this way, diversity between the population is promoted, and makes sure cars get less stuck in local minima
    */
   public speciate() {
     this.species = [];
@@ -168,7 +170,7 @@ export default class NetPopulation {
   }
 
   /**
-   *
+   * sorts players/ cars and species based on their fitnes
    */
   private sortPlayers() {
     this.species.forEach((species) => {
@@ -379,6 +381,7 @@ export default class NetPopulation {
   }
 
   /**
+   * updates the values of the car lines
    *
    * @param elapsed
    */
@@ -393,6 +396,7 @@ export default class NetPopulation {
   }
 
   /**
+   * renders the lines that the car follow, so the player can see the path the car has taken more easily
    *
    * @param canvas is the canvas the element are rendered to
    */
@@ -411,7 +415,7 @@ export default class NetPopulation {
   }
 
   /**
-   * Render the population
+   * Render the population + information to the canvas
    *
    * @param canvas is the selected canvas the items are drawn on
    */
