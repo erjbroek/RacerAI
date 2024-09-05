@@ -33,7 +33,7 @@ export default class UI {
   private static letChampionSurvive: boolean = true;
 
   /**
-   * loads all sliders into sliders array
+   * loads all sliders into sliders array so they can be loaded at once
    */
   public static loadSliders() {
     UI.sliders.push(new Slider(window.innerWidth * 0.42, window.innerHeight * 0.57, window.innerWidth * 0.127, Statistics.slightMutationRate, 0, 1, 'Small mutation rate', 'The chance in % that a gene <br>mutates, and randomly gets <br>increased or decreased by <br> something between 12.5% <br>and -12.5%.', '%'));
@@ -43,7 +43,7 @@ export default class UI {
   }
 
   /**
-   * processes user input
+   * processes user input (mouse and keyboard input)
    */
   public static processInput() {
     // settings
@@ -90,8 +90,8 @@ export default class UI {
 
   /**
    * @param canvas is the canvas to render on
-   * @param generation
-   * @param track
+   * @param generation is the current generation number
+   * @param track is the track, so it can be rendered as miniature version in the settings
    */
   public static renderSettings(canvas: HTMLCanvasElement, generation: number, track: Track) {
     CanvasUtil.fillRectangleWithGradient(
@@ -218,8 +218,8 @@ export default class UI {
 
   /**
    *
-   * @param canvas
-   * @param track
+   * @param canvas is the selected canvas to render to
+   * @param track is the track used for the preview
    */
   public static renderTrackPreview(canvas: HTMLCanvasElement, track: Track) {
     const startX: number = canvas.width * 0.4;
@@ -239,6 +239,7 @@ export default class UI {
   }
 
   /**
+   * renders the performance graph, so you can see performance over time
    *
    * @param canvas is the canvas to render on
    */
@@ -301,6 +302,7 @@ export default class UI {
   }
 
   /**
+   * renders basic UI elements
    *
    * @param canvas is the canvas to render on
    */
@@ -313,6 +315,7 @@ export default class UI {
   }
 
   /**
+   * renders settings and pauze button
    *
    * @param canvas
    */
@@ -354,6 +357,7 @@ export default class UI {
   }
 
   /**
+   * renders the track on the given canvas
    *
    * @param canvas is the canvas to render on
    * @param track is the track to render
