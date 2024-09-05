@@ -278,6 +278,7 @@ export default class GeneticPopulation {
   }
 
   /**
+   * renders performance in a graph, so you can see performance over time
    *
    * @param canvas is the canvas to render on
    */
@@ -342,6 +343,7 @@ export default class GeneticPopulation {
   }
 
   /**
+   *renders cars, current generation, cars alive and fitness record
    *
    * @param canvas is the selected canvas the items are drawn on
    */
