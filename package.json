@@ -10,6 +10,7 @@
     "watch": "tsc --watch "
   },
   "devDependencies": {
+    "vite": "^5.4.3",
     "@types/three": "^0.167.1",
     "@typescript-eslint/eslint-plugin": "^5.29.0",
     "@typescript-eslint/parser": "^5.29.0",
@@ -26,6 +27,6 @@
   },
   "dependencies": {
     "neataptic": "^1.4.7",
-    "three": "^0.167.1"
+    "three": "^0.168.0"
   }
 }

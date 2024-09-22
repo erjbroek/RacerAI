@@ -289,7 +289,7 @@ export default class NetCar extends Car {
       const radianAngle = (angle * Math.PI) / 180;
       const endX = this.posX + distance * Math.cos(radianAngle);
       const endY = this.posY + distance * Math.sin(radianAngle);
-      // CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.3);
+      CanvasUtil.drawLine(canvas, this.posX, this.posY, endX, endY, 0, 255, 0, 1, 0.4);
     });
   }
 }
