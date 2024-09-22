@@ -4,6 +4,7 @@
 
 ![Demo](demo.gif)
 
+
 RacerAI is a game where AI-driven cars learn to race on user-designed tracks through evolving machine learning algorithms.
 
 
@@ -16,7 +17,7 @@ This project that merges playing games with machine learning, allowing users to 
 <br><br>
 ## Features
 
-- **Track Drawer**: Design and customize your own racing tracks, making it possible to make the race however you want. From loops to a track in the shape of a duck, it's all possible.
+- **Track Drawer**: Design and customize your own racing tracks, making it possible to make the race however you want. You can even make a track with loops or in the shape of a duck
 
 <br>
  
