@@ -12,7 +12,6 @@ RacerAI is a game where AI-driven cars learn to race on user-designed tracks thr
 <br>
 This project that merges playing games with machine learning, allowing users to design their own racing tracks and watch as AI-driven cars learn to navigate them more effectively over time. The project uses genetic algorithms and simple neural networks, to evolve the cars' behavior and improve their racing strategies. The appearance of the cars even adapts as they evolve, providing a visual representation of their learning process.
 <br><br>
-<img src="https://github.com/user-attachments/assets/8b29f704-2620-4b5e-80ac-5cb35ef20afa" width=800></img>
 
 <br><br>
 ## Features
