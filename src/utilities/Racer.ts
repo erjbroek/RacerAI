@@ -22,8 +22,17 @@ export default class Racer extends Game {
     this.keyListener = new KeyListener();
     this.mouseListener = new MouseListener(canvas);
     CanvasUtil.setCanvas(this.canvas);
+    window.addEventListener('resize', () => this.onWindowResize(), false);
 
     this.currentScene = new DrawTrack();
+  }
+
+  /**
+   * Automatically adjusts scene size/aspect if window is resized
+   */
+  public onWindowResize() {
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
   }
 
   /**

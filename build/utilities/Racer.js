@@ -16,7 +16,12 @@ export default class Racer extends Game {
         this.keyListener = new KeyListener();
         this.mouseListener = new MouseListener(canvas);
         CanvasUtil.setCanvas(this.canvas);
+        window.addEventListener('resize', () => this.onWindowResize(), false);
         this.currentScene = new DrawTrack();
+    }
+    onWindowResize() {
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
     }
     processInput() {
         this.currentScene.processInput(this.keyListener);
