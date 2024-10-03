@@ -1,3 +1,4 @@
+import KeyListener from '../utilities/KeyListener.js';
 import Car from '../Car.js';
 import Track from '../Track.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
@@ -38,12 +39,32 @@ export default class Usercar extends Car {
    *
    * @param elapsed is the elapsed time that has passed since each frame
    */
-  public override update(elapsed: number): void {
+  public override update(elapsed: number, track: Track): void {
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
 
+    // friction
     this.xSpeed *= 0.98;
     this.ySpeed *= 0.98;
+
+    if (KeyListener.isKeyDown('KeyW') || KeyListener.isKeyDown('ArrowUp')) {
+      this.accelerate();
+    } else if (KeyListener.isKeyDown('KeyS') || KeyListener.isKeyDown('ArrowDown')) {
+      this.brake();
+    }
+
+    if (KeyListener.isKeyDown('KeyA') || KeyListener.isKeyDown('ArrowLeft')) {
+      this.rotateLeft();
+    } else if (KeyListener.isKeyDown('KeyD') || KeyListener.isKeyDown('ArrowRight')) {
+      this.rotateRight();
+    }
+    if (track.checkCollisionWithTrack(this)) {
+      this.posX += (this.xSpeed / 7) * elapsed;
+      this.posY += (this.ySpeed / 7) * elapsed;
+    } else {
+      this.posX += (this.xSpeed / 14) * elapsed;
+      this.posY += (this.ySpeed / 14) * elapsed;
+    }
   }
 
   /**

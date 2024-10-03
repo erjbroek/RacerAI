@@ -1,4 +1,5 @@
 import CanvasUtil from './utilities/CanvasUtil.js';
+import DrawTrack from './scenes/DrawTrack.js';
 export default class Track {
     road;
     deathPositions = [];
@@ -106,7 +107,7 @@ export default class Track {
     }
     render(canvas) {
         this.road.forEach((trackPiece) => {
-            CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 0, 0, 1);
+            CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius + (this.radius * 0.15 * Number(DrawTrack.racing)), 20 / (trackPiece[2] + 0.1), 0, 0, 1);
         });
         CanvasUtil.fillCircle(canvas, this.lineStart[0], this.lineStart[1], 10, 255, 0, 0, 1);
         CanvasUtil.fillCircle(canvas, this.lineEnd[0], this.lineEnd[1], 10, 255, 0, 0, 1);

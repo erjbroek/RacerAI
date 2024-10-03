@@ -1,3 +1,4 @@
+import KeyListener from '../utilities/KeyListener.js';
 import Car from '../Car.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Usercar extends Car {
@@ -22,11 +23,31 @@ export default class Usercar extends Car {
         this.xSpeed = 0;
         this.ySpeed = 0;
     }
-    update(elapsed) {
+    update(elapsed, track) {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
+        if (KeyListener.isKeyDown('KeyW') || KeyListener.isKeyDown('ArrowUp')) {
+            this.accelerate();
+        }
+        else if (KeyListener.isKeyDown('KeyS') || KeyListener.isKeyDown('ArrowDown')) {
+            this.brake();
+        }
+        if (KeyListener.isKeyDown('KeyA') || KeyListener.isKeyDown('ArrowLeft')) {
+            this.rotateLeft();
+        }
+        else if (KeyListener.isKeyDown('KeyD') || KeyListener.isKeyDown('ArrowRight')) {
+            this.rotateRight();
+        }
+        if (track.checkCollisionWithTrack(this)) {
+            this.posX += (this.xSpeed / 7) * elapsed;
+            this.posY += (this.ySpeed / 7) * elapsed;
+        }
+        else {
+            this.posX += (this.xSpeed / 14) * elapsed;
+            this.posY += (this.ySpeed / 14) * elapsed;
+        }
     }
     render(canvas) {
         CanvasUtil.drawCar(canvas, this.posX, this.posY, this.width, this.height, this.rotation, 255, 0, 0, 1, true);

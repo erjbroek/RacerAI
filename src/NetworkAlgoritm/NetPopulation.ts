@@ -6,6 +6,7 @@ import DisplayCar from './DisplayCar.js';
 import NetCar from './NetCar.js';
 import Statistics from './Statistics.js';
 import Usercar from './Usercar.js';
+import DrawTrack from '../scenes/DrawTrack.js';
 
 export default class NetPopulation {
   public cars: NetCar[] = [];
@@ -39,8 +40,6 @@ export default class NetPopulation {
   public usercar: Usercar;
 
   public statistics: Statistics = new Statistics();
-
-  public racing: boolean = true;
 
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = size;
@@ -317,10 +316,10 @@ export default class NetPopulation {
    */
   public update(elapsed: number) {
     if (KeyListener.isKeyDown('Delete')) {
-      this.racing = !this.racing;
+      DrawTrack.racing = !DrawTrack.racing;
     }
-    if (this.racing) {
-      this.usercar.update(elapsed);
+    if (DrawTrack.racing) {
+      this.usercar.update(elapsed, this.track);
     }
 
     if (!this.finished) {
@@ -433,7 +432,7 @@ export default class NetPopulation {
    * @param canvas is the selected canvas the items are drawn on
    */
   public render(canvas: HTMLCanvasElement) {
-    if (this.racing) {
+    if (DrawTrack.racing) {
       this.usercar.render(canvas);
     }
     if (this.statistics.renderRacingLines) {

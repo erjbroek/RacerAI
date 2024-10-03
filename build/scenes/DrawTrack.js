@@ -17,6 +17,7 @@ export default class DrawTrack extends Scene {
     valid = false;
     checked = false;
     renderUI = new UI();
+    static racing = true;
     constructor() {
         super();
     }
@@ -134,7 +135,7 @@ export default class DrawTrack extends Scene {
         if (this.draw) {
             this.track.push([MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, 0]);
         }
-        CanvasUtil.fillCircle(canvas, MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, this.radius, 0, 0, 30, 0.3);
+        CanvasUtil.fillCircle(canvas, MouseListener.mouseCoordinates.x, MouseListener.mouseCoordinates.y, this.radius + (this.radius * 0.15 * Number(DrawTrack.racing)), 0, 0, 30, 0.3);
         CanvasUtil.fillRectangle(canvas, canvas.width / 1.155, canvas.height / 12, canvas.width / 10, canvas.height / 20, 200, 50, 50, 1, 5);
         CanvasUtil.writeText(canvas, 'Delete track', canvas.width / 1.135, canvas.height / 8.5, 'left', 'system-ui', 25, 'white');
         if (this.track.length > 2 && this.drawWarning) {
