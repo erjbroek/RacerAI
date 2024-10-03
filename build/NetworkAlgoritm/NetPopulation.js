@@ -25,6 +25,7 @@ export default class NetPopulation {
     statistics = new Statistics();
     raceCountdown = 5000;
     startCountdown = false;
+    ai;
     constructor(size, track, startingPoint, startingAngle) {
         this.size = size;
         Statistics.size = size;
@@ -38,6 +39,7 @@ export default class NetPopulation {
             this.cars.push(new NetCar(startingPoint, startingAngle, genome, biases));
         }
         this.usercar = new Usercar(startingPoint, startingAngle);
+        this.ai = new NetCar(startingPoint, startingAngle, this.cars[0].genome, this.cars[0].biases);
         this.track.road.forEach((road) => {
             road[2] = 1;
         });
@@ -197,65 +199,69 @@ export default class NetPopulation {
             if (DrawTrack.racing) {
                 this.startCountdown = true;
                 this.raceCountdown = 5000;
+                this.usercar = new Usercar(this.startingPoint, this.startingAngle);
+                this.ai = new NetCar(this.startingPoint, this.startingAngle, this.champions[0].genome, this.champions[0].biases);
             }
         }
         if (DrawTrack.racing) {
             if (this.startCountdown) {
                 this.raceCountdown -= elapsed;
-                this.usercar = new Usercar(this.startingPoint, this.startingAngle);
             }
             if (this.raceCountdown <= 0) {
                 this.startCountdown = false;
                 this.usercar.update(elapsed, this.track);
+                this.ai.update(elapsed, this.track);
             }
         }
         if (!this.finished) {
             this.trackTime += elapsed;
         }
-        this.cars.forEach((car) => {
-            car.alive = this.track.checkCollisionWithTrack(car);
-            if (car.timeSinceLastLap >= 15000) {
-                car.alive = false;
-            }
-            if (car.laps >= 5) {
-                car.finished = true;
-                car.alive = false;
-                if (car.raceDuration < Statistics.record && car.leftStartLine) {
-                    Statistics.record = car.raceDuration;
-                    Statistics.bestGen = this.generation;
-                    Statistics.recordCar.genome = car.genome;
-                    this.statistics.recordHistory.push([Statistics.record, Statistics.bestGen, new DisplayCar(car.genome)]);
+        if (this.raceCountdown >= 0) {
+            this.cars.forEach((car) => {
+                car.alive = this.track.checkCollisionWithTrack(car);
+                if (car.timeSinceLastLap >= 15000) {
+                    car.alive = false;
                 }
-                if (!this.statistics.addedToHistory && car.leftStartLine) {
-                    this.finished = true;
-                    Statistics.performanceHistory.push([this.trackTime, this.generation, new DisplayCar(car.genome)]);
-                    this.statistics.addedToHistory = true;
+                if (car.laps >= 5) {
+                    car.finished = true;
+                    car.alive = false;
+                    if (car.raceDuration < Statistics.record && car.leftStartLine) {
+                        Statistics.record = car.raceDuration;
+                        Statistics.bestGen = this.generation;
+                        Statistics.recordCar.genome = car.genome;
+                        this.statistics.recordHistory.push([Statistics.record, Statistics.bestGen, new DisplayCar(car.genome)]);
+                    }
+                    if (!this.statistics.addedToHistory && car.leftStartLine) {
+                        this.finished = true;
+                        Statistics.performanceHistory.push([this.trackTime, this.generation, new DisplayCar(car.genome)]);
+                        this.statistics.addedToHistory = true;
+                    }
                 }
-            }
-            if (car.alive) {
-                car.raceDuration += elapsed;
-                car.timeSinceLastLap += elapsed;
-                if (car.raceDuration >= 1700) {
-                    if (this.track.checkCrossingFinishLine(car)) {
-                        if (!car.crossingFinishLine && car.leftStartLine) {
-                            car.laps += 1;
-                            car.crossingFinishLine = true;
-                            car.timeSinceLastLap = 0;
-                            Statistics.currentHighestLaps = Math.max(Statistics.currentHighestLaps, car.laps);
+                if (car.alive) {
+                    car.raceDuration += elapsed;
+                    car.timeSinceLastLap += elapsed;
+                    if (car.raceDuration >= 1700) {
+                        if (this.track.checkCrossingFinishLine(car)) {
+                            if (!car.crossingFinishLine && car.leftStartLine) {
+                                car.laps += 1;
+                                car.crossingFinishLine = true;
+                                car.timeSinceLastLap = 0;
+                                Statistics.currentHighestLaps = Math.max(Statistics.currentHighestLaps, car.laps);
+                            }
+                        }
+                        else {
+                            car.crossingFinishLine = false;
                         }
                     }
-                    else {
-                        car.crossingFinishLine = false;
-                    }
+                    car.update(elapsed, this.track);
+                    car.updateDistance();
                 }
-                car.update(elapsed);
-                car.updateDistance();
-            }
-            else {
-                car.xSpeed = 0;
-                car.ySpeed = 0;
-            }
-        });
+                else {
+                    car.xSpeed = 0;
+                    car.ySpeed = 0;
+                }
+            });
+        }
         this.handleCarLines(elapsed);
         this.extinct = !this.cars.some((car) => car.alive);
         if (this.extinct) {
@@ -297,17 +303,21 @@ export default class NetPopulation {
         if (DrawTrack.racing) {
             if (this.raceCountdown <= 0) {
                 this.usercar.render(canvas);
+                this.ai.renderRays(canvas, this.track);
+                CanvasUtil.createNetCar(canvas, this.ai);
             }
         }
         if (this.statistics.renderRacingLines) {
             this.renderCarLines(canvas);
         }
-        this.cars.forEach((car) => {
-            if (car.alive) {
-                car.renderRays(canvas, this.track);
-                CanvasUtil.createNetCar(canvas, car);
-            }
-        });
+        if (this.raceCountdown >= 0) {
+            this.cars.forEach((car) => {
+                if (car.alive) {
+                    car.renderRays(canvas, this.track);
+                    CanvasUtil.createNetCar(canvas, car);
+                }
+            });
+        }
         if (!UI.openSettings) {
             CanvasUtil.writeText(canvas, `lap ${Statistics.currentHighestLaps} / 5`, canvas.width / 2.4, canvas.height / 8, 'center', 'system-ui', 30, 'black');
         }
@@ -359,7 +369,7 @@ export default class NetPopulation {
         }
         if (this.startCountdown) {
             if (this.raceCountdown <= 3000) {
-                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width / 2, canvas.height / 2, 'center', 'system-ui', 150, 'red', 600);
+                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width / 2, canvas.height / 2, 'center', 'system-ui', 300, 'red', 900);
             }
         }
     }

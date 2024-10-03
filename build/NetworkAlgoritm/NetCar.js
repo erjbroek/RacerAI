@@ -1,3 +1,4 @@
+import DrawTrack from '../scenes/DrawTrack.js';
 import Car from '../Car.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class NetCar extends Car {
@@ -110,14 +111,14 @@ export default class NetCar extends Car {
     sigmoid(x) {
         return 1 / (1 + Math.exp(-x));
     }
-    update(elapsed) {
+    update(elapsed, track) {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.feedForward(this.rayLengths);
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
         const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-        if (distanceFromStart > 120) {
+        if (distanceFromStart > (120 + (track.radius * 0.15 * Number(DrawTrack.racing)))) {
             this.leftStartLine = true;
         }
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) <= 0.55) {

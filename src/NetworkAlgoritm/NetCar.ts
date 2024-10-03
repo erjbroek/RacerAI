@@ -1,3 +1,4 @@
+import DrawTrack from '../scenes/DrawTrack.js';
 import Car from '../Car.js';
 import Track from '../Track.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
@@ -192,7 +193,7 @@ export default class NetCar extends Car {
    *
    * @param elapsed is the elapsed time that has passed since each frame
    */
-  public override update(elapsed: number): void {
+  public override update(elapsed: number, track: Track): void {
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
     this.feedForward(this.rayLengths);
@@ -201,7 +202,7 @@ export default class NetCar extends Car {
 
     // used to punish cars that havent left the finish line
     const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
-    if (distanceFromStart > 120) {
+    if (distanceFromStart > (120 + (track.radius * 0.15 * Number(DrawTrack.racing)))) {
       this.leftStartLine = true;
     }
 

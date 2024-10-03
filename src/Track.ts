@@ -100,7 +100,7 @@ export default class Track {
       tracksInCell.forEach((trackIndex) => {
         const [trackX, trackY] = this.road[trackIndex];
         const distanceSquared = (car.posX - trackX) ** 2 + (car.posY - trackY) ** 2;
-        const minDistanceSquared = this.radius ** 2;
+        const minDistanceSquared = (this.radius + (this.radius * 0.15 * Number(DrawTrack.racing))) ** 2;
         if (distanceSquared < minDistanceSquared) {
           collisionOccured = true;
         }
