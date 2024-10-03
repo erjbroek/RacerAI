@@ -41,6 +41,10 @@ export default class NetPopulation {
 
   public statistics: Statistics = new Statistics();
 
+  public raceCountdown: number = 5000;
+
+  public startCountdown: boolean = false;
+
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = size;
     Statistics.size = size;
@@ -315,11 +319,21 @@ export default class NetPopulation {
    * @param elapsed is the elapsed time since last frame
    */
   public update(elapsed: number) {
-    if (KeyListener.isKeyDown('Delete')) {
-      DrawTrack.racing = !DrawTrack.racing;
+    if (KeyListener.keyPressed('Delete')) {
+      if (DrawTrack.racing) {
+        this.startCountdown = true;
+        this.raceCountdown = 5000;
+      }
     }
     if (DrawTrack.racing) {
-      this.usercar.update(elapsed, this.track);
+      if (this.startCountdown) {
+        this.raceCountdown -= elapsed;
+        this.usercar = new Usercar(this.startingPoint, this.startingAngle);
+      }
+      if (this.raceCountdown <= 0) {
+        this.startCountdown = false;
+        this.usercar.update(elapsed, this.track);
+      }
     }
 
     if (!this.finished) {
@@ -433,7 +447,9 @@ export default class NetPopulation {
    */
   public render(canvas: HTMLCanvasElement) {
     if (DrawTrack.racing) {
-      this.usercar.render(canvas);
+      if (this.raceCountdown <= 0) {
+        this.usercar.render(canvas);
+      }
     }
     if (this.statistics.renderRacingLines) {
       this.renderCarLines(canvas);
@@ -442,7 +458,6 @@ export default class NetPopulation {
       if (car.alive) {
         car.renderRays(canvas, this.track);
         CanvasUtil.createNetCar(canvas, car);
-        // CanvasUtil.drawNetCar(canvas, car);
       }
     });
     if (!UI.openSettings) {
@@ -496,6 +511,12 @@ export default class NetPopulation {
       this.statistics.renderNetwork(this.cars, canvas);
     } else {
       CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.143, 'left', 'system-ui', 20, 'lightgray');
+    }
+
+    if (this.startCountdown) {
+      if (this.raceCountdown <= 3000) {
+        CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width / 2, canvas.height / 2, 'center', 'system-ui', 150, 'red', 600);
+      }
     }
   }
 }

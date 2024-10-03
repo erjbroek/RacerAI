@@ -143,11 +143,9 @@ export default class Track {
     // Check if the car crosses the line segment
     if (this.doLineSegmentsIntersect(x1, y1, x2, y2, prevCarX, prevCarY, carX, carY)) {
       this.red = 255;
-      console.log("_________")
       return true;
     }
 
-    console.log("no")
     this.red = 0;
     return false; // Car has not crossed the finish line yet
   }

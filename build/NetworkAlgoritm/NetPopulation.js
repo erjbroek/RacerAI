@@ -23,6 +23,8 @@ export default class NetPopulation {
     addLocationTimer = 50;
     usercar;
     statistics = new Statistics();
+    raceCountdown = 5000;
+    startCountdown = false;
     constructor(size, track, startingPoint, startingAngle) {
         this.size = size;
         Statistics.size = size;
@@ -191,11 +193,21 @@ export default class NetPopulation {
         this.cars = this.nextGen;
     }
     update(elapsed) {
-        if (KeyListener.isKeyDown('Delete')) {
-            DrawTrack.racing = !DrawTrack.racing;
+        if (KeyListener.keyPressed('Delete')) {
+            if (DrawTrack.racing) {
+                this.startCountdown = true;
+                this.raceCountdown = 5000;
+            }
         }
         if (DrawTrack.racing) {
-            this.usercar.update(elapsed, this.track);
+            if (this.startCountdown) {
+                this.raceCountdown -= elapsed;
+                this.usercar = new Usercar(this.startingPoint, this.startingAngle);
+            }
+            if (this.raceCountdown <= 0) {
+                this.startCountdown = false;
+                this.usercar.update(elapsed, this.track);
+            }
         }
         if (!this.finished) {
             this.trackTime += elapsed;
@@ -283,7 +295,9 @@ export default class NetPopulation {
     }
     render(canvas) {
         if (DrawTrack.racing) {
-            this.usercar.render(canvas);
+            if (this.raceCountdown <= 0) {
+                this.usercar.render(canvas);
+            }
         }
         if (this.statistics.renderRacingLines) {
             this.renderCarLines(canvas);
@@ -342,6 +356,11 @@ export default class NetPopulation {
         }
         else {
             CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.143, 'left', 'system-ui', 20, 'lightgray');
+        }
+        if (this.startCountdown) {
+            if (this.raceCountdown <= 3000) {
+                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width / 2, canvas.height / 2, 'center', 'system-ui', 150, 'red', 600);
+            }
         }
     }
 }
