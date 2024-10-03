@@ -303,7 +303,7 @@ export default class NetPopulation {
         if (DrawTrack.racing) {
             if (this.raceCountdown <= 0) {
                 this.usercar.render(canvas);
-                this.ai.renderRays(canvas, this.track);
+                this.ai.castRays(this.track);
                 CanvasUtil.createNetCar(canvas, this.ai);
             }
         }
