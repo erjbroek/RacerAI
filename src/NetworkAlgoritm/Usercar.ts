@@ -47,6 +47,15 @@ export default class Usercar extends Car {
   }
 
   /**
+   * renders the usercar on the screen
+   *
+   * @param canvas is the sleected canvas to render the car to
+   */
+  public render(canvas: HTMLCanvasElement): void {
+    CanvasUtil.drawCar(canvas, this.posX, this.posY, this.width, this.height, this.rotation, 255, 0, 0, 1, true);
+  }
+
+  /**
    * rotates the car left
    */
   public rotateLeft() {

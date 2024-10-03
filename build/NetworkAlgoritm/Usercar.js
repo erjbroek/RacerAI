@@ -1,4 +1,5 @@
 import Car from '../Car.js';
+import CanvasUtil from '../utilities/CanvasUtil.js';
 export default class Usercar extends Car {
     checkAlive = 500;
     collided = false;
@@ -26,6 +27,9 @@ export default class Usercar extends Car {
         this.prevPosY = this.posY;
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
+    }
+    render(canvas) {
+        CanvasUtil.drawCar(canvas, this.posX, this.posY, this.width, this.height, this.rotation, 255, 0, 0, 1, true);
     }
     rotateLeft() {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {

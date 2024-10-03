@@ -5,6 +5,7 @@ import KeyListener from '../utilities/KeyListener.js';
 import DisplayCar from './DisplayCar.js';
 import NetCar from './NetCar.js';
 import Statistics from './Statistics.js';
+import Usercar from './Usercar.js';
 
 export default class NetPopulation {
   public cars: NetCar[] = [];
@@ -35,7 +36,11 @@ export default class NetPopulation {
 
   public addLocationTimer: number = 50;
 
+  public usercar: Usercar;
+
   public statistics: Statistics = new Statistics();
+
+  public racing: boolean = true;
 
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = size;
@@ -50,6 +55,7 @@ export default class NetPopulation {
       const [genome, biases]: [number[][], number[]] = [this.createInitialGenome()[0], this.createInitialGenome()[1]];
       this.cars.push(new NetCar(startingPoint, startingAngle, genome, biases));
     }
+    this.usercar = new Usercar(startingPoint, startingAngle);
 
     this.track.road.forEach((road) => {
       road[2] = 1;
@@ -310,6 +316,13 @@ export default class NetPopulation {
    * @param elapsed is the elapsed time since last frame
    */
   public update(elapsed: number) {
+    if (KeyListener.isKeyDown('Delete')) {
+      this.racing = !this.racing;
+    }
+    if (this.racing) {
+      this.usercar.update(elapsed);
+    }
+
     if (!this.finished) {
       this.trackTime += elapsed;
     }
@@ -420,6 +433,9 @@ export default class NetPopulation {
    * @param canvas is the selected canvas the items are drawn on
    */
   public render(canvas: HTMLCanvasElement) {
+    if (this.racing) {
+      this.usercar.render(canvas);
+    }
     if (this.statistics.renderRacingLines) {
       this.renderCarLines(canvas);
     }
