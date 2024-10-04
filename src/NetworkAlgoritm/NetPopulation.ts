@@ -7,6 +7,7 @@ import NetCar from './NetCar.js';
 import Statistics from './Statistics.js';
 import Usercar from './Usercar.js';
 import DrawTrack from '../scenes/DrawTrack.js';
+import MouseListener from '../utilities/MouseListener.js';
 
 export default class NetPopulation {
   public cars: NetCar[] = [];
@@ -50,6 +51,8 @@ export default class NetPopulation {
   public startCountdown: boolean = false;
 
   public ai: NetCar;
+
+  public showChoose: boolean = false;
 
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = size;
@@ -328,6 +331,7 @@ export default class NetPopulation {
   public update(elapsed: number) {
     if (KeyListener.keyPressed('Delete')) {
       if (DrawTrack.racing) {
+        this.showChoose = true;
         this.startCountdown = true;
         this.raceCountdown = 5000;
         this.usercar = new Usercar(this.startingPoint, this.startingAngle);
@@ -572,6 +576,31 @@ export default class NetPopulation {
       this.statistics.renderNetwork(this.cars, canvas);
     } else {
       CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.143, 'left', 'system-ui', 20, 'lightgray');
+    }
+
+    if (this.showChoose) {
+      const width = window.innerWidth * 0.2;
+      const height = window.innerHeight * 0.4;
+      let easyOpacity: number = 0.8;
+      let normalOpacity: number = 0.8;
+      let hardOpacity: number = 0.8;
+
+      if (MouseListener.mouseHover(window.innerWidth * 0.1, window.innerHeight * 0.3, width, height)) {
+        easyOpacity = 1;
+      }
+      if (MouseListener.mouseHover(window.innerWidth * 0.35, window.innerHeight * 0.3, width, height)) {
+        normalOpacity = 1;
+      }
+      if (MouseListener.mouseHover(window.innerWidth * 0.6, window.innerHeight * 0.3, width, height)) {
+        hardOpacity = 1;
+      }
+
+      CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.1, canvas.height * 0.3, width, height, [{ red: 70, green: 255, blue: 100, opacity: easyOpacity, stop: 0.5 }, { red: 0, green: 200, blue: 200, opacity: easyOpacity, stop: 1 }], 60, 20);
+      CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.35, canvas.height * 0.3, width, height, [{ red: 255, green: 255, blue: 50, opacity: normalOpacity, stop: 0.5 }, { red: 200, green: 100, blue: 0, opacity: normalOpacity, stop: 1 }], -80, 20);
+      CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.6, canvas.height * 0.3, width, height, [{ red: 255, green: 100, blue: 50, opacity: hardOpacity, stop: 0.5 }, { red: 200, green: 50, blue: 150, opacity: hardOpacity, stop: 1 }], 200, 20);
+      CanvasUtil.writeText(canvas, 'Makkelijk', canvas.width * 0.2, canvas.height * 0.4, 'center', 'system-ui', 50, 'black', 500);
+      CanvasUtil.writeText(canvas, 'Normaal', canvas.width * 0.45, canvas.height * 0.4, 'center', 'system-ui', 50, 'black', 500);
+      CanvasUtil.writeText(canvas, 'Moeilijk', canvas.width * 0.7, canvas.height * 0.4, 'center', 'system-ui', 50, 'black', 500);
     }
 
     if (this.startCountdown) {
