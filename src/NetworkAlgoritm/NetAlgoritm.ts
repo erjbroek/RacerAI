@@ -96,7 +96,6 @@ export default class NetAlgorithm extends Scene {
     UI.renderUI(canvas);
     this.track.render(canvas);
 
-
     if (!this.startSimulation) {
       if (!DrawTrack.racing) {
         CanvasUtil.fillRectangle(canvas, canvas.width - canvas.width / 7, canvas.height / 3, canvas.width / 8, canvas.height / 25, 200, 200, 200, 0.9, canvas.height / 50);

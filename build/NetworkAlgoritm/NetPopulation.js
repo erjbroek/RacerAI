@@ -200,8 +200,10 @@ export default class NetPopulation {
     }
     update(elapsed) {
         if (KeyListener.keyPressed('Delete')) {
+            console.log('click');
             if (this.champions.length > 0) {
                 if (DrawTrack.racing) {
+                    console.log('changed');
                     this.showChoose = !this.showChoose;
                 }
             }
@@ -216,6 +218,7 @@ export default class NetPopulation {
                 this.ai.update(elapsed, this.track, true);
                 if (this.track.checkCrossingFinishLine(this.ai)) {
                     if (!this.ai.crossingFinishLine && this.ai.leftStartLine) {
+                        new Audio('./assets/lap.wav').play();
                         this.ai.laps += 1;
                         this.ai.crossingFinishLine = true;
                         this.ai.timeSinceLastLap = 0;
@@ -227,6 +230,7 @@ export default class NetPopulation {
                 }
                 if (this.track.checkCrossingFinishLine(this.usercar)) {
                     if (!this.usercar.crossingFinishLine && this.usercar.leftStartLine) {
+                        new Audio('./assets/lap.wav').play();
                         this.usercar.laps += 1;
                         this.usercar.crossingFinishLine = true;
                         Statistics.currentHighestLaps = Math.max(Statistics.currentHighestLaps, this.usercar.laps);
@@ -241,12 +245,16 @@ export default class NetPopulation {
                 this.raceCountdown = 5000;
                 this.startCountdown = false;
                 this.startFinishCountdown = true;
+                this.usercar.laps = 0;
+                new Audio('./assets/win.wav').play();
             }
             else if (this.ai.laps >= 5) {
                 this.ai.finished = true;
                 this.raceCountdown = 5000;
                 this.startCountdown = false;
                 this.startFinishCountdown = true;
+                this.ai.laps = 0;
+                new Audio('./assets/loss.wav').play();
             }
             if (this.startFinishCountdown) {
                 this.finishCountdown -= elapsed;
@@ -411,6 +419,12 @@ export default class NetPopulation {
         }
         else {
             CanvasUtil.writeText(canvas, 'Customization & statistics ->', canvas.width * 0.66, canvas.height * 0.143, 'left', 'system-ui', 20, 'lightgray');
+        }
+        if (this.champions.length > 0) {
+            if (DrawTrack.racing) {
+                CanvasUtil.fillRectangle(canvas, canvas.width * 0.05, canvas.height * 0.1, canvas.width / 12, canvas.height / 8, 30, 100, 30, 0.4, 20);
+                CanvasUtil.drawRectangle(canvas, canvas.width * 0.05, canvas.height * 0.1, canvas.width / 12, canvas.height / 8, 30, 100, 30, 1, 3, 20);
+            }
         }
         if (this.showChoose) {
             let easyOpacity = 0.8;
