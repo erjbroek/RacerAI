@@ -21,7 +21,6 @@ export default class DrawTrack extends Scene {
     constructor() {
         super();
         this.radius += (this.radius * 0.16 * Number(DrawTrack.racing));
-        console.log(this.radius);
     }
     processInput(keyListener) {
         if (MouseListener.isButtonDown(0)) {

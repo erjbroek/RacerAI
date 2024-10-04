@@ -484,10 +484,10 @@ export default class NetPopulation {
         }
         if (this.startFinishCountdown) {
             if (this.usercar.finished) {
-                CanvasUtil.writeText(canvas, 'Gewonnen!', canvas.width * 0.43, canvas.height / 2.2, 'center', 'system-ui', 200, 'green', 300);
+                CanvasUtil.writeText(canvas, 'Gewonnen!', canvas.width * 0.43, canvas.height * 0.55, 'center', 'system-ui', 200, 'green', 300);
             }
             else if (this.ai.finished) {
-                CanvasUtil.writeText(canvas, 'Verloren', canvas.width * 0.43, canvas.height / 2.2, 'center', 'system-ui', 200, 'red', 300);
+                CanvasUtil.writeText(canvas, 'Verloren', canvas.width * 0.43, canvas.height * 0.55, 'center', 'system-ui', 200, 'red', 300);
             }
         }
     }

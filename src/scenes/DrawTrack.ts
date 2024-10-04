@@ -38,7 +38,10 @@ export default class DrawTrack extends Scene {
   public constructor() {
     super();
     this.radius += (this.radius * 0.16 * Number(DrawTrack.racing));
-    console.log(this.radius)
+    // const audio = new Audio('./assets/music.mp3');
+    // audio.volume = 0.5;
+    // audio.loop = true;
+    // audio.play();
   }
 
   /**
