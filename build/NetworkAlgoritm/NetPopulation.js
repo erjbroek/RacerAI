@@ -479,7 +479,7 @@ export default class NetPopulation {
         }
         if (this.startCountdown) {
             if (this.raceCountdown <= 3000) {
-                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width * 0.43, canvas.height / 2.2, 'center', 'system-ui', 300, 'red', 300);
+                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width * 0.43, canvas.height * 0.6, 'center', 'system-ui', 300, 'red', 400);
             }
         }
         if (this.startFinishCountdown) {
