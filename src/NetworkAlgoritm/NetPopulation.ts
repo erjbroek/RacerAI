@@ -330,8 +330,10 @@ export default class NetPopulation {
    */
   public update(elapsed: number) {
     if (KeyListener.keyPressed('Delete')) {
-      if (DrawTrack.racing) {
-        this.showChoose = !this.showChoose;
+      if (this.champions.length > 0) {
+        if (DrawTrack.racing) {
+          this.showChoose = !this.showChoose;
+        }
       }
     }
     if (DrawTrack.racing) {
@@ -503,7 +505,7 @@ export default class NetPopulation {
    */
   public render(canvas: HTMLCanvasElement) {
     if (DrawTrack.racing) {
-      if (this.raceCountdown <= 0) {
+      if (this.raceCountdown < 5000) {
         this.usercar.render(canvas);
         this.ai.castRays(this.track);
         CanvasUtil.createNetCar(canvas, this.ai);

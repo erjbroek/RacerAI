@@ -11,10 +11,11 @@ export default class Usercar extends Car {
     startingPoint = [0, 0];
     leftStartLine = false;
     locationHistory = [];
+    carImage = CanvasUtil.loadNewImage('./assets/racecar.png');
     constructor(startPoint, startAngle) {
         super();
         this.onFinishLine = false;
-        this.width = window.innerHeight / 40;
+        this.width = window.innerHeight / 40 * 3;
         this.height = window.innerHeight / 25;
         this.alive = true;
         this.prevPosX = 0;
@@ -56,7 +57,7 @@ export default class Usercar extends Car {
         }
     }
     render(canvas) {
-        CanvasUtil.drawCar(canvas, this.posX, this.posY, this.width, this.height, this.rotation, 255, 0, 0, 1, true);
+        CanvasUtil.drawImage(canvas, this.carImage, this.posX - this.width / 2, this.posY - this.height / 2, this.width, this.height, this.rotation - 90, 1);
     }
     rotateLeft() {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {

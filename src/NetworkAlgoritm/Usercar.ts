@@ -22,10 +22,12 @@ export default class Usercar extends Car {
   // used to render the lines behind the cars
   public locationHistory: number[][] = [];
 
+  public carImage: HTMLImageElement = CanvasUtil.loadNewImage('./assets/racecar.png');
+
   public constructor(startPoint: number[], startAngle: number) {
     super();
     this.onFinishLine = false;
-    this.width = window.innerHeight / 40;
+    this.width = window.innerHeight / 40 * 3;
     this.height = window.innerHeight / 25;
     this.alive = true;
     this.prevPosX = 0;
@@ -81,7 +83,8 @@ export default class Usercar extends Car {
    * @param canvas is the sleected canvas to render the car to
    */
   public render(canvas: HTMLCanvasElement): void {
-    CanvasUtil.drawCar(canvas, this.posX, this.posY, this.width, this.height, this.rotation, 255, 0, 0, 1, true);
+    // CanvasUtil.drawCar(canvas, this.posX, this.posY, this.width, this.height, this.rotation, 255, 0, 0, 1, true);
+    CanvasUtil.drawImage(canvas, this.carImage, this.posX - this.width / 2, this.posY - this.height / 2, this.width, this.height, this.rotation - 90, 1);
   }
 
   /**
