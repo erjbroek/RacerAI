@@ -54,6 +54,8 @@ export default class NetPopulation {
 
   public showChoose: boolean = false;
 
+  public playCountdown: boolean = false;
+
   public constructor(size: number, track: Track, startingPoint: number[], startingAngle: number) {
     this.size = size;
     Statistics.size = size;
@@ -329,21 +331,26 @@ export default class NetPopulation {
    * @param elapsed is the elapsed time since last frame
    */
   public update(elapsed: number) {
-    // canvas.width * 0.05, canvas.height * 0.1, canvas.width / 12, canvas.height / 8
-
-      if (KeyListener.keyPressed('Delete')) {
-        console.log('click')
-        if (this.champions.length > 0) {
-          if (DrawTrack.racing) {
-            console.log('changed')
-            this.showChoose = !this.showChoose;
-          }
+    if (KeyListener.keyPressed('Delete')) {
+      console.log('click')
+      if (this.champions.length > 0) {
+        if (DrawTrack.racing) {
+          console.log('changed')
+          this.showChoose = !this.showChoose;
+          this.playCountdown = true;
         }
       }
+    }
 
     if (DrawTrack.racing) {
       if (this.startCountdown) {
         this.raceCountdown -= elapsed;
+        if (this.raceCountdown <= 3500) {
+          if (this.playCountdown) {
+            new Audio('./assets/countdown.mp3').play();
+            this.playCountdown = false;
+          }
+        }
       }
       if (this.raceCountdown <= 0) {
         this.startCountdown = false;
@@ -611,6 +618,7 @@ export default class NetPopulation {
             this.usercar = new Usercar(this.startingPoint, this.startingAngle);
             this.ai = new NetCar(this.startingPoint, this.startingAngle, this.champions[0].genome, this.champions[0].biases, difficulty);
             this.showChoose = false;
+
           }
         }
         return opacity;

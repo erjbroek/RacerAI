@@ -30,6 +30,7 @@ export default class NetPopulation {
     startCountdown = false;
     ai;
     showChoose = false;
+    playCountdown = false;
     constructor(size, track, startingPoint, startingAngle) {
         this.size = size;
         Statistics.size = size;
@@ -205,12 +206,19 @@ export default class NetPopulation {
                 if (DrawTrack.racing) {
                     console.log('changed');
                     this.showChoose = !this.showChoose;
+                    this.playCountdown = true;
                 }
             }
         }
         if (DrawTrack.racing) {
             if (this.startCountdown) {
                 this.raceCountdown -= elapsed;
+                if (this.raceCountdown <= 3500) {
+                    if (this.playCountdown) {
+                        new Audio('./assets/countdown.mp3').play();
+                        this.playCountdown = false;
+                    }
+                }
             }
             if (this.raceCountdown <= 0) {
                 this.startCountdown = false;
