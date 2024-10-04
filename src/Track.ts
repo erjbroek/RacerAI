@@ -5,6 +5,7 @@ import Car from './Car.js';
 import NetCar from './NetworkAlgoritm/NetCar.js';
 import NetPopulation from './NetworkAlgoritm/NetPopulation.js';
 import DrawTrack from './scenes/DrawTrack.js';
+import Usercar from './NetworkAlgoritm/Usercar.js';
 
 export default class Track {
   public road: number[][];
@@ -132,7 +133,7 @@ export default class Track {
    * @param car is the selected car that the collision is checked for
    * @returns boolean
    */
-  public checkCrossingFinishLine(car: NetCar | GeneticCar): boolean {
+  public checkCrossingFinishLine(car: NetCar | GeneticCar | Usercar): boolean {
     const [x1, y1] = this.lineStart;
     const [x2, y2] = this.lineEnd;
 

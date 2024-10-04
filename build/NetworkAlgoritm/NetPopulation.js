@@ -211,12 +211,34 @@ export default class NetPopulation {
                 this.startCountdown = false;
                 this.usercar.update(elapsed, this.track);
                 this.ai.update(elapsed, this.track);
+                if (this.track.checkCrossingFinishLine(this.ai)) {
+                    if (!this.ai.crossingFinishLine && this.ai.leftStartLine) {
+                        this.ai.laps += 1;
+                        this.ai.crossingFinishLine = true;
+                        this.ai.timeSinceLastLap = 0;
+                        Statistics.currentHighestLaps = Math.max(Statistics.currentHighestLaps, this.ai.laps);
+                    }
+                }
+                else {
+                    this.ai.crossingFinishLine = false;
+                }
+                if (this.track.checkCrossingFinishLine(this.usercar)) {
+                    if (!this.usercar.crossingFinishLine && this.usercar.leftStartLine) {
+                        this.usercar.laps += 1;
+                        this.usercar.crossingFinishLine = true;
+                        Statistics.currentHighestLaps = Math.max(Statistics.currentHighestLaps, this.usercar.laps);
+                    }
+                }
+                else {
+                    this.usercar.crossingFinishLine = false;
+                }
+                console.log(this.usercar.laps);
             }
         }
         if (!this.finished) {
             this.trackTime += elapsed;
         }
-        if (this.raceCountdown >= 0) {
+        if (this.raceCountdown >= 5000) {
             this.cars.forEach((car) => {
                 car.alive = this.track.checkCollisionWithTrack(car);
                 if (car.timeSinceLastLap >= 15000) {
@@ -310,7 +332,7 @@ export default class NetPopulation {
         if (this.statistics.renderRacingLines) {
             this.renderCarLines(canvas);
         }
-        if (this.raceCountdown >= 0) {
+        if (this.raceCountdown >= 5000) {
             this.cars.forEach((car) => {
                 if (car.alive) {
                     car.renderRays(canvas, this.track);

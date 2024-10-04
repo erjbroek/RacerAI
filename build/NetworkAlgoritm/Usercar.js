@@ -1,6 +1,7 @@
 import KeyListener from '../utilities/KeyListener.js';
 import Car from '../Car.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
+import DrawTrack from '../scenes/DrawTrack.js';
 export default class Usercar extends Car {
     checkAlive = 500;
     collided = false;
@@ -8,6 +9,7 @@ export default class Usercar extends Car {
     laps = 0;
     crossingFinishLine = false;
     startingPoint = [0, 0];
+    leftStartLine = false;
     locationHistory = [];
     constructor(startPoint, startAngle) {
         super();
@@ -28,6 +30,10 @@ export default class Usercar extends Car {
         this.prevPosY = this.posY;
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
+        const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
+        if (distanceFromStart > (120 + (track.radius * 0.15 * Number(DrawTrack.racing)))) {
+            this.leftStartLine = true;
+        }
         if (KeyListener.isKeyDown('KeyW') || KeyListener.isKeyDown('ArrowUp')) {
             this.accelerate();
         }

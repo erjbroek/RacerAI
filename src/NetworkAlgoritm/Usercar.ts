@@ -2,6 +2,7 @@ import KeyListener from '../utilities/KeyListener.js';
 import Car from '../Car.js';
 import Track from '../Track.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
+import DrawTrack from '../scenes/DrawTrack.js';
 
 export default class Usercar extends Car {
   private checkAlive: number = 500;
@@ -15,6 +16,8 @@ export default class Usercar extends Car {
   public crossingFinishLine: boolean = false;
 
   public startingPoint: number[] = [0, 0];
+
+  public leftStartLine: boolean = false;
 
   // used to render the lines behind the cars
   public locationHistory: number[][] = [];
@@ -46,6 +49,11 @@ export default class Usercar extends Car {
     // friction
     this.xSpeed *= 0.98;
     this.ySpeed *= 0.98;
+
+    const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
+    if (distanceFromStart > (120 + (track.radius * 0.15 * Number(DrawTrack.racing)))) {
+      this.leftStartLine = true;
+    }
 
     if (KeyListener.isKeyDown('KeyW') || KeyListener.isKeyDown('ArrowUp')) {
       this.accelerate();
