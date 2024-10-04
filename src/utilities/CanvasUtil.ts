@@ -220,6 +220,37 @@ export default class CanvasUtil {
   }
 
   /**
+   * Draw a finish line with alternating black and white squares to the canvas
+   *
+   * @param canvas selected canvas
+   * @param x1 x position of the starting point of the finish line
+   * @param y1 y position of the starting point of the finish line
+   * @param x2 x position of the ending point of the finish line
+   * @param y2 y position of the ending point of the finish line
+   * @param squareSize the size of each square in the finish line
+   */
+  public static drawFinishLine(canvas: HTMLCanvasElement, x1: number, y1: number, x2: number, y2: number, squareSize: number = 10): void {
+    const ctx: CanvasRenderingContext2D = CanvasUtil.getCanvasContext(canvas);
+    const deltaX = x2 - x1;
+    const deltaY = y2 - y1;
+    const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    const angle = Math.atan2(deltaY, deltaX);
+
+    ctx.save();
+    ctx.translate(x1, y1);
+    ctx.rotate(angle);
+
+    for (let i = 0; i < length; i += squareSize) {
+      for (let j = -1; j <= 1; j += 2) { // Draw two rows of squares
+        ctx.fillStyle = ((i / squareSize) + (j + 1) / 2) % 2 === 0 ? 'black' : 'white';
+        ctx.fillRect(i, j * squareSize / 2, squareSize, squareSize);
+      }
+    }
+
+    ctx.restore();
+  }
+
+  /**
    * Draw a filled circle on the canvas
    *
    * @param canvas the canvas to draw to

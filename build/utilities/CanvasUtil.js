@@ -97,6 +97,23 @@ export default class CanvasUtil {
         ctx.lineTo(x2, y2);
         ctx.stroke();
     }
+    static drawFinishLine(canvas, x1, y1, x2, y2, squareSize = 10) {
+        const ctx = CanvasUtil.getCanvasContext(canvas);
+        const deltaX = x2 - x1;
+        const deltaY = y2 - y1;
+        const length = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        const angle = Math.atan2(deltaY, deltaX);
+        ctx.save();
+        ctx.translate(x1, y1);
+        ctx.rotate(angle);
+        for (let i = 0; i < length; i += squareSize) {
+            for (let j = -1; j <= 1; j += 2) {
+                ctx.fillStyle = ((i / squareSize) + (j + 1) / 2) % 2 === 0 ? 'black' : 'white';
+                ctx.fillRect(i, j * squareSize / 2, squareSize, squareSize);
+            }
+        }
+        ctx.restore();
+    }
     static fillCircle(canvas, centerX, centerY, radius, red = 255, green = 255, blue = 255, opacity = 1) {
         const ctx = CanvasUtil.getCanvasContext(canvas);
         ctx.beginPath();
