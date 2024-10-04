@@ -4,6 +4,7 @@ import Track from '../Track.js';
 import MouseListener from '../utilities/MouseListener.js';
 import NetPopulation from './NetPopulation.js';
 import UI from '../utilities/UI.js';
+import DrawTrack from '../scenes/DrawTrack.js';
 
 export default class NetAlgorithm extends Scene {
   private track: Track;
@@ -16,7 +17,7 @@ export default class NetAlgorithm extends Scene {
 
   private startAngle: number;
 
-  private populationSize: number = 100;
+  private populationSize: number = 30;
 
   private selectorPos: number[] = [window.innerWidth - window.innerWidth / 7.6, window.innerHeight / 3 + window.innerHeight / 50];
 
@@ -62,14 +63,23 @@ export default class NetAlgorithm extends Scene {
    */
   public override update(elapsed: number): Scene {
     // used for the slider to select population size
-    this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
-    if (!UI.pauzeGame) {
-      if (this.startSimulation) {
-        if (!this.triggered) {
-          this.triggered = true;
-          this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+    if (DrawTrack.racing) {
+      if (!this.triggered) {
+        this.startSimulation = true;
+        this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+        this.triggered = true;
+      }
+      this.population.update(elapsed)
+    } else {
+      this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
+      if (!UI.pauzeGame) {
+        if (this.startSimulation) {
+          if (!this.triggered) {
+            this.triggered = true;
+            this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+          }
+          this.population.update(elapsed);
         }
-        this.population.update(elapsed);
       }
     }
     return this;

@@ -3,13 +3,14 @@ import Scene from '../scenes/Scene.js';
 import MouseListener from '../utilities/MouseListener.js';
 import NetPopulation from './NetPopulation.js';
 import UI from '../utilities/UI.js';
+import DrawTrack from '../scenes/DrawTrack.js';
 export default class NetAlgorithm extends Scene {
     track;
     radius;
     population;
     startSimulation = false;
     startAngle;
-    populationSize = 100;
+    populationSize = 30;
     selectorPos = [window.innerWidth - window.innerWidth / 7.6, window.innerHeight / 3 + window.innerHeight / 50];
     populationSizePercentage = 1;
     triggered = false;
@@ -40,14 +41,24 @@ export default class NetAlgorithm extends Scene {
         }
     }
     update(elapsed) {
-        this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
-        if (!UI.pauzeGame) {
-            if (this.startSimulation) {
-                if (!this.triggered) {
-                    this.triggered = true;
-                    this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+        if (DrawTrack.racing) {
+            if (!this.triggered) {
+                this.startSimulation = true;
+                this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+                this.triggered = true;
+            }
+            this.population.update(elapsed);
+        }
+        else {
+            this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
+            if (!UI.pauzeGame) {
+                if (this.startSimulation) {
+                    if (!this.triggered) {
+                        this.triggered = true;
+                        this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
+                    }
+                    this.population.update(elapsed);
                 }
-                this.population.update(elapsed);
             }
         }
         return this;

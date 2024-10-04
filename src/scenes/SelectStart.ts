@@ -44,7 +44,7 @@ export default class SelectStart extends Scene {
    */
   public override processInput(keyListener: KeyListener): void {
     if (this.startScene) {
-      if (MouseListener.areaDown(0, window.innerWidth / 1.155, window.innerHeight / 1.2, window.innerWidth / 10, window.innerHeight / 12)) {
+      if (MouseListener.areaPressed(0, window.innerWidth / 1.155, window.innerHeight / 1.2, window.innerWidth / 10, window.innerHeight / 12)) {
         this.finished = true;
       } else {
         const found: number[][] = [];
@@ -127,6 +127,9 @@ export default class SelectStart extends Scene {
     });
     if (this.finished) {
       console.log(this.radius);
+      if (DrawTrack.racing) {
+        return new NetAlgorithm(this.track, this.radius);
+      }
       return new ChooseAlgoritm(this.track, this.radius);
     }
     return this;

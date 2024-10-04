@@ -2,7 +2,9 @@ import CanvasUtil from '../utilities/CanvasUtil.js';
 import MouseListener from '../utilities/MouseListener.js';
 import Scene from './Scene.js';
 import Track from '../Track.js';
+import NetAlgorithm from '../NetworkAlgoritm/NetAlgoritm.js';
 import ChooseAlgoritm from './ChooseAlgoritm.js';
+import DrawTrack from './DrawTrack.js';
 export default class SelectStart extends Scene {
     track;
     radius;
@@ -23,7 +25,7 @@ export default class SelectStart extends Scene {
     }
     processInput(keyListener) {
         if (this.startScene) {
-            if (MouseListener.areaDown(0, window.innerWidth / 1.155, window.innerHeight / 1.2, window.innerWidth / 10, window.innerHeight / 12)) {
+            if (MouseListener.areaPressed(0, window.innerWidth / 1.155, window.innerHeight / 1.2, window.innerWidth / 10, window.innerHeight / 12)) {
                 this.finished = true;
             }
             else {
@@ -97,6 +99,9 @@ export default class SelectStart extends Scene {
         });
         if (this.finished) {
             console.log(this.radius);
+            if (DrawTrack.racing) {
+                return new NetAlgorithm(this.track, this.radius);
+            }
             return new ChooseAlgoritm(this.track, this.radius);
         }
         return this;
