@@ -192,8 +192,10 @@ export default class NetCar extends Car {
    * updates the car's position, speeds and alive status
    *
    * @param elapsed is the elapsed time that has passed since each frame
+   * @param track is the track the car is driving on
+   * @param isAi is a boolean that checks if the car is controlled by the AI
    */
-  public override update(elapsed: number, track: Track): void {
+  public override update(elapsed: number, track: Track, isAi: boolean): void {
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
     this.feedForward(this.rayLengths);
@@ -212,8 +214,14 @@ export default class NetCar extends Car {
     if (this.checkAlive <= 0) {
       this.alive = false;
     }
-    this.posX += (this.xSpeed / 5) * elapsed;
-    this.posY += (this.ySpeed / 5) * elapsed;
+
+    if (isAi) {
+      this.posX += (this.xSpeed / 10) * elapsed;
+      this.posY += (this.ySpeed / 10) * elapsed;
+    } else {
+      this.posX += (this.xSpeed / 5) * elapsed;
+      this.posY += (this.ySpeed / 5) * elapsed;
+    }
   }
 
   /**

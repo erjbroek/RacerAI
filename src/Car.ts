@@ -23,5 +23,5 @@ export default abstract class Car {
 
   public prevPosY: number;
 
-  public abstract update(elapsed: number, track: Track): void;
+  public abstract update(elapsed: number, track: Track, isAi: boolean): void;
 }

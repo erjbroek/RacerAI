@@ -24,6 +24,8 @@ export default class NetPopulation {
     usercar;
     statistics = new Statistics();
     raceCountdown = 5000;
+    finishCountdown = 4000;
+    startFinishCountdown = false;
     startCountdown = false;
     ai;
     constructor(size, track, startingPoint, startingAngle) {
@@ -210,7 +212,7 @@ export default class NetPopulation {
             if (this.raceCountdown <= 0) {
                 this.startCountdown = false;
                 this.usercar.update(elapsed, this.track);
-                this.ai.update(elapsed, this.track);
+                this.ai.update(elapsed, this.track, true);
                 if (this.track.checkCrossingFinishLine(this.ai)) {
                     if (!this.ai.crossingFinishLine && this.ai.leftStartLine) {
                         this.ai.laps += 1;
@@ -232,6 +234,27 @@ export default class NetPopulation {
                 else {
                     this.usercar.crossingFinishLine = false;
                 }
+            }
+            if (this.usercar.laps >= 5) {
+                this.usercar.finished = true;
+                this.raceCountdown = 5000;
+                this.startCountdown = false;
+                this.startFinishCountdown = true;
+            }
+            else if (this.ai.laps >= 5) {
+                this.ai.finished = true;
+                this.raceCountdown = 5000;
+                this.startCountdown = false;
+                this.startFinishCountdown = true;
+            }
+            if (this.startFinishCountdown) {
+                this.finishCountdown -= elapsed;
+            }
+            if (this.finishCountdown <= 0) {
+                this.finishCountdown = 4000;
+                this.startFinishCountdown = false;
+                this.ai.laps = 0;
+                this.usercar.laps = 0;
             }
         }
         if (!this.finished) {
@@ -274,7 +297,7 @@ export default class NetPopulation {
                             car.crossingFinishLine = false;
                         }
                     }
-                    car.update(elapsed, this.track);
+                    car.update(elapsed, this.track, false);
                     car.updateDistance();
                 }
                 else {
@@ -390,7 +413,15 @@ export default class NetPopulation {
         }
         if (this.startCountdown) {
             if (this.raceCountdown <= 3000) {
-                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width / 2, canvas.height / 2, 'center', 'system-ui', 300, 'red', 900);
+                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width * 0.43, canvas.height / 2, 'center', 'system-ui', 300, 'red', 300);
+            }
+        }
+        if (this.startFinishCountdown) {
+            if (this.usercar.finished) {
+                CanvasUtil.writeText(canvas, 'Gewonnen!', canvas.width * 0.43, canvas.height / 2, 'center', 'system-ui', 200, 'green', 300);
+            }
+            else if (this.ai.finished) {
+                CanvasUtil.writeText(canvas, 'Verloren', canvas.width * 0.43, canvas.height / 2, 'center', 'system-ui', 200, 'red', 300);
             }
         }
     }

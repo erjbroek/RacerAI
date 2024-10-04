@@ -111,7 +111,7 @@ export default class NetCar extends Car {
     sigmoid(x) {
         return 1 / (1 + Math.exp(-x));
     }
-    update(elapsed, track) {
+    update(elapsed, track, isAi) {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
         this.feedForward(this.rayLengths);
@@ -127,8 +127,14 @@ export default class NetCar extends Car {
         if (this.checkAlive <= 0) {
             this.alive = false;
         }
-        this.posX += (this.xSpeed / 5) * elapsed;
-        this.posY += (this.ySpeed / 5) * elapsed;
+        if (isAi) {
+            this.posX += (this.xSpeed / 10) * elapsed;
+            this.posY += (this.ySpeed / 10) * elapsed;
+        }
+        else {
+            this.posX += (this.xSpeed / 5) * elapsed;
+            this.posY += (this.ySpeed / 5) * elapsed;
+        }
     }
     rotateLeft() {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {

@@ -67,11 +67,11 @@ export default class Usercar extends Car {
       this.rotateRight();
     }
     if (track.checkCollisionWithTrack(this)) {
-      this.posX += (this.xSpeed / 7) * elapsed;
-      this.posY += (this.ySpeed / 7) * elapsed;
+      this.posX += (this.xSpeed / 7.5) * elapsed;
+      this.posY += (this.ySpeed / 7.5) * elapsed;
     } else {
-      this.posX += (this.xSpeed / 14) * elapsed;
-      this.posY += (this.ySpeed / 14) * elapsed;
+      this.posX += (this.xSpeed / 20) * elapsed;
+      this.posY += (this.ySpeed / 20) * elapsed;
     }
   }
 
