@@ -17,8 +17,9 @@ export default class SelectStart extends Scene {
     finished = false;
     constructor(track, radius) {
         super();
-        this.track = new Track(track, radius);
         this.radius = radius;
+        console.log(this.radius);
+        this.track = new Track(track, radius);
     }
     processInput(keyListener) {
         if (this.startScene) {
@@ -95,6 +96,7 @@ export default class SelectStart extends Scene {
             }
         });
         if (this.finished) {
+            console.log(this.radius);
             return new ChooseAlgoritm(this.track, this.radius);
         }
         return this;

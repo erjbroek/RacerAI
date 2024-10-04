@@ -6,6 +6,7 @@ import Scene from './Scene.js';
 import Track from '../Track.js';
 import NetAlgorithm from '../NetworkAlgoritm/NetAlgoritm.js';
 import ChooseAlgoritm from './ChooseAlgoritm.js';
+import DrawTrack from './DrawTrack.js';
 
 export default class SelectStart extends Scene {
   private track: Track;
@@ -32,8 +33,9 @@ export default class SelectStart extends Scene {
 
   public constructor(track: number[][], radius: number) {
     super();
-    this.track = new Track(track, radius);
     this.radius = radius;
+    console.log(this.radius)
+    this.track = new Track(track, radius);
   }
 
   /**
@@ -98,15 +100,13 @@ export default class SelectStart extends Scene {
             this.warning = true;
           }
         }
-        // if (this.track.lineStart.length === 0) {
-        //   console.log('invalid');
-        // }
       }
     }
   }
 
   /**
    *
+   * @returns scene
    * @param elapsed
    */
   public override update(elapsed: number): Scene {
@@ -126,6 +126,7 @@ export default class SelectStart extends Scene {
       }
     });
     if (this.finished) {
+      console.log(this.radius);
       return new ChooseAlgoritm(this.track, this.radius);
     }
     return this;

@@ -101,7 +101,7 @@ export default class Track {
       tracksInCell.forEach((trackIndex) => {
         const [trackX, trackY] = this.road[trackIndex];
         const distanceSquared = (car.posX - trackX) ** 2 + (car.posY - trackY) ** 2;
-        const minDistanceSquared = (this.radius + (this.radius * 0.15 * Number(DrawTrack.racing))) ** 2;
+        const minDistanceSquared = this.radius ** 2;
         if (distanceSquared < minDistanceSquared) {
           collisionOccured = true;
         }
@@ -180,7 +180,7 @@ export default class Track {
    */
   public render(canvas: HTMLCanvasElement) {
     this.road.forEach((trackPiece) => {
-      CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius + (this.radius * 0.15 * Number(DrawTrack.racing)), 20 / (trackPiece[2] + 0.1), 0, 0, 1)
+      CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], this.radius, 20 / (trackPiece[2] + 0.1), 0, 0, 1)
     });
     CanvasUtil.fillCircle(canvas, this.lineStart[0], this.lineStart[1], 10, 255, 0, 0, 1);
     CanvasUtil.fillCircle(canvas, this.lineEnd[0], this.lineEnd[1], 10, 255, 0, 0, 1);

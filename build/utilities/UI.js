@@ -2,7 +2,6 @@ import MouseListener from './MouseListener.js';
 import CanvasUtil from './CanvasUtil.js';
 import Statistics from '../NetworkAlgoritm/Statistics.js';
 import Slider from './Slider.js';
-import DrawTrack from '../scenes/DrawTrack.js';
 export default class UI {
     static hoverPauze = false;
     static holdingPauze = false;
@@ -276,7 +275,7 @@ export default class UI {
         CanvasUtil.fillCanvas(canvas, 'black');
         CanvasUtil.fillRectangle(canvas, canvas.width / 30, canvas.height / 12, canvas.width - canvas.width / 5, canvas.height - canvas.height / 7.5, 255, 255, 255, 1, 20);
         track.forEach((trackPiece) => {
-            CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], radius + (radius * 0.15 * Number(DrawTrack.racing)), 20 / (trackPiece[2] + 0.1), 0, 0);
+            CanvasUtil.fillCircle(canvas, trackPiece[0], trackPiece[1], radius, 20 / (trackPiece[2] + 0.1), 0, 0);
         });
     }
 }

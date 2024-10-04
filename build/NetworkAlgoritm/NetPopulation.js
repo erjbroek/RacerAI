@@ -232,7 +232,6 @@ export default class NetPopulation {
                 else {
                     this.usercar.crossingFinishLine = false;
                 }
-                console.log(this.usercar.laps);
             }
         }
         if (!this.finished) {
