@@ -1,6 +1,5 @@
 import UI from '../utilities/UI.js';
 import CanvasUtil from '../utilities/CanvasUtil.js';
-import KeyListener from '../utilities/KeyListener.js';
 import DisplayCar from './DisplayCar.js';
 import NetCar from './NetCar.js';
 import Statistics from './Statistics.js';
@@ -31,6 +30,7 @@ export default class NetPopulation {
     ai;
     showChoose = false;
     playCountdown = false;
+    canClick = true;
     constructor(size, track, startingPoint, startingAngle) {
         this.size = size;
         Statistics.size = size;
@@ -200,15 +200,20 @@ export default class NetPopulation {
         this.cars = this.nextGen;
     }
     update(elapsed) {
-        if (KeyListener.keyPressed('Delete')) {
-            console.log('click');
-            if (this.champions.length > 0) {
-                if (DrawTrack.racing) {
-                    console.log('changed');
-                    this.showChoose = !this.showChoose;
-                    this.playCountdown = true;
+        if (MouseListener.mouseHover(window.innerWidth * 0.75, window.innerHeight * 0.78, window.innerWidth * 0.07, window.innerHeight * 0.14)) {
+            if (MouseListener.isButtonDown(0) && this.canClick) {
+                this.canClick = false;
+                if (this.champions.length > 0) {
+                    if (DrawTrack.racing) {
+                        console.log('changed');
+                        this.showChoose = !this.showChoose;
+                        this.playCountdown = true;
+                    }
                 }
             }
+        }
+        if (MouseListener.mouseUp) {
+            this.canClick = true;
         }
         if (DrawTrack.racing) {
             if (this.startCountdown) {
@@ -272,6 +277,7 @@ export default class NetPopulation {
                 this.startFinishCountdown = false;
                 this.ai.laps = 0;
                 this.usercar.laps = 0;
+                Statistics.currentHighestLaps = 0;
             }
         }
         if (!this.finished) {
@@ -430,8 +436,12 @@ export default class NetPopulation {
         }
         if (this.champions.length > 0) {
             if (DrawTrack.racing) {
-                CanvasUtil.fillRectangle(canvas, canvas.width * 0.05, canvas.height * 0.1, canvas.width / 12, canvas.height / 8, 30, 100, 30, 0.4, 20);
-                CanvasUtil.drawRectangle(canvas, canvas.width * 0.05, canvas.height * 0.1, canvas.width / 12, canvas.height / 8, 30, 100, 30, 1, 3, 20);
+                CanvasUtil.fillRectangle(canvas, canvas.width * 0.75, canvas.height * 0.78, canvas.width * 0.07, canvas.height * 0.14, 30, 100, 30, 0.4, 20);
+                CanvasUtil.drawRectangle(canvas, canvas.width * 0.75, canvas.height * 0.78, canvas.width * 0.07, canvas.height * 0.14, 30, 100, 30, 1, 3, 20);
+                CanvasUtil.writeText(canvas, 'Start race!!!', canvas.width * 0.785, canvas.height * 0.855, 'center', 'system-ui', 20, 'black', 500);
+                if (MouseListener.mouseHover(canvas.width * 0.75, canvas.height * 0.78, canvas.width * 0.07, canvas.height * 0.14)) {
+                    CanvasUtil.fillRectangle(canvas, canvas.width * 0.75, canvas.height * 0.78, canvas.width * 0.07, canvas.height * 0.14, 0, 0, 0, 0.2, 20);
+                }
             }
         }
         if (this.showChoose) {
@@ -469,15 +479,15 @@ export default class NetPopulation {
         }
         if (this.startCountdown) {
             if (this.raceCountdown <= 3000) {
-                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width * 0.43, canvas.height / 2, 'center', 'system-ui', 300, 'red', 300);
+                CanvasUtil.writeText(canvas, `${Math.ceil(this.raceCountdown / 1000)}`, canvas.width * 0.43, canvas.height / 2.2, 'center', 'system-ui', 300, 'red', 300);
             }
         }
         if (this.startFinishCountdown) {
             if (this.usercar.finished) {
-                CanvasUtil.writeText(canvas, 'Gewonnen!', canvas.width * 0.43, canvas.height / 2, 'center', 'system-ui', 200, 'green', 300);
+                CanvasUtil.writeText(canvas, 'Gewonnen!', canvas.width * 0.43, canvas.height / 2.2, 'center', 'system-ui', 200, 'green', 300);
             }
             else if (this.ai.finished) {
-                CanvasUtil.writeText(canvas, 'Verloren', canvas.width * 0.43, canvas.height / 2, 'center', 'system-ui', 200, 'red', 300);
+                CanvasUtil.writeText(canvas, 'Verloren', canvas.width * 0.43, canvas.height / 2.2, 'center', 'system-ui', 200, 'red', 300);
             }
         }
     }

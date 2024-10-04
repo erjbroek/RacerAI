@@ -92,7 +92,7 @@ export default class Usercar extends Car {
    */
   public rotateLeft() {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-      this.rotation -= 5;
+      this.rotation -= 3.5;
       this.updateSpeedWithRotation();
     }
   }
@@ -102,7 +102,7 @@ export default class Usercar extends Car {
    */
   public rotateRight() {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-      this.rotation += 5;
+      this.rotation += 3.5;
       this.updateSpeedWithRotation();
     }
   }

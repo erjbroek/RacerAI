@@ -5,6 +5,8 @@ export default class MouseListener {
     static mouseCoordinates = { x: 0, y: 0 };
     static buttonDown = {};
     static buttonQueried = {};
+    static buttonUp = {};
+    static mouseUp = false;
     constructor(canvas, disableContextMenu = false) {
         canvas.addEventListener('mousemove', (ev) => {
             MouseListener.mouseCoordinates = {
@@ -14,10 +16,13 @@ export default class MouseListener {
         });
         canvas.addEventListener('mousedown', (ev) => {
             MouseListener.buttonDown[ev.button] = true;
+            MouseListener.mouseUp = false;
         });
         canvas.addEventListener('mouseup', (ev) => {
             MouseListener.buttonDown[ev.button] = false;
             MouseListener.buttonQueried[ev.button] = false;
+            MouseListener.buttonUp[ev.button] = true;
+            MouseListener.mouseUp = true;
         });
         if (disableContextMenu) {
             canvas.addEventListener('contextmenu', (ev) => {

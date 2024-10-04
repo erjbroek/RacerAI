@@ -69,7 +69,9 @@ export default class NetAlgorithm extends Scene {
         this.population = new NetPopulation(this.populationSize, this.track, this.track.midPoint, this.startAngle);
         this.triggered = true;
       }
-      this.population.update(elapsed)
+      if (!UI.pauzeGame) {
+        this.population.update(elapsed)
+      }
     } else {
       this.populationSize = Math.floor(this.populationSizePercentage * 5) + 18;
       if (!UI.pauzeGame) {

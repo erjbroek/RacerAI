@@ -16,6 +16,10 @@ export default class MouseListener {
 
   private static buttonQueried: Record<number, boolean> = {};
 
+  private static buttonUp: Record<number, boolean> = {};
+
+  public static mouseUp: boolean = false;
+
   /**
    *
    * @param canvas the canvas element to which the relative coordinates should given
@@ -30,10 +34,13 @@ export default class MouseListener {
     });
     canvas.addEventListener('mousedown', (ev: MouseEvent) => {
       MouseListener.buttonDown[ev.button] = true;
+      MouseListener.mouseUp = false;
     });
     canvas.addEventListener('mouseup', (ev: MouseEvent) => {
       MouseListener.buttonDown[ev.button] = false;
       MouseListener.buttonQueried[ev.button] = false;
+      MouseListener.buttonUp[ev.button] = true;
+      MouseListener.mouseUp = true;
     });
     if (disableContextMenu) {
       canvas.addEventListener('contextmenu', (ev: MouseEvent) => {
@@ -53,7 +60,7 @@ export default class MouseListener {
   }
 
   /**
-   *
+   * Check if a button was pressed this frame.
    * @param buttonCode the mouse button to check
    * @returns `true` when the specified button was pressed
    */
