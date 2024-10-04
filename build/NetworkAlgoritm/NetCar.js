@@ -86,7 +86,7 @@ export default class NetCar extends Car {
         }
         return this.rayLength;
     }
-    feedForward(inputs) {
+    feedForward(inputs, isAi) {
         const outputLayer = [0, 0, 0, 0];
         this.genome.forEach((connection) => {
             const [inputIndex, outputIndex, weight, bias] = connection;
@@ -98,16 +98,16 @@ export default class NetCar extends Car {
         const turnActions = activatedOutputLayer.slice(0, 2);
         const speedActions = activatedOutputLayer.slice(2, 4);
         if (turnActions[0] > turnActions[1]) {
-            this.rotateLeft();
+            this.rotateLeft(isAi);
         }
         else if (turnActions[1] > turnActions[0]) {
-            this.rotateRight();
+            this.rotateRight(isAi);
         }
         if (speedActions[0] > speedActions[1]) {
-            this.accelerate();
+            this.accelerate(isAi);
         }
         else if (speedActions[1] > speedActions[0]) {
-            this.brake();
+            this.brake(isAi);
         }
     }
     sigmoid(x) {
@@ -116,7 +116,7 @@ export default class NetCar extends Car {
     update(elapsed, track, isAi) {
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
-        this.feedForward(this.rayLengths);
+        this.feedForward(this.rayLengths, isAi);
         this.xSpeed *= 0.98;
         this.ySpeed *= 0.98;
         const distanceFromStart = Math.sqrt((this.posX - this.startingPoint[0]) ** 2 + (this.posY - this.startingPoint[1]) ** 2);
@@ -129,24 +129,28 @@ export default class NetCar extends Car {
         if (this.checkAlive <= 0) {
             this.alive = false;
         }
-        if (isAi) {
-            this.posX += ((this.xSpeed / 10) * this.speed) * elapsed;
-            this.posY += ((this.ySpeed / 10) * this.speed) * elapsed;
-        }
-        else {
-            this.posX += (this.xSpeed / 5) * elapsed;
-            this.posY += (this.ySpeed / 5) * elapsed;
-        }
+        this.posX += (this.xSpeed / 5) * elapsed;
+        this.posY += (this.ySpeed / 5) * elapsed;
     }
-    rotateLeft() {
+    rotateLeft(isAi) {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-            this.rotation -= 5;
+            if (isAi) {
+                this.rotation -= 5 * this.speed;
+            }
+            else {
+                this.rotation -= 5;
+            }
             this.updateSpeedWithRotation();
         }
     }
-    rotateRight() {
+    rotateRight(isAi) {
         if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-            this.rotation += 5;
+            if (isAi) {
+                this.rotation += 5 * this.speed;
+            }
+            else {
+                this.rotation += 5;
+            }
             this.updateSpeedWithRotation();
         }
     }
@@ -156,17 +160,29 @@ export default class NetCar extends Car {
         this.xSpeed = speedMagnitude * Math.cos(radians);
         this.ySpeed = speedMagnitude * Math.sin(radians);
     }
-    accelerate() {
+    accelerate(isAi) {
         const deltaRotation = (this.rotation * Math.PI) / 180;
         const deltaX = Math.sin(deltaRotation);
         const deltaY = Math.cos(deltaRotation);
-        this.xSpeed += deltaX / 17;
-        this.ySpeed -= deltaY / 17;
+        if (isAi) {
+            this.xSpeed += (deltaX / 17) * this.speed;
+            this.ySpeed -= (deltaY / 17) * this.speed;
+        }
+        else {
+            this.xSpeed += deltaX / 17;
+            this.ySpeed -= deltaY / 17;
+        }
     }
-    brake() {
+    brake(isAi) {
         const brakeFactor = 1 - (1 - 0.6) / 20;
-        this.xSpeed *= brakeFactor;
-        this.ySpeed *= brakeFactor;
+        if (isAi) {
+            this.xSpeed *= brakeFactor * this.speed;
+            this.ySpeed *= brakeFactor * this.speed;
+        }
+        else {
+            this.xSpeed *= brakeFactor;
+            this.ySpeed *= brakeFactor;
+        }
     }
     updateDistance() {
         const distance = Math.abs(this.xSpeed) + Math.abs(this.ySpeed);

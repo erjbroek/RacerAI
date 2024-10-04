@@ -37,7 +37,7 @@ export default class DrawTrack extends Scene {
 
   public constructor() {
     super();
-    this.radius += (this.radius * 0.15 * Number(DrawTrack.racing));
+    this.radius += (this.radius * 0.16 * Number(DrawTrack.racing));
     console.log(this.radius)
   }
 

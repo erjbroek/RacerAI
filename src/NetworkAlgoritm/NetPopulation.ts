@@ -331,7 +331,7 @@ export default class NetPopulation {
   public update(elapsed: number) {
     if (KeyListener.keyPressed('Delete')) {
       if (DrawTrack.racing) {
-        this.showChoose = true;
+        this.showChoose = !this.showChoose;
       }
     }
     if (DrawTrack.racing) {
@@ -575,14 +575,15 @@ export default class NetPopulation {
     }
 
     if (this.showChoose) {
-      const width = window.innerWidth * 0.2;
-      const height = window.innerHeight * 0.4;
       let easyOpacity: number = 0.8;
       let normalOpacity: number = 0.8;
       let hardOpacity: number = 0.8;
+      let impossibleOpacity: number = 0.8;
 
-      const handleMouseHover = (x: number, y: number, difficulty: number, opacity: number): number => {
-        if (MouseListener.mouseHover(x, y, width, height)) {
+      const width = window.innerWidth * 0.2;
+      const height = window.innerHeight * 0.4;
+      const handleMouseHover = (x: number, y: number, w: number, h: number, difficulty: number, opacity: number): number => {
+        if (MouseListener.mouseHover(x, y, w, h)) {
           opacity = 1;
           if (MouseListener.isButtonDown(0)) {
             this.startCountdown = true;
@@ -595,16 +596,20 @@ export default class NetPopulation {
         return opacity;
       };
 
-      easyOpacity = handleMouseHover(window.innerWidth * 0.1, window.innerHeight * 0.3, 0.8, easyOpacity);
-      normalOpacity = handleMouseHover(window.innerWidth * 0.35, window.innerHeight * 0.3, 1, normalOpacity);
-      hardOpacity = handleMouseHover(window.innerWidth * 0.6, window.innerHeight * 0.3, 1.3, hardOpacity);
+      easyOpacity = handleMouseHover(window.innerWidth * 0.1, window.innerHeight * 0.3, width, height, 0.43, easyOpacity);
+      normalOpacity = handleMouseHover(window.innerWidth * 0.35, window.innerHeight * 0.3, width, height, 0.57, normalOpacity);
+      hardOpacity = handleMouseHover(window.innerWidth * 0.6, window.innerHeight * 0.3, width, height, 0.63, hardOpacity);
+      impossibleOpacity = handleMouseHover(window.innerWidth * 0.05, window.innerHeight * 0.91, width / 8, height / 10, 2, impossibleOpacity);
 
       CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.1, canvas.height * 0.3, width, height, [{ red: 70, green: 255, blue: 100, opacity: easyOpacity, stop: 0.5 }, { red: 0, green: 200, blue: 200, opacity: easyOpacity, stop: 1 }], 60, 20);
       CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.35, canvas.height * 0.3, width, height, [{ red: 255, green: 255, blue: 50, opacity: normalOpacity, stop: 0.5 }, { red: 200, green: 100, blue: 0, opacity: normalOpacity, stop: 1 }], -80, 20);
       CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.6, canvas.height * 0.3, width, height, [{ red: 255, green: 100, blue: 50, opacity: hardOpacity, stop: 0.5 }, { red: 200, green: 50, blue: 150, opacity: hardOpacity, stop: 1 }], 200, 20);
+      CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.05, canvas.height * 0.9, width / 8, height / 10, [{ red: 255, green: 0, blue: 255, opacity: impossibleOpacity, stop: 0 }, { red: 40, green: 0, blue: 255, opacity: impossibleOpacity, stop: 1 }], 200, 20);
+
       CanvasUtil.writeText(canvas, 'Makkelijk', canvas.width * 0.2, canvas.height * 0.4, 'center', 'system-ui', 50, 'black', 500);
       CanvasUtil.writeText(canvas, 'Normaal', canvas.width * 0.45, canvas.height * 0.4, 'center', 'system-ui', 50, 'black', 500);
       CanvasUtil.writeText(canvas, 'Moeilijk', canvas.width * 0.7, canvas.height * 0.4, 'center', 'system-ui', 50, 'black', 500);
+      CanvasUtil.writeText(canvas, '???', canvas.width * 0.0625, canvas.height * 0.93, 'center', 'system-ui', 20, 'white', 500);
     }
 
     if (this.startCountdown) {

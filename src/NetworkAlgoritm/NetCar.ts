@@ -143,7 +143,7 @@ export default class NetCar extends Car {
    *
    * @param inputs are the distances the player is from the track boundaries
    */
-  public feedForward(inputs: number[]): void {
+  public feedForward(inputs: number[], isAi: boolean): void {
     const outputLayer = [0, 0, 0, 0];
 
     // multiplies each input by the weight of the connection and adds it to the output layer
@@ -169,16 +169,16 @@ export default class NetCar extends Car {
 
     // Determine if the car should move left or right
     if (turnActions[0] > turnActions[1]) {
-      this.rotateLeft();
+      this.rotateLeft(isAi);
     } else if (turnActions[1] > turnActions[0]) {
-      this.rotateRight();
+      this.rotateRight(isAi);
     }
 
     // Determine speed control action
     if (speedActions[0] > speedActions[1]) {
-      this.accelerate();
+      this.accelerate(isAi);
     } else if (speedActions[1] > speedActions[0]) {
-      this.brake();
+      this.brake(isAi);
     }
   }
 
@@ -201,7 +201,7 @@ export default class NetCar extends Car {
   public override update(elapsed: number, track: Track, isAi: boolean): void {
     this.prevPosX = this.posX;
     this.prevPosY = this.posY;
-    this.feedForward(this.rayLengths);
+    this.feedForward(this.rayLengths, isAi);
     this.xSpeed *= 0.98;
     this.ySpeed *= 0.98;
 
@@ -218,21 +218,25 @@ export default class NetCar extends Car {
       this.alive = false;
     }
 
-    if (isAi) {
-      this.posX += ((this.xSpeed / 10) * this.speed) * elapsed;
-      this.posY += ((this.ySpeed / 10) * this.speed) * elapsed;
-    } else {
+    // if (isAi) {
+    //   this.posX += ((this.xSpeed / 10) * this.speed) * elapsed;
+    //   this.posY += ((this.ySpeed / 10) * this.speed) * elapsed;
+    // } else {
       this.posX += (this.xSpeed / 5) * elapsed;
       this.posY += (this.ySpeed / 5) * elapsed;
-    }
+    // }
   }
 
   /**
    * rotates the car left
    */
-  public rotateLeft() {
+  public rotateLeft(isAi: boolean) {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-      this.rotation -= 5;
+      if (isAi) {
+        this.rotation -= 5 * this.speed;
+      } else {
+        this.rotation -= 5;
+      }
       this.updateSpeedWithRotation();
     }
   }
@@ -240,9 +244,13 @@ export default class NetCar extends Car {
   /**
    * rotates the car right
    */
-  public rotateRight() {
+  public rotateRight(isAi: boolean) {
     if (Math.abs(this.xSpeed) + Math.abs(this.ySpeed) >= 0.2) {
-      this.rotation += 5;
+      if (isAi) {
+        this.rotation += 5 * this.speed;
+      } else {
+        this.rotation += 5;
+      }
       this.updateSpeedWithRotation();
     }
   }
@@ -262,22 +270,32 @@ export default class NetCar extends Car {
   /**
    *
    */
-  public accelerate() {
+  public accelerate(isAi: boolean) {
     const deltaRotation = (this.rotation * Math.PI) / 180;
     const deltaX = Math.sin(deltaRotation);
     const deltaY = Math.cos(deltaRotation);
 
-    this.xSpeed += deltaX / 17;
-    this.ySpeed -= deltaY / 17;
+    if (isAi) {
+      this.xSpeed += (deltaX / 17) * this.speed;
+      this.ySpeed -= (deltaY / 17) * this.speed;
+    } else {
+      this.xSpeed += deltaX / 17;
+      this.ySpeed -= deltaY / 17;
+    }
   }
 
   /**
    *
    */
-  public brake() {
+  public brake(isAi: boolean) {
     const brakeFactor = 1 - (1 - 0.6) / 20;
+    if (isAi) {
+      this.xSpeed *= brakeFactor * this.speed;
+      this.ySpeed *= brakeFactor * this.speed;
+    } else {
     this.xSpeed *= brakeFactor;
     this.ySpeed *= brakeFactor;
+  }
   }
 
   /**
