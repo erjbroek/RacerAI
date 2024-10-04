@@ -65,10 +65,10 @@ export default class NetPopulation {
 
     for (let i = 0; i < this.size; i++) {
       const [genome, biases]: [number[][], number[]] = [this.createInitialGenome()[0], this.createInitialGenome()[1]];
-      this.cars.push(new NetCar(startingPoint, startingAngle, genome, biases));
+      this.cars.push(new NetCar(startingPoint, startingAngle, genome, biases, 1));
     }
     this.usercar = new Usercar(startingPoint, startingAngle);
-    this.ai = new NetCar(startingPoint, startingAngle, this.cars[0].genome, this.cars[0].biases);
+    this.ai = new NetCar(startingPoint, startingAngle, this.cars[0].genome, this.cars[0].biases, 1);
 
     this.track.road.forEach((road) => {
       road[2] = 1;
@@ -210,8 +210,8 @@ export default class NetPopulation {
     if (Statistics.championsSurvive) {
       // best 2 players survive without mutation
       this.champions = [];
-      this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases));
-      this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[1].genome, this.cars[1].biases));
+      this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[0].genome, this.cars[0].biases, 1));
+      this.champions.push(new NetCar(this.startingPoint, this.startingAngle, this.cars[1].genome, this.cars[1].biases, 1));
     }
 
     this.species.forEach((species) => {
@@ -274,7 +274,7 @@ export default class NetPopulation {
       }
 
       // Adds car to next generation
-      this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes, babyBiases));
+      this.nextGen.push(new NetCar(this.startingPoint, this.startingAngle, babyGenes, babyBiases, 1));
     }
   }
 
@@ -332,10 +332,6 @@ export default class NetPopulation {
     if (KeyListener.keyPressed('Delete')) {
       if (DrawTrack.racing) {
         this.showChoose = true;
-        this.startCountdown = true;
-        this.raceCountdown = 5000;
-        this.usercar = new Usercar(this.startingPoint, this.startingAngle);
-        this.ai = new NetCar(this.startingPoint, this.startingAngle, this.champions[0].genome, this.champions[0].biases);
       }
     }
     if (DrawTrack.racing) {
@@ -585,15 +581,23 @@ export default class NetPopulation {
       let normalOpacity: number = 0.8;
       let hardOpacity: number = 0.8;
 
-      if (MouseListener.mouseHover(window.innerWidth * 0.1, window.innerHeight * 0.3, width, height)) {
-        easyOpacity = 1;
-      }
-      if (MouseListener.mouseHover(window.innerWidth * 0.35, window.innerHeight * 0.3, width, height)) {
-        normalOpacity = 1;
-      }
-      if (MouseListener.mouseHover(window.innerWidth * 0.6, window.innerHeight * 0.3, width, height)) {
-        hardOpacity = 1;
-      }
+      const handleMouseHover = (x: number, y: number, difficulty: number, opacity: number): number => {
+        if (MouseListener.mouseHover(x, y, width, height)) {
+          opacity = 1;
+          if (MouseListener.isButtonDown(0)) {
+            this.startCountdown = true;
+            this.raceCountdown = 5000;
+            this.usercar = new Usercar(this.startingPoint, this.startingAngle);
+            this.ai = new NetCar(this.startingPoint, this.startingAngle, this.champions[0].genome, this.champions[0].biases, difficulty);
+            this.showChoose = false;
+          }
+        }
+        return opacity;
+      };
+
+      easyOpacity = handleMouseHover(window.innerWidth * 0.1, window.innerHeight * 0.3, 0.8, easyOpacity);
+      normalOpacity = handleMouseHover(window.innerWidth * 0.35, window.innerHeight * 0.3, 1, normalOpacity);
+      hardOpacity = handleMouseHover(window.innerWidth * 0.6, window.innerHeight * 0.3, 1.3, hardOpacity);
 
       CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.1, canvas.height * 0.3, width, height, [{ red: 70, green: 255, blue: 100, opacity: easyOpacity, stop: 0.5 }, { red: 0, green: 200, blue: 200, opacity: easyOpacity, stop: 1 }], 60, 20);
       CanvasUtil.fillRectangleWithGradient(canvas, canvas.width * 0.35, canvas.height * 0.3, width, height, [{ red: 255, green: 255, blue: 50, opacity: normalOpacity, stop: 0.5 }, { red: 200, green: 100, blue: 0, opacity: normalOpacity, stop: 1 }], -80, 20);

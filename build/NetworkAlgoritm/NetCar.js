@@ -22,7 +22,8 @@ export default class NetCar extends Car {
     raceDuration = 0;
     startingPoint = [0, 0];
     locationHistory = [];
-    constructor(startPoint, startAngle, genome, biases) {
+    speed;
+    constructor(startPoint, startAngle, genome, biases, speed) {
         super();
         this.onFinishLine = false;
         this.width = window.innerHeight / 40;
@@ -38,6 +39,7 @@ export default class NetCar extends Car {
         this.rayLengths = Array(this.numRays).fill(this.rayLength);
         this.genome = genome;
         this.biases = biases;
+        this.speed = speed;
     }
     castRays(track) {
         const rayAngles = this.calculateRayAngles();
@@ -128,8 +130,8 @@ export default class NetCar extends Car {
             this.alive = false;
         }
         if (isAi) {
-            this.posX += (this.xSpeed / 10) * elapsed;
-            this.posY += (this.ySpeed / 10) * elapsed;
+            this.posX += ((this.xSpeed / 10) * this.speed) * elapsed;
+            this.posY += ((this.ySpeed / 10) * this.speed) * elapsed;
         }
         else {
             this.posX += (this.xSpeed / 5) * elapsed;

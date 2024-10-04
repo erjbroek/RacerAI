@@ -45,7 +45,9 @@ export default class NetCar extends Car {
   // used to render the lines behind the cars
   public locationHistory: number[][] = [];
 
-  public constructor(startPoint: number[], startAngle: number, genome: number[][], biases: number[]) {
+  public speed: number;
+
+  public constructor(startPoint: number[], startAngle: number, genome: number[][], biases: number[], speed: number) {
     super();
     this.onFinishLine = false;
     this.width = window.innerHeight / 40;
@@ -61,6 +63,7 @@ export default class NetCar extends Car {
     this.rayLengths = Array(this.numRays).fill(this.rayLength);
     this.genome = genome;
     this.biases = biases;
+    this.speed = speed;
   }
 
   /**
@@ -216,8 +219,8 @@ export default class NetCar extends Car {
     }
 
     if (isAi) {
-      this.posX += (this.xSpeed / 10) * elapsed;
-      this.posY += (this.ySpeed / 10) * elapsed;
+      this.posX += ((this.xSpeed / 10) * this.speed) * elapsed;
+      this.posY += ((this.ySpeed / 10) * this.speed) * elapsed;
     } else {
       this.posX += (this.xSpeed / 5) * elapsed;
       this.posY += (this.ySpeed / 5) * elapsed;
